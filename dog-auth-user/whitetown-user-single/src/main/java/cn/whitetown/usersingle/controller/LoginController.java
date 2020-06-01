@@ -14,7 +14,7 @@ public interface LoginController {
 
     ResponseData checkLogin(HttpServletRequest request, HttpServletResponse response);
 
-    ResponseData login(String username, String password, HttpServletRequest request, HttpServletResponse response);
+    String login(String username, String password, HttpServletRequest request, HttpServletResponse response);
 
     ResponseData checkCaptcha(String captcha, HttpServletRequest request);
 

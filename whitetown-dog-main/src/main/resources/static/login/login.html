@@ -7,17 +7,48 @@
     <link rel="stylesheet" href="${ctxPath}/css/bootstrap.css">
     <link rel="stylesheet" href="${ctxPath}/login/c/login/login.css">
     <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css">
-    <link rel="stylesheet" href="${ctxPath}/css/layui/css/layui.css"/>
-    <link rel="stylesheet" href="${ctxPath}/js/layui/layui.js"/>
+    <link rel="stylesheet" href="${ctxPath}/layui/css/layui.css"/>
+    <script type="text/javascript" src="${ctxPath}/layui/layui.js"></script>
     <script src="${ctxPath}/login/j/js/jquery.js"></script>
     <script src="${ctxPath}/login/j/js/bootstrap.js"></script>
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>WHITE TOWN DOG</title>
 
     <script type="text/javascript">
+        layui.use('layer', function(){
+            var layer = layui.layer;
+        });
         $(function () {
+            var obj = {
+                verIsRight : false
+            }
+
             $("#vercode-captcha").click(function () {
                 $("#vercode-captcha").attr("src","/erus/ver")
+            });
+            $("#vercode-text").blur(function () {
+                var vercode = $("#vercode-text").val();
+                $.ajax({
+                    "url" : "/erus/check-capt",
+                    "data" : {"captcha":vercode},
+                    "type" : "get",
+                    "success" : function (result) {
+                        if(200==result.status){
+                            obj.verIsRight = true;
+                            console.log("vercode is"+obj.verIsRight)
+                        }else {
+                            obj.verIsRight = false;
+
+                            layer.open({
+                                title: 'error'
+                                ,content: "confdafds"
+                            });
+                        }
+                    },
+                    "error" : function () {
+                        alert("there is something error");
+                    }
+                })
             });
         })
     </script>
@@ -31,7 +62,7 @@
             </div>
 
             <div class="">
-                <form action="">
+                <form action="${ctxPath}/erus/login" method="post">
                     <div class="br-content">
 
                          <div class="input-group mb-4 bootint">
@@ -58,7 +89,7 @@
                                     <i class="layui-icon layui-icon-vercode" style="color: #1E9FFF;"></i>
                                 </span>
                             </div>
-                            <input name="captcha" type="text" class="form-control" placeholder="验证码">
+                            <input id="vercode-text" name="captcha" type="text" class="form-control" placeholder="验证码">
                             <img id="vercode-captcha" src="${ctxPath}/erus/ver">
                         </div>
 
@@ -69,7 +100,7 @@
                             </p>
                         </div>
                         <div style="padding-top: 10px">
-                            <input type="button" class="btn" value="登录">
+                            <input type="submit" class="btn" value="登录">
                         </div>
                         <br/>
                         <div class="container">

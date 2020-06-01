@@ -11,10 +11,8 @@ import cn.whitetown.dogbase.util.WebUtil;
 import cn.whitetown.usersingle.service.LoginService;
 import org.springframework.beans.NotWritablePropertyException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
@@ -30,7 +28,7 @@ import java.io.IOException;
  * @author GrainRain
  * @date 2020/05/26 22:29
  **/
-@RestController
+@Controller
 @RequestMapping("/erus")
 public class CookieLoginController implements LoginController{
     @Autowired
@@ -54,13 +52,13 @@ public class CookieLoginController implements LoginController{
     }
 
     @PostMapping("/login")
-    public ResponseData login(String username, String password,HttpServletRequest request,HttpServletResponse response){
+    public String login(String username, String password,HttpServletRequest request,HttpServletResponse response){
         if(FormatUtil.checkTextNullBool(username) || FormatUtil.checkTextNullBool(password)){
             throw new CustomException(ResponseStatusEnum.AUTH_REQUEST_ERROR);
         }
         String token = loginService.checkUsernameAndPassword(username,password);
         WebUtil.addCookie(AuthConstant.TOKEN_COOKIE_NAME,token,AuthConstant.TOKEN_EXPIRE);
-        return ResponseData.ok();
+        return "index.html";
     }
 
     /**
@@ -69,6 +67,7 @@ public class CookieLoginController implements LoginController{
      * @return
      */
     @Override
+    @ResponseBody
     @RequestMapping(value = "/getuser",method = {RequestMethod.GET,RequestMethod.POST})
     public ResponseData<UserBasicInfo> getLoginUserInfo(HttpServletRequest request) {
         String token = WebUtil.getCookieValue(AuthConstant.TOKEN_COOKIE_NAME, request);
@@ -85,6 +84,7 @@ public class CookieLoginController implements LoginController{
      * @param request
      * @return
      */
+    @ResponseBody
     @RequestMapping(value = "/check-capt",method = {RequestMethod.GET,RequestMethod.POST})
     public ResponseData checkCaptcha(String captcha, HttpServletRequest request){
         String sessionId = WebUtil.getCookieValue(AuthConstant.SESSION_COOKIE_NAME,request);
