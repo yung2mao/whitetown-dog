@@ -4,13 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	
-    <link rel="stylesheet" href="${ctxPath}/css/bootstrap.css">
-    <link rel="stylesheet" href="${ctxPath}/login/c/login/login.css">
+    <link rel="stylesheet" href="../css/bootstrap.css">
+    <link rel="stylesheet" href="../login/c/login/login.css">
     <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css">
-    <link rel="stylesheet" href="${ctxPath}/layui/css/layui.css"/>
-    <script type="text/javascript" src="${ctxPath}/layui/layui.js"></script>
-    <script src="${ctxPath}/login/j/js/jquery.js"></script>
-    <script src="${ctxPath}/login/j/js/bootstrap.js"></script>
+    <link rel="stylesheet" href="../layui/css/layui.css"/>
+    <script type="text/javascript" src="../layui/layui.js"></script>
+    <script src="../login/j/js/jquery.js"></script>
+    <script src="../login/j/js/bootstrap.js"></script>
+    <script src="../js/basic.js"></script>
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>WHITE TOWN DOG</title>
 
@@ -18,31 +19,50 @@
         layui.use('layer', function(){
             var layer = layui.layer;
         });
-        $(function () {
-            var obj = {
-                verIsRight : false
-            }
 
+        $(function () {
+            $("#vercode-captcha").attr("src",dataObj.defaultPath + "/erus/ver")
+            //vercode change
             $("#vercode-captcha").click(function () {
-                $("#vercode-captcha").attr("src","/erus/ver")
+                $("#vercode-captcha").attr("src",dataObj.defaultPath + "/erus/ver")
             });
+
+            var verError = function(){ 
+                layer.alert("<font color='red'>验证码错误</font>>",
+                            {icon : 5,title:false,closeBtn: 0 })
+                        }
+            //vercode check
             $("#vercode-text").blur(function () {
                 var vercode = $("#vercode-text").val();
+                var data = {"captcha" : vercode}
+            //     dataObj.ajaxRequest("erus/check-capt",data,"get",function(){
+            //             console.log(result.status)
+            //             if(200==result.status){
+            //                 dataObj.verIsRight = true;
+            //                 console.log("vercode is"+obj.verIsRight)
+            //             }else {
+            //                 dataObj.verIsRight = false;
+            //                 verError();
+            //             }
+            //     });
+
                 $.ajax({
-                    "url" : "/erus/check-capt",
-                    "data" : {"captcha":vercode},
+                    "url" : dataObj.defaultPath+"/erus/check-capt",
+                    "data" : data,
                     "type" : "get",
+                    xhrFields: {
+                        withCredentials: true
+                    },
+　　　　             // 允许跨域
+                    crossDomain : true,
                     "success" : function (result) {
+                        console.log(result.status)
                         if(200==result.status){
-                            obj.verIsRight = true;
+                            dataObj.verIsRight = true;
                             console.log("vercode is"+obj.verIsRight)
                         }else {
-                            obj.verIsRight = false;
-
-                            layer.open({
-                                title: 'error'
-                                ,content: "confdafds"
-                            });
+                            dataObj.verIsRight = false;
+                            verError();
                         }
                     },
                     "error" : function () {
@@ -50,9 +70,31 @@
                     }
                 })
             });
+
+            //  login
+            $("#login-form").submit(function(){
+                if(!dataObj.verIsRight){
+                    verError();
+                }
+                var username = $("input[name='username']").val();
+                var password = $("input[name='password']").val();
+                $.ajax({
+                    "url" : dataObj.defaultPath + "erus/login",
+                    "type" : "post",
+                    "data" : {"username" : username, "password" : password},
+                    "success" : function(result){
+                        if(200 == result.status){
+                            window.location = dataObj.defaultPath + "/index.html";
+                        }else{
+
+                        }
+                    }
+                })
+            })
         })
     </script>
 </head>
+
 <body class="layui-bg-green">
     <div class="allbody">
         <div class="be-content pren layui-bg-cyan">
@@ -62,7 +104,7 @@
             </div>
 
             <div class="">
-                <form action="${ctxPath}/erus/login" method="post">
+                <form action="#" id="login-form">
                     <div class="br-content">
 
                          <div class="input-group mb-4 bootint">
@@ -90,7 +132,8 @@
                                 </span>
                             </div>
                             <input id="vercode-text" name="captcha" type="text" class="form-control" placeholder="验证码">
-                            <img id="vercode-captcha" src="${ctxPath}/erus/ver">
+                            <img id="vercode-captcha" src="">
+                            
                         </div>
 
                         <div class="br-text">
