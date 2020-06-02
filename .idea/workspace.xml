@@ -2,118 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5360145e-ca5b-4174-869d-915551c68814" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/viewmodule/CorsConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/java/cn/whitetown/dog/config/CookieCorsFilter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dog-auth-user/whitetown-user-single/src/main/java/cn/whitetown/usersingle/controller/CookieLoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dog-auth-user/whitetown-user-single/src/main/java/cn/whitetown/usersingle/controller/CookieLoginController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dog-auth-user/whitetown-user-single/src/main/java/cn/whitetown/usersingle/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dog-auth-user/whitetown-user-single/src/main/java/cn/whitetown/usersingle/controller/LoginController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/css/layui/css/layui.css" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/css/layui.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/css/layui/css/layui.mobile.css" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/css/layui.mobile.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/css/layui/css/modules/code.css" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/css/modules/code.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/css/layui/css/modules/laydate/default/laydate.css" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/css/modules/laydate/default/laydate.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/css/layui/css/modules/layer/default/icon-ext.png" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/css/modules/layer/default/icon-ext.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/css/layui/css/modules/layer/default/icon.png" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/css/modules/layer/default/icon.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/css/layui/css/modules/layer/default/layer.css" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/css/modules/layer/default/layer.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/css/layui/css/modules/layer/default/loading-0.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/css/modules/layer/default/loading-0.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/css/layui/css/modules/layer/default/loading-1.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/css/modules/layer/default/loading-1.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/css/layui/css/modules/layer/default/loading-2.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/css/modules/layer/default/loading-2.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/css/layui/font/iconfont.eot" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/font/iconfont.eot" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/css/layui/font/iconfont.svg" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/font/iconfont.svg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/css/layui/font/iconfont.ttf" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/font/iconfont.ttf" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/css/layui/font/iconfont.woff" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/font/iconfont.woff" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/css/layui/font/iconfont.woff2" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/font/iconfont.woff2" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/0.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/0.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/1.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/1.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/10.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/10.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/11.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/11.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/12.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/12.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/13.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/13.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/14.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/14.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/15.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/15.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/16.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/16.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/17.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/17.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/18.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/18.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/19.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/19.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/2.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/2.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/20.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/20.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/21.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/21.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/22.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/22.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/23.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/23.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/24.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/24.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/25.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/25.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/26.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/26.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/27.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/27.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/28.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/28.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/29.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/29.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/3.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/3.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/30.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/30.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/31.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/31.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/32.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/32.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/33.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/33.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/34.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/34.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/35.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/35.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/36.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/36.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/37.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/37.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/38.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/38.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/39.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/39.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/4.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/4.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/40.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/40.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/41.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/41.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/42.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/42.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/43.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/43.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/44.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/44.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/45.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/45.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/46.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/46.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/47.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/47.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/48.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/48.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/49.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/49.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/5.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/5.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/50.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/50.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/51.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/51.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/52.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/52.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/53.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/53.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/54.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/54.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/55.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/55.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/56.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/56.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/57.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/57.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/58.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/58.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/59.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/59.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/6.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/6.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/60.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/60.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/61.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/61.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/62.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/62.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/63.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/63.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/64.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/64.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/65.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/65.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/66.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/66.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/67.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/67.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/68.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/68.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/69.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/69.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/7.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/7.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/70.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/70.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/71.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/71.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/8.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/8.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/images/face/9.gif" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images/face/9.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/js/layui/lay/modules/carousel.js" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/lay/modules/carousel.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/js/layui/lay/modules/code.js" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/lay/modules/code.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/js/layui/lay/modules/colorpicker.js" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/lay/modules/colorpicker.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/js/layui/lay/modules/element.js" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/lay/modules/element.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/js/layui/lay/modules/flow.js" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/lay/modules/flow.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/js/layui/lay/modules/form.js" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/lay/modules/form.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/js/layui/lay/modules/jquery.js" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/lay/modules/jquery.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/js/layui/lay/modules/laydate.js" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/lay/modules/laydate.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/js/layui/lay/modules/layedit.js" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/lay/modules/layedit.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/js/layui/lay/modules/layer.js" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/lay/modules/layer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/js/layui/lay/modules/laypage.js" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/lay/modules/laypage.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/js/layui/lay/modules/laytpl.js" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/lay/modules/laytpl.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/js/layui/lay/modules/mobile.js" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/lay/modules/mobile.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/js/layui/lay/modules/rate.js" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/lay/modules/rate.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/js/layui/lay/modules/slider.js" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/lay/modules/slider.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/js/layui/lay/modules/table.js" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/lay/modules/table.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/js/layui/lay/modules/transfer.js" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/lay/modules/transfer.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/js/layui/lay/modules/tree.js" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/lay/modules/tree.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/js/layui/lay/modules/upload.js" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/lay/modules/upload.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/js/layui/lay/modules/util.js" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/lay/modules/util.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/js/layui/layui.all.js" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/layui.all.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/js/layui/layui.js" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/layui.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/whitetown-base/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-base/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/viewmodule/BeetlConf.java" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/viewmodule/BeetlConf.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/viewmodule/WhiteWebRender.java" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/viewmodule/WhiteWebRender.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/java/cn/whitetown/dog/config/DogStartConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/java/cn/whitetown/dog/config/DogStartConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/beetl.properties" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/beetl.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/login/login.html" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/login/login.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -210,8 +110,6 @@
       </extension>
       <option name="SPRING_BOOT_MAIN_CLASS" value="cn.whitetown.dog.DogApplication" />
       <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="UPDATE_ACTION_UPDATE_POLICY" value="UpdateClassesAndResources" />
-      <option name="FRAME_DEACTIVATION_UPDATE_POLICY" value="UpdateClassesAndResources" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -247,7 +145,7 @@
       <workItem from="1590846699268" duration="93000" />
       <workItem from="1590846842436" duration="120000" />
       <workItem from="1590847025613" duration="4751000" />
-      <workItem from="1590889059130" duration="34795000" />
+      <workItem from="1590889059130" duration="44504000" />
     </task>
     <task id="LOCAL-00001" summary="create white town dog">
       <created>1591019808054</created>
@@ -263,7 +161,14 @@
       <option name="project" value="LOCAL" />
       <updated>1591019910847</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="create white town dog">
+      <created>1591025241600</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1591025241600</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -274,87 +179,91 @@
     <option name="LAST_COMMIT_MESSAGE" value="create white town dog" />
   </component>
   <component name="WindowStateProjectService">
-    <state x="184" y="80" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1590931775830">
+    <state x="184" y="80" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1591100782260">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state x="184" y="80" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1440.790@0.23.1440.790" timestamp="1590931775830" />
-    <state x="533" y="134" key="#com.intellij.ide.util.MemberChooser" timestamp="1590913360076">
+    <state x="184" y="80" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1440.790@0.23.1440.790" timestamp="1591100782260" />
+    <state x="533" y="134" key="#com.intellij.ide.util.MemberChooser" timestamp="1591108455859">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state x="533" y="134" key="#com.intellij.ide.util.MemberChooser/0.23.1440.790@0.23.1440.790" timestamp="1590913360076" />
-    <state x="141" y="23" key="CommitChangelistDialog2" timestamp="1591019909980">
+    <state x="533" y="134" key="#com.intellij.ide.util.MemberChooser/0.23.1440.790@0.23.1440.790" timestamp="1591108455859" />
+    <state x="141" y="23" key="CommitChangelistDialog2" timestamp="1591025240711">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state x="141" y="23" key="CommitChangelistDialog2/0.23.1440.790@0.23.1440.790" timestamp="1591019909980" />
-    <state width="1398" height="250" key="GridCell.Tab.0.bottom" timestamp="1591021520963">
+    <state x="141" y="23" key="CommitChangelistDialog2/0.23.1440.790@0.23.1440.790" timestamp="1591025240711" />
+    <state width="1398" height="174" key="GridCell.Tab.0.bottom" timestamp="1591109685850">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state width="1398" height="250" key="GridCell.Tab.0.bottom/0.23.1440.790@0.23.1440.790" timestamp="1591021520963" />
+    <state width="1398" height="174" key="GridCell.Tab.0.bottom/0.23.1440.790@0.23.1440.790" timestamp="1591109685850" />
     <state width="1398" height="250" key="GridCell.Tab.0.bottom/0.23.1440.793@0.23.1440.793" timestamp="1590898620557" />
-    <state width="1398" height="250" key="GridCell.Tab.0.center" timestamp="1591021520962">
+    <state width="1398" height="174" key="GridCell.Tab.0.center" timestamp="1591109685839">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state width="1398" height="250" key="GridCell.Tab.0.center/0.23.1440.790@0.23.1440.790" timestamp="1591021520962" />
+    <state width="1398" height="174" key="GridCell.Tab.0.center/0.23.1440.790@0.23.1440.790" timestamp="1591109685839" />
     <state width="1398" height="250" key="GridCell.Tab.0.center/0.23.1440.793@0.23.1440.793" timestamp="1590898620555" />
-    <state width="1398" height="250" key="GridCell.Tab.0.left" timestamp="1591021520952">
+    <state width="1398" height="174" key="GridCell.Tab.0.left" timestamp="1591109685836">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state width="1398" height="250" key="GridCell.Tab.0.left/0.23.1440.790@0.23.1440.790" timestamp="1591021520952" />
+    <state width="1398" height="174" key="GridCell.Tab.0.left/0.23.1440.790@0.23.1440.790" timestamp="1591109685836" />
     <state width="1398" height="250" key="GridCell.Tab.0.left/0.23.1440.793@0.23.1440.793" timestamp="1590898620553" />
-    <state width="1398" height="250" key="GridCell.Tab.0.right" timestamp="1591021520962">
+    <state width="1398" height="174" key="GridCell.Tab.0.right" timestamp="1591109685843">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state width="1398" height="250" key="GridCell.Tab.0.right/0.23.1440.790@0.23.1440.790" timestamp="1591021520962" />
+    <state width="1398" height="174" key="GridCell.Tab.0.right/0.23.1440.790@0.23.1440.790" timestamp="1591109685843" />
     <state width="1398" height="250" key="GridCell.Tab.0.right/0.23.1440.793@0.23.1440.793" timestamp="1590898620556" />
-    <state width="1398" height="250" key="GridCell.Tab.1.bottom" timestamp="1591021520573">
+    <state width="1398" height="174" key="GridCell.Tab.1.bottom" timestamp="1591109685238">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state width="1398" height="250" key="GridCell.Tab.1.bottom/0.23.1440.790@0.23.1440.790" timestamp="1591021520573" />
+    <state width="1398" height="174" key="GridCell.Tab.1.bottom/0.23.1440.790@0.23.1440.790" timestamp="1591109685238" />
     <state width="1398" height="250" key="GridCell.Tab.1.bottom/0.23.1440.793@0.23.1440.793" timestamp="1590898620320" />
-    <state width="1398" height="250" key="GridCell.Tab.1.center" timestamp="1591021520571">
+    <state width="1398" height="174" key="GridCell.Tab.1.center" timestamp="1591109685237">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state width="1398" height="250" key="GridCell.Tab.1.center/0.23.1440.790@0.23.1440.790" timestamp="1591021520571" />
+    <state width="1398" height="174" key="GridCell.Tab.1.center/0.23.1440.790@0.23.1440.790" timestamp="1591109685237" />
     <state width="1398" height="250" key="GridCell.Tab.1.center/0.23.1440.793@0.23.1440.793" timestamp="1590898620318" />
-    <state width="1398" height="250" key="GridCell.Tab.1.left" timestamp="1591021520570">
+    <state width="1398" height="174" key="GridCell.Tab.1.left" timestamp="1591109685236">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state width="1398" height="250" key="GridCell.Tab.1.left/0.23.1440.790@0.23.1440.790" timestamp="1591021520570" />
+    <state width="1398" height="174" key="GridCell.Tab.1.left/0.23.1440.790@0.23.1440.790" timestamp="1591109685236" />
     <state width="1398" height="250" key="GridCell.Tab.1.left/0.23.1440.793@0.23.1440.793" timestamp="1590898620318" />
-    <state width="1398" height="250" key="GridCell.Tab.1.right" timestamp="1591021520572">
+    <state width="1398" height="174" key="GridCell.Tab.1.right" timestamp="1591109685238">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state width="1398" height="250" key="GridCell.Tab.1.right/0.23.1440.790@0.23.1440.790" timestamp="1591021520572" />
+    <state width="1398" height="174" key="GridCell.Tab.1.right/0.23.1440.790@0.23.1440.790" timestamp="1591109685238" />
     <state width="1398" height="250" key="GridCell.Tab.1.right/0.23.1440.793@0.23.1440.793" timestamp="1590898620319" />
-    <state width="1398" height="250" key="GridCell.Tab.2.bottom" timestamp="1591021520576">
+    <state width="1398" height="174" key="GridCell.Tab.2.bottom" timestamp="1591109685241">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state width="1398" height="250" key="GridCell.Tab.2.bottom/0.23.1440.790@0.23.1440.790" timestamp="1591021520576" />
+    <state width="1398" height="174" key="GridCell.Tab.2.bottom/0.23.1440.790@0.23.1440.790" timestamp="1591109685241" />
     <state width="1398" height="250" key="GridCell.Tab.2.bottom/0.23.1440.793@0.23.1440.793" timestamp="1590898620324" />
-    <state width="1398" height="250" key="GridCell.Tab.2.center" timestamp="1591021520574">
+    <state width="1398" height="174" key="GridCell.Tab.2.center" timestamp="1591109685240">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state width="1398" height="250" key="GridCell.Tab.2.center/0.23.1440.790@0.23.1440.790" timestamp="1591021520574" />
+    <state width="1398" height="174" key="GridCell.Tab.2.center/0.23.1440.790@0.23.1440.790" timestamp="1591109685240" />
     <state width="1398" height="250" key="GridCell.Tab.2.center/0.23.1440.793@0.23.1440.793" timestamp="1590898620321" />
-    <state width="1398" height="250" key="GridCell.Tab.2.left" timestamp="1591021520574">
+    <state width="1398" height="174" key="GridCell.Tab.2.left" timestamp="1591109685239">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state width="1398" height="250" key="GridCell.Tab.2.left/0.23.1440.790@0.23.1440.790" timestamp="1591021520574" />
+    <state width="1398" height="174" key="GridCell.Tab.2.left/0.23.1440.790@0.23.1440.790" timestamp="1591109685239" />
     <state width="1398" height="250" key="GridCell.Tab.2.left/0.23.1440.793@0.23.1440.793" timestamp="1590898620320" />
-    <state width="1398" height="250" key="GridCell.Tab.2.right" timestamp="1591021520575">
+    <state width="1398" height="174" key="GridCell.Tab.2.right" timestamp="1591109685241">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state width="1398" height="250" key="GridCell.Tab.2.right/0.23.1440.790@0.23.1440.790" timestamp="1591021520575" />
+    <state width="1398" height="174" key="GridCell.Tab.2.right/0.23.1440.790@0.23.1440.790" timestamp="1591109685241" />
     <state width="1398" height="250" key="GridCell.Tab.2.right/0.23.1440.793@0.23.1440.793" timestamp="1590898620322" />
-    <state x="208" y="23" key="SettingsEditor" timestamp="1591019425940">
+    <state x="208" y="23" key="SettingsEditor" timestamp="1591100765452">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state x="208" y="23" key="SettingsEditor/0.23.1440.790@0.23.1440.790" timestamp="1591019425940" />
+    <state x="208" y="23" key="SettingsEditor/0.23.1440.790@0.23.1440.790" timestamp="1591100765452" />
     <state x="208" y="23" key="SettingsEditor/0.23.1440.793@0.23.1440.793" timestamp="1590895506465" />
-    <state x="320" y="158" key="Vcs.Push.Dialog.v2" timestamp="1591019918167">
+    <state x="320" y="158" key="Vcs.Push.Dialog.v2" timestamp="1591025297594">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state x="320" y="158" key="Vcs.Push.Dialog.v2/0.23.1440.790@0.23.1440.790" timestamp="1591019918167" />
+    <state x="320" y="158" key="Vcs.Push.Dialog.v2/0.23.1440.790@0.23.1440.790" timestamp="1591025297594" />
+    <state x="398" y="216" key="git4idea.merge.GitPullDialog" timestamp="1591111490630">
+      <screen x="0" y="23" width="1440" height="790" />
+    </state>
+    <state x="398" y="216" key="git4idea.merge.GitPullDialog/0.23.1440.790@0.23.1440.790" timestamp="1591111490630" />
     <state x="114" y="115" key="new project wizard" timestamp="1590848839693">
       <screen x="0" y="23" width="1440" height="790" />
     </state>

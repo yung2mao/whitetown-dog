@@ -54,6 +54,13 @@
       <artifactId>jjwt</artifactId>
     </dependency>
 
+    <!-- 跨域 -->
+    <dependency>
+      <groupId>io.projectreactor</groupId>
+      <artifactId>reactor-core</artifactId>
+    </dependency>
+
+
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>

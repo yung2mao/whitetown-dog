@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
+ * beetl模版配置，可预写入数据
  * @author GrainRain
  * @date 2020/05/31 16:22
  **/

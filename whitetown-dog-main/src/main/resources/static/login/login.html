@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="${ctxPath}/login/c/login/login.css">
     <link rel="stylesheet" href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.css">
     <link rel="stylesheet" href="${ctxPath}/layui/css/layui.css"/>
-    <script type="text/javascript" src="${ctxPath}/layui/layui.js"></script>
+    <script type="text/javascript" src="../layui/layui.js"></script>
     <script src="${ctxPath}/login/j/js/jquery.js"></script>
     <script src="${ctxPath}/login/j/js/bootstrap.js"></script>
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -39,10 +39,9 @@
                         }else {
                             obj.verIsRight = false;
 
-                            layer.open({
-                                title: 'error'
-                                ,content: "confdafds"
-                            });
+                            layer.alert("<font color='red'>验证码错误</font>>",
+                                {icon : 5,title:false,closeBtn: 0
+                            })
                         }
                     },
                     "error" : function () {
@@ -89,7 +88,12 @@
                                     <i class="layui-icon layui-icon-vercode" style="color: #1E9FFF;"></i>
                                 </span>
                             </div>
-                            <input id="vercode-text" name="captcha" type="text" class="form-control" placeholder="验证码">
+                            <div class="row">
+                                <div class="col-xs-3">
+                                    <input id="vercode-text" name="captcha" type="text" class="form-control" placeholder="验证码">
+                                </div>
+                            </div>
+
                             <img id="vercode-captcha" src="${ctxPath}/erus/ver">
                         </div>
 

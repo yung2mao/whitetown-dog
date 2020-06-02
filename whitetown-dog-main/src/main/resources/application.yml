@@ -11,13 +11,11 @@ spring:
     password: root
     type: com.alibaba.druid.pool.DruidDataSource
   mvc:
-    view:
-      prefix: /static
+    static-path-pattern: /static
 mybatis-plus:
   mapper-locations: classpath*:mapper/**/*.xml
   configuration:
     map-underscore-to-camel-case: true
-beetl:
-  templatesPath: static
-  enabled: true
-  resource-auto-check: true
+#beetl:
+#  templatesPath: static
+#  enabled: false

@@ -10,12 +10,14 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * Beetl模板解析器配置
+ * 如果使用此模版可以使用
  */
-@Configuration
+//@Configuration
 public class BeetlConf {
 
-    @Value("${beetl.templatesPath}") String templatesPath;//模板根目录 ，比如 "templates"
-    @Bean(name = "beetlConfig")
+//    @Value("${beetl.templatesPath}")
+    String templatesPath;//模板根目录 ，比如 "templates"
+//    @Bean(name = "beetlConfig")
     public BeetlGroupUtilConfiguration getBeetlGroupUtilConfiguration() {
         BeetlGroupUtilConfiguration beetlGroupUtilConfiguration = new BeetlGroupUtilConfiguration();
         //获取Spring Boot 的ClassLoader
@@ -34,7 +36,7 @@ public class BeetlConf {
         return beetlGroupUtilConfiguration;
     }
 
-    @Bean(name = "beetlViewResolver")
+//    @Bean(name = "beetlViewResolver")
     public BeetlSpringViewResolver getBeetlSpringViewResolver(@Qualifier("beetlConfig") BeetlGroupUtilConfiguration beetlGroupUtilConfiguration) {
         BeetlSpringViewResolver beetlSpringViewResolver = new BeetlSpringViewResolver();
         beetlSpringViewResolver.setContentType("text/html;charset=UTF-8");

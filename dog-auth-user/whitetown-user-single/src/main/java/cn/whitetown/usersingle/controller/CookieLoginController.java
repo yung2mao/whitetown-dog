@@ -58,7 +58,7 @@ public class CookieLoginController implements LoginController{
         }
         String token = loginService.checkUsernameAndPassword(username,password);
         WebUtil.addCookie(AuthConstant.TOKEN_COOKIE_NAME,token,AuthConstant.TOKEN_EXPIRE);
-        return "index.html";
+        return "redirect:index.html";
     }
 
     /**
