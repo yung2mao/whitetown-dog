@@ -10,12 +10,9 @@ spring:
     username: root
     password: root
     type: com.alibaba.druid.pool.DruidDataSource
-  mvc:
-    static-path-pattern: /static
+#  mvc:
+#    static-path-pattern: /static/**
 mybatis-plus:
   mapper-locations: classpath*:mapper/**/*.xml
   configuration:
     map-underscore-to-camel-case: true
-#beetl:
-#  templatesPath: static
-#  enabled: false

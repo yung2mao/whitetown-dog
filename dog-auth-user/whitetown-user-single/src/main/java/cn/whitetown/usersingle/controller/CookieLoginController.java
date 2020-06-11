@@ -28,7 +28,7 @@ import java.io.IOException;
  * @author GrainRain
  * @date 2020/05/26 22:29
  **/
-@Controller
+@RestController
 @RequestMapping("/erus")
 public class CookieLoginController implements LoginController{
     @Autowired
@@ -52,13 +52,13 @@ public class CookieLoginController implements LoginController{
     }
 
     @PostMapping("/login")
-    public String login(String username, String password,HttpServletRequest request,HttpServletResponse response){
+    public ResponseData login(String username, String password,HttpServletRequest request,HttpServletResponse response){
         if(FormatUtil.checkTextNullBool(username) || FormatUtil.checkTextNullBool(password)){
             throw new CustomException(ResponseStatusEnum.AUTH_REQUEST_ERROR);
         }
         String token = loginService.checkUsernameAndPassword(username,password);
         WebUtil.addCookie(AuthConstant.TOKEN_COOKIE_NAME,token,AuthConstant.TOKEN_EXPIRE);
-        return "redirect:index.html";
+        return ResponseData.ok();
     }
 
     /**
@@ -67,7 +67,6 @@ public class CookieLoginController implements LoginController{
      * @return
      */
     @Override
-    @ResponseBody
     @RequestMapping(value = "/getuser",method = {RequestMethod.GET,RequestMethod.POST})
     public ResponseData<UserBasicInfo> getLoginUserInfo(HttpServletRequest request) {
         String token = WebUtil.getCookieValue(AuthConstant.TOKEN_COOKIE_NAME, request);

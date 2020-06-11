@@ -31,10 +31,10 @@
     </dependency>
 
     <!--View模板-->
-    <dependency>
+    <!--<dependency>
       <groupId>com.ibeetl</groupId>
       <artifactId>beetl-framework-starter</artifactId>
-    </dependency>
+    </dependency>-->
 
     <!-- json -->
     <dependency>

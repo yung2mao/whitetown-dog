@@ -36,10 +36,10 @@ public class UserManageInitConfig {
     public Producer getInstance(){
         DefaultKaptcha captchaProducer = new DefaultKaptcha();
         Properties properties = new Properties();
-        properties.setProperty(Constants.KAPTCHA_IMAGE_WIDTH, "100");
-        properties.setProperty(Constants.KAPTCHA_IMAGE_HEIGHT, "30");
-        properties.setProperty(Constants.KAPTCHA_TEXTPRODUCER_FONT_SIZE, "26");
-        properties.setProperty(Constants.KAPTCHA_TEXTPRODUCER_CHAR_LENGTH, "4");
+        properties.setProperty(Constants.KAPTCHA_IMAGE_WIDTH, "125");
+        properties.setProperty(Constants.KAPTCHA_IMAGE_HEIGHT, "35");
+        properties.setProperty(Constants.KAPTCHA_TEXTPRODUCER_FONT_SIZE, "28");
+        properties.setProperty(Constants.KAPTCHA_TEXTPRODUCER_CHAR_LENGTH, "5");
         properties.setProperty(Constants.KAPTCHA_TEXTPRODUCER_CHAR_SPACE, "6");
         properties.setProperty(Constants.KAPTCHA_TEXTPRODUCER_FONT_COLOR, "blue");
         properties.setProperty(Constants.KAPTCHA_BORDER_COLOR, "LIGHT_GRAY");
