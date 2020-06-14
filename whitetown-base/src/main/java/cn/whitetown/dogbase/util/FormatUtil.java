@@ -4,34 +4,13 @@ import java.util.Calendar;
 import java.util.Date;
 
 /**
+ * 格式化相关工具类
+ * 封装了多种数据转换格式化方法
  * @author GrainRain
  * @date 2020/05/24 11:37
  **/
 public class FormatUtil {
     private FormatUtil(){}
-
-    /**
-     * 非空校验 - false抛出异常
-     * @param str
-     */
-    public static void checkTextNull(String str){
-        if(str==null || "".equals(str)){
-            throw new NullPointerException("null text");
-        }
-    }
-
-    /**
-     * 非空校验
-     * 如果为空返回true，否则返回false
-     * @param str
-     * @return
-     */
-    public static boolean checkTextNullBool(String str){
-        if(str==null || "".equals(str)){
-            return true;
-        }
-        return false;
-    }
 
     /**
      * 将Date转化为毫秒值

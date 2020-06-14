@@ -1,36 +1,68 @@
 package cn.whitetown.dogbase.user.entity;
 
 import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.annotation.TableName;
 
 import java.util.Date;
 
+/**
+ * 用户基本信息类
+ * @author GrainRain
+ * @Date 2020-05-01
+ */
+@TableName("user_basic_info")
 public class UserBasicInfo extends AbstractUser{
+    /**
+     * 头像信息
+     */
     private String avatar;
-
+    /**
+     * 密码盐
+     */
     private String salt;
-
+    /**
+     * 真实姓名
+     */
     private String realName;
-
+    /**
+     * 生日
+     */
     private Date birthday;
-
+    /**
+     * 性别
+     */
     private String gender;
-
+    /**
+     * 邮箱
+     */
     private String email;
-
+    /**
+     * 电话号码
+     */
     private String telephone;
-
-    private String roleId;
-
+    /**
+     * 用户状态
+     */
     private String userStatus;
-
+    /**
+     * 创建时间
+     */
     private Date createTime;
-
+    /**
+     * 创建人id
+     */
     private Long createUserId;
-
+    /**
+     * 更新时间
+     */
     private Date updateTime;
-
+    /**
+     * 更新人id
+     */
     private Long updateUserId;
-
+    /**
+     * 用户版本号
+     */
     private Integer userVersion;
 
     public String getAvatar() {
@@ -87,14 +119,6 @@ public class UserBasicInfo extends AbstractUser{
 
     public void setTelephone(String telephone) {
         this.telephone = telephone;
-    }
-
-    public String getRoleId() {
-        return roleId;
-    }
-
-    public void setRoleId(String roleId) {
-        this.roleId = roleId;
     }
 
     public String getUserStatus() {

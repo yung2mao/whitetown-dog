@@ -58,7 +58,7 @@ public class JwtTokenUtil {
                 .setExpiration(d)
                 .signWith(SignatureAlgorithm.HS512, SECRET)
                 .compact();
-        return jwtToken;
+        return TOKEN_PREFIX + " " + jwtToken;
     }
 
     /**
@@ -72,7 +72,7 @@ public class JwtTokenUtil {
         }
         Claims body = Jwts.parser()
                 .setSigningKey(SECRET)
-                .parseClaimsJws(token)
+                .parseClaimsJws(token.replace(TOKEN_PREFIX,""))
                 .getBody();
         return body;
     }
@@ -89,5 +89,15 @@ public class JwtTokenUtil {
         }else {
             return null;
         }
+    }
+
+    /**
+     * 根据token信息获取用户名信息
+     * @param token
+     * @return
+     */
+    public String getUsername(String token){
+        Claims claims = this.readTokenAsMapParams(token);
+        return (String) claims.get(USERNAME);
     }
 }

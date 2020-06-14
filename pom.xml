@@ -29,8 +29,7 @@
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
-    <mybatis-plus.version>2.1.9</mybatis-plus.version>
-    <mybatisplus-spring-boot-starter.version>1.0.5</mybatisplus-spring-boot-starter.version>
+    <mybais-plus.version>3.3.2</mybais-plus.version>
     <mysql-connector-java.version>8.0.18</mysql-connector-java.version>
     <druid.version>1.1.21</druid.version>
     <fastjson.version>1.2.58</fastjson.version>
@@ -47,19 +46,8 @@
       <!--Mybatis plus-->
       <dependency>
         <groupId>com.baomidou</groupId>
-        <artifactId>mybatisplus-spring-boot-starter</artifactId>
-        <version>${mybatisplus-spring-boot-starter.version}</version>
-        <exclusions>
-          <exclusion>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-          </exclusion>
-        </exclusions>
-      </dependency>
-      <dependency>
-        <groupId>com.baomidou</groupId>
-        <artifactId>mybatis-plus</artifactId>
-        <version>${mybatis-plus.version}</version>
+        <artifactId>mybatis-plus-boot-starter</artifactId>
+        <version>${mybais-plus.version}</version>
       </dependency>
       <!--mysql jdbc connect-->
       <dependency>

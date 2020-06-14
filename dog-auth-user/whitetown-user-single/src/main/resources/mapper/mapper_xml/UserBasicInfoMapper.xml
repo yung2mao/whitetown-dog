@@ -12,7 +12,6 @@
     <result column="gender" property="gender" jdbcType="VARCHAR" />
     <result column="email" property="email" jdbcType="VARCHAR" />
     <result column="telephone" property="telephone" jdbcType="VARCHAR" />
-    <result column="role_id" property="roleId" jdbcType="VARCHAR"/>
     <result column="user_status" property="userStatus" jdbcType="VARCHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="create_user_id" property="createUserId" jdbcType="BIGINT" />
@@ -22,14 +21,8 @@
   </resultMap>
   <sql id="Base_Column_List" >
     user_id, username, avatar, password, salt, real_name, birthday, gender, email, telephone, 
-    role_id, user_status, create_time, create_user_id, update_time, update_user_id, user_version
+    user_status, create_time, create_user_id, update_time, update_user_id, user_version
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="cn.whitetown.dogbase.user.entity.UserBasicInfo" >
-    select 
-    <include refid="Base_Column_List" />
-    from user_basic_info
-    where user_id = #{userId,jdbcType=VARCHAR}
-  </select>
 
   <select id="selectUserByUsername" resultMap="BaseResultMap">
     select
@@ -39,207 +32,9 @@
   </select>
 
   <select id="selectUserRole" resultType="cn.whitetown.dogbase.user.entity.UserRole">
-    select * from user_role where
-      <foreach collection="list" item="role" open="role_id in(" close=")" separator=",">
-        #{role}
-      </foreach>
+    select * from user_role ro inner join user_role_relation us_ro
+    on ro.role_id = us_ro.role_id
+    where us_ro.user_id = #{userId}
   </select>
 
-  <delete id="deleteByPrimaryKey" parameterType="cn.whitetown.dogbase.user.entity.UserBasicInfo" >
-    delete from user_basic_info
-    where user_id = #{userId,jdbcType=BIGINT}
-  </delete>
-  <insert id="insert" parameterType="cn.whitetown.dogbase.user.entity.UserBasicInfo" >
-    insert into user_basic_info (user_id, username, avatar, 
-      password, salt, real_name, 
-      birthday, gender, email, 
-      telephone, role_id, user_status, 
-      create_time, create_user_id, update_time, 
-      update_user_id, user_version)
-    values (#{userId,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR},
-      #{password,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR},
-      #{birthday,jdbcType=TIMESTAMP}, #{gender,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, 
-      #{telephone,jdbcType=VARCHAR}, #{roleId,jdbcType=VARCHAR}, #{userStatus,jdbcType=VARCHAR},
-      #{createTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP},
-      #{updateUserId,jdbcType=BIGINT}, #{userVersion,jdbcType=INTEGER})
-  </insert>
-  <insert id="insertSelective" parameterType="cn.whitetown.dogbase.user.entity.UserBasicInfo" >
-    insert into user_basic_info
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="userId != null" >
-        user_id,
-      </if>
-      <if test="username != null" >
-        username,
-      </if>
-      <if test="avatar != null" >
-        avatar,
-      </if>
-      <if test="password != null" >
-        password,
-      </if>
-      <if test="salt != null" >
-        salt,
-      </if>
-      <if test="realName != null" >
-        real_name,
-      </if>
-      <if test="birthday != null" >
-        birthday,
-      </if>
-      <if test="gender != null" >
-        gender,
-      </if>
-      <if test="email != null" >
-        email,
-      </if>
-      <if test="telephone != null" >
-        telephone,
-      </if>
-      <if test="roleId != null" >
-        role_id,
-      </if>
-      <if test="userStatus != null" >
-        user_status,
-      </if>
-      <if test="createTime != null" >
-        create_time,
-      </if>
-      <if test="createUserId != null" >
-        create_user_id,
-      </if>
-      <if test="updateTime != null" >
-        update_time,
-      </if>
-      <if test="updateUserId != null" >
-        update_user_id,
-      </if>
-      <if test="userVersion != null" >
-        user_version,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="userId != null" >
-        #{userId,jdbcType=BIGINT},
-      </if>
-      <if test="username != null" >
-        #{username,jdbcType=VARCHAR},
-      </if>
-      <if test="avatar != null" >
-        #{avatar,jdbcType=VARCHAR},
-      </if>
-      <if test="password != null" >
-        #{password,jdbcType=VARCHAR},
-      </if>
-      <if test="salt != null" >
-        #{salt,jdbcType=VARCHAR},
-      </if>
-      <if test="realName != null" >
-        #{realName,jdbcType=VARCHAR},
-      </if>
-      <if test="birthday != null" >
-        #{birthday,jdbcType=TIMESTAMP},
-      </if>
-      <if test="gender != null" >
-        #{gender,jdbcType=VARCHAR},
-      </if>
-      <if test="email != null" >
-        #{email,jdbcType=VARCHAR},
-      </if>
-      <if test="telephone != null" >
-        #{telephone,jdbcType=VARCHAR},
-      </if>
-      <if test="roleId != null" >
-        #{roleId,jdbcType=VARCHAR},
-      </if>
-      <if test="userStatus != null" >
-        #{userStatus,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="createUserId != null" >
-        #{createUserId,jdbcType=BIGINT},
-      </if>
-      <if test="updateTime != null" >
-        #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateUserId != null" >
-        #{updateUserId,jdbcType=BIGINT},
-      </if>
-      <if test="userVersion != null" >
-        #{userVersion,jdbcType=INTEGER},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="cn.whitetown.dogbase.user.entity.UserBasicInfo" >
-    update user_basic_info
-    <set >
-      <if test="avatar != null" >
-        avatar = #{avatar,jdbcType=VARCHAR},
-      </if>
-      <if test="password != null" >
-        password = #{password,jdbcType=VARCHAR},
-      </if>
-      <if test="salt != null" >
-        salt = #{salt,jdbcType=VARCHAR},
-      </if>
-      <if test="realName != null" >
-        real_name = #{realName,jdbcType=VARCHAR},
-      </if>
-      <if test="birthday != null" >
-        birthday = #{birthday,jdbcType=TIMESTAMP},
-      </if>
-      <if test="gender != null" >
-        gender = #{gender,jdbcType=VARCHAR},
-      </if>
-      <if test="email != null" >
-        email = #{email,jdbcType=VARCHAR},
-      </if>
-      <if test="telephone != null" >
-        telephone = #{telephone,jdbcType=VARCHAR},
-      </if>
-      <if test="roleId != null" >
-        role_id = #{roleId,jdbcType=VARCHAR},
-      </if>
-      <if test="userStatus != null" >
-        user_status = #{userStatus,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null" >
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="createUserId != null" >
-        create_user_id = #{createUserId,jdbcType=BIGINT},
-      </if>
-      <if test="updateTime != null" >
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateUserId != null" >
-        update_user_id = #{updateUserId,jdbcType=BIGINT},
-      </if>
-      <if test="userVersion != null" >
-        user_version = #{userVersion,jdbcType=INTEGER},
-      </if>
-    </set>
-    where user_id = #{userId,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="cn.whitetown.dogbase.user.entity.UserBasicInfo" >
-    update user_basic_info
-    set avatar = #{avatar,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
-      salt = #{salt,jdbcType=VARCHAR},
-      real_name = #{realName,jdbcType=VARCHAR},
-      birthday = #{birthday,jdbcType=TIMESTAMP},
-      gender = #{gender,jdbcType=VARCHAR},
-      email = #{email,jdbcType=VARCHAR},
-      telephone = #{telephone,jdbcType=VARCHAR},
-      role_id = #{roleId,jdbcType=VARCHAR},
-      user_status = #{userStatus,jdbcType=VARCHAR},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      create_user_id = #{createUserId,jdbcType=BIGINT},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      update_user_id = #{updateUserId,jdbcType=BIGINT},
-      user_version = #{userVersion,jdbcType=INTEGER}
-    where user_id = #{userId,jdbcType=BIGINT}
-  </update>
 </mapper>

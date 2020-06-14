@@ -4,14 +4,12 @@ import cn.whitetown.dogbase.domain.vo.ResponseData;
 import cn.whitetown.dogbase.domain.vo.ResponseStatusEnum;
 import cn.whitetown.dogbase.exception.CustomException;
 import cn.whitetown.dogbase.user.captcha.CaptchaDataDeal;
-import cn.whitetown.dogbase.user.entity.UserBasicInfo;
+import cn.whitetown.dogbase.user.entity.LoginUser;
 import cn.whitetown.dogbase.user.token.AuthConstant;
-import cn.whitetown.dogbase.util.FormatUtil;
+import cn.whitetown.dogbase.util.DataCheckUtil;
 import cn.whitetown.dogbase.util.WebUtil;
 import cn.whitetown.usersingle.service.LoginService;
-import org.springframework.beans.NotWritablePropertyException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.imageio.ImageIO;
@@ -37,23 +35,9 @@ public class CookieLoginController implements LoginController{
     @Autowired
     protected CaptchaDataDeal captchaDataDeal;
 
-    @RequestMapping(value = "/checkLogin",method = {RequestMethod.GET,RequestMethod.POST})
-    @Override
-    public ResponseData checkLogin(HttpServletRequest request, HttpServletResponse response) {
-        String token = WebUtil.getCookieValue(AuthConstant.TOKEN_COOKIE_NAME,request);
-        if(FormatUtil.checkTextNullBool(token)){
-            throw new CustomException(ResponseStatusEnum.TOKEN_ERROR);
-        }
-        String newToken = loginService.checkLogin(token);
-        if(newToken != null){
-            WebUtil.addCookie(AuthConstant.TOKEN_COOKIE_NAME,token, AuthConstant.TOKEN_EXPIRE);
-        }
-        return ResponseData.ok();
-    }
-
     @PostMapping("/login")
     public ResponseData login(String username, String password,HttpServletRequest request,HttpServletResponse response){
-        if(FormatUtil.checkTextNullBool(username) || FormatUtil.checkTextNullBool(password)){
+        if(DataCheckUtil.checkTextNullBool(username) || DataCheckUtil.checkTextNullBool(password)){
             throw new CustomException(ResponseStatusEnum.AUTH_REQUEST_ERROR);
         }
         String token = loginService.checkUsernameAndPassword(username,password);
@@ -68,12 +52,12 @@ public class CookieLoginController implements LoginController{
      */
     @Override
     @RequestMapping(value = "/getuser",method = {RequestMethod.GET,RequestMethod.POST})
-    public ResponseData<UserBasicInfo> getLoginUserInfo(HttpServletRequest request) {
+    public ResponseData<LoginUser> getLoginUserInfo(HttpServletRequest request) {
         String token = WebUtil.getCookieValue(AuthConstant.TOKEN_COOKIE_NAME, request);
         if(token == null){
-            return ResponseData.fail(ResponseStatusEnum.NOT_LOGIN);      //TODO:跳转页面
+            return ResponseData.fail(ResponseStatusEnum.NOT_LOGIN);
         }
-        UserBasicInfo user = loginService.getUserInfo(token);
+        LoginUser user = loginService.getUserInfo(token);
         return ResponseData.ok(user);
     }
 

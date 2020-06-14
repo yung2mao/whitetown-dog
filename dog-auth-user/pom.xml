@@ -10,6 +10,7 @@
   <packaging>pom</packaging>
   <modules>
     <module>whitetown-user-single</module>
+      <module>whitetown-user-security</module>
   </modules>
 
   <parent>

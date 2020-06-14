@@ -22,7 +22,7 @@ public interface CaptchaDataDeal {
     public BufferedImage createCaptchaImage(String text);
 
     /**
-     * 暂存验证码
+     * 暂存验证码-基于sessionId做存储
      * @param sessionId
      * @param captchaText
      */

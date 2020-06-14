@@ -26,7 +26,7 @@
 
     <dependency>
       <groupId>cn.whitetown</groupId>
-      <artifactId>whitetown-user-single</artifactId>
+      <artifactId>whitetown-user-security</artifactId>
       <version>1.0-SNAPSHOT</version>
     </dependency>
     <!--quartz定时任务-->

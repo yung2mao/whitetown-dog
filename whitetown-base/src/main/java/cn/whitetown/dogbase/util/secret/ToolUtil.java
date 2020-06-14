@@ -1,4 +1,4 @@
-package cn.whitetown.dogbase.util;
+package cn.whitetown.dogbase.util.secret;
 
 
 import cn.whitetown.dogbase.domain.vo.ResponseStatusEnum;
@@ -19,6 +19,11 @@ public class ToolUtil extends ValidateUtil {
     public ToolUtil() {
     }
 
+    /**
+     * 产生随机的字符串
+     * @param length
+     * @return
+     */
     public static String getRandomString(int length) {
         String base = "abcdefghijklmnopqrstuvwxyz0123456789";
         Random random = new Random();

@@ -1,5 +1,9 @@
 package cn.whitetown.dogbase.user.entity;
 
+import com.baomidou.mybatisplus.annotation.TableField;
+
+import java.util.List;
+
 /**
  * @author GrainRain
  * @date 2020/05/25 23:06
@@ -17,6 +21,12 @@ public abstract class AbstractUser {
      * 用户密码
      */
     protected String password;
+
+    /**
+     * 用户角色列表
+     */
+    @TableField(exist = false)
+    protected List<String> roles;
 
     public Long getUserId() {
         return userId;
@@ -42,4 +52,11 @@ public abstract class AbstractUser {
         this.password = password;
     }
 
+    public List<String> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<String> roles) {
+        this.roles = roles;
+    }
 }

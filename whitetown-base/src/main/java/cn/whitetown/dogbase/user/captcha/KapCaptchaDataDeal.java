@@ -14,10 +14,11 @@ import java.awt.image.BufferedImage;
  * @author GrainRain
  * @date 2020/05/26 22:40
  **/
-public class SessionCaptchaDataDeal implements CaptchaDataDeal {
+public class KapCaptchaDataDeal implements CaptchaDataDeal {
 
     @Autowired
     private WhiteExpireMap whiteExpireMap;
+
     @Autowired
     private Producer producer;
 
@@ -42,7 +43,7 @@ public class SessionCaptchaDataDeal implements CaptchaDataDeal {
     }
 
     /**
-     * 获取验证码
+     * 从内存中获取获取验证码
      * @param sessionId
      * @return
      */

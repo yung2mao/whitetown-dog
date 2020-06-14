@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
+ * 利用用户基本信息获取用户登录保留信息
  * @author GrainRain
  * @date 2020/05/30 16:46
  **/
@@ -19,18 +20,14 @@ public class LoginUserUtil {
      * @return
      */
     public static LoginUser getLoginUser(UserBasicInfo user, List<UserRole> roles){
-        List<Long> roIds = new ArrayList<>();
-        List<String> ros = new ArrayList<>();
-        roles.stream().forEach(r-> {
-            roIds.add(r.getRoleId());
-            ros.add(r.getName());
-        });
-        LoginUser us = new LoginUser();
-        us.setUserId(user.getUserId());
+        LoginUser us = new LoginUser(user.getAvatar(),null,user.getRealName(),user.getBirthday(),
+                user.getGender(),user.getEmail(),user.getTelephone());
+        if(roles != null && roles.size()>1) {
+            List<String> ros = new ArrayList<>();
+            roles.stream().forEach(r -> ros.add(r.getName()));
+            us.setRoles(ros);
+        }
         us.setUsername(user.getUsername());
-        us.setPassword(user.getPassword());
-        us.setRoleIds(roIds);
-        us.setRoles(ros);
         return us;
     }
 }

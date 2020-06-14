@@ -1,6 +1,7 @@
 package cn.whitetown.usersingle.controller;
 
 import cn.whitetown.dogbase.domain.vo.ResponseData;
+import cn.whitetown.dogbase.user.entity.LoginUser;
 import cn.whitetown.dogbase.user.entity.UserBasicInfo;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,14 +13,6 @@ import javax.servlet.http.HttpServletResponse;
  * @date 2020/05/27 21:47
  **/
 public interface LoginController {
-    /**
-     * 登录状态检查 - //TODO:放到过滤器处理
-     * @param request
-     * @param response
-     * @return
-     */
-    ResponseData checkLogin(HttpServletRequest request, HttpServletResponse response);
-
     /**
      * 登录处理
      * @param username 用户名
@@ -50,5 +43,5 @@ public interface LoginController {
      * @param request
      * @return
      */
-    ResponseData<UserBasicInfo> getLoginUserInfo(HttpServletRequest request);
+    ResponseData<LoginUser> getLoginUserInfo(HttpServletRequest request);
 }

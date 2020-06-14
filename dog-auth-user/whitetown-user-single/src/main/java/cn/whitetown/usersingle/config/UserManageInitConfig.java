@@ -1,7 +1,7 @@
 package cn.whitetown.usersingle.config;
 
 import cn.whitetown.dogbase.user.captcha.CaptchaDataDeal;
-import cn.whitetown.dogbase.user.captcha.SessionCaptchaDataDeal;
+import cn.whitetown.dogbase.user.captcha.KapCaptchaDataDeal;
 import cn.whitetown.dogbase.user.token.AuthConstant;
 import cn.whitetown.dogbase.user.token.JwtTokenUtil;
 import com.google.code.kaptcha.Constants;
@@ -25,7 +25,7 @@ public class UserManageInitConfig {
      */
     private String tokenSecret = AuthConstant.TOKEN_SECRET;
     /**
-     * token过期时间为一个月 - 一个月内免登录
+     * token过期时间为7天 - 7天内免登录
      */
     private long tokenExpire = AuthConstant.TOKEN_EXPIRE;
     /**
@@ -59,7 +59,7 @@ public class UserManageInitConfig {
      */
     @Bean
     public CaptchaDataDeal getCaptchaDeal(){
-        return new SessionCaptchaDataDeal();
+        return new KapCaptchaDataDeal();
     }
 
     /**

@@ -10,7 +10,6 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author GrainRain
  * @date 2020/05/27 22:13
  **/
-@Component
 public class WhiteExpireMap<K,V> {
     private ConcurrentHashMap<K,Long> expireKeyMap;
     private ConcurrentHashMap<K,V> valueMap;
@@ -43,6 +42,17 @@ public class WhiteExpireMap<K,V> {
             }
 
         }
+    }
+
+    /**
+     * put and set expiration time
+     * @param key
+     * @param value
+     * @param expireSecond
+     * @return
+     */
+    public V putS(K key,V value,long expireSecond){
+        return this.put(key,value,1000 * expireSecond);
     }
 
     /**

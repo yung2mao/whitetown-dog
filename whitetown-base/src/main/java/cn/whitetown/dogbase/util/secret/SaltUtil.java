@@ -1,8 +1,6 @@
 package cn.whitetown.dogbase.util.secret;
 
 
-import cn.whitetown.dogbase.util.ToolUtil;
-
 public class SaltUtil {
 
     private SaltUtil(){}

@@ -1,4 +1,4 @@
-package cn.whitetown.dogbase.util;
+package cn.whitetown.dogbase.util.secret;
 
 import java.util.List;
 import java.util.Map;
