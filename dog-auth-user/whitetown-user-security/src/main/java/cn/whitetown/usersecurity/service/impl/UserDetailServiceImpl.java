@@ -1,19 +1,25 @@
 package cn.whitetown.usersecurity.service.impl;
 
 import cn.whitetown.dogbase.domain.special.WhiteExpireMap;
+import cn.whitetown.dogbase.domain.vo.ResponseStatusEnum;
+import cn.whitetown.dogbase.exception.CustomException;
 import cn.whitetown.dogbase.user.entity.LoginUser;
 import cn.whitetown.dogbase.user.entity.UserBasicInfo;
 import cn.whitetown.dogbase.user.token.AuthConstant;
 import cn.whitetown.dogbase.user.token.JwtTokenUtil;
+import cn.whitetown.dogbase.user.util.UserCacheUtil;
 import cn.whitetown.usersecurity.mappers.UserBasicInfoMapper;
 import cn.whitetown.usersecurity.service.DefaultUserDetailService;
 import cn.whitetown.usersecurity.util.LoginUserUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import io.jsonwebtoken.Claims;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -26,14 +32,17 @@ import java.util.List;
 
 
 /**
+ * 获取UserDetail的实现
  * @author GrainRain
  * @date 2020/06/13 15:49
  **/
 @Component
 public class UserDetailServiceImpl implements DefaultUserDetailService {
 
+    private Log log = LogFactory.getLog(UserDetailServiceImpl.class);
+
     @Autowired
-    private WhiteExpireMap whiteExpireMap;
+    private UserCacheUtil userCacheUtil;
 
     @Resource
     private UserBasicInfoMapper userMapper;
@@ -48,24 +57,28 @@ public class UserDetailServiceImpl implements DefaultUserDetailService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) {
-        UserDetails userDetails =  (UserDetails) whiteExpireMap.get(AuthConstant.USERDETAIL_PREFIX+username);
+        UserDetails userDetails =  userCacheUtil.getUserDetails(AuthConstant.USERDETAIL_PREFIX+username);
         if(userDetails==null){
             LambdaQueryWrapper<UserBasicInfo> condition = new LambdaQueryWrapper<>();
             condition.eq(UserBasicInfo::getUsername, username);
             UserBasicInfo userBasicInfo = userMapper.selectOne(condition);
             if(userBasicInfo==null){
-                return null;
+                throw new CustomException(ResponseStatusEnum.NO_THIS_USER);
             }
-            HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-            String token = request.getHeader(AuthConstant.HEADER_STRING);
-            Claims claims = jwtTokenUtil.readTokenAsMapParams(token);
-            System.out.println("roles::"+claims.get("roles"));
-            List<String> roles = (List<String>) claims.get("roles");
-
+            String version = jwtTokenUtil.getTokenValue(JwtTokenUtil.USER_VERSION);
+            if(version==null){
+                throw new CustomException(ResponseStatusEnum.TOKEN_EXPIRED);
+            }
+            Integer userVersion = Integer.valueOf(version);
+            if(!userVersion.equals(userBasicInfo.getUserVersion())){
+                throw new CustomException(ResponseStatusEnum.TOKEN_EXPIRED);
+            }
+            List<String> roles = (List<String>) jwtTokenUtil.getTokenValueAsObject(JwtTokenUtil.USER_ROLE);
+            log.warn("当前登录的用户角色为 >>" + roles);
             Collection<GrantedAuthority> roleCollection = LoginUserUtil.createRoleCollection(roles);
 
             userDetails = new User(userBasicInfo.getUsername(),userBasicInfo.getPassword(),roleCollection);
-            whiteExpireMap.putS(AuthConstant.USERDETAIL_PREFIX+username,userDetails,AuthConstant.USER_SAVE_TIME);
+            userCacheUtil.saveUserDetail(AuthConstant.USERDETAIL_PREFIX+username,userDetails);
         }
         return userDetails;
     }

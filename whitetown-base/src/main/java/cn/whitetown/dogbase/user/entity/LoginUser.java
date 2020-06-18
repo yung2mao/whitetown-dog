@@ -1,6 +1,9 @@
 package cn.whitetown.dogbase.user.entity;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 import java.util.List;
@@ -16,16 +19,14 @@ public class LoginUser extends AbstractUser{
      */
     private String avatar;
     /**
-     * 密码盐
-     */
-    private String salt;
-    /**
      * 真实姓名
      */
     private String realName;
     /**
      * 生日
      */
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JSONField(format = "yyyy-MM-dd")
     private Date birthday;
     /**
      * 性别
@@ -43,10 +44,9 @@ public class LoginUser extends AbstractUser{
     public LoginUser() {
     }
 
-    public LoginUser(String avatar, String salt, String realName, Date birthday,
+    public LoginUser(String avatar, String realName, Date birthday,
                      String gender, String email, String telephone) {
         this.avatar = avatar;
-        this.salt = salt;
         this.realName = realName;
         this.birthday = birthday;
         this.gender = gender;
@@ -60,14 +60,6 @@ public class LoginUser extends AbstractUser{
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
-    }
-
-    public String getSalt() {
-        return salt;
-    }
-
-    public void setSalt(String salt) {
-        this.salt = salt;
     }
 
     public String getRealName() {

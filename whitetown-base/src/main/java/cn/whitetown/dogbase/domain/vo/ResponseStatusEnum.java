@@ -49,6 +49,7 @@ public enum ResponseStatusEnum {
     ACCOUNT_FREEZED(401, "账号被冻结"),
     OLD_PWD_NOT_RIGHT(402, "原密码不正确"),
     TWO_PWD_NOT_MATCH(405, "两次输入密码不一致"),
+    NO_THIS_ROLE(400,"当前角色不存在"),
 
     /**
      * 错误的请求
@@ -105,11 +106,11 @@ public enum ResponseStatusEnum {
     /**
      * 状态解释
      */
-    private String typeName;
+    private String statusName;
 
     ResponseStatusEnum(Integer status, String typeName) {
         this.status = status;
-        this.typeName = typeName;
+        this.statusName = typeName;
     }
 
     public Integer getStatus() {
@@ -120,11 +121,11 @@ public enum ResponseStatusEnum {
         this.status = status;
     }
 
-    public String getTypeName() {
-        return typeName;
+    public String getStatusName() {
+        return statusName;
     }
 
-    public void setTypeName(String typeName) {
-        this.typeName = typeName;
+    public void setStatusName(String statusName) {
+        this.statusName = statusName;
     }
 }

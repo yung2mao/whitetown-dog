@@ -1,4 +1,4 @@
-package cn.whitetown.usersecurity.filter;
+package cn.whitetown.dogbase.viewmodule;
 
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.core.Ordered;

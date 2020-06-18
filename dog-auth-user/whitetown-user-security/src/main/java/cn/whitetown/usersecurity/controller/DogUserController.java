@@ -1,14 +1,8 @@
 package cn.whitetown.usersecurity.controller;
 
 import cn.whitetown.dogbase.domain.vo.ResponseData;
-import cn.whitetown.dogbase.domain.vo.ResponseStatusEnum;
-import cn.whitetown.dogbase.exception.CustomException;
 import cn.whitetown.dogbase.user.captcha.DefaultCaptchaDataDeal;
 import cn.whitetown.dogbase.user.entity.LoginUser;
-import cn.whitetown.dogbase.user.token.AuthConstant;
-import cn.whitetown.dogbase.util.DataCheckUtil;
-import cn.whitetown.dogbase.util.FormatUtil;
-import cn.whitetown.dogbase.util.NormalHandleUtil;
 import cn.whitetown.dogbase.util.WebUtil;
 import cn.whitetown.usersecurity.service.DogUserService;
 import com.alibaba.fastjson.JSONObject;
@@ -17,12 +11,10 @@ import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import javax.annotation.PostConstruct;
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -108,10 +100,10 @@ public class DogUserController {
     @PostMapping(value = "check-capt",produces = "application/json;charset=UTF-8")
     public ResponseData checkCaptcha(@RequestBody JSONObject captchaJson, HttpServletRequest request){
         String captcha = captchaJson.getString("captcha");
-        String clientIP = WebUtil.getClientIP(request);
+        String clientIp = WebUtil.getClientIP(request);
 
-        userService.checkCaptcha(captcha,clientIP);
-        log.warn("验证码校验通过，当前用户IP地址为 >>"+clientIP);
+        userService.checkCaptcha(captcha,clientIp);
+        log.warn("验证码校验通过，当前用户IP地址为 >>"+clientIp);
         return ResponseData.ok();
     }
 
@@ -123,8 +115,8 @@ public class DogUserController {
     @PostMapping(value = "/login",produces = "application/json;charset=UTF-8")
     public ResponseData<String> login(@RequestBody JSONObject params,HttpServletRequest request){
         String captcha = params.getString("captcha");
-        String clientIP = WebUtil.getClientIP(request);
-        userService.checkCaptcha(captcha,clientIP);
+        String clientIp = WebUtil.getClientIP(request);
+        userService.checkCaptcha(captcha,clientIp);
         //check username and password
         String username = params.getString("username");
         String password = params.getString("password");
@@ -136,22 +128,19 @@ public class DogUserController {
      * 退出登录操作
      * @return
      */
-    @GetMapping("/logout")
-    public ResponseData logout(HttpServletRequest request){
-        String token = request.getHeader(AuthConstant.HEADER_STRING);
-        userService.logout(token);
+    @RequestMapping(value = "/logout",method = {RequestMethod.GET,RequestMethod.POST})
+    public ResponseData logout(){
+        userService.logout();
         return ResponseData.ok();
     }
 
     /**
      * 获取当前登录用户的基本信息
-     * @param request
      * @return
      */
     @GetMapping("/info")
-    public ResponseData<LoginUser> getUser(HttpServletRequest request){
-        String token = request.getHeader(AuthConstant.HEADER_STRING);
-        LoginUser user = userService.getUserByToken(token);
+    public ResponseData<LoginUser> getUser(){
+        LoginUser user = userService.getUserByToken();
         user.setRoles(null);
         return ResponseData.ok(user);
     }

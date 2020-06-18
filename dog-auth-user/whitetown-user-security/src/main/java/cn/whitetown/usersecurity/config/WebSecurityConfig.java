@@ -2,7 +2,7 @@ package cn.whitetown.usersecurity.config;
 
 import cn.whitetown.usersecurity.filter.TokenCheckFilter;
 import cn.whitetown.usersecurity.service.DefaultUserDetailService;
-import cn.whitetown.usersecurity.util.securityHandler.NotLoginHandler;
+import cn.whitetown.usersecurity.util.securityHandler.AuthenticationErrorHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -24,7 +24,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private DefaultUserDetailService userDetailsService;
 
     @Autowired
-    private NotLoginHandler notLoginHandler;
+    private AuthenticationErrorHandler authenticationErrorHandler;
 
     @Autowired
     private AccessDeniedHandler accessDeniedHandler;
@@ -46,7 +46,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         /**
          * 异常处理
          */
-        http.exceptionHandling().authenticationEntryPoint(notLoginHandler);
+        http.exceptionHandling().authenticationEntryPoint(authenticationErrorHandler);
         http.exceptionHandling().accessDeniedHandler(accessDeniedHandler);
 
         // 防止iframe 造成跨域

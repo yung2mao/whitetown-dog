@@ -1,8 +1,14 @@
 package cn.whitetown.dogbase.user.entity;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson.support.spring.annotation.FastJsonFilter;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Pattern;
 import java.util.Date;
 
 /**
@@ -27,6 +33,8 @@ public class UserBasicInfo extends AbstractUser{
     /**
      * 生日
      */
+    @JsonFormat(pattern = "yyyy-MM-dd")
+    @JSONField(format = "yyyy-MM-dd")
     private Date birthday;
     /**
      * 性别
@@ -35,18 +43,22 @@ public class UserBasicInfo extends AbstractUser{
     /**
      * 邮箱
      */
+    @Email
     private String email;
     /**
      * 电话号码
      */
+    @Pattern(regexp = "123456")
     private String telephone;
     /**
      * 用户状态
      */
-    private String userStatus;
+    private Integer userStatus;
     /**
      * 创建时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date createTime;
     /**
      * 创建人id
@@ -55,6 +67,8 @@ public class UserBasicInfo extends AbstractUser{
     /**
      * 更新时间
      */
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     private Date updateTime;
     /**
      * 更新人id
@@ -121,11 +135,11 @@ public class UserBasicInfo extends AbstractUser{
         this.telephone = telephone;
     }
 
-    public String getUserStatus() {
+    public Integer getUserStatus() {
         return userStatus;
     }
 
-    public void setUserStatus(String userStatus) {
+    public void setUserStatus(Integer userStatus) {
         this.userStatus = userStatus;
     }
 

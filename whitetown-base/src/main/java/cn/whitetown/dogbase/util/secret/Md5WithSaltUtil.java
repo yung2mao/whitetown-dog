@@ -1,24 +1,29 @@
 package cn.whitetown.dogbase.util.secret;
 
 
-public class SaltUtil {
+import cn.whitetown.dogbase.util.WhiteToolUtil;
 
-    private SaltUtil(){}
+/**
+ * MD5加盐工具类
+ * @author taixian
+ */
+public class Md5WithSaltUtil {
+
+    private Md5WithSaltUtil(){}
+
     /**
      * 获取密码盐
-     *
-     * @author fengshuonan
-     * @Date 2019/7/20 17:35
+     * @return
      */
     public static String getRandomSalt() {
-        return ToolUtil.getRandomString(5);
+        return WhiteToolUtil.createRandomString(7);
     }
 
     /**
      * md5加密，带盐值
-     *
-     * @author fengshuonan
-     * @Date 2019/7/20 17:36
+     * @param password
+     * @param salt
+     * @return
      */
     public static String md5Encrypt(String password, String salt) {
         if (ToolUtil.isOneEmpty(password, salt)) {

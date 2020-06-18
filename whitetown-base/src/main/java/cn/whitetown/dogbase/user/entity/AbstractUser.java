@@ -1,7 +1,10 @@
 package cn.whitetown.dogbase.user.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableId;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -12,10 +15,13 @@ public abstract class AbstractUser {
     /**
      * 用户id
      */
+    @TableId
     protected Long userId;
     /**
      * 用户名 - 每个用户唯一
      */
+    @NotNull
+    @NotEmpty
     protected String username;
     /**
      * 用户密码

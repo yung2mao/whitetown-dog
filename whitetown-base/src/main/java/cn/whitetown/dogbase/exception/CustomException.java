@@ -1,10 +1,13 @@
 package cn.whitetown.dogbase.exception;
 
 import cn.whitetown.dogbase.domain.vo.ResponseStatusEnum;
+import org.springframework.stereotype.Component;
 
 /**
  * 自定义通用异常处理器
- **/
+ *
+ * @author taixian
+ */
 public class CustomException extends RuntimeException{
     private ResponseStatusEnum statusEnum;
     private String message;

@@ -10,7 +10,7 @@ import cn.whitetown.dogbase.user.token.AuthConstant;
 import cn.whitetown.dogbase.user.token.JwtTokenUtil;
 import cn.whitetown.dogbase.util.DataCheckUtil;
 import cn.whitetown.dogbase.util.FormatUtil;
-import cn.whitetown.dogbase.util.secret.SaltUtil;
+import cn.whitetown.dogbase.util.secret.MD5WithSaltUtil;
 import cn.whitetown.usersingle.mappers.UserBasicInfoMapper;
 import cn.whitetown.usersingle.util.LoginUserUtil;
 import io.jsonwebtoken.Claims;
@@ -54,7 +54,7 @@ public class SessionLoginService implements LoginService {
             throw new CustomException(ResponseStatusEnum.AUTH_REQUEST_ERROR);
         }
         String salt = user.getSalt();
-        String md5WithSalt = SaltUtil.md5Encrypt(password,salt);
+        String md5WithSalt = MD5WithSaltUtil.md5Encrypt(password,salt);
 
         if(!user.getPassword().equals(md5WithSalt)){
             throw new CustomException(ResponseStatusEnum.AUTH_REQUEST_ERROR);

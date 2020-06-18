@@ -35,4 +35,6 @@ public class AuthConstant {
      * captcha保留180秒
      */
     public static final int CAPTCHA_EXPIRE_TIME = 180;
+
+    public static final String DEFAULT_ROLE = "NORMAL";
 }

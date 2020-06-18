@@ -15,7 +15,7 @@ public class ResponseData<T> {
     /**
      * 携带附加信息
      */
-    private String typeName;
+    private String statusName;
     /**
      * 携带数据
      */
@@ -24,18 +24,18 @@ public class ResponseData<T> {
     /**
      * 自定义返回数据构造方法
      * @param status
-     * @param typeName
+     * @param statusName
      * @param data
      */
-    private ResponseData(Integer status, String typeName, T data){
+    private ResponseData(Integer status, String statusName, T data){
         this.status=status;
-        this.typeName = typeName;
+        this.statusName = statusName;
         this.data=data;
     }
 
     private ResponseData(ResponseStatusEnum responseStatusEnum, T data) {
         this.status = responseStatusEnum.getStatus();
-        this.typeName = responseStatusEnum.getTypeName();
+        this.statusName = responseStatusEnum.getStatusName();
         this.data = data;
     }
 
@@ -97,12 +97,12 @@ public class ResponseData<T> {
         this.status = status;
     }
 
-    public String getTypeName() {
-        return typeName;
+    public String getStatusName() {
+        return statusName;
     }
 
-    public void setTypeName(String typeName) {
-        this.typeName = typeName;
+    public void setStatusName(String statusName) {
+        this.statusName = statusName;
     }
 
     public T getData() {

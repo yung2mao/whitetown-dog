@@ -23,9 +23,9 @@ public class LoginUserUtil {
      * @return
      */
     public static LoginUser getLoginUser(UserBasicInfo user, List<UserRole> roles){
-        LoginUser us = new LoginUser(user.getAvatar(),null,user.getRealName(),user.getBirthday(),
+        LoginUser us = new LoginUser(user.getAvatar(),user.getRealName(),user.getBirthday(),
                 user.getGender(),user.getEmail(),user.getTelephone());
-        if(roles != null && roles.size()>1) {
+        if(roles != null && roles.size()>0) {
             List<String> ros = new ArrayList<>();
             roles.stream().forEach(r -> ros.add(r.getName()));
             us.setRoles(ros);

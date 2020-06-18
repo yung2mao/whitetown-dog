@@ -1,18 +1,22 @@
 package cn.whitetown.usersecurity.service;
 
 import cn.whitetown.dogbase.user.entity.LoginUser;
+import cn.whitetown.dogbase.user.entity.UserBasicInfo;
+import cn.whitetown.usersecurity.mappers.UserBasicInfoMapper;
+import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
+ * 用户服务
  * @author GrainRain
  * @date 2020/06/13 10:28
  **/
-public interface DogUserService {
+public interface DogUserService extends IService<UserBasicInfo> {
     /**
      * 验证码校验
      * @param captcha
-     * @param clientIP
+     * @param clientIp
      */
-    void checkCaptcha(String captcha, String clientIP);
+    void checkCaptcha(String captcha, String clientIp);
 
     /**
      * 执行登录逻辑，校验用户名和密码并生成token
@@ -24,14 +28,12 @@ public interface DogUserService {
 
     /**
      * 根据用户的token信息获取用户信息
-     * @param token
      * @return
      */
-    LoginUser getUserByToken(String token);
+    LoginUser getUserByToken();
 
     /**
      * 退出登录
-     * @param token
      */
-    void logout(String token);
+    void logout();
 }

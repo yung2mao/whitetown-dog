@@ -21,6 +21,15 @@ public class WebUtil {
     private WebUtil(){}
 
     /**
+     * 获取request
+     * @return
+     */
+    public static HttpServletRequest getRequest(){
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
+        return request;
+    }
+
+    /**
      * 获取指定名称的cookie value
      * @param name
      * @param request

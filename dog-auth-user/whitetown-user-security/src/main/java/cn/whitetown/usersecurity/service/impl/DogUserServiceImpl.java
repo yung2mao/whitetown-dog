@@ -1,6 +1,5 @@
 package cn.whitetown.usersecurity.service.impl;
 
-import cn.whitetown.dogbase.domain.special.WhiteExpireMap;
 import cn.whitetown.dogbase.domain.vo.ResponseStatusEnum;
 import cn.whitetown.dogbase.exception.CustomException;
 import cn.whitetown.dogbase.user.captcha.CaptchaDataDeal;
@@ -10,11 +9,16 @@ import cn.whitetown.dogbase.user.entity.UserRole;
 import cn.whitetown.dogbase.user.token.AuthConstant;
 import cn.whitetown.dogbase.user.token.JwtTokenUtil;
 import cn.whitetown.dogbase.util.DataCheckUtil;
-import cn.whitetown.dogbase.util.secret.SaltUtil;
+import cn.whitetown.dogbase.util.WhiteLambdaQueryWrapper;
+import cn.whitetown.dogbase.util.secret.Md5WithSaltUtil;
 import cn.whitetown.usersecurity.mappers.UserBasicInfoMapper;
 import cn.whitetown.usersecurity.service.DogUserService;
+import cn.whitetown.usersecurity.util.DefaultUserCacheUtil;
 import cn.whitetown.usersecurity.util.LoginUserUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -30,7 +34,7 @@ import java.util.*;
  * @date 2020/06/13 15:00
  **/
 @Service
-public class DogUserServiceImpl implements DogUserService {
+public class DogUserServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserBasicInfo> implements DogUserService {
 
     @Autowired
     private CaptchaDataDeal captchaDataDeal;
@@ -42,32 +46,32 @@ public class DogUserServiceImpl implements DogUserService {
     private JwtTokenUtil jwtTokenUtil;
 
     @Autowired
-    private WhiteExpireMap whiteExpireMap;
+    private DefaultUserCacheUtil userCacheUtil;
 
     /**
      * 验证码校验
-     * @param captcha
-     * @param clientIP
+     * @param captcha 验证码
+     * @param clientIp 客户ip地址
      */
     @Override
-    public void checkCaptcha(String captcha, String clientIP) {
+    public void checkCaptcha(String captcha, String clientIp) {
         if(DataCheckUtil.checkTextNullBool(captcha)){
-            throw new CustomException(ResponseStatusEnum.ERROR_PARAMS);
+            throw new CustomException(ResponseStatusEnum.AUTH_CAPTCHA_ERROR);
         }
-        String saveIP = captchaDataDeal.getCaptcha(captcha.toLowerCase());
-        if(DataCheckUtil.checkTextNullBool(saveIP)){
+        String saveIp = captchaDataDeal.getCaptcha(captcha.toLowerCase());
+        if(DataCheckUtil.checkTextNullBool(saveIp)){
             throw new CustomException(ResponseStatusEnum.AUTH_CAPTCHA_ERROR);
         }
         //校验两次IP是否相同，由此判断是否同一用户
-        if(!saveIP.equalsIgnoreCase(clientIP)){
+        if(!saveIp.equalsIgnoreCase(clientIp)){
             throw new CustomException(ResponseStatusEnum.AUTH_CAPTCHA_ERROR);
         }
     }
 
     /**
      * 用户名密码校验
-     * @param username
-     * @param password
+     * @param username 用户名
+     * @param password 密码
      * @return
      */
     @Override
@@ -82,7 +86,7 @@ public class DogUserServiceImpl implements DogUserService {
             throw new CustomException(ResponseStatusEnum.AUTH_REQUEST_ERROR);
         }
         String salt = user.getSalt();
-        String md5WithSalt = SaltUtil.md5Encrypt(password,salt);
+        String md5WithSalt = Md5WithSaltUtil.md5Encrypt(password,salt);
 
         if(!user.getPassword().equals(md5WithSalt)){
             throw new CustomException(ResponseStatusEnum.AUTH_REQUEST_ERROR);
@@ -95,32 +99,33 @@ public class DogUserServiceImpl implements DogUserService {
         }
         LoginUser loginUser = LoginUserUtil.getLoginUser(user,roles);
         //create token
-        Map<String,Object> map = new HashMap<>();
-        map.put("username",username);
-        map.put("roles",loginUser.getRoles());
+        //存储信息包括userId，username,roles,userVersion
+        Map<String,Object> map = new HashMap<>(10);
+        map.put(JwtTokenUtil.USER_ID,user.getUserId());
+        map.put(JwtTokenUtil.USERNAME,username);
+        map.put(JwtTokenUtil.USER_ROLE,loginUser.getRoles());
+        map.put(JwtTokenUtil.USER_VERSION,user.getUserVersion());
         String token = jwtTokenUtil.createTokenByParams(map);
 
-        //存放登录用户的信息，方便用户获取使用,存储2小时
-        whiteExpireMap.putS(loginUser.getUsername(),loginUser, AuthConstant.USER_SAVE_TIME);
+        //存放登录用户的信息，方便用户获取使用,存储时间为2小时
+        userCacheUtil.saveUserBasicInfo(loginUser.getUsername(),loginUser);
 
-        //存储用户校验使用的信息在内存中，作为登录的凭证
+        //存储用户校验使用的信息在内存中,方便快速校验
         Collection<GrantedAuthority> roleCollection = LoginUserUtil.createRoleCollection(loginUser.getRoles());
         UserDetails userDetails = new User(user.getUsername(),user.getPassword(),roleCollection);
-        whiteExpireMap.putS(AuthConstant.USERDETAIL_PREFIX+userDetails.getUsername(),
-                userDetails,
-                AuthConstant.USER_SAVE_TIME);
+        userCacheUtil.saveUserDetail(AuthConstant.USERDETAIL_PREFIX+userDetails.getUsername(),
+                userDetails);
         return token;
     }
 
     /**
      * 根据token获取用户信息
-     * @param token
      * @return
      */
     @Override
-    public LoginUser getUserByToken(String token) {
-        String username = jwtTokenUtil.getUsername(token);
-        LoginUser user = (LoginUser)whiteExpireMap.get(username);
+    public LoginUser getUserByToken() {
+        String username = jwtTokenUtil.getUsername();
+        LoginUser user = userCacheUtil.getUserBasicInfo(username);
         if(user ==null){
             LambdaQueryWrapper<UserBasicInfo> condition = new LambdaQueryWrapper<>();
             condition.eq(UserBasicInfo::getUsername,username);
@@ -130,19 +135,32 @@ public class DogUserServiceImpl implements DogUserService {
             }
             user = LoginUserUtil.getLoginUser(userBasic,null);
             //save to memory
-            whiteExpireMap.putS(user.getUsername(),user, AuthConstant.USER_SAVE_TIME);
+            userCacheUtil.saveUserBasicInfo(user.getUsername(),user);
         }
         return user;
     }
 
     /**
      * 退出登录
-     * @param token
+     * 基于版本号更新使原有token彻底失效，配合前端销毁token处理
      */
     @Override
-    public void logout(String token) {
-        String username = jwtTokenUtil.getUsername(token);
-        whiteExpireMap.remove(username);
-        whiteExpireMap.remove(AuthConstant.USERDETAIL_PREFIX+username);
+    public void logout() {
+        String username = jwtTokenUtil.getUsername();
+        if(username==null){
+            return;
+        }
+        userCacheUtil.removeLoginUser(username);
+        userCacheUtil.removeUserDetails(AuthConstant.USERDETAIL_PREFIX+username);
+        WhiteLambdaQueryWrapper<UserBasicInfo> queryCondition = new WhiteLambdaQueryWrapper<>();
+        queryCondition.select(UserBasicInfo::getUserVersion);
+        queryCondition.eq(UserBasicInfo::getUsername,username);
+        UserBasicInfo userBasicInfo = userMapper.selectOne(queryCondition);
+        Integer newVersion = userBasicInfo.getUserVersion()+1;
+        LambdaUpdateWrapper<UserBasicInfo> updateCondition = new LambdaUpdateWrapper<>();
+        updateCondition.eq(UserBasicInfo::getUsername,username);
+        updateCondition.set(UserBasicInfo::getUserVersion,newVersion);
+        this.update(updateCondition);
+
     }
 }

@@ -5,7 +5,7 @@ import cn.whitetown.dogbase.user.captcha.DefaultCaptchaDataDeal;
 import cn.whitetown.dogbase.user.token.AuthConstant;
 import cn.whitetown.dogbase.user.token.JwtTokenUtil;
 import cn.whitetown.usersecurity.util.securityHandler.AccessFailHandler;
-import cn.whitetown.usersecurity.util.securityHandler.NotLoginHandler;
+import cn.whitetown.usersecurity.util.securityHandler.AuthenticationErrorHandler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -56,7 +56,7 @@ public class UserInitConfig {
      * @return
      */
     @Bean
-    public NotLoginHandler notLoginHandler(){
-        return new NotLoginHandler();
+    public AuthenticationErrorHandler notLoginHandler(){
+        return new AuthenticationErrorHandler();
     }
 }

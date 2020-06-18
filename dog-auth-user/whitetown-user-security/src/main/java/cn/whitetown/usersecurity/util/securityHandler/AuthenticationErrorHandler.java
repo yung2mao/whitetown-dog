@@ -13,11 +13,11 @@ import java.io.PrintWriter;
 import java.io.Serializable;
 
 /**
- * 未登录用户处理
+ *  认证失败处理器
  * @author GrainRain
  * @date 2020/06/13 16:09
  **/
-public class NotLoginHandler implements AuthenticationEntryPoint, Serializable {
+public class AuthenticationErrorHandler implements AuthenticationEntryPoint, Serializable {
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException, ServletException {
         ResponseData result = ResponseData.fail(ResponseStatusEnum.NOT_LOGIN);
