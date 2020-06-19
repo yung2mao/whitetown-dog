@@ -24,10 +24,18 @@ public interface UserManageService extends IService<UserBasicInfo> {
     void updateUser(UserBasicInfo userInfo);
 
     /**
+     * 校验原有密码是否正确
+     * @param username
+     * @param password
+     * @return
+     */
+    String checkPassword(String username,String password);
+
+    /**
      * 密码更新操作
      * @param username
-     * @param oldPassword
+     * @param pwdToken
      * @param newPassword
      */
-    void updatePassword(String username, String oldPassword, String newPassword);
+    void updatePassword(String username, String pwdToken, String newPassword);
 }

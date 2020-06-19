@@ -22,6 +22,8 @@ import cn.whitetown.usersecurity.util.LoginUserUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import io.jsonwebtoken.Claims;
+import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,6 +32,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 用户管理服务
@@ -134,13 +138,13 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
     }
 
     /**
-     * 密码变更
+     * 旧有密码校验
      * @param username
      * @param oldPassword
-     * @param newPassword
+     * @return
      */
     @Override
-    public void updatePassword(String username, String oldPassword, String newPassword) {
+    public String checkPassword(String username,String oldPassword) {
         LambdaQueryWrapper<UserBasicInfo> condition = new LambdaQueryWrapper<>();
         condition.eq(UserBasicInfo::getUsername,username)
                 .select(UserBasicInfo::getPassword,UserBasicInfo::getSalt);
@@ -149,6 +153,30 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
         if(!oldPassword.equals(userBasicInfo.getPassword())){
             throw new CustomException(ResponseStatusEnum.OLD_PWD_NOT_RIGHT);
         }
+        Map<String,Object> tokenMap = new HashMap<>(1);
+        tokenMap.put(JwtTokenUtil.USERNAME,username);
+        tokenMap.put(AuthConstant.PWD_TOKEN_TIME,System.currentTimeMillis());
+        String tokenByParams = jwtTokenUtil.createTokenByParams(tokenMap);
+        return tokenByParams;
+    }
+
+    /**
+     * 密码变更
+     * @param username
+     * @param pwdToken
+     * @param newPassword
+     */
+    @Override
+    public void updatePassword(String username, String pwdToken, String newPassword) {
+        Claims claims = jwtTokenUtil.readTokenAsMapParams(pwdToken);
+        String pwdUsername = claims.get(JwtTokenUtil.USERNAME,String.class);
+        Long pwdTokenTime = claims.get(AuthConstant.PWD_TOKEN_TIME,Long.class);
+        if(!username.equals(pwdUsername)){
+            throw new CustomException(ResponseStatusEnum.ERROR_PARAMS);
+        }
+        if(System.currentTimeMillis()-pwdTokenTime > AuthConstant.PWD_TOKEN_EXPIRE_TIME){
+            throw new CustomException(ResponseStatusEnum.CHECK_EXPIRE);
+        }
         String randomSalt = Md5WithSaltUtil.getRandomSalt();
         newPassword = Md5WithSaltUtil.md5Encrypt(newPassword,randomSalt);
         LambdaUpdateWrapper<UserBasicInfo> updateWrapper = new LambdaUpdateWrapper<>();
@@ -156,7 +184,7 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
                 .set(UserBasicInfo::getPassword,newPassword)
                 .set(UserBasicInfo::getSalt,randomSalt);
         this.update(updateWrapper);
-        //如果是登录的个人操作，同步更新内存中的UserDetail数据
+        //如果是登录者的个人操作，同步更新内存中的UserDetail数据
         UserDetails userDetails = userCacheUtil.getUserDetails(AuthConstant.USERDETAIL_PREFIX + username);
         if(userDetails != null){
             UserDetails newUserDetails = new User(username,newPassword,userDetails.getAuthorities());

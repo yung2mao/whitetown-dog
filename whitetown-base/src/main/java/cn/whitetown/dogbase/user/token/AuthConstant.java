@@ -23,6 +23,15 @@ public class AuthConstant {
     public static final String TOKEN_PREFIX = "Bearer";
     public static final String HEADER_STRING = "Authorization";
     public static final String TOKEN_COOKIE_NAME = "token";
+
+    /**
+     * 密码验证返回的密码验证通过标记信息
+     */
+    public static final String PWD_TOKEN_TIME = "tokenCurrentTime";
+    /**
+     * 密码验证通过标记信息有效时长
+     */
+    public static final int PWD_TOKEN_EXPIRE_TIME = 180000;
     /**
      * 存储在内存的UserDetail key值前缀，用于区分存储用户登录使用信息的LoginUser
      */
