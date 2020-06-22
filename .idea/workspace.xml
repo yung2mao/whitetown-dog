@@ -2,12 +2,77 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5360145e-ca5b-4174-869d-915551c68814" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/entity/ao/UserBasicQuery.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/entity/vo/UserBasicInfoVo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/entity/vo/UserDetailInfoVo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/common/entity/ao/PageQuery.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/common/memdata/MultiWhiteExpireMap.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/common/memdata/WhiteExpireMap.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/common/memdata/WhiteExpireMapClean.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/db/annotation/QueryField.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/db/annotation/QueryTable.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/db/config/MybatisPlusConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/db/entity/DataBaseConstant.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/db/factory/BeanTransFactory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/db/factory/DefaultBeanTransFactory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/db/factory/DefaultQueryConditionFactory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/db/factory/QueryConditionFactory.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/db/util/DBConstant.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/controller/DogUserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/controller/DogUserController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/controller/UserManageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/controller/UserManageController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/filter/TokenCheckFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/filter/TokenCheckFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/mappers/UserBasicInfoMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/mappers/UserBasicInfoMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/service/DogUserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/service/DogUserService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/service/UserManageService.java" beforeDir="false" afterPath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/service/UserManageService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/service/impl/DogUserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/service/impl/DogUserServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/service/impl/UserDetailServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/service/impl/UserDetailServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/service/impl/UserManageServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/service/impl/UserManageServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/domain/vo/ResponseStatusEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/domain/vo/ResponseStatusEnum.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/util/DefaultUserCacheUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/util/DefaultUserCacheUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/util/LoginUserUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/util/LoginUserUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/util/securityHandler/AccessFailHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/util/securityHandler/AccessFailHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/util/securityHandler/AuthenticationErrorHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/util/securityHandler/AuthenticationErrorHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dog-auth-user/whitetown-user-single/src/main/java/cn/whitetown/usersingle/controller/CookieLoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dog-auth-user/whitetown-user-single/src/main/java/cn/whitetown/usersingle/controller/CookieLoginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dog-auth-user/whitetown-user-single/src/main/java/cn/whitetown/usersingle/controller/LoginController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dog-auth-user/whitetown-user-single/src/main/java/cn/whitetown/usersingle/controller/LoginController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dog-auth-user/whitetown-user-single/src/main/java/cn/whitetown/usersingle/filter/UserCheckFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/dog-auth-user/whitetown-user-single/src/main/java/cn/whitetown/usersingle/filter/UserCheckFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dog-auth-user/whitetown-user-single/src/main/java/cn/whitetown/usersingle/mappers/UserBasicInfoMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/dog-auth-user/whitetown-user-single/src/main/java/cn/whitetown/usersingle/mappers/UserBasicInfoMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dog-auth-user/whitetown-user-single/src/main/java/cn/whitetown/usersingle/service/LoginService.java" beforeDir="false" afterPath="$PROJECT_DIR$/dog-auth-user/whitetown-user-single/src/main/java/cn/whitetown/usersingle/service/LoginService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dog-auth-user/whitetown-user-single/src/main/java/cn/whitetown/usersingle/service/SessionLoginService.java" beforeDir="false" afterPath="$PROJECT_DIR$/dog-auth-user/whitetown-user-single/src/main/java/cn/whitetown/usersingle/service/SessionLoginService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dog-auth-user/whitetown-user-single/src/main/java/cn/whitetown/usersingle/util/LoginUserUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/dog-auth-user/whitetown-user-single/src/main/java/cn/whitetown/usersingle/util/LoginUserUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dog-auth-user/whitetown-user-single/src/main/resources/mapper/mapper_xml/UserBasicInfoMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/dog-auth-user/whitetown-user-single/src/main/resources/mapper/mapper_xml/UserBasicInfoMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/whitetown-base/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-base/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/config/IDCreateUtilConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/config/IDCreateUtilConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/domain/special/WhiteExpireMap.java" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/common/memdata/SingleWhiteExpireMap.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/domain/special/WhiteExpireMapClean.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/domain/vo/PageResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/common/entity/vo/ResponsePage.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/domain/vo/ResponseData.java" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/common/entity/vo/ResponseData.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/domain/vo/ResponseStatusEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/common/entity/vo/ResponseStatusEnum.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/exception/ControllerExceptionHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/common/exception/ControllerExceptionHandler.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/exception/CustomException.java" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/common/exception/CustomException.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/user/captcha/DefaultCaptchaDataDeal.java" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/user/captcha/DefaultCaptchaDataDeal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/user/captcha/KapCaptchaDataDeal.java" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/user/captcha/KapCaptchaDataDeal.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/user/entity/AbstractUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/user/entity/AbstractUser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/user/entity/LoginUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/user/entity/vo/LoginUser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/user/entity/UserBasicInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/user/entity/po/UserBasicInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/user/entity/UserRole.java" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/user/entity/UserRole.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/user/entity/UserRoleRelation.java" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/user/entity/UserRoleRelation.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/user/token/AuthConstant.java" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/user/token/AuthConstant.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/user/token/JwtTokenUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/user/token/JwtTokenUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/user/util/UserCacheUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/user/util/UserCacheUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/util/Charsets.java" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/common/util/Charsets.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/util/DataCheckUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/common/util/DataCheckUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/util/FormatUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/common/util/FormatUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/util/SnowIDCreateUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/common/util/SnowIDCreateUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/util/WebUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/common/util/WebUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/util/WhiteLambdaQueryWrapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/db/entity/WhiteLambdaQueryWrapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/util/WhiteToolUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/common/util/WhiteToolUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/util/secret/MD5Util.java" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/common/util/secret/MD5Util.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/util/secret/Md5WithSaltUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/common/util/secret/Md5WithSaltUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/util/secret/ToolUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/common/util/secret/ToolUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/util/secret/ValidateUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/common/util/secret/ValidateUtil.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/java/cn/whitetown/dog/config/DogStartConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/java/cn/whitetown/dog/config/DogStartConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/main/java/cn/whitetown/dog/schedule/WhiteExpireMapTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-dog-main/src/main/java/cn/whitetown/dog/schedule/WhiteExpireMapTask.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,11 +82,15 @@
   <component name="CodeStyleSettingsInfer">
     <option name="done" value="true" />
   </component>
+  <component name="FavoritesManager">
+    <favorites_list name="whitetown-dog" />
+  </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
+        <option value="AnnotationType" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -72,26 +141,26 @@
     <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
   </component>
   <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/config" />
+      <recent name="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/entity/vo" />
+      <recent name="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/util" />
+      <recent name="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/resources/mapper/mapper_xml" />
+      <recent name="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/js" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="cn.whitetown.usersecurity.entity.ao" />
+      <recent name="cn.whitetown.dogbase.user.util" />
+      <recent name="cn.whitetown.dogbase.viewmodule" />
+      <recent name="cn.whitetown.usersecurity.util" />
+      <recent name="cn.whitetown.usersingle.util" />
+    </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/images" />
       <recent name="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui" />
       <recent name="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/layui/lay" />
       <recent name="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static" />
       <recent name="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/css" />
-    </key>
-    <key name="CopyClassDialog.RECENTS_KEY">
-      <recent name="cn.whitetown.dogbase.user.util" />
-      <recent name="cn.whitetown.dogbase.viewmodule" />
-      <recent name="cn.whitetown.usersecurity.util" />
-      <recent name="cn.whitetown.usersingle.util" />
-      <recent name="cn.whitetown.usersingle.mappers" />
-    </key>
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/config" />
-      <recent name="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/util" />
-      <recent name="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/resources/mapper/mapper_xml" />
-      <recent name="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/js" />
-      <recent name="$PROJECT_DIR$/whitetown-dog-main/src/main/resources/static/login" />
     </key>
   </component>
   <component name="RunManager">
@@ -148,7 +217,8 @@
       <workItem from="1591795405565" duration="9420000" />
       <workItem from="1591971724620" duration="12979000" />
       <workItem from="1592030662170" duration="17913000" />
-      <workItem from="1592270590439" duration="40211000" />
+      <workItem from="1592270590439" duration="40350000" />
+      <workItem from="1592633878199" duration="29373000" />
     </task>
     <task id="LOCAL-00001" summary="create white town dog">
       <created>1591019808054</created>
@@ -199,7 +269,14 @@
       <option name="project" value="LOCAL" />
       <updated>1592487863509</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="update user module">
+      <created>1592580497388</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1592580497390</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -218,86 +295,86 @@
       <screen x="0" y="23" width="1440" height="790" />
     </state>
     <state x="320" y="83" key="#Project_Structure/0.23.1440.790@0.23.1440.790" timestamp="1592015060231" />
-    <state x="184" y="80" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1592579693790">
+    <state x="184" y="80" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1592726575024">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state x="184" y="80" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1440.790@0.23.1440.790" timestamp="1592579693790" />
-    <state x="533" y="134" key="#com.intellij.ide.util.MemberChooser" timestamp="1592578194066">
+    <state x="184" y="80" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1440.790@0.23.1440.790" timestamp="1592726575024" />
+    <state x="533" y="134" key="#com.intellij.ide.util.MemberChooser" timestamp="1592837550950">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state x="533" y="134" key="#com.intellij.ide.util.MemberChooser/0.23.1440.790@0.23.1440.790" timestamp="1592578194066" />
-    <state x="83" y="350" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog" timestamp="1592036269898">
+    <state x="533" y="134" key="#com.intellij.ide.util.MemberChooser/0.23.1440.790@0.23.1440.790" timestamp="1592837550950" />
+    <state x="83" y="350" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog" timestamp="1592727344299">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state x="83" y="350" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/0.23.1440.790@0.23.1440.790" timestamp="1592036269898" />
-    <state x="346" y="23" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1592463472240">
+    <state x="83" y="350" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog/0.23.1440.790@0.23.1440.790" timestamp="1592727344299" />
+    <state x="346" y="23" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog" timestamp="1592724079163">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state x="346" y="23" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.23.1440.790@0.23.1440.790" timestamp="1592463472240" />
-    <state x="103" y="23" key="CommitChangelistDialog2" timestamp="1592487861688">
+    <state x="346" y="23" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.23.1440.790@0.23.1440.790" timestamp="1592724079163" />
+    <state x="103" y="23" key="CommitChangelistDialog2" timestamp="1592580495014">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state x="103" y="23" key="CommitChangelistDialog2/0.23.1440.790@0.23.1440.790" timestamp="1592487861688" />
+    <state x="103" y="23" key="CommitChangelistDialog2/0.23.1440.790@0.23.1440.790" timestamp="1592580495014" />
     <state x="141" y="23" key="CommitChangelistDialog2/0.23.1440.793@0.23.1440.793" timestamp="1592125968603" />
-    <state width="1398" height="174" key="GridCell.Tab.0.bottom" timestamp="1592580361533">
+    <state width="1398" height="174" key="GridCell.Tab.0.bottom" timestamp="1592838596466">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state width="1398" height="174" key="GridCell.Tab.0.bottom/0.23.1440.790@0.23.1440.790" timestamp="1592580361533" />
+    <state width="1398" height="174" key="GridCell.Tab.0.bottom/0.23.1440.790@0.23.1440.790" timestamp="1592838596466" />
     <state width="1398" height="174" key="GridCell.Tab.0.bottom/0.23.1440.793@0.23.1440.793" timestamp="1592125877015" />
-    <state width="1398" height="174" key="GridCell.Tab.0.center" timestamp="1592580361532">
+    <state width="1398" height="174" key="GridCell.Tab.0.center" timestamp="1592838596465">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state width="1398" height="174" key="GridCell.Tab.0.center/0.23.1440.790@0.23.1440.790" timestamp="1592580361532" />
+    <state width="1398" height="174" key="GridCell.Tab.0.center/0.23.1440.790@0.23.1440.790" timestamp="1592838596465" />
     <state width="1398" height="174" key="GridCell.Tab.0.center/0.23.1440.793@0.23.1440.793" timestamp="1592125877013" />
-    <state width="1398" height="174" key="GridCell.Tab.0.left" timestamp="1592580361531">
+    <state width="1398" height="174" key="GridCell.Tab.0.left" timestamp="1592838596465">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state width="1398" height="174" key="GridCell.Tab.0.left/0.23.1440.790@0.23.1440.790" timestamp="1592580361531" />
+    <state width="1398" height="174" key="GridCell.Tab.0.left/0.23.1440.790@0.23.1440.790" timestamp="1592838596465" />
     <state width="1398" height="174" key="GridCell.Tab.0.left/0.23.1440.793@0.23.1440.793" timestamp="1592125877011" />
-    <state width="1398" height="174" key="GridCell.Tab.0.right" timestamp="1592580361533">
+    <state width="1398" height="174" key="GridCell.Tab.0.right" timestamp="1592838596466">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state width="1398" height="174" key="GridCell.Tab.0.right/0.23.1440.790@0.23.1440.790" timestamp="1592580361533" />
+    <state width="1398" height="174" key="GridCell.Tab.0.right/0.23.1440.790@0.23.1440.790" timestamp="1592838596466" />
     <state width="1398" height="174" key="GridCell.Tab.0.right/0.23.1440.793@0.23.1440.793" timestamp="1592125877014" />
-    <state width="1398" height="174" key="GridCell.Tab.1.bottom" timestamp="1592580361098">
+    <state width="1398" height="174" key="GridCell.Tab.1.bottom" timestamp="1592838595689">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state width="1398" height="174" key="GridCell.Tab.1.bottom/0.23.1440.790@0.23.1440.790" timestamp="1592580361098" />
+    <state width="1398" height="174" key="GridCell.Tab.1.bottom/0.23.1440.790@0.23.1440.790" timestamp="1592838595689" />
     <state width="1398" height="174" key="GridCell.Tab.1.bottom/0.23.1440.793@0.23.1440.793" timestamp="1592125876286" />
-    <state width="1398" height="174" key="GridCell.Tab.1.center" timestamp="1592580361096">
+    <state width="1398" height="174" key="GridCell.Tab.1.center" timestamp="1592838595687">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state width="1398" height="174" key="GridCell.Tab.1.center/0.23.1440.790@0.23.1440.790" timestamp="1592580361096" />
+    <state width="1398" height="174" key="GridCell.Tab.1.center/0.23.1440.790@0.23.1440.790" timestamp="1592838595687" />
     <state width="1398" height="174" key="GridCell.Tab.1.center/0.23.1440.793@0.23.1440.793" timestamp="1592125876279" />
-    <state width="1398" height="174" key="GridCell.Tab.1.left" timestamp="1592580361094">
+    <state width="1398" height="174" key="GridCell.Tab.1.left" timestamp="1592838595686">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state width="1398" height="174" key="GridCell.Tab.1.left/0.23.1440.790@0.23.1440.790" timestamp="1592580361094" />
+    <state width="1398" height="174" key="GridCell.Tab.1.left/0.23.1440.790@0.23.1440.790" timestamp="1592838595686" />
     <state width="1398" height="174" key="GridCell.Tab.1.left/0.23.1440.793@0.23.1440.793" timestamp="1592125876278" />
-    <state width="1398" height="174" key="GridCell.Tab.1.right" timestamp="1592580361097">
+    <state width="1398" height="174" key="GridCell.Tab.1.right" timestamp="1592838595688">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state width="1398" height="174" key="GridCell.Tab.1.right/0.23.1440.790@0.23.1440.790" timestamp="1592580361097" />
+    <state width="1398" height="174" key="GridCell.Tab.1.right/0.23.1440.790@0.23.1440.790" timestamp="1592838595688" />
     <state width="1398" height="174" key="GridCell.Tab.1.right/0.23.1440.793@0.23.1440.793" timestamp="1592125876285" />
-    <state width="1398" height="174" key="GridCell.Tab.2.bottom" timestamp="1592580361100">
+    <state width="1398" height="174" key="GridCell.Tab.2.bottom" timestamp="1592838595692">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state width="1398" height="174" key="GridCell.Tab.2.bottom/0.23.1440.790@0.23.1440.790" timestamp="1592580361100" />
+    <state width="1398" height="174" key="GridCell.Tab.2.bottom/0.23.1440.790@0.23.1440.790" timestamp="1592838595692" />
     <state width="1398" height="174" key="GridCell.Tab.2.bottom/0.23.1440.793@0.23.1440.793" timestamp="1592125876291" />
-    <state width="1398" height="174" key="GridCell.Tab.2.center" timestamp="1592580361099">
+    <state width="1398" height="174" key="GridCell.Tab.2.center" timestamp="1592838595690">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state width="1398" height="174" key="GridCell.Tab.2.center/0.23.1440.790@0.23.1440.790" timestamp="1592580361099" />
+    <state width="1398" height="174" key="GridCell.Tab.2.center/0.23.1440.790@0.23.1440.790" timestamp="1592838595690" />
     <state width="1398" height="174" key="GridCell.Tab.2.center/0.23.1440.793@0.23.1440.793" timestamp="1592125876288" />
-    <state width="1398" height="174" key="GridCell.Tab.2.left" timestamp="1592580361098">
+    <state width="1398" height="174" key="GridCell.Tab.2.left" timestamp="1592838595689">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state width="1398" height="174" key="GridCell.Tab.2.left/0.23.1440.790@0.23.1440.790" timestamp="1592580361098" />
+    <state width="1398" height="174" key="GridCell.Tab.2.left/0.23.1440.790@0.23.1440.790" timestamp="1592838595689" />
     <state width="1398" height="174" key="GridCell.Tab.2.left/0.23.1440.793@0.23.1440.793" timestamp="1592125876288" />
-    <state width="1398" height="174" key="GridCell.Tab.2.right" timestamp="1592580361099">
+    <state width="1398" height="174" key="GridCell.Tab.2.right" timestamp="1592838595691">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state width="1398" height="174" key="GridCell.Tab.2.right/0.23.1440.790@0.23.1440.790" timestamp="1592580361099" />
+    <state width="1398" height="174" key="GridCell.Tab.2.right/0.23.1440.790@0.23.1440.790" timestamp="1592838595691" />
     <state width="1398" height="174" key="GridCell.Tab.2.right/0.23.1440.793@0.23.1440.793" timestamp="1592125876290" />
     <state x="144" y="91" key="MergeDialog" timestamp="1591111565693">
       <screen x="0" y="23" width="1440" height="790" />
@@ -312,10 +389,10 @@
     </state>
     <state x="215" y="34" key="SettingsEditor/0.23.1440.790@0.23.1440.790" timestamp="1592270477600" />
     <state x="208" y="23" key="SettingsEditor/0.23.1440.793@0.23.1440.793" timestamp="1590895506465" />
-    <state x="320" y="158" key="Vcs.Push.Dialog.v2" timestamp="1592487972341">
+    <state x="320" y="158" key="Vcs.Push.Dialog.v2" timestamp="1592580514878">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state x="320" y="158" key="Vcs.Push.Dialog.v2/0.23.1440.790@0.23.1440.790" timestamp="1592487972341" />
+    <state x="320" y="158" key="Vcs.Push.Dialog.v2/0.23.1440.790@0.23.1440.790" timestamp="1592580514878" />
     <state x="320" y="159" key="Vcs.Push.Dialog.v2/0.23.1440.793@0.23.1440.793" timestamp="1592125985059" />
     <state x="398" y="216" key="git4idea.merge.GitPullDialog" timestamp="1591111534181">
       <screen x="0" y="23" width="1440" height="790" />

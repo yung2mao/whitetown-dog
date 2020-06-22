@@ -1,6 +1,9 @@
 package cn.whitetown.usersecurity.service;
 
-import cn.whitetown.dogbase.user.entity.UserBasicInfo;
+import cn.whitetown.dogbase.common.entity.vo.ResponsePage;
+import cn.whitetown.dogbase.user.entity.po.UserBasicInfo;
+import cn.whitetown.usersecurity.entity.ao.UserBasicQuery;
+import cn.whitetown.usersecurity.entity.vo.UserBasicInfoVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -9,6 +12,14 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @date 2020/06/17 20:48
  **/
 public interface UserManageService extends IService<UserBasicInfo> {
+
+    /**
+     * 条件查询用户信息
+     * @param userQuery
+     * @return
+     */
+    ResponsePage<UserBasicInfoVo> queryUserBasicList(UserBasicQuery userQuery);
+
     /**
      * 分配用户/注册用户
      * @param username
@@ -22,6 +33,12 @@ public interface UserManageService extends IService<UserBasicInfo> {
      * @param userInfo
      */
     void updateUser(UserBasicInfo userInfo);
+
+    /**
+     * 密码重置操作
+     * @param username
+     */
+    void retryPassword(String username);
 
     /**
      * 校验原有密码是否正确
@@ -38,4 +55,5 @@ public interface UserManageService extends IService<UserBasicInfo> {
      * @param newPassword
      */
     void updatePassword(String username, String pwdToken, String newPassword);
+
 }

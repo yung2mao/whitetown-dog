@@ -1,6 +1,6 @@
 package cn.whitetown.usersingle.mappers;
 
-import cn.whitetown.dogbase.user.entity.UserBasicInfo;
+import cn.whitetown.dogbase.user.entity.po.UserBasicInfo;
 import cn.whitetown.dogbase.user.entity.UserRole;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 

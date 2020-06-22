@@ -1,10 +1,8 @@
 package cn.whitetown.usersecurity.service.impl;
 
-import cn.whitetown.dogbase.domain.special.WhiteExpireMap;
-import cn.whitetown.dogbase.domain.vo.ResponseStatusEnum;
-import cn.whitetown.dogbase.exception.CustomException;
-import cn.whitetown.dogbase.user.entity.LoginUser;
-import cn.whitetown.dogbase.user.entity.UserBasicInfo;
+import cn.whitetown.dogbase.common.entity.vo.ResponseStatusEnum;
+import cn.whitetown.dogbase.common.exception.CustomException;
+import cn.whitetown.dogbase.user.entity.po.UserBasicInfo;
 import cn.whitetown.dogbase.user.token.AuthConstant;
 import cn.whitetown.dogbase.user.token.JwtTokenUtil;
 import cn.whitetown.dogbase.user.util.UserCacheUtil;
@@ -12,21 +10,15 @@ import cn.whitetown.usersecurity.mappers.UserBasicInfoMapper;
 import cn.whitetown.usersecurity.service.DefaultUserDetailService;
 import cn.whitetown.usersecurity.util.LoginUserUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import io.jsonwebtoken.Claims;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestAttributes;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
 import java.util.List;
 

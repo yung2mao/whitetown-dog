@@ -1,16 +1,16 @@
 package cn.whitetown.usersecurity.service.impl;
 
-import cn.whitetown.dogbase.domain.vo.ResponseStatusEnum;
-import cn.whitetown.dogbase.exception.CustomException;
+import cn.whitetown.dogbase.common.entity.vo.ResponseStatusEnum;
+import cn.whitetown.dogbase.common.exception.CustomException;
 import cn.whitetown.dogbase.user.captcha.CaptchaDataDeal;
-import cn.whitetown.dogbase.user.entity.LoginUser;
-import cn.whitetown.dogbase.user.entity.UserBasicInfo;
+import cn.whitetown.dogbase.user.entity.vo.LoginUser;
+import cn.whitetown.dogbase.user.entity.po.UserBasicInfo;
 import cn.whitetown.dogbase.user.entity.UserRole;
 import cn.whitetown.dogbase.user.token.AuthConstant;
 import cn.whitetown.dogbase.user.token.JwtTokenUtil;
-import cn.whitetown.dogbase.util.DataCheckUtil;
-import cn.whitetown.dogbase.util.WhiteLambdaQueryWrapper;
-import cn.whitetown.dogbase.util.secret.Md5WithSaltUtil;
+import cn.whitetown.dogbase.common.util.DataCheckUtil;
+import cn.whitetown.dogbase.db.entity.WhiteLambdaQueryWrapper;
+import cn.whitetown.dogbase.common.util.secret.Md5WithSaltUtil;
 import cn.whitetown.usersecurity.mappers.UserBasicInfoMapper;
 import cn.whitetown.usersecurity.service.DogUserService;
 import cn.whitetown.usersecurity.util.DefaultUserCacheUtil;
@@ -18,7 +18,6 @@ import cn.whitetown.usersecurity.util.LoginUserUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -79,11 +78,12 @@ public class DogUserServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserBasi
         if(DataCheckUtil.checkTextNullBool(username) || DataCheckUtil.checkTextNullBool(password)){
             throw new CustomException(ResponseStatusEnum.AUTH_REQUEST_ERROR);
         }
-        LambdaQueryWrapper<UserBasicInfo> condition = new LambdaQueryWrapper<>();
-        condition.eq(UserBasicInfo::getUsername,username);
-        UserBasicInfo user = userMapper.selectOne(condition);
+        UserBasicInfo user = this.selectUserByUsername(username);
         if(user==null){
             throw new CustomException(ResponseStatusEnum.AUTH_REQUEST_ERROR);
+        }
+        if(user.getUserStatus()==1){
+            throw new CustomException(ResponseStatusEnum.ACCOUNT_FREEZED);
         }
         String salt = user.getSalt();
         String md5WithSalt = Md5WithSaltUtil.md5Encrypt(password,salt);
@@ -127,9 +127,7 @@ public class DogUserServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserBasi
         String username = jwtTokenUtil.getUsername();
         LoginUser user = userCacheUtil.getUserBasicInfo(username);
         if(user ==null){
-            LambdaQueryWrapper<UserBasicInfo> condition = new LambdaQueryWrapper<>();
-            condition.eq(UserBasicInfo::getUsername,username);
-            UserBasicInfo userBasic = userMapper.selectOne(condition);
+            UserBasicInfo userBasic = this.selectUserByUsername(username);
             if(userBasic==null){
                 throw new CustomException(ResponseStatusEnum.TOKEN_EXPIRED);
             }
@@ -161,6 +159,17 @@ public class DogUserServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserBasi
         updateCondition.eq(UserBasicInfo::getUsername,username);
         updateCondition.set(UserBasicInfo::getUserVersion,newVersion);
         this.update(updateCondition);
+    }
 
+    /**
+     * 通过用户名搜索用户信息
+     * @param username
+     * @return
+     */
+    private UserBasicInfo selectUserByUsername(String username){
+        LambdaQueryWrapper<UserBasicInfo> condition = new LambdaQueryWrapper<>();
+        condition.eq(UserBasicInfo::getUsername,username)
+                .in(UserBasicInfo::getUserStatus,0,1);
+        return userMapper.selectOne(condition);
     }
 }

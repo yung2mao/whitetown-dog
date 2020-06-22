@@ -1,7 +1,6 @@
 package cn.whitetown.dogbase.user.util;
 
-import cn.whitetown.dogbase.user.entity.LoginUser;
-import cn.whitetown.dogbase.user.entity.UserBasicInfo;
+import cn.whitetown.dogbase.user.entity.vo.LoginUser;
 import org.springframework.security.core.userdetails.UserDetails;
 
 /**

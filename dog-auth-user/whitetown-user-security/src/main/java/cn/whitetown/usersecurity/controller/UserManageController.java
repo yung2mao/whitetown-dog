@@ -1,25 +1,24 @@
 package cn.whitetown.usersecurity.controller;
 
-import cn.whitetown.dogbase.domain.vo.ResponseData;
-import cn.whitetown.dogbase.domain.vo.ResponseStatusEnum;
-import cn.whitetown.dogbase.exception.CustomException;
-import cn.whitetown.dogbase.user.entity.UserBasicInfo;
+import cn.whitetown.dogbase.common.entity.vo.ResponseData;
+import cn.whitetown.dogbase.common.entity.vo.ResponsePage;
+import cn.whitetown.dogbase.common.entity.vo.ResponseStatusEnum;
+import cn.whitetown.dogbase.common.exception.CustomException;
+import cn.whitetown.dogbase.user.entity.po.UserBasicInfo;
 import cn.whitetown.dogbase.user.token.AuthConstant;
 import cn.whitetown.dogbase.user.token.JwtTokenUtil;
-import cn.whitetown.dogbase.util.DataCheckUtil;
-import cn.whitetown.dogbase.util.FormatUtil;
+import cn.whitetown.dogbase.common.util.DataCheckUtil;
+import cn.whitetown.dogbase.common.util.WhiteToolUtil;
+import cn.whitetown.usersecurity.entity.ao.UserBasicQuery;
+import cn.whitetown.usersecurity.entity.vo.UserBasicInfoVo;
 import cn.whitetown.usersecurity.service.UserManageService;
 import com.alibaba.fastjson.JSONObject;
-import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
-import javax.xml.crypto.Data;
+import javax.validation.constraints.NotBlank;
 
 /**
  * 用户管理
@@ -28,9 +27,26 @@ import javax.xml.crypto.Data;
  **/
 @RestController
 @RequestMapping("/user")
+@Validated
 public class UserManageController {
     @Autowired
     private UserManageService service;
+
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+
+    /**
+     * 分页查询用户信息
+     * @param userQuery
+     * @return
+     */
+    @GetMapping("/pageUser")
+    public ResponseData<ResponsePage<UserBasicInfoVo>> queryUserList(UserBasicQuery userQuery){
+        WhiteToolUtil.defaultPage(userQuery);
+        ResponsePage<UserBasicInfoVo> result =  service.queryUserBasicList(userQuery);
+        return ResponseData.ok(result);
+    }
+
     /**
      * 新增用户操作 - 只需填写用户基本的信息即可
      * 必须按参数 username password
@@ -43,6 +59,9 @@ public class UserManageController {
         String username = params.getString("username");
         String password = params.getString("password");
         String roleName = params.getString("roleName");
+        if(DataCheckUtil.checkTextNullBool(password)){
+            password = AuthConstant.DEFAULT_PWD;
+        }
         if(DataCheckUtil.checkTextNullBool(roleName)){
             roleName = AuthConstant.DEFAULT_ROLE;
         }
@@ -63,37 +82,64 @@ public class UserManageController {
     }
 
     /**
-     * 校验原有密码
+     * 重置密码操作
+     * 配置权限时只允许 - 超级管理员操作
+     * @param username
+     * @return
+     */
+    @GetMapping("/retryPwd")
+    public ResponseData retryPassword(@NotBlank String username){
+        service.retryPassword(username);
+        return ResponseData.ok();
+    }
+
+    /**
+     * 校验登录用户的原有密码
      * @param jsonObject
      * @return
      */
     @PostMapping(value = "pwdCheck",produces = "application/json;charset=UTF-8")
     public ResponseData<String> checkPassword(@RequestBody JSONObject jsonObject){
-        String username = (String)jsonObject.get("username");
         String password = (String)jsonObject.get("password");
-        if(DataCheckUtil.checkTextNullBool(username) || DataCheckUtil.checkTextNullBool(password)){
+        if(DataCheckUtil.checkTextNullBool(password)){
             throw new CustomException(ResponseStatusEnum.OLD_PWD_NOT_RIGHT);
         }
+        String username = jwtTokenUtil.getUsername();
         String pwdToken = service.checkPassword(username,password);
         return ResponseData.ok(pwdToken);
     }
 
     /**
-     * 密码更新操作
-     * 参数包括 username / oldPassword / newPassword
+     * 登录用户个人操作实现密码更新
+     * 参数包括 pwdToken / newPassword
      * @param jsonObject
      * @return
      */
     @PostMapping(value = "pwdChange",produces = "application/json;charset=UTF-8")
     public ResponseData updatePassword(@RequestBody JSONObject jsonObject){
-        String username = jsonObject.getString("username");
         String pwdToken = jsonObject.getString("pwdToken");
         String newPassword = jsonObject.getString("newPassword");
-        if(DataCheckUtil.checkTextNullBool(username) || DataCheckUtil.checkTextNullBool(pwdToken) ||
+        if(DataCheckUtil.checkTextNullBool(pwdToken) ||
             DataCheckUtil.checkTextNullBool(newPassword)){
             throw new CustomException(ResponseStatusEnum.ERROR_PARAMS);
         }
+        String username = jwtTokenUtil.getUsername();
         service.updatePassword(username,pwdToken,newPassword);
         return ResponseData.ok();
+    }
+
+    /**
+     * 用户状态变更
+     * userStatus
+     * 0 - 启用
+     * 1 - 停用
+     * 2 - 删除
+     * @param username
+     * @return
+     */
+    @GetMapping("/active")
+    public ResponseData userActiveControl(String username,Integer userStatus){
+        System.out.println(username+","+userStatus);
+        return null;
     }
 }

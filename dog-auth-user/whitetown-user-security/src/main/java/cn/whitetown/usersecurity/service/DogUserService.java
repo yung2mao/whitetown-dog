@@ -1,8 +1,7 @@
 package cn.whitetown.usersecurity.service;
 
-import cn.whitetown.dogbase.user.entity.LoginUser;
-import cn.whitetown.dogbase.user.entity.UserBasicInfo;
-import cn.whitetown.usersecurity.mappers.UserBasicInfoMapper;
+import cn.whitetown.dogbase.user.entity.vo.LoginUser;
+import cn.whitetown.dogbase.user.entity.po.UserBasicInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

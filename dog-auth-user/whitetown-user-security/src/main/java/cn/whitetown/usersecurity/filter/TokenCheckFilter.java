@@ -1,9 +1,9 @@
 package cn.whitetown.usersecurity.filter;
 
-import cn.whitetown.dogbase.domain.vo.ResponseData;
-import cn.whitetown.dogbase.exception.CustomException;
+import cn.whitetown.dogbase.common.entity.vo.ResponseData;
+import cn.whitetown.dogbase.common.exception.CustomException;
 import cn.whitetown.dogbase.user.token.JwtTokenUtil;
-import cn.whitetown.dogbase.util.DataCheckUtil;
+import cn.whitetown.dogbase.common.util.DataCheckUtil;
 import cn.whitetown.usersecurity.service.impl.UserDetailServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

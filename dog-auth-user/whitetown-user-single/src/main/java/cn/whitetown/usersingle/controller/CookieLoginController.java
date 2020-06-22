@@ -1,13 +1,13 @@
 package cn.whitetown.usersingle.controller;
 
-import cn.whitetown.dogbase.domain.vo.ResponseData;
-import cn.whitetown.dogbase.domain.vo.ResponseStatusEnum;
-import cn.whitetown.dogbase.exception.CustomException;
+import cn.whitetown.dogbase.common.entity.vo.ResponseData;
+import cn.whitetown.dogbase.common.entity.vo.ResponseStatusEnum;
+import cn.whitetown.dogbase.common.exception.CustomException;
 import cn.whitetown.dogbase.user.captcha.CaptchaDataDeal;
-import cn.whitetown.dogbase.user.entity.LoginUser;
+import cn.whitetown.dogbase.user.entity.vo.LoginUser;
 import cn.whitetown.dogbase.user.token.AuthConstant;
-import cn.whitetown.dogbase.util.DataCheckUtil;
-import cn.whitetown.dogbase.util.WebUtil;
+import cn.whitetown.dogbase.common.util.DataCheckUtil;
+import cn.whitetown.dogbase.common.util.WebUtil;
 import cn.whitetown.usersingle.service.LoginService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

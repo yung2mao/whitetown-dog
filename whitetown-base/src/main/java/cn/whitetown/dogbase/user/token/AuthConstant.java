@@ -25,6 +25,10 @@ public class AuthConstant {
     public static final String TOKEN_COOKIE_NAME = "token";
 
     /**
+     * 初始密码
+     */
+    public static final String DEFAULT_PWD = "123456";
+    /**
      * 密码验证返回的密码验证通过标记信息
      */
     public static final String PWD_TOKEN_TIME = "tokenCurrentTime";

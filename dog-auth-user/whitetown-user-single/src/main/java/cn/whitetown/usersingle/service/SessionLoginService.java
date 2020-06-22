@@ -1,16 +1,17 @@
 package cn.whitetown.usersingle.service;
 
-import cn.whitetown.dogbase.domain.special.WhiteExpireMap;
-import cn.whitetown.dogbase.domain.vo.ResponseStatusEnum;
-import cn.whitetown.dogbase.exception.CustomException;
-import cn.whitetown.dogbase.user.entity.LoginUser;
-import cn.whitetown.dogbase.user.entity.UserBasicInfo;
+import cn.whitetown.dogbase.common.memdata.SingleWhiteExpireMap;
+import cn.whitetown.dogbase.common.entity.vo.ResponseStatusEnum;
+import cn.whitetown.dogbase.common.exception.CustomException;
+import cn.whitetown.dogbase.common.memdata.WhiteExpireMap;
+import cn.whitetown.dogbase.user.entity.vo.LoginUser;
+import cn.whitetown.dogbase.user.entity.po.UserBasicInfo;
 import cn.whitetown.dogbase.user.entity.UserRole;
 import cn.whitetown.dogbase.user.token.AuthConstant;
 import cn.whitetown.dogbase.user.token.JwtTokenUtil;
-import cn.whitetown.dogbase.util.DataCheckUtil;
-import cn.whitetown.dogbase.util.FormatUtil;
-import cn.whitetown.dogbase.util.secret.MD5WithSaltUtil;
+import cn.whitetown.dogbase.common.util.DataCheckUtil;
+import cn.whitetown.dogbase.common.util.FormatUtil;
+import cn.whitetown.dogbase.common.util.secret.Md5WithSaltUtil;
 import cn.whitetown.usersingle.mappers.UserBasicInfoMapper;
 import cn.whitetown.usersingle.util.LoginUserUtil;
 import io.jsonwebtoken.Claims;
@@ -54,7 +55,7 @@ public class SessionLoginService implements LoginService {
             throw new CustomException(ResponseStatusEnum.AUTH_REQUEST_ERROR);
         }
         String salt = user.getSalt();
-        String md5WithSalt = MD5WithSaltUtil.md5Encrypt(password,salt);
+        String md5WithSalt = Md5WithSaltUtil.md5Encrypt(password,salt);
 
         if(!user.getPassword().equals(md5WithSalt)){
             throw new CustomException(ResponseStatusEnum.AUTH_REQUEST_ERROR);
@@ -120,7 +121,7 @@ public class SessionLoginService implements LoginService {
     @Override
     public LoginUser getUserInfo(String token){
         String username = getUsernameByToken(token);
-        LoginUser user = (LoginUser)whiteExpireMap.get(username);
+        LoginUser user = (LoginUser) whiteExpireMap.get(username);
         if(user ==null){
             UserBasicInfo userBasic = userMapper.selectUserByUsername(username);
             if(userBasic==null){

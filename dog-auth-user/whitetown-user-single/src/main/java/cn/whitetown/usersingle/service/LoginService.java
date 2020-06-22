@@ -1,7 +1,6 @@
 package cn.whitetown.usersingle.service;
 
-import cn.whitetown.dogbase.user.entity.LoginUser;
-import cn.whitetown.dogbase.user.entity.UserBasicInfo;
+import cn.whitetown.dogbase.user.entity.vo.LoginUser;
 
 /**
  * @author GrainRain

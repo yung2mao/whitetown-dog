@@ -1,6 +1,6 @@
 package cn.whitetown.dogbase.config;
 
-import cn.whitetown.dogbase.util.SnowIDCreateUtil;
+import cn.whitetown.dogbase.common.util.SnowIDCreateUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

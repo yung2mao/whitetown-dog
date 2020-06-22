@@ -1,7 +1,8 @@
 package cn.whitetown.dog.schedule;
 
-import cn.whitetown.dogbase.domain.special.WhiteExpireMap;
-import cn.whitetown.dogbase.domain.special.WhiteExpireMapClean;
+import cn.whitetown.dogbase.common.memdata.SingleWhiteExpireMap;
+import cn.whitetown.dogbase.common.memdata.WhiteExpireMap;
+import cn.whitetown.dogbase.common.memdata.WhiteExpireMapClean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -30,7 +31,7 @@ public class WhiteExpireMapTask implements WhiteExpireMapClean {
      * 定时扫描过期数据
      * @return
      */
-    @Scheduled(fixedDelay = 5000)
+    @Scheduled(initialDelay = 2000,fixedDelay = 60000)
     public void run(){
         this.scanAndClean(whiteExpireMap);
     }

@@ -1,8 +1,7 @@
 package cn.whitetown.usersingle.controller;
 
-import cn.whitetown.dogbase.domain.vo.ResponseData;
-import cn.whitetown.dogbase.user.entity.LoginUser;
-import cn.whitetown.dogbase.user.entity.UserBasicInfo;
+import cn.whitetown.dogbase.common.entity.vo.ResponseData;
+import cn.whitetown.dogbase.user.entity.vo.LoginUser;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

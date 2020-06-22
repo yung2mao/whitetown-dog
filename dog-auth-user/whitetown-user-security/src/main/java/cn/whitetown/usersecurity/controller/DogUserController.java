@@ -1,9 +1,9 @@
 package cn.whitetown.usersecurity.controller;
 
-import cn.whitetown.dogbase.domain.vo.ResponseData;
+import cn.whitetown.dogbase.common.entity.vo.ResponseData;
 import cn.whitetown.dogbase.user.captcha.DefaultCaptchaDataDeal;
-import cn.whitetown.dogbase.user.entity.LoginUser;
-import cn.whitetown.dogbase.util.WebUtil;
+import cn.whitetown.dogbase.user.entity.vo.LoginUser;
+import cn.whitetown.dogbase.common.util.WebUtil;
 import cn.whitetown.usersecurity.service.DogUserService;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.logging.Log;

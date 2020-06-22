@@ -79,7 +79,17 @@
       <artifactId>spring-boot-starter-security</artifactId>
       <scope>provided</scope>
     </dependency>
+    <!--bean转换-->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-beans</artifactId>
+    </dependency>
 
+    <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+    </dependency>
 
     <dependency>
       <groupId>junit</groupId>

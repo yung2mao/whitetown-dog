@@ -1,6 +1,6 @@
 package cn.whitetown.dogbase.user.captcha;
 
-import cn.whitetown.dogbase.domain.special.WhiteExpireMap;
+import cn.whitetown.dogbase.common.memdata.WhiteExpireMap;
 import cn.whitetown.dogbase.user.token.AuthConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 

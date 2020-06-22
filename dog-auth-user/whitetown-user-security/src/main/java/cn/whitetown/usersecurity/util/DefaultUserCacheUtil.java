@@ -1,7 +1,7 @@
 package cn.whitetown.usersecurity.util;
 
-import cn.whitetown.dogbase.domain.special.WhiteExpireMap;
-import cn.whitetown.dogbase.user.entity.LoginUser;
+import cn.whitetown.dogbase.common.memdata.WhiteExpireMap;
+import cn.whitetown.dogbase.user.entity.vo.LoginUser;
 import cn.whitetown.dogbase.user.token.AuthConstant;
 import cn.whitetown.dogbase.user.util.UserCacheUtil;
 import org.springframework.beans.factory.annotation.Autowired;

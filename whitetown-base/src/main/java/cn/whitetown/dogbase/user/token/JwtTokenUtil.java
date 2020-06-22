@@ -1,13 +1,9 @@
 package cn.whitetown.dogbase.user.token;
 
-import cn.whitetown.dogbase.util.WebUtil;
+import cn.whitetown.dogbase.common.util.WebUtil;
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtParser;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
-import org.springframework.web.bind.annotation.RequestAttribute;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
