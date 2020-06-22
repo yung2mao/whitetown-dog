@@ -218,7 +218,7 @@
       <workItem from="1591971724620" duration="12979000" />
       <workItem from="1592030662170" duration="17913000" />
       <workItem from="1592270590439" duration="40350000" />
-      <workItem from="1592633878199" duration="29373000" />
+      <workItem from="1592633878199" duration="29665000" />
     </task>
     <task id="LOCAL-00001" summary="create white town dog">
       <created>1591019808054</created>
@@ -276,7 +276,14 @@
       <option name="project" value="LOCAL" />
       <updated>1592580497390</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="update user module">
+      <created>1592838824695</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1592838824698</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -311,10 +318,10 @@
       <screen x="0" y="23" width="1440" height="790" />
     </state>
     <state x="346" y="23" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.23.1440.790@0.23.1440.790" timestamp="1592724079163" />
-    <state x="103" y="23" key="CommitChangelistDialog2" timestamp="1592580495014">
+    <state x="170" y="119" width="1058" height="598" key="CommitChangelistDialog2" timestamp="1592838822216">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state x="103" y="23" key="CommitChangelistDialog2/0.23.1440.790@0.23.1440.790" timestamp="1592580495014" />
+    <state x="170" y="119" width="1058" height="598" key="CommitChangelistDialog2/0.23.1440.790@0.23.1440.790" timestamp="1592838822216" />
     <state x="141" y="23" key="CommitChangelistDialog2/0.23.1440.793@0.23.1440.793" timestamp="1592125968603" />
     <state width="1398" height="174" key="GridCell.Tab.0.bottom" timestamp="1592838596466">
       <screen x="0" y="23" width="1440" height="790" />
