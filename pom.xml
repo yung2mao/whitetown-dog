@@ -38,7 +38,7 @@
     <kaptcha.version>2.3.2</kaptcha.version>
     <jwt.version>0.9.1</jwt.version>
     <rector-core.version>3.3.0.RELEASE</rector-core.version>
-    <spring-beans.version>5.1.6.RELEASE</spring-beans.version>
+<!--    <spring-beans.version>5.1.6.RELEASE</spring-beans.version>-->
     <lombok.version>1.18.8</lombok.version>
     <junit.version>4.11</junit.version>
   </properties>
@@ -105,11 +105,11 @@
         <version>${rector-core.version}</version>
       </dependency>
       <!--bean转换-->
-      <dependency>
+      <!--<dependency>
         <groupId>org.springframework</groupId>
         <artifactId>spring-beans</artifactId>
         <version>${spring-beans.version}</version>
-      </dependency>
+      </dependency>-->
 
       <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
       <dependency>

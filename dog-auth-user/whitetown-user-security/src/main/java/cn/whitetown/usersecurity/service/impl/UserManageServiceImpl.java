@@ -80,9 +80,17 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
      */
     @Override
     public ResponsePage<UserBasicInfoVo> queryUserBasicList(UserBasicQuery userQuery) {
+        //create condition
         LambdaQueryWrapper<UserBasicInfo> condition = queryConditionFactory.
-                allEqWithNull2IsNull(userQuery, UserBasicInfo.class);
-        condition.in(UserBasicInfo::getUserStatus,0,1);
+                allEqWithNull2IsNull(userQuery, UserBasicInfo.class)
+                .in(UserBasicInfo::getUserStatus,0,1);
+        if(!DataCheckUtil.checkTextNullBool(userQuery.getStartTime())){
+            condition.ge(UserBasicInfo::getCreateTime,userQuery.getStartTime());
+        }
+        if(!DataCheckUtil.checkTextNullBool(userQuery.getEndTime())){
+            condition.le(UserBasicInfo::getCreateTime,userQuery.getEndTime());
+        }
+        //select data
         Page<UserBasicInfo> page = queryConditionFactory.createPage(userQuery, UserBasicInfo.class);
         Page<UserBasicInfo> pageResult = userMapper.selectPage(page, condition);
         if(pageResult.getRecords()==null || pageResult.getRecords().size()==0){

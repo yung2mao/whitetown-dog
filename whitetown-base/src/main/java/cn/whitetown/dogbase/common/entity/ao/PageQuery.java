@@ -28,13 +28,13 @@ public class PageQuery {
     /**
      * 起始时间
      */
-    @QueryField(operation = "ge",value = "create_time")
+    @QueryField(ignore = true)
     private String startTime;
 
     /**
      * 结束时间
      */
-    @QueryField(operation = "le",value = "create_time")
+    @QueryField(ignore = true)
     private String endTime;
 
     @Override
