@@ -16,6 +16,7 @@ import javax.annotation.Resource;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * 菜单管理服务
@@ -64,7 +65,7 @@ public class MenuServiceImpl implements MenuService {
         if (menuInfos.size()==0){
             return null;
         }
-        menuInfos.stream().sorted(Comparator.comparing(MenuInfo::getMenuSort));
+        menuInfos = menuInfos.stream().sorted(Comparator.comparing(MenuInfo::getMenuSort)).collect(Collectors.toList());
         MenuTree menuTree = menuUtil.createMenuTreeByMenuList(menuInfos);
         return menuTree;
     }

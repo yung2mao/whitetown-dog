@@ -48,6 +48,11 @@ public class MenuController {
         return ResponseData.ok(menuTree);
     }
 
+    /**
+     * 菜单信息更新
+     * @param menuInfo
+     * @return
+     */
     @PostMapping(value = "update",produces = "application/json;charset=UTF-8")
     public ResponseData updateMenu(@RequestBody @Valid MenuInfo menuInfo){
         if(menuInfo.getMenuId()==null){

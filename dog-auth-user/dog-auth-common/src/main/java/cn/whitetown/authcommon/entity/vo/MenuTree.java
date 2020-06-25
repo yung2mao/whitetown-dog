@@ -39,7 +39,7 @@ public class MenuTree {
     /**
      * 菜单排序
      */
-    private String menuSort;
+    private Integer menuSort;
     /**
      * 菜单状态
      */
