@@ -1,4 +1,4 @@
-package cn.whitetown.dogbase.viewmodule;
+package cn.whitetown.dogbase.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

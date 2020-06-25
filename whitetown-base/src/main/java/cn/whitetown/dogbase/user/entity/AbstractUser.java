@@ -1,6 +1,7 @@
 package cn.whitetown.dogbase.user.entity;
 
 import com.alibaba.fastjson.JSON;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Getter;
@@ -21,12 +22,12 @@ public abstract class AbstractUser {
     /**
      * 用户id
      */
-    @TableId
+    @TableId(type = IdType.AUTO)
     protected Long userId;
     /**
      * 用户名 - 每个用户唯一
      */
-    @NotBlank
+    @NotBlank(message = "用户名不能为空")
     protected String username;
     /**
      * 用户密码

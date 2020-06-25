@@ -44,10 +44,14 @@ public class AuthConstant {
      * 定义session的cookie名称
      */
     public static final String SESSION_COOKIE_NAME = "sessionId";
+
     /**
      * captcha保留180秒
      */
     public static final int CAPTCHA_EXPIRE_TIME = 180;
 
+    /**
+     * 注册用户初始角色
+     */
     public static final String DEFAULT_ROLE = "NORMAL";
 }

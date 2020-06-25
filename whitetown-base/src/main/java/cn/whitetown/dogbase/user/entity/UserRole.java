@@ -2,6 +2,8 @@ package cn.whitetown.dogbase.user.entity;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.annotation.JSONField;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
@@ -20,6 +22,7 @@ public class UserRole {
     /**
      * 角色id
      */
+    @TableId(type = IdType.AUTO)
     private Long roleId;
     /**
      * 角色名称

@@ -1,4 +1,4 @@
-package cn.whitetown.dogbase.viewmodule;
+package cn.whitetown.dogbase.config;
 
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.core.Ordered;

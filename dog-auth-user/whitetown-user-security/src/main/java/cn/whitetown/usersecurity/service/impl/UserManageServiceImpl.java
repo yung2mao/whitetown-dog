@@ -140,7 +140,7 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
         String md5Password = Md5WithSaltUtil.md5Encrypt(password,salt);
         //improve user info
         UserBasicInfo newUser = new UserBasicInfo();
-        newUser.setUserId(idCreateUtil.getSnowId());
+        newUser.setUserId(null);
         newUser.setUsername(username);
         newUser.setPassword(md5Password);
         newUser.setSalt(salt);
@@ -152,7 +152,7 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
         //insert into database
         userMapper.insert(newUser);
         //add role relation
-        UserRoleRelation userRoleRelation = new UserRoleRelation(idCreateUtil.getSnowId(),newUser.getUserId(),userRole.getRoleId());
+        UserRoleRelation userRoleRelation = new UserRoleRelation(null,newUser.getUserId(),userRole.getRoleId());
         userAndRoleMapper.insert(userRoleRelation);
     }
 
