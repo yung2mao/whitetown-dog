@@ -1,9 +1,9 @@
 package cn.whitetown.usersecurity.service;
 
 import cn.whitetown.dogbase.common.entity.vo.ResponsePage;
-import cn.whitetown.dogbase.user.entity.po.UserBasicInfo;
-import cn.whitetown.usersecurity.entity.ao.UserBasicQuery;
-import cn.whitetown.usersecurity.entity.vo.UserBasicInfoVo;
+import cn.whitetown.authcommon.entity.po.UserBasicInfo;
+import cn.whitetown.authcommon.entity.ao.UserBasicQuery;
+import cn.whitetown.authcommon.entity.vo.UserBasicInfoVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**

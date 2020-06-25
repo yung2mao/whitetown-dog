@@ -1,14 +1,13 @@
 package cn.whitetown.usersingle.service;
 
-import cn.whitetown.dogbase.common.memdata.SingleWhiteExpireMap;
-import cn.whitetown.dogbase.common.entity.vo.ResponseStatusEnum;
+import cn.whitetown.authcommon.constant.AuthConstant;
+import cn.whitetown.authcommon.entity.UserRole;
+import cn.whitetown.authcommon.util.token.JwtTokenUtil;
+import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.exception.CustomException;
 import cn.whitetown.dogbase.common.memdata.WhiteExpireMap;
-import cn.whitetown.dogbase.user.entity.vo.LoginUser;
-import cn.whitetown.dogbase.user.entity.po.UserBasicInfo;
-import cn.whitetown.dogbase.user.entity.UserRole;
-import cn.whitetown.dogbase.user.token.AuthConstant;
-import cn.whitetown.dogbase.user.token.JwtTokenUtil;
+import cn.whitetown.authcommon.entity.vo.LoginUser;
+import cn.whitetown.authcommon.entity.po.UserBasicInfo;
 import cn.whitetown.dogbase.common.util.DataCheckUtil;
 import cn.whitetown.dogbase.common.util.FormatUtil;
 import cn.whitetown.dogbase.common.util.secret.Md5WithSaltUtil;
@@ -97,7 +96,7 @@ public class SessionLoginService implements LoginService {
             log.warn("\n当前用户角色为："+roles+"<  > token过期时间为："+expiration);
 
             long expireTime = FormatUtil.timeAsLong(expiration);
-            if(expireTime - System.currentTimeMillis() < 12000*AuthConstant.TOKEN_RESET_TIME){
+            if(expireTime - System.currentTimeMillis() < 12000* AuthConstant.TOKEN_RESET_TIME){
                 //create new token
                 Map<String,Object> map = new HashMap<>();
                 map.put("username",username);

@@ -1,19 +1,19 @@
 package cn.whitetown.usersecurity.service.impl;
 
-import cn.whitetown.dogbase.common.entity.vo.ResponseStatusEnum;
+import cn.whitetown.authcommon.entity.UserRole;
+import cn.whitetown.authcommon.util.UserCacheUtil;
+import cn.whitetown.authcommon.util.captcha.CaptchaDataDeal;
+import cn.whitetown.authcommon.constant.AuthConstant;
+import cn.whitetown.authcommon.util.token.JwtTokenUtil;
+import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.exception.CustomException;
-import cn.whitetown.dogbase.user.captcha.CaptchaDataDeal;
-import cn.whitetown.dogbase.user.entity.vo.LoginUser;
-import cn.whitetown.dogbase.user.entity.po.UserBasicInfo;
-import cn.whitetown.dogbase.user.entity.UserRole;
-import cn.whitetown.dogbase.user.token.AuthConstant;
-import cn.whitetown.dogbase.user.token.JwtTokenUtil;
+import cn.whitetown.authcommon.entity.vo.LoginUser;
+import cn.whitetown.authcommon.entity.po.UserBasicInfo;
 import cn.whitetown.dogbase.common.util.DataCheckUtil;
 import cn.whitetown.dogbase.db.entity.WhiteLambdaQueryWrapper;
 import cn.whitetown.dogbase.common.util.secret.Md5WithSaltUtil;
 import cn.whitetown.usersecurity.mappers.UserBasicInfoMapper;
 import cn.whitetown.usersecurity.service.DogUserService;
-import cn.whitetown.usersecurity.util.DefaultUserCacheUtil;
 import cn.whitetown.usersecurity.util.LoginUserUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
@@ -45,7 +45,7 @@ public class DogUserServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserBasi
     private JwtTokenUtil jwtTokenUtil;
 
     @Autowired
-    private DefaultUserCacheUtil userCacheUtil;
+    private UserCacheUtil userCacheUtil;
 
     /**
      * 验证码校验

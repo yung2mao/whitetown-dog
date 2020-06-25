@@ -1,5 +1,6 @@
 package cn.whitetown.dogbase.common.entity.vo;
 
+import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import com.alibaba.fastjson.JSON;
 
 /**

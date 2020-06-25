@@ -1,24 +1,23 @@
 package cn.whitetown.usersecurity.service.impl;
 
+import cn.whitetown.authcommon.entity.UserRole;
+import cn.whitetown.authcommon.entity.UserRoleRelation;
+import cn.whitetown.authcommon.util.UserCacheUtil;
+import cn.whitetown.authcommon.constant.AuthConstant;
+import cn.whitetown.authcommon.util.token.JwtTokenUtil;
 import cn.whitetown.dogbase.common.entity.vo.ResponsePage;
-import cn.whitetown.dogbase.common.entity.vo.ResponseStatusEnum;
+import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.exception.CustomException;
 import cn.whitetown.dogbase.common.util.DataCheckUtil;
 import cn.whitetown.dogbase.db.factory.BeanTransFactory;
 import cn.whitetown.dogbase.db.factory.QueryConditionFactory;
-import cn.whitetown.dogbase.user.entity.vo.LoginUser;
-import cn.whitetown.dogbase.user.entity.po.UserBasicInfo;
-import cn.whitetown.dogbase.user.entity.UserRole;
-import cn.whitetown.dogbase.user.entity.UserRoleRelation;
-import cn.whitetown.dogbase.user.token.AuthConstant;
-import cn.whitetown.dogbase.user.token.JwtTokenUtil;
-import cn.whitetown.dogbase.user.util.UserCacheUtil;
+import cn.whitetown.authcommon.entity.vo.LoginUser;
+import cn.whitetown.authcommon.entity.po.UserBasicInfo;
 import cn.whitetown.dogbase.common.util.WhiteToolUtil;
-import cn.whitetown.dogbase.common.util.SnowIDCreateUtil;
 import cn.whitetown.dogbase.db.entity.WhiteLambdaQueryWrapper;
 import cn.whitetown.dogbase.common.util.secret.Md5WithSaltUtil;
-import cn.whitetown.usersecurity.entity.ao.UserBasicQuery;
-import cn.whitetown.usersecurity.entity.vo.UserBasicInfoVo;
+import cn.whitetown.authcommon.entity.ao.UserBasicQuery;
+import cn.whitetown.authcommon.entity.vo.UserBasicInfoVo;
 import cn.whitetown.usersecurity.mappers.RoleInfoMapper;
 import cn.whitetown.usersecurity.mappers.UserBasicInfoMapper;
 import cn.whitetown.usersecurity.mappers.UserRoleRelationMapper;
@@ -60,9 +59,6 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
-
-    @Autowired
-    private SnowIDCreateUtil idCreateUtil;
 
     @Autowired
     private UserCacheUtil userCacheUtil;

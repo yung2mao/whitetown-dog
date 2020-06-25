@@ -1,7 +1,7 @@
 package cn.whitetown.usersecurity.mappers;
 
-import cn.whitetown.dogbase.user.entity.po.UserBasicInfo;
-import cn.whitetown.dogbase.user.entity.UserRole;
+import cn.whitetown.authcommon.entity.UserRole;
+import cn.whitetown.authcommon.entity.po.UserBasicInfo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 import java.util.List;

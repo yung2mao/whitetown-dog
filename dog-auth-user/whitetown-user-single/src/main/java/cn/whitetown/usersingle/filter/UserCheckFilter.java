@@ -1,9 +1,9 @@
 package cn.whitetown.usersingle.filter;
 
+import cn.whitetown.authcommon.constant.AuthConstant;
+import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.entity.vo.ResponseData;
-import cn.whitetown.dogbase.common.entity.vo.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.exception.CustomException;
-import cn.whitetown.dogbase.user.token.AuthConstant;
 import cn.whitetown.dogbase.common.util.DataCheckUtil;
 import cn.whitetown.dogbase.common.util.WebUtil;
 import cn.whitetown.usersingle.service.LoginService;

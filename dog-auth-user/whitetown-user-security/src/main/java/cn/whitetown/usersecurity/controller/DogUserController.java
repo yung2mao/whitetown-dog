@@ -1,8 +1,8 @@
 package cn.whitetown.usersecurity.controller;
 
+import cn.whitetown.authcommon.util.captcha.CaptchaDataDeal;
 import cn.whitetown.dogbase.common.entity.vo.ResponseData;
-import cn.whitetown.dogbase.user.captcha.DefaultCaptchaDataDeal;
-import cn.whitetown.dogbase.user.entity.vo.LoginUser;
+import cn.whitetown.authcommon.entity.vo.LoginUser;
 import cn.whitetown.dogbase.common.util.WebUtil;
 import cn.whitetown.usersecurity.service.DogUserService;
 import com.alibaba.fastjson.JSONObject;
@@ -30,7 +30,7 @@ public class DogUserController {
     private Log log = LogFactory.getLog(DogUserController.class);
 
     @Autowired
-    private DefaultCaptchaDataDeal captchaDataDeal;
+    private CaptchaDataDeal captchaDataDeal;
 
     @Autowired
     private DogUserService userService;

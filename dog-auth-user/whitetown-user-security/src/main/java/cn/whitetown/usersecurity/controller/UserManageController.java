@@ -1,16 +1,16 @@
 package cn.whitetown.usersecurity.controller;
 
+import cn.whitetown.authcommon.constant.AuthConstant;
+import cn.whitetown.authcommon.util.token.JwtTokenUtil;
 import cn.whitetown.dogbase.common.entity.vo.ResponseData;
 import cn.whitetown.dogbase.common.entity.vo.ResponsePage;
-import cn.whitetown.dogbase.common.entity.vo.ResponseStatusEnum;
+import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.exception.CustomException;
-import cn.whitetown.dogbase.user.entity.po.UserBasicInfo;
-import cn.whitetown.dogbase.user.token.AuthConstant;
-import cn.whitetown.dogbase.user.token.JwtTokenUtil;
+import cn.whitetown.authcommon.entity.po.UserBasicInfo;
 import cn.whitetown.dogbase.common.util.DataCheckUtil;
 import cn.whitetown.dogbase.common.util.WhiteToolUtil;
-import cn.whitetown.usersecurity.entity.ao.UserBasicQuery;
-import cn.whitetown.usersecurity.entity.vo.UserBasicInfoVo;
+import cn.whitetown.authcommon.entity.ao.UserBasicQuery;
+import cn.whitetown.authcommon.entity.vo.UserBasicInfoVo;
 import cn.whitetown.usersecurity.service.UserManageService;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;

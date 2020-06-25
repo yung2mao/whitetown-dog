@@ -10,7 +10,8 @@
   <packaging>pom</packaging>
   <modules>
     <module>whitetown-user-single</module>
-      <module>whitetown-user-security</module>
+    <module>whitetown-user-security</module>
+    <module>dog-auth-common</module>
   </modules>
 
   <parent>
@@ -27,5 +28,21 @@
     <maven.compiler.source>1.8</maven.compiler.source>
     <maven.compiler.target>1.8</maven.compiler.target>
   </properties>
+
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>cn.whitetown</groupId>
+        <artifactId>whitetown-base</artifactId>
+        <version>1.0-SNAPSHOT</version>
+      </dependency>
+
+      <dependency>
+        <groupId>cn.whitetown</groupId>
+        <artifactId>dog-auth-common</artifactId>
+        <version>1.0-SNAPSHOT</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
 </project>

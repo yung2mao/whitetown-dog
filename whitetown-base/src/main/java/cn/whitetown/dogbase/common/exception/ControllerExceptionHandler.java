@@ -1,7 +1,7 @@
 package cn.whitetown.dogbase.common.exception;
 
 import cn.whitetown.dogbase.common.entity.vo.ResponseData;
-import cn.whitetown.dogbase.common.entity.vo.ResponseStatusEnum;
+import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import org.springframework.validation.BindException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;

@@ -1,11 +1,11 @@
 package cn.whitetown.usersingle.controller;
 
+import cn.whitetown.authcommon.constant.AuthConstant;
+import cn.whitetown.authcommon.util.captcha.CaptchaDataDeal;
+import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.entity.vo.ResponseData;
-import cn.whitetown.dogbase.common.entity.vo.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.exception.CustomException;
-import cn.whitetown.dogbase.user.captcha.CaptchaDataDeal;
-import cn.whitetown.dogbase.user.entity.vo.LoginUser;
-import cn.whitetown.dogbase.user.token.AuthConstant;
+import cn.whitetown.authcommon.entity.vo.LoginUser;
 import cn.whitetown.dogbase.common.util.DataCheckUtil;
 import cn.whitetown.dogbase.common.util.WebUtil;
 import cn.whitetown.usersingle.service.LoginService;
@@ -35,6 +35,7 @@ public class CookieLoginController implements LoginController{
     @Autowired
     protected CaptchaDataDeal captchaDataDeal;
 
+    @Override
     @PostMapping("/login")
     public ResponseData login(String username, String password,HttpServletRequest request,HttpServletResponse response){
         if(DataCheckUtil.checkTextNullBool(username) || DataCheckUtil.checkTextNullBool(password)){
@@ -67,6 +68,7 @@ public class CookieLoginController implements LoginController{
      * @param request
      * @return
      */
+    @Override
     @ResponseBody
     @RequestMapping(value = "/check-capt",method = {RequestMethod.GET,RequestMethod.POST})
     public ResponseData checkCaptcha(String captcha, HttpServletRequest request){
@@ -92,6 +94,7 @@ public class CookieLoginController implements LoginController{
     /**
      * 生成验证码
      */
+    @Override
     @RequestMapping("/ver")
     public void createCaptcha(HttpServletRequest request, HttpServletResponse response) {
         HttpSession session = request.getSession();

@@ -1,11 +1,11 @@
 package cn.whitetown.usersecurity.service.impl;
 
-import cn.whitetown.dogbase.common.entity.vo.ResponseStatusEnum;
+import cn.whitetown.authcommon.util.UserCacheUtil;
+import cn.whitetown.authcommon.constant.AuthConstant;
+import cn.whitetown.authcommon.util.token.JwtTokenUtil;
+import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.exception.CustomException;
-import cn.whitetown.dogbase.user.entity.po.UserBasicInfo;
-import cn.whitetown.dogbase.user.token.AuthConstant;
-import cn.whitetown.dogbase.user.token.JwtTokenUtil;
-import cn.whitetown.dogbase.user.util.UserCacheUtil;
+import cn.whitetown.authcommon.entity.po.UserBasicInfo;
 import cn.whitetown.usersecurity.mappers.UserBasicInfoMapper;
 import cn.whitetown.usersecurity.service.DefaultUserDetailService;
 import cn.whitetown.usersecurity.util.LoginUserUtil;

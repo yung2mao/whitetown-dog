@@ -1,8 +1,8 @@
 package cn.whitetown.usersecurity.util;
 
-import cn.whitetown.dogbase.user.entity.vo.LoginUser;
-import cn.whitetown.dogbase.user.entity.po.UserBasicInfo;
-import cn.whitetown.dogbase.user.entity.UserRole;
+import cn.whitetown.authcommon.entity.UserRole;
+import cn.whitetown.authcommon.entity.vo.LoginUser;
+import cn.whitetown.authcommon.entity.po.UserBasicInfo;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 

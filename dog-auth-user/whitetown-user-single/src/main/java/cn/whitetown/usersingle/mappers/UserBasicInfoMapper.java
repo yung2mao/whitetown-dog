@@ -1,11 +1,14 @@
 package cn.whitetown.usersingle.mappers;
 
-import cn.whitetown.dogbase.user.entity.po.UserBasicInfo;
-import cn.whitetown.dogbase.user.entity.UserRole;
+import cn.whitetown.authcommon.entity.UserRole;
+import cn.whitetown.authcommon.entity.po.UserBasicInfo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 import java.util.List;
 
+/**
+ * @author taixian
+ */
 public interface UserBasicInfoMapper extends BaseMapper<UserBasicInfo> {
     /**
      * 通过用户名搜索用户信息

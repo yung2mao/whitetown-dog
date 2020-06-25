@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="whitetown-user-single" />
         <module name="whitetown-dog-main" />
+        <module name="dog-auth-common" />
         <module name="whitetown-base" />
         <module name="whitetown-user-security" />
       </profile>
@@ -18,6 +19,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="dog-auth-common" options="-parameters" />
       <module name="dog-auth-user" options="-parameters" />
       <module name="whitetown-base" options="-parameters" />
       <module name="whitetown-dog" options="-parameters" />

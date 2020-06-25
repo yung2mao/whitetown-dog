@@ -1,8 +1,8 @@
 package cn.whitetown.usersecurity.mappers;
 
-import cn.whitetown.dogbase.user.entity.UserRole;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
+import cn.whitetown.authcommon.entity.UserRole;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**
  * 角色信息数据库操作

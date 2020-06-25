@@ -1,9 +1,14 @@
 package cn.whitetown.usersecurity.config;
 
-import cn.whitetown.dogbase.user.captcha.CaptchaBasicInfo;
-import cn.whitetown.dogbase.user.captcha.DefaultCaptchaDataDeal;
-import cn.whitetown.dogbase.user.token.AuthConstant;
-import cn.whitetown.dogbase.user.token.JwtTokenUtil;
+import cn.whitetown.authcommon.util.MenuUtil;
+import cn.whitetown.authcommon.util.UserCacheUtil;
+import cn.whitetown.authcommon.util.captcha.CaptchaBasicInfo;
+import cn.whitetown.authcommon.util.captcha.CaptchaDataDeal;
+import cn.whitetown.authcommon.util.captcha.DefaultCaptchaDataDeal;
+import cn.whitetown.authcommon.constant.AuthConstant;
+import cn.whitetown.authcommon.util.defaultImpl.DefaultMenuUtil;
+import cn.whitetown.authcommon.util.token.JwtTokenUtil;
+import cn.whitetown.authcommon.util.defaultImpl.DefaultUserCacheUtil;
 import cn.whitetown.usersecurity.util.securityHandler.AccessFailHandler;
 import cn.whitetown.usersecurity.util.securityHandler.AuthenticationErrorHandler;
 import org.springframework.context.annotation.Bean;
@@ -29,7 +34,7 @@ public class UserInitConfig {
      * @return
      */
     @Bean
-    public DefaultCaptchaDataDeal defaultCaptchaDataDeal(){
+    public CaptchaDataDeal defaultCaptchaDataDeal(){
         return new DefaultCaptchaDataDeal(new CaptchaBasicInfo());
     }
 
@@ -58,5 +63,23 @@ public class UserInitConfig {
     @Bean
     public AuthenticationErrorHandler notLoginHandler(){
         return new AuthenticationErrorHandler();
+    }
+
+    /**
+     * 初始化用户信息缓存工具类
+     * @return
+     */
+    @Bean
+    public UserCacheUtil userCacheUtil(){
+        return new DefaultUserCacheUtil();
+    }
+
+    /**
+     * 初始化菜单管理工具类
+     * @return
+     */
+    @Bean
+    public MenuUtil menuUtil(){
+        return new DefaultMenuUtil();
     }
 }
