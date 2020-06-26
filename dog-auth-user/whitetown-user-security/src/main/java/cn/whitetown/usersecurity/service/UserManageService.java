@@ -56,4 +56,13 @@ public interface UserManageService extends IService<UserBasicInfo> {
      */
     void updatePassword(String username, String pwdToken, String newPassword);
 
+    /**
+     * 修改用户状态
+     * 0 - 激活
+     * 1 - 停用
+     * 2 - 删除
+     * @param username
+     * @param userStatus
+     */
+    void changeUserStatus(String username, Integer userStatus);
 }

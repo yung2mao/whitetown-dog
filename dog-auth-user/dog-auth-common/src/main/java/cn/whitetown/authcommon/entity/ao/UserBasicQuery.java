@@ -1,5 +1,6 @@
 package cn.whitetown.authcommon.entity.ao;
 
+import cn.whitetown.dogbase.db.annotation.QueryField;
 import cn.whitetown.dogbase.db.annotation.QueryTable;
 import cn.whitetown.dogbase.common.entity.ao.PageQuery;
 import com.alibaba.fastjson.JSON;
@@ -39,6 +40,11 @@ public class UserBasicQuery extends PageQuery{
      * 用户状态
      */
     private Integer userStatus;
+    /**
+     * 详情信息，用作简单匹配
+     */
+    @QueryField(ignore = true)
+    private String searchDetail;
 
     @Override
     public String toString() {

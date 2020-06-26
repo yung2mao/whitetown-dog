@@ -76,6 +76,17 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
      */
     @Override
     public ResponsePage<UserBasicInfoVo> queryUserBasicList(UserBasicQuery userQuery) {
+        //粗粒度条件简单匹配 - 此处仅提供手机号或用户名
+        if(!DataCheckUtil.checkTextNullBool(userQuery.getSearchDetail())){
+            String detail = userQuery.getSearchDetail();
+            //telephone
+            if(detail.matches("^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\\d{8}$")){
+                userQuery.setTelephone(detail);
+            }else {
+                //username
+                userQuery.setUsername(detail);
+            }
+        }
         //create condition
         LambdaQueryWrapper<UserBasicInfo> condition = queryConditionFactory.
                 allEqWithNull2IsNull(userQuery, UserBasicInfo.class)
@@ -256,6 +267,18 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
             UserDetails newUserDetails = new User(username,newPassword,userDetails.getAuthorities());
             userCacheUtil.saveUserDetail(AuthConstant.USERDETAIL_PREFIX+username,newUserDetails);
         }
+    }
+
+    @Override
+    public void changeUserStatus(String username, Integer userStatus) {
+        UserBasicInfo userBasicInfo = this.selectUserByUsername(username);
+        if(userBasicInfo == null){
+            throw new CustomException(ResponseStatusEnum.NO_THIS_USER);
+        }
+        LambdaUpdateWrapper<UserBasicInfo> updateWrapper = new LambdaUpdateWrapper<>();
+        updateWrapper.eq(UserBasicInfo::getUsername,username)
+                .set(UserBasicInfo::getUserStatus,userStatus);
+        this.update(updateWrapper);
     }
 
     /**

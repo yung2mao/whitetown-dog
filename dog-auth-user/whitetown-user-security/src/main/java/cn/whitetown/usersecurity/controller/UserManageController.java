@@ -11,6 +11,7 @@ import cn.whitetown.dogbase.common.util.DataCheckUtil;
 import cn.whitetown.dogbase.common.util.WhiteToolUtil;
 import cn.whitetown.authcommon.entity.ao.UserBasicQuery;
 import cn.whitetown.authcommon.entity.vo.UserBasicInfoVo;
+import cn.whitetown.usersecurity.mappers.UserBasicInfoMapper;
 import cn.whitetown.usersecurity.service.UserManageService;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,10 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 /**
  * 用户管理
@@ -135,11 +139,12 @@ public class UserManageController {
      * 1 - 停用
      * 2 - 删除
      * @param username
+     * @param userStatus
      * @return
      */
     @GetMapping("/active")
-    public ResponseData userActiveControl(String username,Integer userStatus){
-        System.out.println(username+","+userStatus);
-        return null;
+    public ResponseData userActiveControl(@NotBlank String username,@NotNull @Min(0) @Max(2) Integer userStatus){
+        service.changeUserStatus(username,userStatus);
+        return ResponseData.ok();
     }
 }
