@@ -292,10 +292,10 @@
       <screen x="0" y="23" width="1440" height="790" />
     </state>
     <state x="346" y="23" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.23.1440.790@0.23.1440.790" timestamp="1592724079163" />
-    <state x="170" y="119" width="1058" height="598" key="CommitChangelistDialog2" timestamp="1593186170683">
+    <state x="170" y="119" width="1058" height="598" key="CommitChangelistDialog2" timestamp="1593267216122">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state x="170" y="119" width="1058" height="598" key="CommitChangelistDialog2/0.23.1440.790@0.23.1440.790" timestamp="1593186170683" />
+    <state x="170" y="119" width="1058" height="598" key="CommitChangelistDialog2/0.23.1440.790@0.23.1440.790" timestamp="1593267216122" />
     <state x="141" y="23" key="CommitChangelistDialog2/0.23.1440.793@0.23.1440.793" timestamp="1592125968603" />
     <state width="1398" height="174" key="GridCell.Tab.0.bottom" timestamp="1593267030009">
       <screen x="0" y="23" width="1440" height="790" />
@@ -383,6 +383,10 @@
       <screen x="0" y="23" width="1440" height="790" />
     </state>
     <state x="114" y="115" key="new project wizard/0.23.1440.790@0.23.1440.790" timestamp="1593062071731" />
+    <state x="385" y="189" width="670" height="675" key="run.anything.popup" timestamp="1593267245852">
+      <screen x="0" y="23" width="1440" height="790" />
+    </state>
+    <state x="385" y="189" width="670" height="675" key="run.anything.popup/0.23.1440.790@0.23.1440.790" timestamp="1593267245852" />
     <state x="385" y="137" width="670" height="676" key="search.everywhere.popup" timestamp="1592405375956">
       <screen x="0" y="23" width="1440" height="790" />
     </state>

@@ -33,7 +33,7 @@ import javax.validation.constraints.NotNull;
 @RequestMapping("/user")
 @Validated
 public class UserManageController {
-    
+
     @Autowired
     private UserManageService service;
 
