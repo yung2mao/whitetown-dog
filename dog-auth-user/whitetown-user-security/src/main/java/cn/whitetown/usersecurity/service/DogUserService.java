@@ -26,6 +26,12 @@ public interface DogUserService extends IService<UserBasicInfo> {
     String checkUserNameAndPassword(String username, String password);
 
     /**
+     * 签发一个新的token
+     * @return
+     */
+    String updateToken();
+
+    /**
      * 根据用户的token信息获取用户信息
      * @return
      */

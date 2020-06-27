@@ -2,14 +2,12 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5360145e-ca5b-4174-869d-915551c68814" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dog-auth-user/dog-auth-common/src/main/java/cn/whitetown/authcommon/entity/ao/UserBasicQuery.java" beforeDir="false" afterPath="$PROJECT_DIR$/dog-auth-user/dog-auth-common/src/main/java/cn/whitetown/authcommon/entity/ao/UserBasicQuery.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dog-auth-user/dog-auth-common/src/main/java/cn/whitetown/authcommon/entity/po/UserBasicInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/dog-auth-user/dog-auth-common/src/main/java/cn/whitetown/authcommon/entity/po/UserBasicInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/controller/UserManageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/controller/UserManageController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/service/UserManageService.java" beforeDir="false" afterPath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/service/UserManageService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/service/impl/UserManageServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/service/impl/UserManageServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/whitetown-dog-main/src/test/java/cn/whitetown/AppTest.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/controller/DogUserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/controller/DogUserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/filter/TokenCheckFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/filter/TokenCheckFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/service/DogUserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/service/DogUserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/service/impl/DogUserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/service/impl/DogUserServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/common/entity/enums/ResponseStatusEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/whitetown-base/src/main/java/cn/whitetown/dogbase/common/entity/enums/ResponseStatusEnum.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -157,7 +155,8 @@
       <workItem from="1592270590439" duration="40350000" />
       <workItem from="1592633878199" duration="37129000" />
       <workItem from="1593052517491" duration="14187000" />
-      <workItem from="1593134919660" duration="4477000" />
+      <workItem from="1593134919660" duration="4661000" />
+      <workItem from="1593224127007" duration="2302000" />
     </task>
     <task id="LOCAL-00001" summary="create white town dog">
       <created>1591019808054</created>
@@ -257,7 +256,14 @@
       <option name="project" value="LOCAL" />
       <updated>1593076365485</updated>
     </task>
-    <option name="localTasksCounter" value="15" />
+    <task id="LOCAL-00015" summary="update user module">
+      <created>1593186172059</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1593186172061</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -281,10 +287,10 @@
       <screen x="0" y="23" width="1440" height="790" />
     </state>
     <state x="184" y="80" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.23.1440.790@0.23.1440.790" timestamp="1593062218891" />
-    <state x="533" y="134" key="#com.intellij.ide.util.MemberChooser" timestamp="1593160885634">
+    <state x="533" y="134" key="#com.intellij.ide.util.MemberChooser" timestamp="1593224348279">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state x="533" y="134" key="#com.intellij.ide.util.MemberChooser/0.23.1440.790@0.23.1440.790" timestamp="1593160885632" />
+    <state x="533" y="134" key="#com.intellij.ide.util.MemberChooser/0.23.1440.790@0.23.1440.790" timestamp="1593224348279" />
     <state x="83" y="350" key="#com.intellij.refactoring.move.MoveHandler.SelectRefactoringDialog" timestamp="1592727344299">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
@@ -293,70 +299,70 @@
       <screen x="0" y="23" width="1440" height="790" />
     </state>
     <state x="346" y="23" key="#com.intellij.refactoring.rename.AutomaticRenamingDialog/0.23.1440.790@0.23.1440.790" timestamp="1592724079163" />
-    <state x="170" y="119" width="1058" height="598" key="CommitChangelistDialog2" timestamp="1593076364875">
+    <state x="170" y="119" width="1058" height="598" key="CommitChangelistDialog2" timestamp="1593186170683">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state x="170" y="119" width="1058" height="598" key="CommitChangelistDialog2/0.23.1440.790@0.23.1440.790" timestamp="1593076364875" />
+    <state x="170" y="119" width="1058" height="598" key="CommitChangelistDialog2/0.23.1440.790@0.23.1440.790" timestamp="1593186170683" />
     <state x="141" y="23" key="CommitChangelistDialog2/0.23.1440.793@0.23.1440.793" timestamp="1592125968603" />
-    <state width="1398" height="174" key="GridCell.Tab.0.bottom" timestamp="1593181999310">
+    <state width="1398" height="174" key="GridCell.Tab.0.bottom" timestamp="1593242326695">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state width="1398" height="174" key="GridCell.Tab.0.bottom/0.23.1440.790@0.23.1440.790" timestamp="1593181999310" />
+    <state width="1398" height="174" key="GridCell.Tab.0.bottom/0.23.1440.790@0.23.1440.790" timestamp="1593242326695" />
     <state width="1398" height="174" key="GridCell.Tab.0.bottom/0.23.1440.793@0.23.1440.793" timestamp="1592125877015" />
-    <state width="1398" height="174" key="GridCell.Tab.0.center" timestamp="1593181999308">
+    <state width="1398" height="174" key="GridCell.Tab.0.center" timestamp="1593242326692">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state width="1398" height="174" key="GridCell.Tab.0.center/0.23.1440.790@0.23.1440.790" timestamp="1593181999308" />
+    <state width="1398" height="174" key="GridCell.Tab.0.center/0.23.1440.790@0.23.1440.790" timestamp="1593242326692" />
     <state width="1398" height="174" key="GridCell.Tab.0.center/0.23.1440.793@0.23.1440.793" timestamp="1592125877013" />
-    <state width="1398" height="174" key="GridCell.Tab.0.left" timestamp="1593181999308">
+    <state width="1398" height="174" key="GridCell.Tab.0.left" timestamp="1593242326691">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state width="1398" height="174" key="GridCell.Tab.0.left/0.23.1440.790@0.23.1440.790" timestamp="1593181999308" />
+    <state width="1398" height="174" key="GridCell.Tab.0.left/0.23.1440.790@0.23.1440.790" timestamp="1593242326691" />
     <state width="1398" height="174" key="GridCell.Tab.0.left/0.23.1440.793@0.23.1440.793" timestamp="1592125877011" />
-    <state width="1398" height="174" key="GridCell.Tab.0.right" timestamp="1593181999309">
+    <state width="1398" height="174" key="GridCell.Tab.0.right" timestamp="1593242326694">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state width="1398" height="174" key="GridCell.Tab.0.right/0.23.1440.790@0.23.1440.790" timestamp="1593181999309" />
+    <state width="1398" height="174" key="GridCell.Tab.0.right/0.23.1440.790@0.23.1440.790" timestamp="1593242326694" />
     <state width="1398" height="174" key="GridCell.Tab.0.right/0.23.1440.793@0.23.1440.793" timestamp="1592125877014" />
-    <state width="1398" height="174" key="GridCell.Tab.1.bottom" timestamp="1593185813162">
+    <state width="1398" height="174" key="GridCell.Tab.1.bottom" timestamp="1593266647379">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state width="1398" height="174" key="GridCell.Tab.1.bottom/0.23.1440.790@0.23.1440.790" timestamp="1593185813162" />
+    <state width="1398" height="174" key="GridCell.Tab.1.bottom/0.23.1440.790@0.23.1440.790" timestamp="1593266647379" />
     <state width="1398" height="174" key="GridCell.Tab.1.bottom/0.23.1440.793@0.23.1440.793" timestamp="1592125876286" />
-    <state width="1398" height="174" key="GridCell.Tab.1.center" timestamp="1593185813161">
+    <state width="1398" height="174" key="GridCell.Tab.1.center" timestamp="1593266647377">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state width="1398" height="174" key="GridCell.Tab.1.center/0.23.1440.790@0.23.1440.790" timestamp="1593185813161" />
+    <state width="1398" height="174" key="GridCell.Tab.1.center/0.23.1440.790@0.23.1440.790" timestamp="1593266647377" />
     <state width="1398" height="174" key="GridCell.Tab.1.center/0.23.1440.793@0.23.1440.793" timestamp="1592125876279" />
-    <state width="1398" height="174" key="GridCell.Tab.1.left" timestamp="1593185813160">
+    <state width="1398" height="174" key="GridCell.Tab.1.left" timestamp="1593266647373">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state width="1398" height="174" key="GridCell.Tab.1.left/0.23.1440.790@0.23.1440.790" timestamp="1593185813160" />
+    <state width="1398" height="174" key="GridCell.Tab.1.left/0.23.1440.790@0.23.1440.790" timestamp="1593266647373" />
     <state width="1398" height="174" key="GridCell.Tab.1.left/0.23.1440.793@0.23.1440.793" timestamp="1592125876278" />
-    <state width="1398" height="174" key="GridCell.Tab.1.right" timestamp="1593185813161">
+    <state width="1398" height="174" key="GridCell.Tab.1.right" timestamp="1593266647379">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state width="1398" height="174" key="GridCell.Tab.1.right/0.23.1440.790@0.23.1440.790" timestamp="1593185813161" />
+    <state width="1398" height="174" key="GridCell.Tab.1.right/0.23.1440.790@0.23.1440.790" timestamp="1593266647379" />
     <state width="1398" height="174" key="GridCell.Tab.1.right/0.23.1440.793@0.23.1440.793" timestamp="1592125876285" />
-    <state width="1398" height="174" key="GridCell.Tab.2.bottom" timestamp="1593181998888">
+    <state width="1398" height="174" key="GridCell.Tab.2.bottom" timestamp="1593242326063">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state width="1398" height="174" key="GridCell.Tab.2.bottom/0.23.1440.790@0.23.1440.790" timestamp="1593181998888" />
+    <state width="1398" height="174" key="GridCell.Tab.2.bottom/0.23.1440.790@0.23.1440.790" timestamp="1593242326063" />
     <state width="1398" height="174" key="GridCell.Tab.2.bottom/0.23.1440.793@0.23.1440.793" timestamp="1592125876291" />
-    <state width="1398" height="174" key="GridCell.Tab.2.center" timestamp="1593181998887">
+    <state width="1398" height="174" key="GridCell.Tab.2.center" timestamp="1593242326062">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state width="1398" height="174" key="GridCell.Tab.2.center/0.23.1440.790@0.23.1440.790" timestamp="1593181998887" />
+    <state width="1398" height="174" key="GridCell.Tab.2.center/0.23.1440.790@0.23.1440.790" timestamp="1593242326062" />
     <state width="1398" height="174" key="GridCell.Tab.2.center/0.23.1440.793@0.23.1440.793" timestamp="1592125876288" />
-    <state width="1398" height="174" key="GridCell.Tab.2.left" timestamp="1593181998885">
+    <state width="1398" height="174" key="GridCell.Tab.2.left" timestamp="1593242326061">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state width="1398" height="174" key="GridCell.Tab.2.left/0.23.1440.790@0.23.1440.790" timestamp="1593181998885" />
+    <state width="1398" height="174" key="GridCell.Tab.2.left/0.23.1440.790@0.23.1440.790" timestamp="1593242326061" />
     <state width="1398" height="174" key="GridCell.Tab.2.left/0.23.1440.793@0.23.1440.793" timestamp="1592125876288" />
-    <state width="1398" height="174" key="GridCell.Tab.2.right" timestamp="1593181998887">
+    <state width="1398" height="174" key="GridCell.Tab.2.right" timestamp="1593242326062">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state width="1398" height="174" key="GridCell.Tab.2.right/0.23.1440.790@0.23.1440.790" timestamp="1593181998887" />
+    <state width="1398" height="174" key="GridCell.Tab.2.right/0.23.1440.790@0.23.1440.790" timestamp="1593242326062" />
     <state width="1398" height="174" key="GridCell.Tab.2.right/0.23.1440.793@0.23.1440.793" timestamp="1592125876290" />
     <state x="144" y="91" key="MergeDialog" timestamp="1591111565693">
       <screen x="0" y="23" width="1440" height="790" />
@@ -371,10 +377,10 @@
     </state>
     <state x="215" y="34" key="SettingsEditor/0.23.1440.790@0.23.1440.790" timestamp="1592270477600" />
     <state x="208" y="23" key="SettingsEditor/0.23.1440.793@0.23.1440.793" timestamp="1590895506465" />
-    <state x="320" y="158" key="Vcs.Push.Dialog.v2" timestamp="1593076371784">
+    <state x="320" y="158" key="Vcs.Push.Dialog.v2" timestamp="1593186332445">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state x="320" y="158" key="Vcs.Push.Dialog.v2/0.23.1440.790@0.23.1440.790" timestamp="1593076371784" />
+    <state x="320" y="158" key="Vcs.Push.Dialog.v2/0.23.1440.790@0.23.1440.790" timestamp="1593186332445" />
     <state x="320" y="159" key="Vcs.Push.Dialog.v2/0.23.1440.793@0.23.1440.793" timestamp="1592125985059" />
     <state x="398" y="216" key="git4idea.merge.GitPullDialog" timestamp="1591111534181">
       <screen x="0" y="23" width="1440" height="790" />
@@ -388,5 +394,16 @@
       <screen x="0" y="23" width="1440" height="790" />
     </state>
     <state x="385" y="137" width="670" height="676" key="search.everywhere.popup/0.23.1440.790@0.23.1440.790" timestamp="1592405375956" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/controller/UserManageController.java</url>
+          <line>83</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.whitetown.usersecurity.mappers.UserBasicInfoMapper" >
+
+  <select id="selectUserRole" resultType="cn.whitetown.authcommon.entity.UserRole">
+    select * from user_role ro inner join user_role_relation us_ro
+    on ro.role_id = us_ro.role_id
+    where us_ro.user_id = #{userId}
+  </select>
+
+</mapper>

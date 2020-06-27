@@ -1,10 +1,12 @@
 package cn.whitetown.usersecurity.filter;
 
 import cn.whitetown.authcommon.util.token.JwtTokenUtil;
+import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.entity.vo.ResponseData;
 import cn.whitetown.dogbase.common.exception.CustomException;
 import cn.whitetown.dogbase.common.util.DataCheckUtil;
 import cn.whitetown.usersecurity.service.impl.UserDetailServiceImpl;
+import io.jsonwebtoken.MalformedJwtException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -45,8 +47,13 @@ public class TokenCheckFilter extends OncePerRequestFilter {
             UserDetails userDetails = null;
             try {
                 userDetails = this.jwtUserDetailsService.loadUserByUsername(username);
-            }catch (CustomException e){
-                ResponseData responseData = ResponseData.fail(e.getStatusEnum());
+            }catch (MalformedJwtException | CustomException e){
+                ResponseData responseData = null;
+                if(e instanceof CustomException){
+                    responseData = ResponseData.fail(((CustomException) e).getStatusEnum());
+                }else {
+                    responseData = ResponseData.fail(ResponseStatusEnum.ERROR_PARAMS);
+                }
                 PrintWriter writer = response.getWriter();
                 writer.write(responseData.toString());
                 writer.flush();

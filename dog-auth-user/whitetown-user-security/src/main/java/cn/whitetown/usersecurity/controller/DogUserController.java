@@ -1,6 +1,7 @@
 package cn.whitetown.usersecurity.controller;
 
 import cn.whitetown.authcommon.util.captcha.CaptchaDataDeal;
+import cn.whitetown.authcommon.util.token.JwtTokenUtil;
 import cn.whitetown.dogbase.common.entity.vo.ResponseData;
 import cn.whitetown.authcommon.entity.vo.LoginUser;
 import cn.whitetown.dogbase.common.util.WebUtil;
@@ -121,6 +122,16 @@ public class DogUserController {
         String username = params.getString("username");
         String password = params.getString("password");
         String token = userService.checkUserNameAndPassword(username,password);
+        return ResponseData.ok(token);
+    }
+
+    /**
+     * token更新，解析原有token，签发一个新的token
+     * @return
+     */
+    @GetMapping("/newToken")
+    public ResponseData<String> updateToken(){
+        String token = userService.updateToken();
         return ResponseData.ok(token);
     }
 

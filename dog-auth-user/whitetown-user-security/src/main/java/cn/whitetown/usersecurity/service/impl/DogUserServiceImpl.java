@@ -119,6 +119,20 @@ public class DogUserServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserBasi
     }
 
     /**
+     * 新token签发
+     * @return
+     */
+    @Override
+    public String updateToken() {
+        String token = jwtTokenUtil.getToken();
+        if(DataCheckUtil.checkTextNullBool(token)){
+            throw new CustomException(ResponseStatusEnum.TOKEN_EXPIRED);
+        }
+        String newToken = jwtTokenUtil.updateToken(token);
+        return newToken;
+    }
+
+    /**
      * 根据token获取用户信息
      * @return
      */
