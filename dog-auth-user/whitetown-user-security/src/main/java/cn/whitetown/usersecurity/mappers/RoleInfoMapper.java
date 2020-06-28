@@ -1,7 +1,7 @@
 package cn.whitetown.usersecurity.mappers;
 
 
-import cn.whitetown.authcommon.entity.UserRole;
+import cn.whitetown.authcommon.entity.po.UserRole;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 
 /**

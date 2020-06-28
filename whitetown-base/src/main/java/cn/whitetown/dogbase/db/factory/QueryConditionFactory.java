@@ -9,6 +9,15 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
  * @date 2020/06/20 22:17
  **/
 public interface QueryConditionFactory {
+
+    /**
+     * 根据指定类型创建LambdaQueryWrapper
+     * @param claz
+     * @param <T>
+     * @return
+     */
+    <T> LambdaQueryWrapper<T> getLambdaCondition(Class<T> claz);
+
     /**
      * 根据传入对象创建查询条件Wrapper，自动忽略null值
      * @param obj

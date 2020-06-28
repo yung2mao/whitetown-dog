@@ -26,6 +26,16 @@ public class DefaultQueryConditionFactory implements QueryConditionFactory{
     private WhiteExpireMap whiteExpireMap;
 
     /**
+     * 获取LambdaQueryWrapper
+     * @param <T>
+     * @return
+     */
+    @Override
+    public <T> LambdaQueryWrapper<T> getLambdaCondition(Class<T> claz){
+        return new LambdaQueryWrapper<>();
+    }
+
+    /**
      * 根据传入对象构建LambdaQueryWrapper
      * 传入对象可添加相应注解控制检索方式
      * 传入对象父类信息中，如果添加了@QueryTable，那么也会被加入到条件中

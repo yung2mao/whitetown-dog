@@ -92,7 +92,7 @@ public class UserManageController {
      * @param username
      * @return
      */
-    @GetMapping("/retryPwd")
+    @GetMapping("/reSetPwd")
     public ResponseData retryPassword(@NotBlank String username){
         service.retryPassword(username);
         return ResponseData.ok();

@@ -1,6 +1,6 @@
 package cn.whitetown.usersecurity.service.impl;
 
-import cn.whitetown.authcommon.entity.UserRole;
+import cn.whitetown.authcommon.entity.po.UserRole;
 import cn.whitetown.authcommon.entity.UserRoleRelation;
 import cn.whitetown.authcommon.util.UserCacheUtil;
 import cn.whitetown.authcommon.constant.AuthConstant;
