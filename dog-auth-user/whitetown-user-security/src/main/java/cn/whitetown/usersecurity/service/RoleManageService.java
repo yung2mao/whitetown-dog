@@ -20,6 +20,13 @@ public interface RoleManageService extends IService<UserRole> {
     List<RoleInfoVo> queryAllRoles();
 
     /**
+     * 根据用户名查询用户角色信息
+     * @param username
+     * @return
+     */
+    List<RoleInfoVo> queryRolesByUsername(String username);
+
+    /**
      * 添加角色信息
      * @param role
      */

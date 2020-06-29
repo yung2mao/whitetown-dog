@@ -50,6 +50,7 @@ public enum ResponseStatusEnum {
     OLD_PWD_NOT_RIGHT(402, "原密码不正确"),
     TWO_PWD_NOT_MATCH(405, "两次输入密码不一致"),
     NO_THIS_ROLE(400,"当前角色不存在"),
+    ROLE_EXISTS(400,"当前角色已存在"),
     CHECK_EXPIRE(402,"验证超时"),
 
     /**

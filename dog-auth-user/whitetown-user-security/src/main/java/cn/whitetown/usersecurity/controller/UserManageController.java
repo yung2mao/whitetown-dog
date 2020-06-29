@@ -1,6 +1,8 @@
 package cn.whitetown.usersecurity.controller;
 
 import cn.whitetown.authcommon.constant.AuthConstant;
+import cn.whitetown.authcommon.entity.ao.UserRoleConfigureAo;
+import cn.whitetown.authcommon.entity.vo.RoleInfoVo;
 import cn.whitetown.authcommon.util.token.JwtTokenUtil;
 import cn.whitetown.dogbase.common.entity.vo.ResponseData;
 import cn.whitetown.dogbase.common.entity.vo.ResponsePage;
