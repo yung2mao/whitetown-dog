@@ -37,4 +37,11 @@ public interface RoleManageService extends IService<UserRole> {
      * @param role
      */
     void updateRoleInfo(RoleInfoVo role);
+
+    /**
+     * 角色状态更新
+     * @param roleId
+     * @param roleStatus
+     */
+    void updateRoleStatus(Long roleId, Integer roleStatus);
 }

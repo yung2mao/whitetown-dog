@@ -12,6 +12,7 @@ import cn.whitetown.usersecurity.mappers.RoleInfoMapper;
 import cn.whitetown.usersecurity.mappers.UserBasicInfoMapper;
 import cn.whitetown.usersecurity.service.RoleManageService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,7 +62,7 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
     }
 
     /**
-     * 查询指定用户的角色信息
+     * 查询指定用户的全部角色信息
      * @param username
      * @return
      */
@@ -111,33 +112,41 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
 
     /**
      * 角色信息更新
-     * 禁止角色重复，禁止操作不存在的角色
+     * 角色名称禁止变更
      * @param role
      */
     @Override
     public void updateRoleInfo(RoleInfoVo role) {
-        LambdaQueryWrapper<UserRole> lambdaCondition = queryConditionFactory.getLambdaCondition(UserRole.class);
-        lambdaCondition.eq(UserRole::getRoleId,role.getRoleId())
-                .or()
-                .eq(UserRole::getName,role.getName());
-        List<UserRole> list = this.list(lambdaCondition);
-        if(list.size() == 0){
+        UserRole oldRole = this.getOneByRoleId(role.getRoleId());
+        if(oldRole == null){
             throw new CustomException(ResponseStatusEnum.NO_THIS_ROLE);
-        }else if(list.size()>1){
-            throw new CustomException(ResponseStatusEnum.ERROR_PARAMS);
         }
 
-        UserRole oldRole = list.get(0);
         Long updateUserId = jwtTokenUtil.getUserId();
         if(role.getSort() != null && role.getSort() > 0){
             oldRole.setSort(role.getSort());
         }
-        oldRole.setName(role.getName());
         oldRole.setDescription(role.getDescription());
         oldRole.setVersion(oldRole.getVersion()+1);
         oldRole.setUpdateUserId(updateUserId);
         oldRole.setUpdateTime(new Date());
         this.updateById(oldRole);
+    }
+
+    @Override
+    public void updateRoleStatus(Long roleId, Integer roleStatus) {
+        UserRole role = this.getOneByRoleId(roleId);
+        if(role == null){
+            throw new CustomException(ResponseStatusEnum.NO_THIS_ROLE);
+        }
+        LambdaUpdateWrapper<UserRole> updateWrapper = new LambdaUpdateWrapper<>();
+        updateWrapper.eq(UserRole::getRoleId,roleId)
+                .set(UserRole::getRoleStatus,roleStatus);
+        this.update(updateWrapper);
+        //内存数据处理
+        if(roleStatus != 0){
+
+        }
     }
 
     /**
@@ -155,6 +164,18 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
             return null;
         }).collect(Collectors.toList());
         return roleInfoVoList;
+    }
+
+    /**
+     * 根据角色ID查询一个角色信息
+     * @param roleId
+     * @return
+     */
+    private UserRole getOneByRoleId(Long roleId){
+        LambdaQueryWrapper<UserRole> lambdaCondition = queryConditionFactory.getLambdaCondition(UserRole.class);
+        lambdaCondition.eq(UserRole::getRoleId,roleId)
+                .in(UserRole::getRoleStatus,0,1);
+        return this.getOne(lambdaCondition);
     }
 
 }

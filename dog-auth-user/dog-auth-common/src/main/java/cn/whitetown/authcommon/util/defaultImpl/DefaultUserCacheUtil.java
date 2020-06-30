@@ -7,6 +7,8 @@ import cn.whitetown.authcommon.entity.vo.LoginUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Arrays;
+
 /**
  * 用户信息缓存工具类
  * @author GrainRain
@@ -68,5 +70,13 @@ public class DefaultUserCacheUtil implements UserCacheUtil {
     @Override
     public UserDetails removeUserDetails(String key) {
         return (UserDetails)expireMap.remove(key);
+    }
+
+    @Override
+    public void removeUserInfo(String... keys) {
+        if(keys == null || keys.length==0){
+            return;
+        }
+        Arrays.stream(keys).forEach(key->expireMap.remove(key));
     }
 }

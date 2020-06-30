@@ -18,4 +18,10 @@ public interface UserBasicInfoMapper extends BaseMapper<UserBasicInfo> {
      * @return
      */
     List<UserRole> selectUserRole(Long userId);
+
+    /**
+     * 用户版本信息更新
+     * @param username
+     */
+    void updateUserVersionByUsername(String username);
 }

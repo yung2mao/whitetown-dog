@@ -164,15 +164,8 @@ public class DogUserServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserBasi
         }
         userCacheUtil.removeLoginUser(username);
         userCacheUtil.removeUserDetails(AuthConstant.USERDETAIL_PREFIX+username);
-        WhiteLambdaQueryWrapper<UserBasicInfo> queryCondition = new WhiteLambdaQueryWrapper<>();
-        queryCondition.select(UserBasicInfo::getUserVersion);
-        queryCondition.eq(UserBasicInfo::getUsername,username);
-        UserBasicInfo userBasicInfo = userMapper.selectOne(queryCondition);
-        Integer newVersion = userBasicInfo.getUserVersion()+1;
-        LambdaUpdateWrapper<UserBasicInfo> updateCondition = new LambdaUpdateWrapper<>();
-        updateCondition.eq(UserBasicInfo::getUsername,username);
-        updateCondition.set(UserBasicInfo::getUserVersion,newVersion);
-        this.update(updateCondition);
+        //version update
+        userMapper.updateUserVersionByUsername(username);
     }
 
     /**

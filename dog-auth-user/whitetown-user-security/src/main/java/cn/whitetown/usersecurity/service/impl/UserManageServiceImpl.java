@@ -11,7 +11,6 @@ import cn.whitetown.dogbase.common.exception.CustomException;
 import cn.whitetown.dogbase.common.util.DataCheckUtil;
 import cn.whitetown.dogbase.db.factory.BeanTransFactory;
 import cn.whitetown.dogbase.db.factory.QueryConditionFactory;
-import cn.whitetown.authcommon.entity.vo.LoginUser;
 import cn.whitetown.authcommon.entity.po.UserBasicInfo;
 import cn.whitetown.dogbase.common.util.WhiteToolUtil;
 import cn.whitetown.dogbase.db.entity.WhiteLambdaQueryWrapper;
@@ -22,7 +21,6 @@ import cn.whitetown.usersecurity.mappers.RoleInfoMapper;
 import cn.whitetown.usersecurity.mappers.UserBasicInfoMapper;
 import cn.whitetown.usersecurity.mappers.UserRoleRelationMapper;
 import cn.whitetown.usersecurity.service.UserManageService;
-import cn.whitetown.usersecurity.util.LoginUserUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -137,7 +135,8 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
         }
         //check role
         WhiteLambdaQueryWrapper<UserRole> roleCondition = new WhiteLambdaQueryWrapper<>();
-        roleCondition.eq(UserRole::getName,roleName);
+        roleCondition.eq(UserRole::getName,roleName)
+                .eq(UserRole::getRoleStatus,0);
         UserRole userRole = roleInfoMapper.selectOne(roleCondition);
         if(userRole==null){
             throw new CustomException(ResponseStatusEnum.NO_THIS_ROLE);
@@ -188,11 +187,9 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
         newUser.setUpdateTime(new Date());
         //update
         userMapper.updateById(newUser);
-        //如果是用户本人修改，对内存数据做同步更新
-        if(userId.equals(newUser.getUserId())){
-            LoginUser loginUser = LoginUserUtil.getLoginUser(newUser, null);
-            userCacheUtil.saveUserBasicInfo(loginUser.getUsername(),loginUser);
-        }
+
+        //内存旧数据移除(如果存在)
+        this.removeCacheUser(newUser.getUsername());
     }
 
     /**
@@ -215,6 +212,8 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
                 .set(UserBasicInfo::getUpdateUserId,updateUserId)
                 .set(UserBasicInfo::getUpdateTime,new Date());
         this.update(updateWrapper);
+
+        this.removeCacheUser(username);
     }
 
     /**
@@ -279,6 +278,7 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
         updateWrapper.eq(UserBasicInfo::getUsername,username)
                 .set(UserBasicInfo::getUserStatus,userStatus);
         this.update(updateWrapper);
+        this.removeCacheUser(username);
     }
 
     /**
@@ -291,5 +291,13 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
         condition.eq(UserBasicInfo::getUsername,username)
                 .in(UserBasicInfo::getUserStatus,0,1);
         return userMapper.selectOne(condition);
+    }
+
+    /**
+     * 从内存移除username匹配的旧数据
+     * @param username
+     */
+    private void removeCacheUser(String username){
+        userCacheUtil.removeUserInfo(username,AuthConstant.USERDETAIL_PREFIX+username);
     }
 }

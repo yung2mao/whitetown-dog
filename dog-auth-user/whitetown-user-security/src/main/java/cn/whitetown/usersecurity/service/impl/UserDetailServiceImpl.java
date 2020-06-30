@@ -52,7 +52,8 @@ public class UserDetailServiceImpl implements DefaultUserDetailService {
         UserDetails userDetails =  userCacheUtil.getUserDetails(AuthConstant.USERDETAIL_PREFIX+username);
         if(userDetails==null){
             LambdaQueryWrapper<UserBasicInfo> condition = new LambdaQueryWrapper<>();
-            condition.eq(UserBasicInfo::getUsername, username);
+            condition.eq(UserBasicInfo::getUsername, username)
+                    .in(UserBasicInfo::getUserStatus,0,1);
             UserBasicInfo userBasicInfo = userMapper.selectOne(condition);
             if(userBasicInfo==null){
                 throw new CustomException(ResponseStatusEnum.NO_THIS_USER);
@@ -70,8 +71,9 @@ public class UserDetailServiceImpl implements DefaultUserDetailService {
             Collection<GrantedAuthority> roleCollection = LoginUserUtil.createRoleCollection(roles);
 
             userDetails = new User(userBasicInfo.getUsername(),userBasicInfo.getPassword(),roleCollection);
-            userCacheUtil.saveUserDetail(AuthConstant.USERDETAIL_PREFIX+username,userDetails);
         }
+        userCacheUtil.saveUserDetail(AuthConstant.USERDETAIL_PREFIX+username,userDetails);
         return userDetails;
     }
+
 }

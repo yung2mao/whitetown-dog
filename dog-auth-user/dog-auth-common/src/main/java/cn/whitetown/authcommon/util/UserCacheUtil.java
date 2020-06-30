@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
  **/
 public interface UserCacheUtil {
     /**
-     * 保存用户信息到内存中
+     * 保存用户登录信息到内存中
      * @param key
      * @param info
      * @return
@@ -18,7 +18,7 @@ public interface UserCacheUtil {
     LoginUser saveUserBasicInfo(String key, LoginUser info);
 
     /**
-     * 从内存中获取UserBasic
+     * 从内存中获取LoginUser
      * @param key
      * @return
      */
@@ -53,4 +53,10 @@ public interface UserCacheUtil {
      * @return
      */
     UserDetails removeUserDetails(String key);
+
+    /**
+     * 内存中相关key数据重置操作
+     * @param keys
+     */
+    void removeUserInfo(String ... keys);
 }

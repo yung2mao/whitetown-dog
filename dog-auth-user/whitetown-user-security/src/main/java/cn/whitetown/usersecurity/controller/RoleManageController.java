@@ -1,12 +1,10 @@
 package cn.whitetown.usersecurity.controller;
 
 import cn.whitetown.authcommon.entity.ao.UserRoleConfigureAo;
-import cn.whitetown.authcommon.entity.po.UserRole;
 import cn.whitetown.authcommon.entity.vo.RoleInfoVo;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.entity.vo.ResponseData;
 import cn.whitetown.dogbase.common.exception.CustomException;
-import cn.whitetown.dogbase.common.util.DataCheckUtil;
 import cn.whitetown.usersecurity.service.RoleManageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -82,13 +80,17 @@ public class RoleManageController {
 
     /**
      * 角色状态变更
+     * 0 - 激活
+     * 1 - 锁定
+     * 2 - 删除
      * @param roleId
      * @param roleStatus
      * @return
      */
     @GetMapping("/status")
-    public ResponseData updateUserStatus(@NotBlank String roleId,@NotNull @Min(0) @Max(2) Integer roleStatus){
-        return null;
+    public ResponseData updateUserStatus(@NotNull Long roleId,@NotNull @Min(0) @Max(2) Integer roleStatus){
+        service.updateRoleStatus(roleId,roleStatus);
+        return ResponseData.ok();
     }
 
 

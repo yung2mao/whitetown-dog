@@ -6,6 +6,12 @@
     select * from user_role ro inner join user_role_relation us_ro
     on ro.role_id = us_ro.role_id
     where us_ro.user_id = #{userId}
+    and user_status = 0
   </select>
+
+  <update id="updateUserVersionByUsername">
+    update user_basic_info set user_version = user_version + 1
+    where username = #{username}
+  </update>
 
 </mapper>
