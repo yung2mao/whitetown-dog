@@ -6,9 +6,12 @@ import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.exception.CustomException;
 import cn.whitetown.authcommon.entity.po.MenuInfo;
 import cn.whitetown.authcommon.entity.vo.MenuTree;
+import cn.whitetown.dogbase.db.factory.QueryConditionFactory;
 import cn.whitetown.usersecurity.mappers.MenuInfoMapper;
 import cn.whitetown.usersecurity.service.MenuService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +27,7 @@ import java.util.stream.Collectors;
  * @date 2020/06/24 22:22
  **/
 @Service
-public class MenuServiceImpl implements MenuService {
+public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implements MenuService {
     @Resource
     private MenuInfoMapper menuInfoMapper;
 
@@ -33,6 +36,26 @@ public class MenuServiceImpl implements MenuService {
 
     @Autowired
     private MenuUtil menuUtil;
+
+    @Autowired
+    private QueryConditionFactory conditionFactory;
+
+    /**
+     * 获取菜单的树形结构
+     * @param menuCode
+     * @param lowLevel
+     * @return
+     */
+    @Override
+    public MenuTree queryMenuTree(String menuCode, Integer lowLevel) {
+        List<MenuInfo> menuInfos = menuInfoMapper.selectMenuListByCodeAndLevel(menuCode,lowLevel);
+        if (menuInfos.size()==0){
+            return null;
+        }
+        menuInfos = menuInfos.stream().sorted(Comparator.comparing(MenuInfo::getMenuSort)).collect(Collectors.toList());
+        MenuTree menuTree = menuUtil.createMenuTreeByMenuList(menuInfos);
+        return menuTree;
+    }
 
     /**
      * 添加菜单信息
@@ -54,19 +77,19 @@ public class MenuServiceImpl implements MenuService {
     }
 
     /**
-     * 获取菜单的树形结构
-     * @param menuCode
-     * @param lowLevel
-     * @return
+     * 菜单状态变更
+     * @param menuId
+     * @param menuStatus
      */
     @Override
-    public MenuTree queryMenuTree(String menuCode, Integer lowLevel) {
-        List<MenuInfo> menuInfos = menuInfoMapper.selectMenuListByCodeAndLevel(menuCode,lowLevel);
-        if (menuInfos.size()==0){
-            return null;
+    public void updateMenuStatus(Long menuId, Integer menuStatus) {
+        MenuInfo menuInfo = menuInfoMapper.selectById(menuId);
+        if(menuInfo == null){
+            throw new CustomException(ResponseStatusEnum.NO_THIS_MENU);
         }
-        menuInfos = menuInfos.stream().sorted(Comparator.comparing(MenuInfo::getMenuSort)).collect(Collectors.toList());
-        MenuTree menuTree = menuUtil.createMenuTreeByMenuList(menuInfos);
-        return menuTree;
+        LambdaUpdateWrapper<MenuInfo> updateCondition = conditionFactory.getUpdateCondition(MenuInfo.class);
+        updateCondition.eq(MenuInfo::getMenuId,menuId)
+                .set(MenuInfo::getMenuStatus,menuStatus);
+        this.update(updateCondition);
     }
 }

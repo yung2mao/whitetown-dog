@@ -25,7 +25,7 @@ public class UserRoleConfigureAo {
      * 角色列表
      */
     @NotNull(message = "角色信息不能为空")
-    private String[] roles;
+    private Long[] roleIds;
 
     @Override
     public String toString() {

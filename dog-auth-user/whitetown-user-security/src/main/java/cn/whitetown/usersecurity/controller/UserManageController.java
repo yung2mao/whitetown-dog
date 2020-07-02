@@ -1,8 +1,6 @@
 package cn.whitetown.usersecurity.controller;
 
 import cn.whitetown.authcommon.constant.AuthConstant;
-import cn.whitetown.authcommon.entity.ao.UserRoleConfigureAo;
-import cn.whitetown.authcommon.entity.vo.RoleInfoVo;
 import cn.whitetown.authcommon.util.token.JwtTokenUtil;
 import cn.whitetown.dogbase.common.entity.vo.ResponseData;
 import cn.whitetown.dogbase.common.entity.vo.ResponsePage;
@@ -13,7 +11,6 @@ import cn.whitetown.dogbase.common.util.DataCheckUtil;
 import cn.whitetown.dogbase.common.util.WhiteToolUtil;
 import cn.whitetown.authcommon.entity.ao.UserBasicQuery;
 import cn.whitetown.authcommon.entity.vo.UserBasicInfoVo;
-import cn.whitetown.usersecurity.mappers.UserBasicInfoMapper;
 import cn.whitetown.usersecurity.service.UserManageService;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -96,7 +93,7 @@ public class UserManageController {
      */
     @GetMapping("/reSetPwd")
     public ResponseData retryPassword(@NotBlank String username){
-        service.retryPassword(username);
+        service.reSetPassword(username);
         return ResponseData.ok();
     }
 
@@ -147,6 +144,9 @@ public class UserManageController {
      */
     @GetMapping("/active")
     public ResponseData userActiveControl(@NotBlank String username,@NotNull @Min(0) @Max(2) Integer userStatus){
+        if("admin".equalsIgnoreCase(username)){
+            return ResponseData.build(400,"禁止操作超级管理员状态",null);
+        }
         service.changeUserStatus(username,userStatus);
         return ResponseData.ok();
     }

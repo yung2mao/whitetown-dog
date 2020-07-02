@@ -8,10 +8,7 @@ import cn.whitetown.dogbase.common.exception.CustomException;
 import cn.whitetown.usersecurity.service.RoleManageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
@@ -47,7 +44,7 @@ public class RoleManageController {
      * 查询单个用户的角色信息
      * @return
      */
-    @GetMapping("/one")
+    @GetMapping("/users")
     public ResponseData<List<RoleInfoVo>> queryUserRoleByUsername(@NotBlank(message = "用户名不能为空") String username){
         List<RoleInfoVo> roleInfoVoList = service.queryRolesByUsername(username);
         return ResponseData.ok(roleInfoVoList);
@@ -58,8 +55,8 @@ public class RoleManageController {
      * id、roleStatus不传值
      * @return
      */
-    @GetMapping("/add")
-    public ResponseData addRole(@Valid RoleInfoVo role){
+    @PostMapping(value = "/add",produces = "application/json;charset=UTF-8")
+    public ResponseData addRole(@RequestBody @Valid RoleInfoVo role){
         service.addRole(role);
         return ResponseData.ok();
     }
@@ -69,8 +66,8 @@ public class RoleManageController {
      * @param role
      * @return
      */
-    @GetMapping("/update")
-    public ResponseData updateRole(@Valid RoleInfoVo role){
+    @PostMapping(value = "/update",produces = "application/json;charset=UTF-8")
+    public ResponseData updateRole(@RequestBody @Valid RoleInfoVo role){
         if(role.getRoleId() == null){
             throw new CustomException(ResponseStatusEnum.ERROR_PARAMS);
         }
@@ -99,8 +96,9 @@ public class RoleManageController {
      * @param roleConfigureAo
      * @return
      */
-    @PostMapping("/configureRole")
-    public ResponseData configureUserRole(UserRoleConfigureAo roleConfigureAo){
-        return null;
+    @PostMapping(value = "/configureRole",produces = "application/json;charset=UTF-8")
+    public ResponseData configureUserRole(@RequestBody @Valid UserRoleConfigureAo roleConfigureAo){
+        service.updateUserRoleRelation(roleConfigureAo);
+        return ResponseData.ok();
     }
 }

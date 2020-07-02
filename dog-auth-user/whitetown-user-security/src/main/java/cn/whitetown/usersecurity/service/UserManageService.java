@@ -38,7 +38,7 @@ public interface UserManageService extends IService<UserBasicInfo> {
      * 密码重置操作
      * @param username
      */
-    void retryPassword(String username);
+    void reSetPassword(String username);
 
     /**
      * 校验原有密码是否正确

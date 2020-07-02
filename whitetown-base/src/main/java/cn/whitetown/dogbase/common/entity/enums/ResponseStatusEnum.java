@@ -99,6 +99,7 @@ public enum ResponseStatusEnum {
      * 菜单相关
      */
     MENU_LEVEL_ERROR(400,"菜单层级错误"),
+    NO_THIS_MENU(400,"没有此菜单项"),
 
     /**
      * 工作流相关

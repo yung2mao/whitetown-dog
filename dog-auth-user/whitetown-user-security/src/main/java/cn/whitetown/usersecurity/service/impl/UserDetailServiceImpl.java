@@ -58,6 +58,9 @@ public class UserDetailServiceImpl implements DefaultUserDetailService {
             if(userBasicInfo==null){
                 throw new CustomException(ResponseStatusEnum.NO_THIS_USER);
             }
+            if(userBasicInfo.getUserStatus() == 1){
+                throw new CustomException(ResponseStatusEnum.ACCOUNT_FREEZED);
+            }
             String version = jwtTokenUtil.getTokenValue(JwtTokenUtil.USER_VERSION);
             if(version==null){
                 throw new CustomException(ResponseStatusEnum.TOKEN_EXPIRED);

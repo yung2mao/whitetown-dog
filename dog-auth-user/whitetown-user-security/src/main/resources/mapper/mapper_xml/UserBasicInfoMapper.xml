@@ -3,10 +3,9 @@
 <mapper namespace="cn.whitetown.usersecurity.mappers.UserBasicInfoMapper" >
 
   <select id="selectUserRole" resultType="cn.whitetown.authcommon.entity.po.UserRole">
-    select * from user_role ro inner join user_role_relation us_ro
-    on ro.role_id = us_ro.role_id
-    where us_ro.user_id = #{userId}
-    and user_status = 0
+    select * from user_role
+    where role_id in
+    (select role_id from user_role_relation where user_id = #{userId})
   </select>
 
   <update id="updateUserVersionByUsername">

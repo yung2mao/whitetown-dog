@@ -1,8 +1,11 @@
 package cn.whitetown.usersecurity.service.impl;
 
+import cn.whitetown.authcommon.constant.AuthConstant;
+import cn.whitetown.authcommon.entity.ao.UserRoleConfigureAo;
 import cn.whitetown.authcommon.entity.po.UserBasicInfo;
 import cn.whitetown.authcommon.entity.po.UserRole;
 import cn.whitetown.authcommon.entity.vo.RoleInfoVo;
+import cn.whitetown.authcommon.util.UserCacheUtil;
 import cn.whitetown.authcommon.util.token.JwtTokenUtil;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.exception.CustomException;
@@ -10,14 +13,17 @@ import cn.whitetown.dogbase.db.factory.BeanTransFactory;
 import cn.whitetown.dogbase.db.factory.QueryConditionFactory;
 import cn.whitetown.usersecurity.mappers.RoleInfoMapper;
 import cn.whitetown.usersecurity.mappers.UserBasicInfoMapper;
+import cn.whitetown.usersecurity.mappers.UserRoleRelationMapper;
 import cn.whitetown.usersecurity.service.RoleManageService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -34,7 +40,13 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
     private RoleInfoMapper roleInfoMapper;
 
     @Resource
+    private UserRoleRelationMapper roleRelationMapper;
+
+    @Resource
     private UserBasicInfoMapper userMapper;
+
+    @Autowired
+    private UserCacheUtil userCacheUtil;
 
     @Autowired
     private BeanTransFactory transUtil;
@@ -52,7 +64,7 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
     @Override
     public List<RoleInfoVo> queryAllRoles() {
         //condition
-        LambdaQueryWrapper<UserRole> queryWrapper = queryConditionFactory.getLambdaCondition(UserRole.class);
+        LambdaQueryWrapper<UserRole> queryWrapper = queryConditionFactory.getQueryCondition(UserRole.class);
         queryWrapper.in(UserRole::getRoleStatus,0,1)
                 .orderByAsc(UserRole::getSort);
         //query
@@ -68,10 +80,7 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
      */
     @Override
     public List<RoleInfoVo> queryRolesByUsername(String username) {
-        LambdaQueryWrapper<UserBasicInfo> queryWrapper = queryConditionFactory.getLambdaCondition(UserBasicInfo.class);
-        queryWrapper.eq(UserBasicInfo::getUsername,username)
-                .select(UserBasicInfo::getUserId);
-        UserBasicInfo userBasicInfo = userMapper.selectOne(queryWrapper);
+        UserBasicInfo userBasicInfo = this.selectUserByUsername(username);
         if(userBasicInfo == null){
             throw new CustomException(ResponseStatusEnum.NO_THIS_USER);
         }
@@ -121,6 +130,9 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
         if(oldRole == null){
             throw new CustomException(ResponseStatusEnum.NO_THIS_ROLE);
         }
+        if(!oldRole.getName().equalsIgnoreCase(role.getName())){
+            throw new CustomException(ResponseStatusEnum.REQUEST_INVALIDATE);
+        }
 
         Long updateUserId = jwtTokenUtil.getUserId();
         if(role.getSort() != null && role.getSort() > 0){
@@ -133,6 +145,12 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
         this.updateById(oldRole);
     }
 
+    /**
+     * 角色状态变更
+     * @param roleId
+     * @param roleStatus
+     */
+    @Transactional(rollbackFor = Throwable.class)
     @Override
     public void updateRoleStatus(Long roleId, Integer roleStatus) {
         UserRole role = this.getOneByRoleId(roleId);
@@ -145,8 +163,29 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
         this.update(updateWrapper);
         //内存数据处理
         if(roleStatus != 0){
-
+            //TODO:角色对应菜单处理
         }
+
+        if(roleStatus == 2){
+            //角色删除，对应关联关系一并删除
+            roleRelationMapper.removeRoleRelation(roleId);
+        }
+    }
+
+    /**
+     * 用户角色分配
+     * @param roleConfigureAo
+     */
+    @Transactional(rollbackFor = Throwable.class)
+    @Override
+    public void updateUserRoleRelation(UserRoleConfigureAo roleConfigureAo) {
+        UserBasicInfo userBasicInfo = this.selectUserByUsername(roleConfigureAo.getUsername());
+        if(userBasicInfo == null){
+            throw new CustomException(ResponseStatusEnum.NO_THIS_USER);
+        }
+        List<Long> roleIds = Arrays.asList(roleConfigureAo.getRoleIds());
+        roleRelationMapper.updateUserRoleRelation(userBasicInfo.getUserId(),roleIds);
+        userCacheUtil.removeUserDetails(AuthConstant.USERDETAIL_PREFIX+roleConfigureAo.getUsername());
     }
 
     /**
@@ -172,10 +211,23 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
      * @return
      */
     private UserRole getOneByRoleId(Long roleId){
-        LambdaQueryWrapper<UserRole> lambdaCondition = queryConditionFactory.getLambdaCondition(UserRole.class);
+        LambdaQueryWrapper<UserRole> lambdaCondition = queryConditionFactory.getQueryCondition(UserRole.class);
         lambdaCondition.eq(UserRole::getRoleId,roleId)
                 .in(UserRole::getRoleStatus,0,1);
         return this.getOne(lambdaCondition);
+    }
+
+    /**
+     * 根据用户名查用户信息
+     * @param username
+     * @return
+     */
+    private UserBasicInfo selectUserByUsername(String username){
+        LambdaQueryWrapper<UserBasicInfo> queryWrapper = queryConditionFactory.getQueryCondition(UserBasicInfo.class);
+        queryWrapper.eq(UserBasicInfo::getUsername,username)
+                .in(UserBasicInfo::getUserStatus,0,1);
+        UserBasicInfo userBasicInfo = userMapper.selectOne(queryWrapper);
+        return userBasicInfo;
     }
 
 }

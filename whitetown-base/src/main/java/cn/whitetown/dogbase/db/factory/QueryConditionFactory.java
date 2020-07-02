@@ -2,6 +2,7 @@ package cn.whitetown.dogbase.db.factory;
 
 import cn.whitetown.dogbase.common.entity.ao.PageQuery;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 /**
@@ -16,7 +17,15 @@ public interface QueryConditionFactory {
      * @param <T>
      * @return
      */
-    <T> LambdaQueryWrapper<T> getLambdaCondition(Class<T> claz);
+    <T> LambdaQueryWrapper<T> getQueryCondition(Class<T> claz);
+
+    /**
+     * 获取
+     * @param claz
+     * @param <T>
+     * @return
+     */
+    <T> LambdaUpdateWrapper<T> getUpdateCondition(Class<T> claz);
 
     /**
      * 根据传入对象创建查询条件Wrapper，自动忽略null值
@@ -29,10 +38,11 @@ public interface QueryConditionFactory {
 
     /**
      * 创建用作分页的Page对象
-     * @param pageQuery
+     * @param page
+     * @param size
      * @param claz
      * @param <T>
      * @return
      */
-    <T> Page<T> createPage(PageQuery pageQuery,Class<T> claz);
+    <T> Page<T> createPage(Integer page,Integer size,Class<T> claz);
 }

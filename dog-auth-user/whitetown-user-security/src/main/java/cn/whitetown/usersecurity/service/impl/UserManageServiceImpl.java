@@ -96,7 +96,7 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
             condition.le(UserBasicInfo::getCreateTime,userQuery.getEndTime());
         }
         //select data
-        Page<UserBasicInfo> page = queryConditionFactory.createPage(userQuery, UserBasicInfo.class);
+        Page<UserBasicInfo> page = queryConditionFactory.createPage(userQuery.getPage(),userQuery.getSize(), UserBasicInfo.class);
         Page<UserBasicInfo> pageResult = userMapper.selectPage(page, condition);
         if(pageResult.getRecords()==null || pageResult.getRecords().size()==0){
             return null;
@@ -187,9 +187,8 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
         newUser.setUpdateTime(new Date());
         //update
         userMapper.updateById(newUser);
-
         //内存旧数据移除(如果存在)
-        this.removeCacheUser(newUser.getUsername());
+        userCacheUtil.removeLoginUser(newUser.getUsername());
     }
 
     /**
@@ -197,7 +196,7 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
      * @param username
      */
     @Override
-    public void retryPassword(String username) {
+    public void reSetPassword(String username) {
         UserBasicInfo userBasicInfo = this.selectUserByUsername(username);
         if(userBasicInfo==null){
             throw new CustomException(ResponseStatusEnum.NO_THIS_USER);
@@ -209,11 +208,11 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
         updateWrapper.eq(UserBasicInfo::getUsername,username)
                 .set(UserBasicInfo::getPassword,defaultPwd)
                 .set(UserBasicInfo::getSalt,salt)
+                .set(UserBasicInfo::getUserVersion,userBasicInfo.getUserVersion()+1)
                 .set(UserBasicInfo::getUpdateUserId,updateUserId)
                 .set(UserBasicInfo::getUpdateTime,new Date());
         this.update(updateWrapper);
-
-        this.removeCacheUser(username);
+        userCacheUtil.removeUserDetails(AuthConstant.USERDETAIL_PREFIX+username);
     }
 
     /**
@@ -268,6 +267,11 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
         }
     }
 
+    /**
+     * 用户状态变更
+     * @param username
+     * @param userStatus
+     */
     @Override
     public void changeUserStatus(String username, Integer userStatus) {
         UserBasicInfo userBasicInfo = this.selectUserByUsername(username);
@@ -278,11 +282,12 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
         updateWrapper.eq(UserBasicInfo::getUsername,username)
                 .set(UserBasicInfo::getUserStatus,userStatus);
         this.update(updateWrapper);
-        this.removeCacheUser(username);
+        userCacheUtil.removeUserDetails(AuthConstant.USERDETAIL_PREFIX+username);
+        userCacheUtil.removeLoginUser(username);
     }
 
     /**
-     * 通过用户名搜索用户信息
+     * 通过用户名搜索数据库中用户信息
      * @param username
      * @return
      */
@@ -291,13 +296,5 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
         condition.eq(UserBasicInfo::getUsername,username)
                 .in(UserBasicInfo::getUserStatus,0,1);
         return userMapper.selectOne(condition);
-    }
-
-    /**
-     * 从内存移除username匹配的旧数据
-     * @param username
-     */
-    private void removeCacheUser(String username){
-        userCacheUtil.removeUserInfo(username,AuthConstant.USERDETAIL_PREFIX+username);
     }
 }

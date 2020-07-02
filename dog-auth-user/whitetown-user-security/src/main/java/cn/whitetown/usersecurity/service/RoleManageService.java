@@ -1,5 +1,6 @@
 package cn.whitetown.usersecurity.service;
 
+import cn.whitetown.authcommon.entity.ao.UserRoleConfigureAo;
 import cn.whitetown.authcommon.entity.po.UserRole;
 import cn.whitetown.authcommon.entity.vo.RoleInfoVo;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -44,4 +45,10 @@ public interface RoleManageService extends IService<UserRole> {
      * @param roleStatus
      */
     void updateRoleStatus(Long roleId, Integer roleStatus);
+
+    /**
+     * 用户角色配置
+     * @param roleConfigureAo
+     */
+    void updateUserRoleRelation(UserRoleConfigureAo roleConfigureAo);
 }

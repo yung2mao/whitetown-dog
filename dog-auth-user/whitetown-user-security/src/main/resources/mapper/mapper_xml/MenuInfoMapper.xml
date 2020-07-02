@@ -6,8 +6,9 @@
     select t1.* from
         (select * from sys_menu where menu_level &lt;= #{lowLevel}) as t1
     where
-        t1.menu_code = #{menuCode}
+        t1.menu_status in (0,1)
+        and (t1.menu_code = #{menuCode}
         or t1.menu_level &gt;
-            (select menu_level from sys_menu where menu_code = #{menuCode})
+            (select menu_level from sys_menu where menu_code = #{menuCode}))
   </select>
 </mapper>

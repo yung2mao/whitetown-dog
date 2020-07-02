@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.whitetown.usersecurity.mappers.UserRoleRelationMapper" >
+
+    <delete id="removeRoleRelation" parameterType="java.lang.Long">
+        delete from user_role_relation
+            where role_id = #{roleId};
+--             TODO:menu关系删除
+    </delete>
+
+    <update id="updateUserRoleRelation">
+        delete from user_role_relation
+        where user_id = #{userId};
+
+        <foreach collection="roleIds" item="roleId">
+            insert into user_role_relation (id,user_id,role_id)
+            values (null,#{userId},#{roleId});
+        </foreach>
+
+        update user_basic_info set user_version = user_version+1 where user_id = #{userId}
+    </update>
+
+</mapper>

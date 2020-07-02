@@ -8,6 +8,7 @@ import cn.whitetown.dogbase.common.util.DataCheckUtil;
 import cn.whitetown.dogbase.db.entity.DataBaseConstant;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -25,14 +26,14 @@ public class DefaultQueryConditionFactory implements QueryConditionFactory{
     @Autowired
     private WhiteExpireMap whiteExpireMap;
 
-    /**
-     * 获取LambdaQueryWrapper
-     * @param <T>
-     * @return
-     */
     @Override
-    public <T> LambdaQueryWrapper<T> getLambdaCondition(Class<T> claz){
+    public <T> LambdaQueryWrapper<T> getQueryCondition(Class<T> claz){
         return new LambdaQueryWrapper<>();
+    }
+
+    @Override
+    public <T> LambdaUpdateWrapper<T> getUpdateCondition(Class<T> claz) {
+        return new LambdaUpdateWrapper<>();
     }
 
     /**
@@ -132,17 +133,18 @@ public class DefaultQueryConditionFactory implements QueryConditionFactory{
 
     /**
      * 获取用于分页的Page对象
-     * @param pageQuery
+     * @param page
+     * @param size
      * @param claz
      * @param <T>
      * @return
      */
     @Override
-    public <T> Page<T> createPage(PageQuery pageQuery,Class<T> claz) {
-        Page<T> page = new Page<>();
-        page.setCurrent(pageQuery.getPage());
-        page.setSize(pageQuery.getSize());
-        return page;
+    public <T> Page<T> createPage(Integer page,Integer size,Class<T> claz) {
+        Page<T> mPage = new Page<>();
+        mPage.setCurrent(page);
+        mPage.setSize(size);
+        return mPage;
     }
 
     /**
