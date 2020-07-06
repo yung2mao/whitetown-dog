@@ -1,5 +1,6 @@
 package cn.whitetown.usersecurity.service.impl;
 
+import cn.whitetown.authcommon.entity.po.UserRole;
 import cn.whitetown.authcommon.util.MenuUtil;
 import cn.whitetown.authcommon.util.token.JwtTokenUtil;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
@@ -8,6 +9,7 @@ import cn.whitetown.authcommon.entity.po.MenuInfo;
 import cn.whitetown.authcommon.entity.vo.MenuTree;
 import cn.whitetown.dogbase.db.factory.QueryConditionFactory;
 import cn.whitetown.usersecurity.mappers.MenuInfoMapper;
+import cn.whitetown.usersecurity.mappers.RoleInfoMapper;
 import cn.whitetown.usersecurity.service.MenuService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
@@ -30,6 +32,9 @@ import java.util.stream.Collectors;
 public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implements MenuService {
     @Resource
     private MenuInfoMapper menuInfoMapper;
+
+    @Resource
+    private RoleInfoMapper roleInfoMapper;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -58,21 +63,61 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
     }
 
     /**
+     * 根据用户ID查询配置的菜单项
+     * @param userId
+     * @return
+     */
+    @Override
+    public MenuTree queryActiveMenuByUserId(Long userId) {
+        List<MenuInfo> menuInfos = menuInfoMapper.selectActiveMenuByUserId(0,userId);
+        return menuUtil.createMenuTreeByMenuList(menuInfos);
+    }
+
+    /**
+     * 根据角色名称查询绑定的菜单信息
+     * @param roleName
+     * @return
+     */
+    @Override
+    public MenuTree queryMenuTreeByRoleName(String roleName) {
+        LambdaQueryWrapper<UserRole> queryWrapper = conditionFactory.getQueryCondition(UserRole.class);
+        queryWrapper.eq(UserRole::getName,roleName);
+        UserRole userRole = roleInfoMapper.selectOne(queryWrapper);
+        if(userRole == null){
+            throw new CustomException(ResponseStatusEnum.NO_THIS_ROLE);
+        }
+        List<MenuInfo> menuInfos = menuInfoMapper.selectMenuByRoleId(userRole.getRoleId());
+        return menuUtil.createMenuTreeByMenuList(menuInfos);
+    }
+
+    /**
      * 添加菜单信息
      * @param menuInfo
      */
     @Override
     public void addSingleMenu(MenuInfo menuInfo) {
-        LambdaQueryWrapper<MenuInfo> queryWrapper = new LambdaQueryWrapper<>();
+        LambdaQueryWrapper<MenuInfo> queryWrapper = conditionFactory.getQueryCondition(MenuInfo.class);
         queryWrapper.eq(MenuInfo::getMenuCode,menuInfo.getMenuCode());
         MenuInfo oldMenu = menuInfoMapper.selectOne(queryWrapper);
         if(oldMenu != null){
             throw new CustomException(ResponseStatusEnum.EXISTED_THE_MENU);
         }
+        //parent menu
+        LambdaUpdateWrapper<MenuInfo> parentQueryWrapper = conditionFactory.getUpdateCondition(MenuInfo.class);
+        parentQueryWrapper.eq(MenuInfo::getMenuId,menuInfo.getParentId());
+        MenuInfo parentMenu = menuInfoMapper.selectOne(parentQueryWrapper);
+        if(parentMenu == null){
+            throw new CustomException(ResponseStatusEnum.MENU_LEVEL_ERROR);
+        }
+        menuInfo.setMenuLevel(parentMenu.getMenuLevel()+1);
+
+        menuInfo.setMenuId(null);
         Long userId = jwtTokenUtil.getUserId();
         menuInfo.setCreateUserId(userId);
         menuInfo.setCreateTime(new Date());
         menuInfo.setMenuStatus(0);
+        menuInfo.setUpdateUserId(null);
+        menuInfo.setUpdateTime(null);
         menuInfoMapper.insert(menuInfo);
     }
 

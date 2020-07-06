@@ -1,5 +1,6 @@
 package cn.whitetown.usersecurity.controller;
 
+import cn.whitetown.authcommon.util.token.JwtTokenUtil;
 import cn.whitetown.dogbase.common.entity.vo.ResponseData;
 import cn.whitetown.authcommon.entity.po.MenuInfo;
 import cn.whitetown.authcommon.entity.vo.MenuTree;
@@ -26,16 +27,9 @@ public class MenuController {
 
     @Autowired
     private MenuService service;
-    /**
-     * 新增菜单信息
-     * @param menuInfo
-     * @return
-     */
-    @PostMapping(value = "/add",produces = "application/json;charset=UTF-8")
-    public ResponseData addMenu(@RequestBody @Valid MenuInfo menuInfo){
-        service.addSingleMenu(menuInfo);
-        return ResponseData.ok();
-    }
+
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
 
     /**
      * 查询指定菜单层级范围内的所有菜单信息，以树形结构返回
@@ -55,7 +49,9 @@ public class MenuController {
      */
     @GetMapping("/loginMenu")
     public ResponseData<MenuTree> queryActiveMenuTree(){
-        return null;
+        Long userId = jwtTokenUtil.getUserId();
+        MenuTree menuTree = service.queryActiveMenuByUserId(userId);
+        return ResponseData.ok(menuTree);
     }
 
     /**
@@ -64,8 +60,21 @@ public class MenuController {
      * @return
      */
     @GetMapping("roleMenu")
-    public ResponseData<MenuTree> queryUserMenuTree(String roleName){
-        return null;
+    public ResponseData<MenuTree> queryUserMenuTree(@NotBlank(message = "角色名称不能为空") String roleName){
+        MenuTree menuTree = service.queryMenuTreeByRoleName(roleName);
+        return ResponseData.ok(menuTree);
+    }
+
+
+    /**
+     * 新增菜单信息
+     * @param menuInfo
+     * @return
+     */
+    @PostMapping(value = "/add",produces = "application/json;charset=UTF-8")
+    public ResponseData addMenu(@RequestBody @Valid MenuInfo menuInfo){
+        service.addSingleMenu(menuInfo);
+        return ResponseData.ok();
     }
 
     /**

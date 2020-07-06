@@ -60,7 +60,6 @@ public class MenuInfo {
      * 0 - 顶级
      * 100 - 最底级，直接操作的按钮类别
      */
-    @NotNull(message = "菜单级别不能为空")
     private Integer menuLevel;
     /**
      * 描述
