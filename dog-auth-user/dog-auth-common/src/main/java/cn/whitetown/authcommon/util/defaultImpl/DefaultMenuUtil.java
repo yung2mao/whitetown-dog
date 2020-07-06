@@ -36,22 +36,17 @@ public class DefaultMenuUtil implements MenuUtil {
      */
     @Override
     public MenuTree createMenuTreeByMenuList(MenuTree parentMenuTree, List<MenuInfo> menuInfos) {
-        try {
-            if (parentMenuTree == null) {
-                MenuInfo menuInfo = menuInfos.stream().min(Comparator.comparing(MenuInfo::getMenuLevel)).get();
-                parentMenuTree = beanTrans.trans(menuInfo, MenuTree.class);
-                menuInfos.remove(menuInfo);
+        if (parentMenuTree == null) {
+            MenuInfo menuInfo = menuInfos.stream().min(Comparator.comparing(MenuInfo::getMenuLevel)).get();
+            parentMenuTree = beanTrans.trans(menuInfo, MenuTree.class);
+            menuInfos.remove(menuInfo);
+        }
+        for (MenuInfo menu : menuInfos) {
+            if (menu.getParentId().equals(parentMenuTree.getMenuId())) {
+                MenuTree menuTree = beanTrans.trans(menu, MenuTree.class);
+                parentMenuTree.getChildren().add(menuTree);
+                this.createMenuTreeByMenuList(menuTree, menuInfos);
             }
-            for (MenuInfo menu : menuInfos) {
-                if (menu.getParentId().equals(parentMenuTree.getMenuId())) {
-                    MenuTree menuTree = beanTrans.trans(menu, MenuTree.class);
-                    parentMenuTree.getChildren().add(menuTree);
-                    this.createMenuTreeByMenuList(menuTree, menuInfos);
-                }
-            }
-        }catch (Exception e){
-            e.printStackTrace();
-            throw new RuntimeException(e.getMessage());
         }
         return parentMenuTree;
     }

@@ -1,5 +1,6 @@
 package cn.whitetown.usersecurity.service;
 
+import cn.whitetown.authcommon.entity.ao.MenuInfoAo;
 import cn.whitetown.authcommon.entity.po.MenuInfo;
 import cn.whitetown.authcommon.entity.vo.MenuTree;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -36,7 +37,13 @@ public interface MenuService extends IService<MenuInfo> {
      * 添加一个菜单
      * @param menuInfo
      */
-    void addSingleMenu(MenuInfo menuInfo);
+    void addSingleMenu(MenuInfoAo menuInfo);
+
+    /**
+     * 修改菜单信息
+     * @param menuInfo
+     */
+    void updateMenuInfo(MenuInfoAo menuInfo);
 
     /**
      * 菜单状态更新
@@ -44,4 +51,5 @@ public interface MenuService extends IService<MenuInfo> {
      * @param menuStatus
      */
     void updateMenuStatus(Long menuId, Integer menuStatus);
+
 }

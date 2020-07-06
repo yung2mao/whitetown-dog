@@ -1,5 +1,6 @@
 package cn.whitetown.usersecurity.controller;
 
+import cn.whitetown.authcommon.entity.ao.MenuInfoAo;
 import cn.whitetown.authcommon.util.token.JwtTokenUtil;
 import cn.whitetown.dogbase.common.entity.vo.ResponseData;
 import cn.whitetown.authcommon.entity.po.MenuInfo;
@@ -72,7 +73,7 @@ public class MenuController {
      * @return
      */
     @PostMapping(value = "/add",produces = "application/json;charset=UTF-8")
-    public ResponseData addMenu(@RequestBody @Valid MenuInfo menuInfo){
+    public ResponseData addMenu(@RequestBody @Valid MenuInfoAo menuInfo){
         service.addSingleMenu(menuInfo);
         return ResponseData.ok();
     }
@@ -83,11 +84,14 @@ public class MenuController {
      * @return
      */
     @PostMapping(value = "update",produces = "application/json;charset=UTF-8")
-    public ResponseData updateMenu(@RequestBody @Valid MenuInfo menuInfo){
+    public ResponseData updateMenu(@RequestBody @Valid MenuInfoAo menuInfo){
         if(menuInfo.getMenuId()==null){
             throw new RuntimeException("ID不能为空");
         }
-
+        if(menuInfo.getMenuId() == 1){
+            throw new RuntimeException("顶级菜单信息禁止变更");
+        }
+        service.updateMenuInfo(menuInfo);
         return ResponseData.ok();
     }
 
@@ -104,5 +108,9 @@ public class MenuController {
     public ResponseData updateMenuStatus(@NotNull(message = "菜单ID不能为空") Long menuId,@NotNull @Min(0) @Max(2) Integer menuStatus){
         service.updateMenuStatus(menuId,menuStatus);
         return ResponseData.ok();
+    }
+
+    public ResponseData updateRoleMenu(){
+        return null;
     }
 }

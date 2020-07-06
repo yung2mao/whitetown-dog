@@ -13,8 +13,6 @@ public interface BeanTransFactory {
      * @param targetClass
      * @param <T>
      * @return
-     * @throws IllegalAccessException
-     * @throws InstantiationException
      */
-    <T> T trans(Object source,Class<T> targetClass) throws IllegalAccessException, InstantiationException;
+    <T> T trans(Object source,Class<T> targetClass);
 }

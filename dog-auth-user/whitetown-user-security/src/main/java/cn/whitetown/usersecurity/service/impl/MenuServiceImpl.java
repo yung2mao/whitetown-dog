@@ -1,5 +1,6 @@
 package cn.whitetown.usersecurity.service.impl;
 
+import cn.whitetown.authcommon.entity.ao.MenuInfoAo;
 import cn.whitetown.authcommon.entity.po.UserRole;
 import cn.whitetown.authcommon.util.MenuUtil;
 import cn.whitetown.authcommon.util.token.JwtTokenUtil;
@@ -7,6 +8,7 @@ import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.exception.CustomException;
 import cn.whitetown.authcommon.entity.po.MenuInfo;
 import cn.whitetown.authcommon.entity.vo.MenuTree;
+import cn.whitetown.dogbase.db.factory.BeanTransFactory;
 import cn.whitetown.dogbase.db.factory.QueryConditionFactory;
 import cn.whitetown.usersecurity.mappers.MenuInfoMapper;
 import cn.whitetown.usersecurity.mappers.RoleInfoMapper;
@@ -18,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.xml.crypto.Data;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
@@ -41,6 +44,9 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
 
     @Autowired
     private MenuUtil menuUtil;
+
+    @Autowired
+    private BeanTransFactory transFactory;
 
     @Autowired
     private QueryConditionFactory conditionFactory;
@@ -95,30 +101,70 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
      * @param menuInfo
      */
     @Override
-    public void addSingleMenu(MenuInfo menuInfo) {
+    public void addSingleMenu(MenuInfoAo menuInfo) {
         LambdaQueryWrapper<MenuInfo> queryWrapper = conditionFactory.getQueryCondition(MenuInfo.class);
-        queryWrapper.eq(MenuInfo::getMenuCode,menuInfo.getMenuCode());
-        MenuInfo oldMenu = menuInfoMapper.selectOne(queryWrapper);
-        if(oldMenu != null){
-            throw new CustomException(ResponseStatusEnum.EXISTED_THE_MENU);
-        }
-        //parent menu
-        LambdaUpdateWrapper<MenuInfo> parentQueryWrapper = conditionFactory.getUpdateCondition(MenuInfo.class);
-        parentQueryWrapper.eq(MenuInfo::getMenuId,menuInfo.getParentId());
-        MenuInfo parentMenu = menuInfoMapper.selectOne(parentQueryWrapper);
-        if(parentMenu == null){
+        queryWrapper.eq(MenuInfo::getMenuCode,menuInfo.getMenuCode())
+                .or().eq(MenuInfo::getMenuUrl,menuInfo.getMenuUrl())
+                .or().eq(MenuInfo::getMenuId,menuInfo.getParentId())
+                .in(MenuInfo::getMenuStatus,0,1);
+        List<MenuInfo> oldMenus = menuInfoMapper.selectList(queryWrapper);
+        if(oldMenus.size() == 0){
             throw new CustomException(ResponseStatusEnum.MENU_LEVEL_ERROR);
+        }else if (oldMenus.size() == 1){
+            if(oldMenus.get(0).getMenuId().equals(menuInfo.getParentId())){
+                throw new CustomException(ResponseStatusEnum.EXISTED_THE_MENU);
+            }
+        }else {
+            throw new CustomException(ResponseStatusEnum.REQUEST_INVALIDATE);
         }
-        menuInfo.setMenuLevel(parentMenu.getMenuLevel()+1);
 
-        menuInfo.setMenuId(null);
+        MenuInfo addMenu = transFactory.trans(menuInfo, MenuInfo.class);
+        MenuInfo parentMenu = oldMenus.get(0);
+        addMenu.setMenuLevel(parentMenu.getMenuLevel()+1);
         Long userId = jwtTokenUtil.getUserId();
-        menuInfo.setCreateUserId(userId);
-        menuInfo.setCreateTime(new Date());
-        menuInfo.setMenuStatus(0);
-        menuInfo.setUpdateUserId(null);
-        menuInfo.setUpdateTime(null);
-        menuInfoMapper.insert(menuInfo);
+        addMenu.setCreateUserId(userId);
+        addMenu.setCreateTime(new Date());
+        addMenu.setMenuStatus(0);
+        menuInfoMapper.insert(addMenu);
+    }
+
+    /**
+     * 修改菜单信息
+     * @param menuInfo
+     */
+    @Override
+    public void updateMenuInfo(MenuInfoAo menuInfo) {
+        LambdaQueryWrapper<MenuInfo> queryWrapper = conditionFactory.getQueryCondition(MenuInfo.class);
+        queryWrapper.eq(MenuInfo::getMenuId,menuInfo.getMenuId())
+                .or().eq(MenuInfo::getMenuCode,menuInfo.getMenuCode())
+                .or().eq(MenuInfo::getMenuUrl,menuInfo.getMenuUrl())
+                .or().eq(MenuInfo::getParentId,menuInfo.getParentId());
+        List<MenuInfo> menuInfos = menuInfoMapper.selectList(queryWrapper);
+        MenuInfo oldMenu = null;
+        MenuInfo parentMenu = null;
+        if(menuInfos.size() == 2){
+            for (MenuInfo menu : menuInfos){
+                if(menu.getMenuId().equals(menuInfo.getMenuId())){
+                    oldMenu = menu;
+                }
+                if(menu.getMenuId().equals(menuInfo.getParentId())){
+                    parentMenu = menu;
+                }
+            }
+        }else {
+            throw new CustomException(ResponseStatusEnum.REQUEST_INVALIDATE);
+        }
+        if(oldMenu==null || parentMenu == null){
+            throw new CustomException(ResponseStatusEnum.REQUEST_INVALIDATE);
+        }
+        MenuInfo menu = transFactory.trans(menuInfo, MenuInfo.class);
+        menu.setUpdateUserId(jwtTokenUtil.getUserId());
+        menu.setUpdateTime(new Date());
+        menu.setCreateUserId(oldMenu.getUpdateUserId());
+        menu.setCreateTime(oldMenu.getCreateTime());
+        menu.setMenuLevel(parentMenu.getMenuLevel()+1);
+        menu.setMenuStatus(oldMenu.getMenuStatus());
+        menuInfoMapper.updateById(menu);
     }
 
     /**

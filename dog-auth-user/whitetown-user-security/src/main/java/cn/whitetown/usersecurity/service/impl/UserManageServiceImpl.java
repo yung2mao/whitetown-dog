@@ -102,15 +102,9 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
             return null;
         }
         //to vo
-        List<UserBasicInfoVo> userVos = pageResult.getRecords().stream().map(us -> {
-            UserBasicInfoVo userBasicInfoVo = null;
-            try {
-                userBasicInfoVo = transFactory.trans(us, UserBasicInfoVo.class);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            return userBasicInfoVo;
-        }).collect(Collectors.toList());
+        List<UserBasicInfoVo> userVos = pageResult.getRecords().stream()
+                .map(us -> transFactory.trans(us, UserBasicInfoVo.class))
+                .collect(Collectors.toList());
 
         return ResponsePage.createPage(pageResult.getCurrent(),
                 pageResult.getSize(),

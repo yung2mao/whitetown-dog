@@ -1,6 +1,8 @@
 package cn.whitetown.dogbase.db.factory;
 
 import cn.whitetown.dogbase.common.memdata.WhiteExpireMap;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cglib.beans.BeanCopier;
 
@@ -10,6 +12,8 @@ import org.springframework.cglib.beans.BeanCopier;
  * @date 2020/06/22 22:50
  **/
 public class DefaultBeanTransFactory implements BeanTransFactory{
+
+    private Log logger = LogFactory.getLog(DefaultBeanTransFactory.class);
 
     @Autowired
     private WhiteExpireMap expireMap;
@@ -26,11 +30,9 @@ public class DefaultBeanTransFactory implements BeanTransFactory{
      * @param targetClass
      * @param <T>
      * @return
-     * @throws IllegalAccessException
-     * @throws InstantiationException
      */
     @Override
-    public <T> T trans(Object source, Class<T> targetClass) throws IllegalAccessException, InstantiationException {
+    public <T> T trans(Object source, Class<T> targetClass){
         Object key = (source.getClass().getName() + targetClass.getName()).hashCode();
         BeanCopier beanCopier = (BeanCopier)expireMap.get(key);
         if(beanCopier == null) {
@@ -39,8 +41,14 @@ public class DefaultBeanTransFactory implements BeanTransFactory{
         }
         expireMap.sExpire(key,BEAN_COPIER_KEEP_TIME);
 
-        T t = targetClass.newInstance();
-        beanCopier.copy(source,t, null);
+        T t = null;
+        try {
+           t = targetClass.newInstance();
+            beanCopier.copy(source,t, null);
+        }catch (Exception e){
+            logger.warn(e.getMessage());
+            throw new RuntimeException(e.getMessage());
+        }
         return t;
     }
 }

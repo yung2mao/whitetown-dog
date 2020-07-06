@@ -102,11 +102,7 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
             throw new CustomException(ResponseStatusEnum.ROLE_EXISTS);
         }
         UserRole userRole = null;
-        try {
-            userRole = transUtil.trans(role, UserRole.class);
-        } catch (Exception e) {
-            throw new CustomException(ResponseStatusEnum.SERVER_ERROR);
-        }
+        userRole = transUtil.trans(role, UserRole.class);
         Long createUserId = jwtTokenUtil.getUserId();
         if(role.getSort() == null){
             userRole.setSort(100);
@@ -194,14 +190,9 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
      * @return
      */
     private List<RoleInfoVo> roleInfo2Vo(List<UserRole> roleList){
-        List<RoleInfoVo> roleInfoVoList = roleList.stream().map(userRole -> {
-            try {
-                return transUtil.trans(userRole, RoleInfoVo.class);
-            } catch (IllegalAccessException | InstantiationException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }).collect(Collectors.toList());
+        List<RoleInfoVo> roleInfoVoList = roleList.stream()
+                .map(userRole -> transUtil.trans(userRole, RoleInfoVo.class))
+                .collect(Collectors.toList());
         return roleInfoVoList;
     }
 
