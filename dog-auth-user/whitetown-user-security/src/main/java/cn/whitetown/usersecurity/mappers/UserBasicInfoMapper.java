@@ -12,12 +12,6 @@ import java.util.List;
  * @date 2020/06/13 15:11
  **/
 public interface UserBasicInfoMapper extends BaseMapper<UserBasicInfo> {
-    /**
-     * 根据userId获取角色信息
-     * @param userId
-     * @return
-     */
-    List<UserRole> selectUserRole(Long userId);
 
     /**
      * 用户版本信息更新

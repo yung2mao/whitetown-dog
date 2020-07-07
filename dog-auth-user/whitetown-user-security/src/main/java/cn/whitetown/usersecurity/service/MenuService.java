@@ -36,15 +36,17 @@ public interface MenuService extends IService<MenuInfo> {
 
     /**
      * 添加一个菜单
+     * @param createUserId 创建人
      * @param menuInfo
      */
-    void addSingleMenu(MenuInfoAo menuInfo);
+    void addSingleMenu(Long createUserId,MenuInfoAo menuInfo);
 
     /**
      * 修改菜单信息
+     * @param updateUserId 修改人
      * @param menuInfo
      */
-    void updateMenuInfo(MenuInfoAo menuInfo);
+    void updateMenuInfo(Long updateUserId,MenuInfoAo menuInfo);
 
     /**
      * 菜单状态更新

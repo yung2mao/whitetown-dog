@@ -2,12 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="cn.whitetown.usersecurity.mappers.UserBasicInfoMapper" >
 
-  <select id="selectUserRole" resultType="cn.whitetown.authcommon.entity.po.UserRole">
-    select * from user_role
-    where role_id in
-    (select role_id from user_role_relation where user_id = #{userId})
-  </select>
-
   <update id="updateUserVersionByUsername">
     update user_basic_info set user_version = user_version + 1
     where username = #{username}

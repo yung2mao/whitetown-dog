@@ -4,7 +4,6 @@ import cn.whitetown.authcommon.entity.ao.MenuInfoAo;
 import cn.whitetown.authcommon.entity.ao.RoleMenuConfigure;
 import cn.whitetown.authcommon.entity.po.UserRole;
 import cn.whitetown.authcommon.util.MenuUtil;
-import cn.whitetown.authcommon.util.token.JwtTokenUtil;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.exception.CustomException;
 import cn.whitetown.authcommon.entity.po.MenuInfo;
@@ -21,7 +20,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import javax.validation.constraints.NotBlank;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -37,9 +35,6 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
 
     @Autowired
     private RoleManager roleManager;
-
-    @Autowired
-    private JwtTokenUtil jwtTokenUtil;
 
     @Autowired
     private MenuUtil menuUtil;
@@ -98,7 +93,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
      * @param menuInfo
      */
     @Override
-    public void addSingleMenu(MenuInfoAo menuInfo) {
+    public void addSingleMenu(Long createUserId,MenuInfoAo menuInfo) {
         LambdaQueryWrapper<MenuInfo> queryWrapper = conditionFactory.getQueryCondition(MenuInfo.class);
         queryWrapper.eq(MenuInfo::getMenuCode,menuInfo.getMenuCode())
                 .or().eq(MenuInfo::getMenuUrl,menuInfo.getMenuUrl())
@@ -118,8 +113,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
         MenuInfo addMenu = transFactory.trans(menuInfo, MenuInfo.class);
         MenuInfo parentMenu = oldMenus.get(0);
         addMenu.setMenuLevel(parentMenu.getMenuLevel()+1);
-        Long userId = jwtTokenUtil.getUserId();
-        addMenu.setCreateUserId(userId);
+        addMenu.setCreateUserId(createUserId);
         addMenu.setCreateTime(new Date());
         addMenu.setMenuStatus(0);
         menuInfoMapper.insert(addMenu);
@@ -130,7 +124,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
      * @param menuInfo
      */
     @Override
-    public void updateMenuInfo(MenuInfoAo menuInfo) {
+    public void updateMenuInfo(Long updateUserId,MenuInfoAo menuInfo) {
         LambdaQueryWrapper<MenuInfo> queryWrapper = conditionFactory.getQueryCondition(MenuInfo.class);
         queryWrapper.eq(MenuInfo::getMenuId,menuInfo.getMenuId())
                 .or().eq(MenuInfo::getMenuCode,menuInfo.getMenuCode())
@@ -155,7 +149,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
             throw new CustomException(ResponseStatusEnum.REQUEST_INVALIDATE);
         }
         MenuInfo menu = transFactory.trans(menuInfo, MenuInfo.class);
-        menu.setUpdateUserId(jwtTokenUtil.getUserId());
+        menu.setUpdateUserId(updateUserId);
         menu.setUpdateTime(new Date());
         menu.setCreateUserId(oldMenu.getUpdateUserId());
         menu.setCreateTime(oldMenu.getCreateTime());

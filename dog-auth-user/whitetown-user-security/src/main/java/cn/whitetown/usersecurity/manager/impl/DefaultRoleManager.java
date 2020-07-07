@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * @author GrainRain
@@ -38,5 +39,10 @@ public class DefaultRoleManager implements RoleManager {
                 .in(UserRole::getRoleStatus,0,1);
         UserRole userRole = roleInfoMapper.selectOne(queryWrapper);
         return userRole;
+    }
+
+    @Override
+    public List<UserRole> queryRolesByUserId(Long userId) {
+        return roleInfoMapper.selectRolesByUserId(userId);
     }
 }

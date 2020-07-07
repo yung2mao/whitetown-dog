@@ -75,7 +75,7 @@ public class MenuController {
      */
     @PostMapping(value = "/add",produces = "application/json;charset=UTF-8")
     public ResponseData addMenu(@RequestBody @Valid MenuInfoAo menuInfo){
-        service.addSingleMenu(menuInfo);
+        service.addSingleMenu(jwtTokenUtil.getUserId(),menuInfo);
         return ResponseData.ok();
     }
 
@@ -92,7 +92,7 @@ public class MenuController {
         if(menuInfo.getMenuId() == 1){
             throw new RuntimeException("顶级菜单信息禁止变更");
         }
-        service.updateMenuInfo(menuInfo);
+        service.updateMenuInfo(jwtTokenUtil.getUserId(),menuInfo);
         return ResponseData.ok();
     }
 

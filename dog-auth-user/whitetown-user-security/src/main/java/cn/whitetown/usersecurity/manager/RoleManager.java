@@ -2,6 +2,8 @@ package cn.whitetown.usersecurity.manager;
 
 import cn.whitetown.authcommon.entity.po.UserRole;
 
+import java.util.List;
+
 /**
  * 角色管理通用接口
  * @author GrainRain
@@ -22,4 +24,11 @@ public interface RoleManager {
      * @return
      */
     UserRole queryRoleByRoleName(String roleName);
+
+    /**
+     * 查询用户的全部角色信息
+     * @param userId
+     * @return
+     */
+    List<UserRole> queryRolesByUserId(Long userId);
 }

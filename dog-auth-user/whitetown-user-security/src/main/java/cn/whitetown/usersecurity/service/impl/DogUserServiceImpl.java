@@ -12,6 +12,8 @@ import cn.whitetown.authcommon.entity.po.UserBasicInfo;
 import cn.whitetown.dogbase.common.util.DataCheckUtil;
 import cn.whitetown.dogbase.db.entity.WhiteLambdaQueryWrapper;
 import cn.whitetown.dogbase.common.util.secret.Md5WithSaltUtil;
+import cn.whitetown.usersecurity.manager.RoleManager;
+import cn.whitetown.usersecurity.manager.UserManager;
 import cn.whitetown.usersecurity.mappers.UserBasicInfoMapper;
 import cn.whitetown.usersecurity.service.DogUserService;
 import cn.whitetown.usersecurity.util.LoginUserUtil;
@@ -40,6 +42,12 @@ public class DogUserServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserBasi
 
     @Resource
     private UserBasicInfoMapper userMapper;
+
+    @Autowired
+    private UserManager userManager;
+
+    @Autowired
+    private RoleManager roleManager;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -75,10 +83,7 @@ public class DogUserServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserBasi
      */
     @Override
     public String checkUserNameAndPassword(String username, String password) {
-        if(DataCheckUtil.checkTextNullBool(username) || DataCheckUtil.checkTextNullBool(password)){
-            throw new CustomException(ResponseStatusEnum.AUTH_REQUEST_ERROR);
-        }
-        UserBasicInfo user = this.selectUserByUsername(username);
+        UserBasicInfo user = userManager.getUserByUsername(username);
         if(user==null){
             throw new CustomException(ResponseStatusEnum.AUTH_REQUEST_ERROR);
         }
@@ -93,14 +98,14 @@ public class DogUserServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserBasi
         }
 
         //角色信息
-        List<UserRole> roles = userMapper.selectUserRole(user.getUserId());
+        List<UserRole> roles = roleManager.queryRolesByUserId(user.getUserId());
         if(roles==null || roles.size()==0){
             throw new CustomException(ResponseStatusEnum.NO_PERMITION);
         }
         LoginUser loginUser = LoginUserUtil.getLoginUser(user,roles);
         //create token
         //存储信息包括userId，username,roles,userVersion
-        Map<String,Object> map = new HashMap<>(10);
+        Map<String,Object> map = new HashMap<>(8);
         map.put(JwtTokenUtil.USER_ID,user.getUserId());
         map.put(JwtTokenUtil.USERNAME,username);
         map.put(JwtTokenUtil.USER_ROLE,loginUser.getRoles());
@@ -119,15 +124,12 @@ public class DogUserServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserBasi
     }
 
     /**
-     * 新token签发
+     * 根据原有token签发新的token
      * @return
      */
     @Override
     public String updateToken() {
         String token = jwtTokenUtil.getToken();
-        if(DataCheckUtil.checkTextNullBool(token)){
-            throw new CustomException(ResponseStatusEnum.TOKEN_EXPIRED);
-        }
         String newToken = jwtTokenUtil.updateToken(token);
         return newToken;
     }
@@ -141,7 +143,7 @@ public class DogUserServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserBasi
         String username = jwtTokenUtil.getUsername();
         LoginUser user = userCacheUtil.getUserBasicInfo(username);
         if(user ==null){
-            UserBasicInfo userBasic = this.selectUserByUsername(username);
+            UserBasicInfo userBasic = userManager.getUserByUsername(username);
             if(userBasic==null){
                 throw new CustomException(ResponseStatusEnum.TOKEN_EXPIRED);
             }
@@ -166,17 +168,5 @@ public class DogUserServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserBasi
         userCacheUtil.removeUserDetails(AuthConstant.USERDETAIL_PREFIX+username);
         //version update
         userMapper.updateUserVersionByUsername(username);
-    }
-
-    /**
-     * 通过用户名搜索用户信息
-     * @param username
-     * @return
-     */
-    private UserBasicInfo selectUserByUsername(String username){
-        LambdaQueryWrapper<UserBasicInfo> condition = new LambdaQueryWrapper<>();
-        condition.eq(UserBasicInfo::getUsername,username)
-                .in(UserBasicInfo::getUserStatus,0,1);
-        return userMapper.selectOne(condition);
     }
 }

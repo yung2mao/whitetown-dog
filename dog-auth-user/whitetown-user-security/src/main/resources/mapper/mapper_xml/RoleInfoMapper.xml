@@ -12,4 +12,10 @@
                     (select user_id from user_basic_info
                         where username = #{username}))
     </select>
+
+    <select id="selectRolesByUserId" resultType="cn.whitetown.authcommon.entity.po.UserRole">
+        select * from user_role
+        where role_id in
+        (select role_id from user_role_relation where user_id = #{userId})
+    </select>
 </mapper>

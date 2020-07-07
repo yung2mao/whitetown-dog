@@ -11,6 +11,8 @@ import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.exception.CustomException;
 import cn.whitetown.dogbase.db.factory.BeanTransFactory;
 import cn.whitetown.dogbase.db.factory.QueryConditionFactory;
+import cn.whitetown.usersecurity.manager.RoleManager;
+import cn.whitetown.usersecurity.manager.UserManager;
 import cn.whitetown.usersecurity.mappers.RoleInfoMapper;
 import cn.whitetown.usersecurity.mappers.UserBasicInfoMapper;
 import cn.whitetown.usersecurity.mappers.UserRoleRelationMapper;
@@ -42,11 +44,14 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
     @Resource
     private UserRoleRelationMapper roleRelationMapper;
 
-    @Resource
-    private UserBasicInfoMapper userMapper;
+    @Autowired
+    private UserManager userManager;
 
     @Autowired
     private UserCacheUtil userCacheUtil;
+
+    @Autowired
+    private RoleManager roleManager;
 
     @Autowired
     private BeanTransFactory transUtil;
@@ -80,7 +85,7 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
      */
     @Override
     public List<RoleInfoVo> queryRolesByUsername(String username) {
-        UserBasicInfo userBasicInfo = this.selectUserByUsername(username);
+        UserBasicInfo userBasicInfo = userManager.getUserByUsername(username);
         if(userBasicInfo == null){
             throw new CustomException(ResponseStatusEnum.NO_THIS_USER);
         }
@@ -122,7 +127,7 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
      */
     @Override
     public void updateRoleInfo(RoleInfoVo role) {
-        UserRole oldRole = this.getOneByRoleId(role.getRoleId());
+        UserRole oldRole = roleManager.queryRoleById(role.getRoleId());
         if(oldRole == null){
             throw new CustomException(ResponseStatusEnum.NO_THIS_ROLE);
         }
@@ -149,7 +154,7 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
     @Transactional(rollbackFor = Throwable.class)
     @Override
     public void updateRoleStatus(Long roleId, Integer roleStatus) {
-        UserRole role = this.getOneByRoleId(roleId);
+        UserRole role = roleManager.queryRoleById(roleId);
         if(role == null){
             throw new CustomException(ResponseStatusEnum.NO_THIS_ROLE);
         }
@@ -170,18 +175,18 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
 
     /**
      * 用户角色分配
-     * @param roleConfigureAo
+     * @param roleConfigure
      */
     @Transactional(rollbackFor = Throwable.class)
     @Override
-    public void updateUserRoleRelation(UserRoleConfigure roleConfigureAo) {
-        UserBasicInfo userBasicInfo = this.selectUserByUsername(roleConfigureAo.getUsername());
+    public void updateUserRoleRelation(UserRoleConfigure roleConfigure) {
+        UserBasicInfo userBasicInfo = userManager.getUserByUsername(roleConfigure.getUsername());
         if(userBasicInfo == null){
             throw new CustomException(ResponseStatusEnum.NO_THIS_USER);
         }
-        List<Long> roleIds = Arrays.asList(roleConfigureAo.getRoleIds());
+        List<Long> roleIds = Arrays.asList(roleConfigure.getRoleIds());
         roleRelationMapper.updateUserRoleRelation(userBasicInfo.getUserId(),roleIds);
-        userCacheUtil.removeUserDetails(AuthConstant.USERDETAIL_PREFIX+roleConfigureAo.getUsername());
+        userCacheUtil.removeUserDetails(AuthConstant.USERDETAIL_PREFIX+roleConfigure.getUsername());
     }
 
     /**
@@ -195,30 +200,4 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
                 .collect(Collectors.toList());
         return roleInfoVoList;
     }
-
-    /**
-     * 根据角色ID查询一个角色信息
-     * @param roleId
-     * @return
-     */
-    private UserRole getOneByRoleId(Long roleId){
-        LambdaQueryWrapper<UserRole> lambdaCondition = queryConditionFactory.getQueryCondition(UserRole.class);
-        lambdaCondition.eq(UserRole::getRoleId,roleId)
-                .in(UserRole::getRoleStatus,0,1);
-        return this.getOne(lambdaCondition);
-    }
-
-    /**
-     * 根据用户名查用户信息
-     * @param username
-     * @return
-     */
-    private UserBasicInfo selectUserByUsername(String username){
-        LambdaQueryWrapper<UserBasicInfo> queryWrapper = queryConditionFactory.getQueryCondition(UserBasicInfo.class);
-        queryWrapper.eq(UserBasicInfo::getUsername,username)
-                .in(UserBasicInfo::getUserStatus,0,1);
-        UserBasicInfo userBasicInfo = userMapper.selectOne(queryWrapper);
-        return userBasicInfo;
-    }
-
 }
