@@ -7,6 +7,7 @@ import org.springframework.security.core.parameters.P;
 
 import javax.validation.constraints.Pattern;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 菜单信息数据库操作
@@ -37,4 +38,11 @@ public interface MenuInfoMapper extends BaseMapper<MenuInfo> {
      * @return
      */
     List<MenuInfo> selectMenuByRoleId(Long roleId);
+
+    /**
+     * 更新角色与菜单的绑定信息
+     * @param roleId
+     * @param menuSet
+     */
+    void updateRoleMenus(@Param("roleId") Long roleId,@Param("menuIds") Set menuSet);
 }

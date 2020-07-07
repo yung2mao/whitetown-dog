@@ -1,6 +1,7 @@
 package cn.whitetown.usersecurity.controller;
 
 import cn.whitetown.authcommon.entity.ao.MenuInfoAo;
+import cn.whitetown.authcommon.entity.ao.RoleMenuConfigure;
 import cn.whitetown.authcommon.util.token.JwtTokenUtil;
 import cn.whitetown.dogbase.common.entity.vo.ResponseData;
 import cn.whitetown.authcommon.entity.po.MenuInfo;
@@ -110,7 +111,12 @@ public class MenuController {
         return ResponseData.ok();
     }
 
-    public ResponseData updateRoleMenu(){
-        return null;
+    /**
+     * 角色与菜单数据绑定
+     * @return
+     */
+    public ResponseData updateRoleMenu(@Valid RoleMenuConfigure configure){
+        service.updateRoleMenus(configure);
+        return ResponseData.ok();
     }
 }

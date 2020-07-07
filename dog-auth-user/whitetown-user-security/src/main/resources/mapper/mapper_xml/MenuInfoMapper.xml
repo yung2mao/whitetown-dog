@@ -4,7 +4,14 @@
     <sql id="selectParamsForVo">
         menu_id,menu_name,menu_code,parent_id,menu_url,menu_icon,menu_sort,menu_level,menu_status
     </sql>
-  <select id="selectMenuListByCodeAndLevel" resultType="cn.whitetown.authcommon.entity.po.MenuInfo">
+    <update id="updateRoleMenus">
+        delete from role_menu where role_id = #{roleId};
+        <foreach collection="menuIds" item="id">
+            insert into role_menu (id,role_id,menu_id) values (null,#{roleId},#{id});
+        </foreach>
+    </update>
+
+    <select id="selectMenuListByCodeAndLevel" resultType="cn.whitetown.authcommon.entity.po.MenuInfo">
     select t1.* from
         (select * from sys_menu where menu_level &lt;= #{lowLevel}) as t1
     where

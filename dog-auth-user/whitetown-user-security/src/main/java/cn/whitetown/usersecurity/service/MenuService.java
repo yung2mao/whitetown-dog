@@ -1,6 +1,7 @@
 package cn.whitetown.usersecurity.service;
 
 import cn.whitetown.authcommon.entity.ao.MenuInfoAo;
+import cn.whitetown.authcommon.entity.ao.RoleMenuConfigure;
 import cn.whitetown.authcommon.entity.po.MenuInfo;
 import cn.whitetown.authcommon.entity.vo.MenuTree;
 import com.baomidou.mybatisplus.extension.service.IService;
@@ -52,4 +53,9 @@ public interface MenuService extends IService<MenuInfo> {
      */
     void updateMenuStatus(Long menuId, Integer menuStatus);
 
+    /**
+     * 角色与菜单信息绑定
+     * @param configure
+     */
+    void updateRoleMenus(RoleMenuConfigure configure);
 }

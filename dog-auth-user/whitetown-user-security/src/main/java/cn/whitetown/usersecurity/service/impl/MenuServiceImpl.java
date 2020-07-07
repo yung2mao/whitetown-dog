@@ -1,6 +1,7 @@
 package cn.whitetown.usersecurity.service.impl;
 
 import cn.whitetown.authcommon.entity.ao.MenuInfoAo;
+import cn.whitetown.authcommon.entity.ao.RoleMenuConfigure;
 import cn.whitetown.authcommon.entity.po.UserRole;
 import cn.whitetown.authcommon.util.MenuUtil;
 import cn.whitetown.authcommon.util.token.JwtTokenUtil;
@@ -10,8 +11,8 @@ import cn.whitetown.authcommon.entity.po.MenuInfo;
 import cn.whitetown.authcommon.entity.vo.MenuTree;
 import cn.whitetown.dogbase.db.factory.BeanTransFactory;
 import cn.whitetown.dogbase.db.factory.QueryConditionFactory;
+import cn.whitetown.usersecurity.manager.RoleManager;
 import cn.whitetown.usersecurity.mappers.MenuInfoMapper;
-import cn.whitetown.usersecurity.mappers.RoleInfoMapper;
 import cn.whitetown.usersecurity.service.MenuService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
@@ -20,10 +21,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import javax.xml.crypto.Data;
-import java.util.Comparator;
-import java.util.Date;
-import java.util.List;
+import javax.validation.constraints.NotBlank;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -36,8 +35,8 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
     @Resource
     private MenuInfoMapper menuInfoMapper;
 
-    @Resource
-    private RoleInfoMapper roleInfoMapper;
+    @Autowired
+    private RoleManager roleManager;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -86,9 +85,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
      */
     @Override
     public MenuTree queryMenuTreeByRoleName(String roleName) {
-        LambdaQueryWrapper<UserRole> queryWrapper = conditionFactory.getQueryCondition(UserRole.class);
-        queryWrapper.eq(UserRole::getName,roleName);
-        UserRole userRole = roleInfoMapper.selectOne(queryWrapper);
+        UserRole userRole = roleManager.queryRoleByRoleName(roleName);
         if(userRole == null){
             throw new CustomException(ResponseStatusEnum.NO_THIS_ROLE);
         }
@@ -138,7 +135,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
         queryWrapper.eq(MenuInfo::getMenuId,menuInfo.getMenuId())
                 .or().eq(MenuInfo::getMenuCode,menuInfo.getMenuCode())
                 .or().eq(MenuInfo::getMenuUrl,menuInfo.getMenuUrl())
-                .or().eq(MenuInfo::getParentId,menuInfo.getParentId());
+                .or().eq(MenuInfo::getMenuId,menuInfo.getParentId());
         List<MenuInfo> menuInfos = menuInfoMapper.selectList(queryWrapper);
         MenuInfo oldMenu = null;
         MenuInfo parentMenu = null;
@@ -174,6 +171,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
      */
     @Override
     public void updateMenuStatus(Long menuId, Integer menuStatus) {
+        this.checkRootMenuId(menuId);
         MenuInfo menuInfo = menuInfoMapper.selectById(menuId);
         if(menuInfo == null){
             throw new CustomException(ResponseStatusEnum.NO_THIS_MENU);
@@ -182,5 +180,35 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
         updateCondition.eq(MenuInfo::getMenuId,menuId)
                 .set(MenuInfo::getMenuStatus,menuStatus);
         this.update(updateCondition);
+        if(menuStatus == 2){
+            //TODO: 删除关联数据
+        }
+    }
+
+    /**
+     * 更新角色与菜单的绑定信息
+     * @param configure
+     */
+    @Override
+    public void updateRoleMenus(RoleMenuConfigure configure) {
+        UserRole userRole = roleManager.queryRoleById(configure.getRoleId());
+        if(userRole == null){
+            throw new CustomException(ResponseStatusEnum.NO_THIS_ROLE);
+        }
+        Set menuSet = new LinkedHashSet();
+        menuSet.add(1);
+        Arrays.stream(configure.getMenuIds()).forEach(id->menuSet.add(id));
+        menuInfoMapper.updateRoleMenus(configure.getRoleId(),menuSet);
+        //TODO:内存数据更新操作
+    }
+
+    /**
+     * 校验是否为根节点，根节点禁止任何操作
+     * @param menuId
+     */
+    private void checkRootMenuId(Long menuId){
+        if(menuId == 1){
+            throw new CustomException(ResponseStatusEnum.NO_PERMISSION);
+        }
     }
 }

@@ -1,7 +1,7 @@
 package cn.whitetown.usersecurity.service.impl;
 
 import cn.whitetown.authcommon.constant.AuthConstant;
-import cn.whitetown.authcommon.entity.ao.UserRoleConfigureAo;
+import cn.whitetown.authcommon.entity.ao.UserRoleConfigure;
 import cn.whitetown.authcommon.entity.po.UserBasicInfo;
 import cn.whitetown.authcommon.entity.po.UserRole;
 import cn.whitetown.authcommon.entity.vo.RoleInfoVo;
@@ -174,7 +174,7 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
      */
     @Transactional(rollbackFor = Throwable.class)
     @Override
-    public void updateUserRoleRelation(UserRoleConfigureAo roleConfigureAo) {
+    public void updateUserRoleRelation(UserRoleConfigure roleConfigureAo) {
         UserBasicInfo userBasicInfo = this.selectUserByUsername(roleConfigureAo.getUsername());
         if(userBasicInfo == null){
             throw new CustomException(ResponseStatusEnum.NO_THIS_USER);

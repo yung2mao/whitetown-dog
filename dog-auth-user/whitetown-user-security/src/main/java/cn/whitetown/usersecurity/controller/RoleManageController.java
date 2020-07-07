@@ -1,6 +1,6 @@
 package cn.whitetown.usersecurity.controller;
 
-import cn.whitetown.authcommon.entity.ao.UserRoleConfigureAo;
+import cn.whitetown.authcommon.entity.ao.UserRoleConfigure;
 import cn.whitetown.authcommon.entity.vo.RoleInfoVo;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.entity.vo.ResponseData;
@@ -97,7 +97,7 @@ public class RoleManageController {
      * @return
      */
     @PostMapping(value = "/configureRole",produces = "application/json;charset=UTF-8")
-    public ResponseData configureUserRole(@RequestBody @Valid UserRoleConfigureAo roleConfigureAo){
+    public ResponseData configureUserRole(@RequestBody @Valid UserRoleConfigure roleConfigureAo){
         service.updateUserRoleRelation(roleConfigureAo);
         return ResponseData.ok();
     }

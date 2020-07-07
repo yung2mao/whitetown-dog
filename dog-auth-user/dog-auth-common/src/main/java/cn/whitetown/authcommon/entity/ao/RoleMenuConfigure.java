@@ -5,27 +5,26 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import java.util.Arrays;
 
 /**
- * 用户角色分配信息
+ * 菜单与角色配置信息
  * @author GrainRain
- * @date 2020/06/29 22:13
+ * @date 2020/07/07 21:59
  **/
 @Getter
 @Setter
-public class UserRoleConfigureAo {
+public class RoleMenuConfigure {
     /**
-     * 用户名
+     * 角色ID
      */
-    @NotBlank(message = "用户信息不能为空")
-    private String username;
-
+    @NotBlank(message = "角色ID不能为空")
+    private Long roleId;
     /**
-     * 角色列表
+     * 菜单ID项
      */
-    @NotNull(message = "角色信息不能为空")
-    private Long[] roleIds;
+    @NotBlank(message = "菜单列表不能为空")
+    private Long[] menuIds;
 
     @Override
     public String toString() {

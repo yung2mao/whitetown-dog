@@ -12,6 +12,7 @@ public enum ResponseStatusEnum {
     SUCCESS(200,"SUCCESS"),   //请求成功
     FAIL(500,"SERVICE ERROR"),    //失败，服务器异常
     ERROR_PARAMS(400,"PARAMS ERROR"), //参数错误
+    NO_PERMISSION(505,"没有操作权限"),
 
     /**
      * 字典
