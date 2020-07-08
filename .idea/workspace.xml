@@ -2,19 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5360145e-ca5b-4174-869d-915551c68814" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/controller/DogUserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/controller/DogUserController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/controller/MenuController.java" beforeDir="false" afterPath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/controller/MenuController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/manager/RoleManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/manager/RoleManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/manager/impl/DefaultRoleManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/manager/impl/DefaultRoleManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/manager/impl/DefaultUserManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/manager/impl/DefaultUserManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/mappers/RoleInfoMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/mappers/RoleInfoMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/mappers/UserBasicInfoMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/mappers/UserBasicInfoMapper.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/service/MenuService.java" beforeDir="false" afterPath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/service/MenuService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/service/impl/DogUserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/service/impl/DogUserServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/service/impl/MenuServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/service/impl/MenuServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/service/impl/RoleManageServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/java/cn/whitetown/usersecurity/service/impl/RoleManageServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/resources/mapper/mapper_xml/RoleInfoMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/resources/mapper/mapper_xml/RoleInfoMapper.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/resources/mapper/mapper_xml/UserBasicInfoMapper.xml" beforeDir="false" afterPath="$PROJECT_DIR$/dog-auth-user/whitetown-user-security/src/main/resources/mapper/mapper_xml/UserBasicInfoMapper.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -179,6 +167,7 @@
       <workItem from="1593134919660" duration="4661000" />
       <workItem from="1593224127007" duration="3908000" />
       <workItem from="1593351397244" duration="4369000" />
+      <workItem from="1594166598206" duration="367000" />
     </task>
     <task id="LOCAL-00001" summary="create white town dog">
       <created>1591019808054</created>
@@ -363,25 +352,25 @@
     </state>
     <state x="170" y="119" width="1058" height="598" key="CommitChangelistDialog2/0.23.1440.790@0.23.1440.790" timestamp="1594047201401" />
     <state x="141" y="23" key="CommitChangelistDialog2/0.23.1440.793@0.23.1440.793" timestamp="1592125968603" />
-    <state width="1398" height="174" key="GridCell.Tab.0.bottom" timestamp="1594047517782">
+    <state width="1398" height="202" key="GridCell.Tab.0.bottom" timestamp="1594166542146">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state width="1398" height="174" key="GridCell.Tab.0.bottom/0.23.1440.790@0.23.1440.790" timestamp="1594047517782" />
+    <state width="1398" height="202" key="GridCell.Tab.0.bottom/0.23.1440.790@0.23.1440.790" timestamp="1594166542146" />
     <state width="1398" height="174" key="GridCell.Tab.0.bottom/0.23.1440.793@0.23.1440.793" timestamp="1592125877015" />
-    <state width="1398" height="174" key="GridCell.Tab.0.center" timestamp="1594047517781">
+    <state width="1398" height="202" key="GridCell.Tab.0.center" timestamp="1594166542145">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state width="1398" height="174" key="GridCell.Tab.0.center/0.23.1440.790@0.23.1440.790" timestamp="1594047517781" />
+    <state width="1398" height="202" key="GridCell.Tab.0.center/0.23.1440.790@0.23.1440.790" timestamp="1594166542145" />
     <state width="1398" height="174" key="GridCell.Tab.0.center/0.23.1440.793@0.23.1440.793" timestamp="1592125877013" />
-    <state width="1398" height="174" key="GridCell.Tab.0.left" timestamp="1594047517780">
+    <state width="1398" height="202" key="GridCell.Tab.0.left" timestamp="1594166542144">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state width="1398" height="174" key="GridCell.Tab.0.left/0.23.1440.790@0.23.1440.790" timestamp="1594047517780" />
+    <state width="1398" height="202" key="GridCell.Tab.0.left/0.23.1440.790@0.23.1440.790" timestamp="1594166542144" />
     <state width="1398" height="174" key="GridCell.Tab.0.left/0.23.1440.793@0.23.1440.793" timestamp="1592125877011" />
-    <state width="1398" height="174" key="GridCell.Tab.0.right" timestamp="1594047517782">
+    <state width="1398" height="202" key="GridCell.Tab.0.right" timestamp="1594166542145">
       <screen x="0" y="23" width="1440" height="790" />
     </state>
-    <state width="1398" height="174" key="GridCell.Tab.0.right/0.23.1440.790@0.23.1440.790" timestamp="1594047517781" />
+    <state width="1398" height="202" key="GridCell.Tab.0.right/0.23.1440.790@0.23.1440.790" timestamp="1594166542145" />
     <state width="1398" height="174" key="GridCell.Tab.0.right/0.23.1440.793@0.23.1440.793" timestamp="1592125877014" />
     <state width="1398" height="174" key="GridCell.Tab.1.bottom" timestamp="1594047517471">
       <screen x="0" y="23" width="1440" height="790" />
