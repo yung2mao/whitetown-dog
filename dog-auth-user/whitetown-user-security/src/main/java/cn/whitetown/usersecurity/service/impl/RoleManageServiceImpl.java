@@ -14,7 +14,6 @@ import cn.whitetown.dogbase.db.factory.QueryConditionFactory;
 import cn.whitetown.usersecurity.manager.RoleManager;
 import cn.whitetown.usersecurity.manager.UserManager;
 import cn.whitetown.usersecurity.mappers.RoleInfoMapper;
-import cn.whitetown.usersecurity.mappers.UserBasicInfoMapper;
 import cn.whitetown.usersecurity.mappers.UserRoleRelationMapper;
 import cn.whitetown.usersecurity.service.RoleManageService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -42,11 +41,11 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
     private RoleInfoMapper roleInfoMapper;
 
     @Resource
-    private UserRoleRelationMapper roleRelationMapper;
+    private UserRoleRelationMapper userRoleRelationMapper;
 
     @Autowired
     private UserManager userManager;
-
+    
     @Autowired
     private UserCacheUtil userCacheUtil;
 
@@ -169,12 +168,13 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
 
         if(roleStatus == 2){
             //角色删除，对应关联关系一并删除
-            roleRelationMapper.removeRoleRelation(roleId);
+            userRoleRelationMapper.removeRoleRelation(roleId);
         }
     }
 
     /**
      * 用户角色分配
+     * 用户角色信息变更后将被强制下线
      * @param roleConfigure
      */
     @Transactional(rollbackFor = Throwable.class)
@@ -185,8 +185,8 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
             throw new CustomException(ResponseStatusEnum.NO_THIS_USER);
         }
         List<Long> roleIds = Arrays.asList(roleConfigure.getRoleIds());
-        roleRelationMapper.updateUserRoleRelation(userBasicInfo.getUserId(),roleIds);
-        userCacheUtil.removeUserDetails(AuthConstant.USERDETAIL_PREFIX+roleConfigure.getUsername());
+        userRoleRelationMapper.updateUserRoleRelation(userBasicInfo.getUserId(),roleIds);
+        userCacheUtil.removeUserDetails(roleConfigure.getUsername());
     }
 
     /**

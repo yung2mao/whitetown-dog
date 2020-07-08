@@ -37,7 +37,7 @@ public interface MenuInfoMapper extends BaseMapper<MenuInfo> {
      * @param roleId
      * @return
      */
-    List<MenuInfo> selectMenuByRoleId(Long roleId);
+    List<MenuInfo> selectMenuByRoleId(@P("roleId") Long roleId);
 
     /**
      * 更新角色与菜单的绑定信息
@@ -45,4 +45,10 @@ public interface MenuInfoMapper extends BaseMapper<MenuInfo> {
      * @param menuSet
      */
     void updateRoleMenus(@Param("roleId") Long roleId,@Param("menuIds") Set menuSet);
+
+    /**
+     * 移除菜单与角色绑定的关联关系
+     * @param menuId
+     */
+    void removeRelationByMenuId(@Param("menuId") Long menuId);
 }

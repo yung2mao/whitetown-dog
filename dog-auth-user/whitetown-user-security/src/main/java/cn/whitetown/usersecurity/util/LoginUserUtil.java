@@ -30,6 +30,7 @@ public class LoginUserUtil {
             roles.stream().forEach(r -> ros.add(r.getName()));
             us.setRoles(ros);
         }
+        us.setUserId(user.getUserId());
         us.setUsername(user.getUsername());
         return us;
     }

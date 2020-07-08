@@ -118,7 +118,7 @@ public class DogUserServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserBasi
         //存储用户校验使用的信息在内存中,方便快速校验
         Collection<GrantedAuthority> roleCollection = LoginUserUtil.createRoleCollection(loginUser.getRoles());
         UserDetails userDetails = new User(user.getUsername(),user.getPassword(),roleCollection);
-        userCacheUtil.saveUserDetail(AuthConstant.USERDETAIL_PREFIX+userDetails.getUsername(),
+        userCacheUtil.saveUserDetail(userDetails.getUsername(),
                 userDetails);
         return token;
     }
@@ -164,8 +164,7 @@ public class DogUserServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserBasi
         if(username==null){
             return;
         }
-        userCacheUtil.removeLoginUser(username);
-        userCacheUtil.removeUserDetails(AuthConstant.USERDETAIL_PREFIX+username);
+        userCacheUtil.removeAllUserInfo(username);
         //version update
         userMapper.updateUserVersionByUsername(username);
     }
