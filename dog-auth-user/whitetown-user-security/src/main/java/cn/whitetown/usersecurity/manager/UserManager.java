@@ -1,6 +1,9 @@
 package cn.whitetown.usersecurity.manager;
 
+import cn.whitetown.authcommon.entity.UserRoleRelation;
 import cn.whitetown.authcommon.entity.po.UserBasicInfo;
+
+import java.util.List;
 
 /**
  * 用户管理通用接口

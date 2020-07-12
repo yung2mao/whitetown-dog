@@ -5,7 +5,12 @@
     <delete id="removeRoleRelation" parameterType="java.lang.Long">
         delete from user_role_relation
             where role_id = #{roleId};
---             TODO:menu关系删除
+        delete from role_menu
+            where role_id = #{roleId};
+    </delete>
+    <delete id="removeRoleRelationByUserId">
+        delete from user_role_relation
+        where user_id = #{userId};
     </delete>
 
     <update id="updateUserRoleRelation">

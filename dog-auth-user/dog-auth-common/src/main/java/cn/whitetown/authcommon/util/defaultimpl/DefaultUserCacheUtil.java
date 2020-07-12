@@ -51,32 +51,30 @@ public class DefaultUserCacheUtil implements UserCacheUtil {
 
     /**
      * UserDetail保存
-     * @param key
+     * @param username
      * @param userDetails
      * @return
      */
     @Override
-    public UserDetails saveUserDetail(String key, UserDetails userDetails){
-        return (UserDetails) expireMap.putS(key,
+    public UserDetails saveUserDetail(String username, UserDetails userDetails){
+        return (UserDetails) expireMap.putS(AuthConstant.USERDETAIL_PREFIX+username,
                 userDetails,
                 AuthConstant.USER_SAVE_TIME);
     }
 
     @Override
-    public UserDetails getUserDetails(String key){
-        return (UserDetails) expireMap.get(key);
+    public UserDetails getUserDetails(String username){
+        return (UserDetails) expireMap.get(AuthConstant.USERDETAIL_PREFIX+username);
     }
 
     @Override
-    public UserDetails removeUserDetails(String key) {
-        return (UserDetails)expireMap.remove(key);
+    public UserDetails removeUserDetails(String username) {
+        return (UserDetails)expireMap.remove(AuthConstant.USERDETAIL_PREFIX+username);
     }
 
     @Override
-    public void removeUserInfo(String... keys) {
-        if(keys == null || keys.length==0){
-            return;
-        }
-        Arrays.stream(keys).forEach(key->expireMap.remove(key));
+    public void removeAllUserInfo(String username) {
+        this.removeLoginUser(username);
+        this.removeUserDetails(username);
     }
 }

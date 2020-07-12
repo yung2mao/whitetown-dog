@@ -6,6 +6,7 @@ import cn.whitetown.authcommon.util.token.JwtTokenUtil;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.exception.CustomException;
 import cn.whitetown.authcommon.entity.po.UserBasicInfo;
+import cn.whitetown.usersecurity.manager.UserManager;
 import cn.whitetown.usersecurity.mappers.UserBasicInfoMapper;
 import cn.whitetown.usersecurity.service.DefaultUserDetailService;
 import cn.whitetown.usersecurity.util.LoginUserUtil;
@@ -37,7 +38,7 @@ public class UserDetailServiceImpl implements DefaultUserDetailService {
     private UserCacheUtil userCacheUtil;
 
     @Resource
-    private UserBasicInfoMapper userMapper;
+    private UserManager userManager;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -49,12 +50,9 @@ public class UserDetailServiceImpl implements DefaultUserDetailService {
      */
     @Override
     public UserDetails loadUserByUsername(String username) {
-        UserDetails userDetails =  userCacheUtil.getUserDetails(AuthConstant.USERDETAIL_PREFIX+username);
+        UserDetails userDetails =  userCacheUtil.getUserDetails(username);
         if(userDetails==null){
-            LambdaQueryWrapper<UserBasicInfo> condition = new LambdaQueryWrapper<>();
-            condition.eq(UserBasicInfo::getUsername, username)
-                    .in(UserBasicInfo::getUserStatus,0,1);
-            UserBasicInfo userBasicInfo = userMapper.selectOne(condition);
+            UserBasicInfo userBasicInfo = userManager.getUserByUsername(username);
             if(userBasicInfo==null){
                 throw new CustomException(ResponseStatusEnum.NO_THIS_USER);
             }
@@ -75,7 +73,7 @@ public class UserDetailServiceImpl implements DefaultUserDetailService {
 
             userDetails = new User(userBasicInfo.getUsername(),userBasicInfo.getPassword(),roleCollection);
         }
-        userCacheUtil.saveUserDetail(AuthConstant.USERDETAIL_PREFIX+username,userDetails);
+        userCacheUtil.saveUserDetail(username,userDetails);
         return userDetails;
     }
 

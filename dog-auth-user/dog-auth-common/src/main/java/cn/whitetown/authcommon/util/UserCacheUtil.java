@@ -56,7 +56,7 @@ public interface UserCacheUtil {
 
     /**
      * 内存中相关key数据重置操作
-     * @param keys
+     * @param key
      */
-    void removeUserInfo(String ... keys);
+    void removeAllUserInfo(String key);
 }

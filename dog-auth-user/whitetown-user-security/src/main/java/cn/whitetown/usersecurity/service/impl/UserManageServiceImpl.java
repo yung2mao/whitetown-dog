@@ -2,8 +2,8 @@ package cn.whitetown.usersecurity.service.impl;
 
 import cn.whitetown.authcommon.entity.po.UserRole;
 import cn.whitetown.authcommon.entity.UserRoleRelation;
-import cn.whitetown.authcommon.util.UserCacheUtil;
 import cn.whitetown.authcommon.constant.AuthConstant;
+import cn.whitetown.authcommon.util.UserCacheUtil;
 import cn.whitetown.authcommon.util.token.JwtTokenUtil;
 import cn.whitetown.dogbase.common.entity.vo.ResponsePage;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
@@ -13,11 +13,11 @@ import cn.whitetown.dogbase.db.factory.BeanTransFactory;
 import cn.whitetown.dogbase.db.factory.QueryConditionFactory;
 import cn.whitetown.authcommon.entity.po.UserBasicInfo;
 import cn.whitetown.dogbase.common.util.WhiteToolUtil;
-import cn.whitetown.dogbase.db.entity.WhiteLambdaQueryWrapper;
 import cn.whitetown.dogbase.common.util.secret.Md5WithSaltUtil;
 import cn.whitetown.authcommon.entity.ao.UserBasicQuery;
 import cn.whitetown.authcommon.entity.vo.UserBasicInfoVo;
-import cn.whitetown.usersecurity.mappers.RoleInfoMapper;
+import cn.whitetown.usersecurity.manager.RoleManager;
+import cn.whitetown.usersecurity.manager.UserManager;
 import cn.whitetown.usersecurity.mappers.UserBasicInfoMapper;
 import cn.whitetown.usersecurity.mappers.UserRoleRelationMapper;
 import cn.whitetown.usersecurity.service.UserManageService;
@@ -50,22 +50,66 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
     private UserBasicInfoMapper userMapper;
 
     @Resource
-    private RoleInfoMapper roleInfoMapper;
-
-    @Resource
-    private UserRoleRelationMapper userAndRoleMapper;
+    private UserRoleRelationMapper userRoleRelationMapper;
 
     @Autowired
-    private JwtTokenUtil jwtTokenUtil;
+    private UserManager userManager;
 
     @Autowired
     private UserCacheUtil userCacheUtil;
+
+    @Autowired
+    private RoleManager roleManager;
+
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
 
     @Autowired
     private QueryConditionFactory queryConditionFactory;
 
     @Autowired
     private BeanTransFactory transFactory;
+
+    /**
+     * 添加用户基础信息
+     * 可用于注册操作或分配用户操作
+     * @param username
+     * @param password
+     * @param roleName
+     */
+    @Transactional(rollbackFor = Throwable.class)
+    @Override
+    public void addUserBasicInfo(String username, String password, String roleName) {
+        UserBasicInfo userBasicInfo = userManager.getUserByUsername(username);
+        //check username
+        if(userBasicInfo != null){
+            throw new CustomException(ResponseStatusEnum.USER_ALREADY_REG);
+        }
+        //check role
+        UserRole userRole = roleManager.queryRoleByRoleName(roleName);
+        if(userRole==null){
+            throw new CustomException(ResponseStatusEnum.NO_THIS_ROLE);
+        }
+        //create md5 password
+        String salt = Md5WithSaltUtil.getRandomSalt();
+        String md5Password = Md5WithSaltUtil.md5Encrypt(password,salt);
+        //improve user info
+        UserBasicInfo newUser = new UserBasicInfo();
+        newUser.setUserId(null);
+        newUser.setUsername(username);
+        newUser.setPassword(md5Password);
+        newUser.setSalt(salt);
+        newUser.setUserStatus(0);
+        newUser.setUserVersion(0);
+        Long userId = jwtTokenUtil.getUserId();
+        newUser.setCreateUserId(userId);
+        newUser.setCreateTime(new Date());
+        //insert into database
+        userMapper.insert(newUser);
+        //add role relation
+        UserRoleRelation userRoleRelation = new UserRoleRelation(null,newUser.getUserId(),userRole.getRoleId());
+        userRoleRelationMapper.insert(userRoleRelation);
+    }
 
     /**
      * 根据条件进行分页查询用户基本信息
@@ -113,56 +157,12 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
     }
 
     /**
-     * 添加用户基础信息
-     * 可用于注册操作或分配用户操作
-     * @param username
-     * @param password
-     * @param roleName
-     */
-    @Override
-    @Transactional(rollbackFor = Throwable.class)
-    public void addUserBasicInfo(String username, String password, String roleName) {
-        UserBasicInfo userBasicInfo = this.selectUserByUsername(username);
-        //check username
-        if(userBasicInfo != null){
-            throw new CustomException(ResponseStatusEnum.USER_ALREADY_REG);
-        }
-        //check role
-        WhiteLambdaQueryWrapper<UserRole> roleCondition = new WhiteLambdaQueryWrapper<>();
-        roleCondition.eq(UserRole::getName,roleName)
-                .eq(UserRole::getRoleStatus,0);
-        UserRole userRole = roleInfoMapper.selectOne(roleCondition);
-        if(userRole==null){
-            throw new CustomException(ResponseStatusEnum.NO_THIS_ROLE);
-        }
-        //create md5 password
-        String salt = Md5WithSaltUtil.getRandomSalt();
-        String md5Password = Md5WithSaltUtil.md5Encrypt(password,salt);
-        //improve user info
-        UserBasicInfo newUser = new UserBasicInfo();
-        newUser.setUserId(null);
-        newUser.setUsername(username);
-        newUser.setPassword(md5Password);
-        newUser.setSalt(salt);
-        newUser.setUserStatus(0);
-        newUser.setUserVersion(0);
-        Long userId = jwtTokenUtil.getUserId();
-        newUser.setCreateUserId(userId);
-        newUser.setCreateTime(new Date());
-        //insert into database
-        userMapper.insert(newUser);
-        //add role relation
-        UserRoleRelation userRoleRelation = new UserRoleRelation(null,newUser.getUserId(),userRole.getRoleId());
-        userAndRoleMapper.insert(userRoleRelation);
-    }
-
-    /**
      * 用户信息更新
      * @param userInfo
      */
     @Override
     public void updateUser(UserBasicInfo userInfo) {
-        UserBasicInfo user = this.selectUserByUsername(userInfo.getUsername());
+        UserBasicInfo user = userManager.getUserByUsername(userInfo.getUsername());
         if(user==null){
             throw new CustomException(ResponseStatusEnum.NO_THIS_USER);
         }
@@ -191,7 +191,7 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
      */
     @Override
     public void reSetPassword(String username) {
-        UserBasicInfo userBasicInfo = this.selectUserByUsername(username);
+        UserBasicInfo userBasicInfo = userManager.getUserByUsername(username);
         if(userBasicInfo==null){
             throw new CustomException(ResponseStatusEnum.NO_THIS_USER);
         }
@@ -206,7 +206,7 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
                 .set(UserBasicInfo::getUpdateUserId,updateUserId)
                 .set(UserBasicInfo::getUpdateTime,new Date());
         this.update(updateWrapper);
-        userCacheUtil.removeUserDetails(AuthConstant.USERDETAIL_PREFIX+username);
+        userCacheUtil.removeUserDetails(username);
     }
 
     /**
@@ -217,7 +217,7 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
      */
     @Override
     public String checkPassword(String username,String oldPassword) {
-        UserBasicInfo userBasicInfo = this.selectUserByUsername(username);
+        UserBasicInfo userBasicInfo = userManager.getUserByUsername(username);
         oldPassword = Md5WithSaltUtil.md5Encrypt(oldPassword,userBasicInfo.getSalt());
         if(!oldPassword.equals(userBasicInfo.getPassword())){
             throw new CustomException(ResponseStatusEnum.OLD_PWD_NOT_RIGHT);
@@ -253,22 +253,24 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
                 .set(UserBasicInfo::getPassword,newPassword)
                 .set(UserBasicInfo::getSalt,randomSalt);
         this.update(updateWrapper);
-        //如果内存中保留了一条相同数据，那么做同步更新
-        UserDetails userDetails = userCacheUtil.getUserDetails(AuthConstant.USERDETAIL_PREFIX + username);
+        //如果内存中保留了一条相同UserDetail，那么做同步更新
+        UserDetails userDetails = userCacheUtil.getUserDetails(username);
         if(userDetails != null){
             UserDetails newUserDetails = new User(username,newPassword,userDetails.getAuthorities());
-            userCacheUtil.saveUserDetail(AuthConstant.USERDETAIL_PREFIX+username,newUserDetails);
+            userCacheUtil.saveUserDetail(username,newUserDetails);
         }
     }
 
     /**
      * 用户状态变更
+     * 当状态变为删除时，涉及的用户将被全部下线
      * @param username
      * @param userStatus
      */
+    @Transactional(rollbackFor = Throwable.class)
     @Override
     public void changeUserStatus(String username, Integer userStatus) {
-        UserBasicInfo userBasicInfo = this.selectUserByUsername(username);
+        UserBasicInfo userBasicInfo = userManager.getUserByUsername(username);
         if(userBasicInfo == null){
             throw new CustomException(ResponseStatusEnum.NO_THIS_USER);
         }
@@ -276,19 +278,10 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
         updateWrapper.eq(UserBasicInfo::getUsername,username)
                 .set(UserBasicInfo::getUserStatus,userStatus);
         this.update(updateWrapper);
-        userCacheUtil.removeUserDetails(AuthConstant.USERDETAIL_PREFIX+username);
-        userCacheUtil.removeLoginUser(username);
-    }
-
-    /**
-     * 通过用户名搜索数据库中用户信息
-     * @param username
-     * @return
-     */
-    private UserBasicInfo selectUserByUsername(String username){
-        LambdaQueryWrapper<UserBasicInfo> condition = new LambdaQueryWrapper<>();
-        condition.eq(UserBasicInfo::getUsername,username)
-                .in(UserBasicInfo::getUserStatus,0,1);
-        return userMapper.selectOne(condition);
+        if(userStatus == 2){
+            //删除状态，同步移除用户角色关联信息
+            userRoleRelationMapper.removeRoleRelationByUserId(userBasicInfo.getUserId());
+        }
+        userCacheUtil.removeAllUserInfo(username);
     }
 }
