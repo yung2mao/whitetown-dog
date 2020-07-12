@@ -53,4 +53,12 @@ public class AuthConstant {
      * 注册用户初始角色
      */
     public static final String DEFAULT_ROLE = "NORMAL";
+
+    /**
+     * 菜单相关
+     */
+    public static final int LOWEST_MENU_LEVEL = 100;
+    public static final String INIT_MENU_CACHE_DATA_NAME = "MENU_MAP";
+    public static final String CACHE_SAVE_PREFIX = "MENU_ROLE";
+    public static final Long MENU_SAVE_TIME = 1800L;
 }

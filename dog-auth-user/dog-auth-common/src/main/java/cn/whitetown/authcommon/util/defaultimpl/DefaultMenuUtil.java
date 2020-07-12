@@ -1,4 +1,4 @@
-package cn.whitetown.authcommon.util.defaultImpl;
+package cn.whitetown.authcommon.util.defaultimpl;
 
 import cn.whitetown.authcommon.util.MenuUtil;
 import cn.whitetown.dogbase.db.factory.BeanTransFactory;
@@ -6,6 +6,7 @@ import cn.whitetown.authcommon.entity.po.MenuInfo;
 import cn.whitetown.authcommon.entity.vo.MenuTree;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.List;
 
@@ -34,7 +35,6 @@ public class DefaultMenuUtil implements MenuUtil {
      * @param menuInfos
      * @return
      */
-    @Override
     public MenuTree createMenuTreeByMenuList(MenuTree parentMenuTree, List<MenuInfo> menuInfos) {
         if (parentMenuTree == null) {
             MenuInfo menuInfo = menuInfos.stream().min(Comparator.comparing(MenuInfo::getMenuLevel)).get();
@@ -49,5 +49,35 @@ public class DefaultMenuUtil implements MenuUtil {
             }
         }
         return parentMenuTree;
+    }
+
+    /**
+     * 获取树形结构中菜单对应的ID集合
+     * @param menuInfos
+     * @return
+     */
+    @Override
+    public List<Long> getMenuIdsFromList(List<MenuInfo> menuInfos) {
+        return this.getMenuIdsFromList(null,null,menuInfos);
+    }
+
+    public List<Long> getMenuIdsFromList(List<Long> menuIds, MenuInfo parentMenu, List<MenuInfo> menuInfos) {
+        if(menuIds == null){
+            menuIds = new ArrayList<>();
+        }
+
+        if(parentMenu == null){
+            parentMenu = menuInfos.stream().min(Comparator.comparing(MenuInfo::getMenuLevel)).get();
+            menuIds.add(parentMenu.getMenuId());
+            menuInfos.remove(parentMenu);
+        }
+
+        for(MenuInfo menu:menuInfos){
+            if(menu.getParentId().equals(parentMenu.getMenuId())){
+                menuIds.add(menu.getMenuId());
+                this.getMenuIdsFromList(menuIds,menu,menuInfos);
+            }
+        }
+        return menuIds;
     }
 }

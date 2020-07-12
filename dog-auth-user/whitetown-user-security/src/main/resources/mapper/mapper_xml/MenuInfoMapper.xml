@@ -11,14 +11,27 @@
         </foreach>
     </update>
 
-    <select id="selectMenuListByCodeAndLevel" resultType="cn.whitetown.authcommon.entity.po.MenuInfo">
+    <delete id="deleteRelationAndSubMenu">
+        delete from role_menu where menu_id
+        in
+        <foreach collection="ids" item="id" open="(" close=");" separator=",">
+            #{id}
+        </foreach>
+        update sys_menu set menu_status = 2
+        where menu_id in
+        <foreach collection="ids" item="id" open="(" close=");" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
+    <select id="selectMenuListByIdAndLevel" resultType="cn.whitetown.authcommon.entity.po.MenuInfo">
     select t1.* from
         (select * from sys_menu where menu_level &lt;= #{lowLevel}) as t1
     where
         t1.menu_status in (0,1)
-        and (t1.menu_code = #{menuCode}
+        and (t1.menu_id = #{menuId}
         or t1.menu_level &gt;
-            (select menu_level from sys_menu where menu_code = #{menuCode}))
+            (select menu_level from sys_menu where menu_id = #{menuId}))
   </select>
     <select id="selectActiveMenuByUserId" resultType="cn.whitetown.authcommon.entity.po.MenuInfo">
         select

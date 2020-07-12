@@ -18,11 +18,11 @@ public interface MenuInfoMapper extends BaseMapper<MenuInfo> {
 
     /**
      * 搜索满足条件的所有菜单
-     * @param menuCode
+     * @param menuId
      * @param lowLevel
      * @return
      */
-    List<MenuInfo> selectMenuListByCodeAndLevel(@Param("menuCode") String menuCode,@Param("lowLevel") Integer lowLevel);
+    List<MenuInfo> selectMenuListByIdAndLevel(@Param("menuId") Long menuId, @Param("lowLevel") Integer lowLevel);
 
     /**
      * 根据用户ID搜索具有访问权限的活跃菜单项
@@ -45,4 +45,10 @@ public interface MenuInfoMapper extends BaseMapper<MenuInfo> {
      * @param menuSet
      */
     void updateRoleMenus(@Param("roleId") Long roleId,@Param("menuIds") Set menuSet);
+
+    /**
+     * 删除菜单涉及的子菜单及对应关联信息
+     * @param menuId
+     */
+    void deleteRelationAndSubMenu(@Param("ids") List<Long> menuId);
 }

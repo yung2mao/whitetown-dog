@@ -12,10 +12,8 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
+import java.util.List;
 
 /**
  * 菜单管理
@@ -39,9 +37,9 @@ public class MenuController {
      * @return
      */
     @GetMapping("/tree")
-    public ResponseData<MenuTree> queryMenuTree(@NotBlank String menuCode,
+    public ResponseData<MenuTree> queryMenuTree(@NotBlank Long menuId,
                                                 @NotNull @Min(0) @Max(100) Integer lowLevel){
-        MenuTree menuTree = service.queryMenuTree(menuCode,lowLevel);
+        MenuTree menuTree = service.queryMenuTree(menuId,lowLevel);
         return ResponseData.ok(menuTree);
     }
 
@@ -61,19 +59,18 @@ public class MenuController {
      * @param roleName
      * @return
      */
-    @GetMapping("roleMenu")
+    @GetMapping("/role")
     public ResponseData<MenuTree> queryUserMenuTree(@NotBlank(message = "角色名称不能为空") String roleName){
         MenuTree menuTree = service.queryMenuTreeByRoleName(roleName);
         return ResponseData.ok(menuTree);
     }
-
 
     /**
      * 新增菜单信息
      * @param menuInfo
      * @return
      */
-    @PostMapping(value = "/add",produces = "application/json;charset=UTF-8")
+    @PostMapping(value = "/add", produces = "application/json;charset=UTF-8")
     public ResponseData addMenu(@RequestBody @Valid MenuInfoAo menuInfo){
         service.addSingleMenu(jwtTokenUtil.getUserId(),menuInfo);
         return ResponseData.ok();
@@ -84,13 +81,13 @@ public class MenuController {
      * @param menuInfo
      * @return
      */
-    @PostMapping(value = "update",produces = "application/json;charset=UTF-8")
+    @PostMapping(value = "update", produces = "application/json;charset=UTF-8")
     public ResponseData updateMenu(@RequestBody @Valid MenuInfoAo menuInfo){
         if(menuInfo.getMenuId()==null){
-            throw new RuntimeException("ID不能为空");
+            return ResponseData.build(400,"ID不能为空",null);
         }
-        if(menuInfo.getMenuId() == 1){
-            throw new RuntimeException("顶级菜单信息禁止变更");
+        if(menuInfo.getMenuId().equals(menuInfo.getParentId())){
+            return ResponseData.build(400,"父级菜单不能等于自身",null);
         }
         service.updateMenuInfo(jwtTokenUtil.getUserId(),menuInfo);
         return ResponseData.ok();
@@ -106,16 +103,16 @@ public class MenuController {
      * @return
      */
     @GetMapping("status")
-    public ResponseData updateMenuStatus(@NotNull(message = "菜单ID不能为空") Long menuId,@NotNull @Min(0) @Max(2) Integer menuStatus){
+    public ResponseData updateMenuStatus(@NotNull(message = "菜单ID不能为空") @Min(value = 2,message = "menuId大于1") Long menuId, @NotNull @Min(0) @Max(2) Integer menuStatus){
         service.updateMenuStatus(menuId,menuStatus);
         return ResponseData.ok();
     }
-
     /**
      * 角色与菜单数据绑定
      * @return
      */
-    public ResponseData updateRoleMenu(@Valid RoleMenuConfigure configure){
+    @PostMapping(value = "role_menu",produces = "application/json;charset=UTF-8")
+    public ResponseData updateRoleMenu(@RequestBody @Valid RoleMenuConfigure configure){
         service.updateRoleMenus(configure);
         return ResponseData.ok();
     }
