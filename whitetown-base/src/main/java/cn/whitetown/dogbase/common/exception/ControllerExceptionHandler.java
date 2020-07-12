@@ -26,7 +26,7 @@ public class ControllerExceptionHandler{
             BindException.class,
             ConstraintViolationException.class,
             NullPointerException.class})
-    public ResponseData MethodArgumentNotValidException(Exception e) {
+    public ResponseData methodArgumentNotValidException(Exception e) {
         return ResponseData.build(ResponseStatusEnum.ERROR_PARAMS.getStatus(),e.getMessage(),null);
     }
 

@@ -3,7 +3,7 @@ package cn.whitetown.dogbase.common.exception;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 
 /**
- * 自定义通用异常处理器
+ * 自定义通用异常类
  *
  * @author taixian
  */

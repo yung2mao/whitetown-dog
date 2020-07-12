@@ -23,7 +23,7 @@
   </properties>
 
   <dependencies>
-
+    <!--user module-->
     <dependency>
       <groupId>cn.whitetown</groupId>
       <artifactId>whitetown-user-security</artifactId>
@@ -34,11 +34,29 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-quartz</artifactId>
     </dependency>
-
+    <!--junit-->
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
     </dependency>
+    <!--devtools热部署-->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-devtools</artifactId>
+      <optional>true</optional>
+    </dependency>
   </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+        <configuration>
+          <fork>true</fork>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 
 </project>

@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -18,6 +19,7 @@ public class MenuInfoAo {
     /**
      * 菜单ID
      */
+    @Min(value = 2,message = "menuId必须大于1")
     private Long menuId;
     /**
      * 菜单中文名称

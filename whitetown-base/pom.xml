@@ -55,19 +55,16 @@
       <groupId>com.alibaba</groupId>
       <artifactId>fastjson</artifactId>
     </dependency>
-
     <!--验证码-->
     <dependency>
       <groupId>com.github.penggle</groupId>
       <artifactId>kaptcha</artifactId>
     </dependency>
-
     <!--jwt token生成-->
     <dependency>
       <groupId>io.jsonwebtoken</groupId>
       <artifactId>jjwt</artifactId>
     </dependency>
-
     <!-- 跨域 -->
     <dependency>
       <groupId>io.projectreactor</groupId>
@@ -85,7 +82,7 @@
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
     </dependency>
-
+    <!--junit-->
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>

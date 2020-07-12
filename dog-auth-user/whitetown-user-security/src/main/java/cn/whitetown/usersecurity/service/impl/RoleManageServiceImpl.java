@@ -161,10 +161,6 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
         updateWrapper.eq(UserRole::getRoleId,roleId)
                 .set(UserRole::getRoleStatus,roleStatus);
         this.update(updateWrapper);
-        //内存数据处理
-        if(roleStatus != 0){
-            //TODO:角色对应菜单处理
-        }
 
         if(roleStatus == 2){
             //角色删除，对应关联关系一并删除

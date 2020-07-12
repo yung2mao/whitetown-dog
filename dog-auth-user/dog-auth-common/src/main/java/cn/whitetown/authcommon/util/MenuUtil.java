@@ -19,10 +19,9 @@ public interface MenuUtil {
     MenuTree createMenuTreeByMenuList(List<MenuInfo> menuInfos);
 
     /**
-     * 根据父级tree和list构建树形菜单结构
-     * @param parentMenuTree
+     * 根据menuInfos获取所需树形结构下菜单的ID集合
      * @param menuInfos
      * @return
      */
-    MenuTree createMenuTreeByMenuList(MenuTree parentMenuTree,List<MenuInfo> menuInfos);
+    List<Long> getMenuIdsFromList(List<MenuInfo> menuInfos);
 }

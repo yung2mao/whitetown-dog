@@ -18,11 +18,11 @@ public interface MenuInfoMapper extends BaseMapper<MenuInfo> {
 
     /**
      * 搜索满足条件的所有菜单
-     * @param menuCode
+     * @param menuId
      * @param lowLevel
      * @return
      */
-    List<MenuInfo> selectMenuListByCodeAndLevel(@Param("menuCode") String menuCode,@Param("lowLevel") Integer lowLevel);
+    List<MenuInfo> selectMenuListByIdAndLevel(@Param("menuId") Long menuId, @Param("lowLevel") Integer lowLevel);
 
     /**
      * 根据用户ID搜索具有访问权限的活跃菜单项
@@ -37,7 +37,7 @@ public interface MenuInfoMapper extends BaseMapper<MenuInfo> {
      * @param roleId
      * @return
      */
-    List<MenuInfo> selectMenuByRoleId(@P("roleId") Long roleId);
+    List<MenuInfo> selectMenuByRoleId(Long roleId);
 
     /**
      * 更新角色与菜单的绑定信息
@@ -47,8 +47,8 @@ public interface MenuInfoMapper extends BaseMapper<MenuInfo> {
     void updateRoleMenus(@Param("roleId") Long roleId,@Param("menuIds") Set menuSet);
 
     /**
-     * 移除菜单与角色绑定的关联关系
+     * 删除菜单涉及的子菜单及对应关联信息
      * @param menuId
      */
-    void removeRelationByMenuId(@Param("menuId") Long menuId);
+    void deleteRelationAndSubMenu(@Param("ids") List<Long> menuId);
 }

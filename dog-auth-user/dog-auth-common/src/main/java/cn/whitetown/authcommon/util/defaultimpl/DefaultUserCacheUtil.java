@@ -1,4 +1,4 @@
-package cn.whitetown.authcommon.util.defaultImpl;
+package cn.whitetown.authcommon.util.defaultimpl;
 
 import cn.whitetown.authcommon.util.UserCacheUtil;
 import cn.whitetown.authcommon.constant.AuthConstant;

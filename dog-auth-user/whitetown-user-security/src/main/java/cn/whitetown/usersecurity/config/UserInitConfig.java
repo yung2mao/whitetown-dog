@@ -1,14 +1,16 @@
 package cn.whitetown.usersecurity.config;
 
+import cn.whitetown.authcommon.util.MenuCacheUtil;
 import cn.whitetown.authcommon.util.MenuUtil;
 import cn.whitetown.authcommon.util.UserCacheUtil;
 import cn.whitetown.authcommon.util.captcha.CaptchaBasicInfo;
 import cn.whitetown.authcommon.util.captcha.CaptchaDataDeal;
 import cn.whitetown.authcommon.util.captcha.DefaultCaptchaDataDeal;
 import cn.whitetown.authcommon.constant.AuthConstant;
-import cn.whitetown.authcommon.util.defaultImpl.DefaultMenuUtil;
+import cn.whitetown.authcommon.util.defaultimpl.DefaultMenuCacheUtil;
+import cn.whitetown.authcommon.util.defaultimpl.DefaultMenuUtil;
 import cn.whitetown.authcommon.util.token.JwtTokenUtil;
-import cn.whitetown.authcommon.util.defaultImpl.DefaultUserCacheUtil;
+import cn.whitetown.authcommon.util.defaultimpl.DefaultUserCacheUtil;
 import cn.whitetown.usersecurity.util.securityHandler.AccessFailHandler;
 import cn.whitetown.usersecurity.util.securityHandler.AuthenticationErrorHandler;
 import org.springframework.context.annotation.Bean;
@@ -81,5 +83,16 @@ public class UserInitConfig {
     @Bean
     public MenuUtil menuUtil(){
         return new DefaultMenuUtil();
+    }
+
+    /**
+     * 初始化菜单缓存工具
+     * @return
+     */
+    @Bean
+    public MenuCacheUtil menuCacheUtil(){
+        DefaultMenuCacheUtil menuCacheUtil = new DefaultMenuCacheUtil();
+        menuCacheUtil.init();
+        return menuCacheUtil;
     }
 }

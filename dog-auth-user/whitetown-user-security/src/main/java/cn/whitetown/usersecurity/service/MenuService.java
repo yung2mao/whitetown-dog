@@ -6,6 +6,8 @@ import cn.whitetown.authcommon.entity.po.MenuInfo;
 import cn.whitetown.authcommon.entity.vo.MenuTree;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * 菜单管理服务
  * @author GrainRain
@@ -14,11 +16,11 @@ import com.baomidou.mybatisplus.extension.service.IService;
 public interface MenuService extends IService<MenuInfo> {
     /**
      * 获取菜单的树形结构
-     * @param menuCode
+     * @param menuId
      * @param lowLevel
      * @return
      */
-    MenuTree queryMenuTree(String menuCode, Integer lowLevel);
+    MenuTree queryMenuTree(Long menuId, Integer lowLevel);
 
     /**
      * 根据用户ID查询用户可查看的菜单项

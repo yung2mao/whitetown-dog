@@ -4,6 +4,14 @@ server:
     session:
       timeout: 10m
 spring:
+  application:
+    name: DogApplication
+#  热部署
+  devtools:
+    restart:
+      enabled: true
+      additional-paths: src/main
+# 数据源
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/whitetown_dog?allowMultiQueries=true&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
