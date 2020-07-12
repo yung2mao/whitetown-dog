@@ -11,6 +11,10 @@
         </foreach>
     </update>
 
+    <delete id="removeRelationByMenuId">
+        delete from role_menu where menu_id = #{menuId};
+    </delete>
+
     <select id="selectMenuListByCodeAndLevel" resultType="cn.whitetown.authcommon.entity.po.MenuInfo">
     select t1.* from
         (select * from sys_menu where menu_level &lt;= #{lowLevel}) as t1
@@ -20,6 +24,7 @@
         or t1.menu_level &gt;
             (select menu_level from sys_menu where menu_code = #{menuCode}))
   </select>
+    <!--检索当前用户可查阅的菜单数据，角色状态0-->
     <select id="selectActiveMenuByUserId" resultType="cn.whitetown.authcommon.entity.po.MenuInfo">
         select
         <include refid="selectParamsForVo"></include>
@@ -29,7 +34,8 @@
         and menu_id in
         (select menu_id from role_menu
         where role_id in
-        (select role_id from user_role_relation where user_id = #{userId})
+        (select r.role_id from user_role as u inner join user_role_relation as r
+        on u.role_id = r.role_id where r.user_id = #{userId} and u.role_status = 0)
         )
     </select>
     <select id="selectMenuByRoleId" resultType="cn.whitetown.authcommon.entity.po.MenuInfo">

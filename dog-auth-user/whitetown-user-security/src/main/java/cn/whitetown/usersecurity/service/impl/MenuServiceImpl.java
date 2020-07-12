@@ -125,6 +125,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
      */
     @Override
     public void updateMenuInfo(Long updateUserId,MenuInfoAo menuInfo) {
+        this.checkRootMenuId(menuInfo.getMenuId());
         LambdaQueryWrapper<MenuInfo> queryWrapper = conditionFactory.getQueryCondition(MenuInfo.class);
         queryWrapper.eq(MenuInfo::getMenuId,menuInfo.getMenuId())
                 .or().eq(MenuInfo::getMenuCode,menuInfo.getMenuCode())
@@ -175,7 +176,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
                 .set(MenuInfo::getMenuStatus,menuStatus);
         this.update(updateCondition);
         if(menuStatus == 2){
-            //TODO: 删除关联数据
+            menuInfoMapper.removeRelationByMenuId(menuId);
         }
     }
 
