@@ -106,19 +106,21 @@ public class DefaultQueryConditionFactory implements QueryConditionFactory{
                         continue;
                     }
                 }
-                if(annotation != null){
+                if(annotation != null) {
                     String operation = annotation.operation();
-                    if("eq".equalsIgnoreCase(operation)){
-                        queryWrapper.eq(colName,param);
-                    }else if ("le".equalsIgnoreCase(operation)){
-                        queryWrapper.le(colName,param);
-                    }else if ("lt".equalsIgnoreCase(operation)){
-                        queryWrapper.lt(colName,param);
-                    }else if ("ge".equalsIgnoreCase(operation)){
-                        queryWrapper.ge(colName,param);
-                    }else if ("gt".equalsIgnoreCase(operation)){
-                        queryWrapper.gt(colName,param);
-                    }else {
+                    if ("eq".equalsIgnoreCase(operation)) {
+                        queryWrapper.eq(colName, param);
+                    } else if ("le".equalsIgnoreCase(operation)) {
+                        queryWrapper.le(colName, param);
+                    } else if ("lt".equalsIgnoreCase(operation)) {
+                        queryWrapper.lt(colName, param);
+                    } else if ("ge".equalsIgnoreCase(operation)) {
+                        queryWrapper.ge(colName, param);
+                    } else if ("gt".equalsIgnoreCase(operation)) {
+                        queryWrapper.gt(colName, param);
+                    } else if ("like".equalsIgnoreCase(operation)){
+                        queryWrapper.like(colName,param);
+                    }else{
                         continue;
                     }
                 }else {

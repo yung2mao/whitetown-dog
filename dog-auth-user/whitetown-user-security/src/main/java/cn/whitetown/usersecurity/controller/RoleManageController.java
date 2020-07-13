@@ -1,5 +1,6 @@
 package cn.whitetown.usersecurity.controller;
 
+import cn.whitetown.authcommon.entity.ao.RoleQuery;
 import cn.whitetown.authcommon.entity.ao.UserRoleConfigure;
 import cn.whitetown.authcommon.entity.vo.RoleInfoVo;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
@@ -15,6 +16,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -48,6 +50,12 @@ public class RoleManageController {
     public ResponseData<List<RoleInfoVo>> queryUserRoleByUsername(@NotBlank(message = "用户名不能为空") String username){
         List<RoleInfoVo> roleInfoVoList = service.queryRolesByUsername(username);
         return ResponseData.ok(roleInfoVoList);
+    }
+
+    @GetMapping("/search")
+    public ResponseData<List<RoleInfoVo>> search(RoleQuery roleQuery){
+        List<RoleInfoVo> roleInfos = service.searchRole(roleQuery);
+        return ResponseData.ok(roleInfos);
     }
 
     /**

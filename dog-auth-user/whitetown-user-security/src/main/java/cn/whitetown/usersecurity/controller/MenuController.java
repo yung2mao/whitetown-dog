@@ -37,7 +37,7 @@ public class MenuController {
      * @return
      */
     @GetMapping("/tree")
-    public ResponseData<MenuTree> queryMenuTree(@NotBlank Long menuId,
+    public ResponseData<MenuTree> queryMenuTree(@NotNull Long menuId,
                                                 @NotNull @Min(0) @Max(100) Integer lowLevel){
         MenuTree menuTree = service.queryMenuTree(menuId,lowLevel);
         return ResponseData.ok(menuTree);

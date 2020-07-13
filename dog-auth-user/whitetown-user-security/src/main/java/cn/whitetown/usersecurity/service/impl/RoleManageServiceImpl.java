@@ -1,6 +1,6 @@
 package cn.whitetown.usersecurity.service.impl;
 
-import cn.whitetown.authcommon.constant.AuthConstant;
+import cn.whitetown.authcommon.entity.ao.RoleQuery;
 import cn.whitetown.authcommon.entity.ao.UserRoleConfigure;
 import cn.whitetown.authcommon.entity.po.UserBasicInfo;
 import cn.whitetown.authcommon.entity.po.UserRole;
@@ -9,6 +9,7 @@ import cn.whitetown.authcommon.util.UserCacheUtil;
 import cn.whitetown.authcommon.util.token.JwtTokenUtil;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.exception.CustomException;
+import cn.whitetown.dogbase.common.util.DataCheckUtil;
 import cn.whitetown.dogbase.db.factory.BeanTransFactory;
 import cn.whitetown.dogbase.db.factory.QueryConditionFactory;
 import cn.whitetown.usersecurity.manager.RoleManager;
@@ -25,6 +26,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -69,10 +71,10 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
     public List<RoleInfoVo> queryAllRoles() {
         //condition
         LambdaQueryWrapper<UserRole> queryWrapper = queryConditionFactory.getQueryCondition(UserRole.class);
-        queryWrapper.in(UserRole::getRoleStatus,0,1)
-                .orderByAsc(UserRole::getSort);
+        queryWrapper.in(UserRole::getRoleStatus,0,1);
         //query
         List<UserRole> roleList = this.list(queryWrapper);
+        roleList = roleList.stream().sorted(Comparator.comparing(UserRole::getSort)).collect(Collectors.toList());
 
         return this.roleInfo2Vo(roleList);
     }
@@ -91,6 +93,21 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
 
         List<UserRole> roles = roleInfoMapper.selectRolesByUsername(username);
         return this.roleInfo2Vo(roles);
+    }
+
+    @Override
+    public List<RoleInfoVo> searchRole(RoleQuery roleQuery) {
+        if(!DataCheckUtil.checkTextNullBool(roleQuery.getDetail())){
+            String detail = roleQuery.getDetail();
+            if(detail.matches("[a-zA-Z_]+")){
+                roleQuery.setRoleName(detail);
+            }else {
+                roleQuery.setDescription(detail);
+            }
+        }
+        LambdaQueryWrapper<UserRole> queryWrapper = queryConditionFactory.allEqWithNull2IsNull(roleQuery, UserRole.class);
+        List<UserRole> userRoles = roleInfoMapper.selectList(queryWrapper);
+        return this.roleInfo2Vo(userRoles);
     }
 
     /**

@@ -6,7 +6,9 @@ server:
 spring:
   application:
     name: DogApplication
-#  热部署
+  jackson:
+    time-zone: GMT+8
+  #  热部署
   devtools:
     restart:
       enabled: true

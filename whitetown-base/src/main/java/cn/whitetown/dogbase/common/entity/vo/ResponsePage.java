@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,7 +30,7 @@ public class ResponsePage<T> {
     /**
      * 查询的结果信息
      */
-    private List<T> resultList;
+    private List<T> resultList = new ArrayList<>();
 
     public ResponsePage() {
     }

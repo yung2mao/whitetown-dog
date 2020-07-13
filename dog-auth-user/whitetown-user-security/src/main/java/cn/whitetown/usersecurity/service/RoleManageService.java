@@ -1,5 +1,6 @@
 package cn.whitetown.usersecurity.service;
 
+import cn.whitetown.authcommon.entity.ao.RoleQuery;
 import cn.whitetown.authcommon.entity.ao.UserRoleConfigure;
 import cn.whitetown.authcommon.entity.po.UserRole;
 import cn.whitetown.authcommon.entity.vo.RoleInfoVo;
@@ -26,6 +27,13 @@ public interface RoleManageService extends IService<UserRole> {
      * @return
      */
     List<RoleInfoVo> queryRolesByUsername(String username);
+
+    /**
+     * 搜索角色信息
+     * @param roleQuery
+     * @return
+     */
+    List<RoleInfoVo> searchRole(RoleQuery roleQuery);
 
     /**
      * 添加角色信息

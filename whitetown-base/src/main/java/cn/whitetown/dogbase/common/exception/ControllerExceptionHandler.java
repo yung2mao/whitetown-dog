@@ -2,6 +2,7 @@ package cn.whitetown.dogbase.common.exception;
 
 import cn.whitetown.dogbase.common.entity.vo.ResponseData;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -25,9 +26,10 @@ public class ControllerExceptionHandler{
     @ExceptionHandler(value = {MethodArgumentNotValidException.class,ConstraintViolationException.class,
             BindException.class,
             ConstraintViolationException.class,
+            HttpMessageNotReadableException.class,
             NullPointerException.class})
     public ResponseData methodArgumentNotValidException(Exception e) {
-        return ResponseData.build(ResponseStatusEnum.ERROR_PARAMS.getStatus(),e.getMessage(),null);
+        return ResponseData.build(ResponseStatusEnum.ERROR_PARAMS.getStatus(),"参数错误",null);
     }
 
     /**

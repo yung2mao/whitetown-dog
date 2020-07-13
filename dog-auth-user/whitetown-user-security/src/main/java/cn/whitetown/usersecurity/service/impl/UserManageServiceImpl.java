@@ -143,7 +143,7 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
         Page<UserBasicInfo> page = queryConditionFactory.createPage(userQuery.getPage(),userQuery.getSize(), UserBasicInfo.class);
         Page<UserBasicInfo> pageResult = userMapper.selectPage(page, condition);
         if(pageResult.getRecords()==null || pageResult.getRecords().size()==0){
-            return null;
+            return new ResponsePage<>();
         }
         //to vo
         List<UserBasicInfoVo> userVos = pageResult.getRecords().stream()
