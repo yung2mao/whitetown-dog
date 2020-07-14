@@ -14,7 +14,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class RoleQuery {
-    @QueryField(operation = "like")
+    @QueryField(value = "name",operation = "like")
     private String roleName;
 
     @QueryField(operation = "like")
@@ -23,11 +23,11 @@ public class RoleQuery {
     @QueryField(ignore = true)
     private String detail;
 
-    @QueryField(operation = "ge")
+    @QueryField(value = "create_time",operation = "ge")
     @Setter(value= AccessLevel.NONE)
     private String startTime;
 
-    @QueryField(operation = "le")
+    @QueryField(value = "create_time",operation = "le")
     @Setter(value=AccessLevel.NONE)
     private String endTime;
 

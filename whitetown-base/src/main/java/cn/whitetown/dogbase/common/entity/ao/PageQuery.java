@@ -1,8 +1,10 @@
 package cn.whitetown.dogbase.common.entity.ao;
 
+import cn.whitetown.dogbase.common.util.DataCheckUtil;
 import cn.whitetown.dogbase.db.annotation.QueryField;
 import cn.whitetown.dogbase.db.annotation.QueryTable;
 import com.alibaba.fastjson.JSON;
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,28 +15,23 @@ import lombok.Setter;
  **/
 @Getter
 @Setter
-@QueryTable
 public class PageQuery {
     /**
      * 页码
      */
-    @QueryField(ignore = true)
     private Integer page;
     /**
      * 查询的条数
      */
-    @QueryField(ignore = true)
     private Integer size;
     /**
      * 起始时间
      */
-    @QueryField(ignore = true)
     private String startTime;
 
     /**
      * 结束时间
      */
-    @QueryField(ignore = true)
     private String endTime;
 
     @Override
