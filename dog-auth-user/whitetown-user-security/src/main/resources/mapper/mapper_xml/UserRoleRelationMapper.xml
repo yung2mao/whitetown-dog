@@ -12,6 +12,12 @@
         delete from user_role_relation
         where user_id = #{userId};
     </delete>
+    <!--基于角色ID查询用户信息-->
+    <select id="selectAllUserByRoleId" resultType="cn.whitetown.authcommon.entity.po.UserBasicInfo">
+        select * from user_basic_info
+        where user_id in
+        (select user_id from user_role_relation where role_id = #{roleId})
+    </select>
 
     <update id="updateUserRoleRelation">
         delete from user_role_relation

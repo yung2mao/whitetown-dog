@@ -1,5 +1,6 @@
 package cn.whitetown.usersecurity.service;
 
+import cn.whitetown.authcommon.entity.ao.RoleUserQuery;
 import cn.whitetown.dogbase.common.entity.vo.ResponsePage;
 import cn.whitetown.authcommon.entity.po.UserBasicInfo;
 import cn.whitetown.authcommon.entity.ao.UserBasicQuery;
@@ -19,6 +20,13 @@ public interface UserManageService extends IService<UserBasicInfo> {
      * @return
      */
     ResponsePage<UserBasicInfoVo> queryUserBasicList(UserBasicQuery userQuery);
+
+    /**
+     * 根据角色ID查询绑定的用户信息
+     * @param roleUserQuery
+     * @return
+     */
+    ResponsePage<UserBasicInfoVo> queryUserByRoleId(RoleUserQuery roleUserQuery);
 
     /**
      * 分配用户/注册用户

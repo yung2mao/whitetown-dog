@@ -1,5 +1,6 @@
 package cn.whitetown.dogbase.db.factory;
 
+import cn.whitetown.dogbase.common.entity.vo.ResponsePage;
 import cn.whitetown.dogbase.common.memdata.WhiteExpireMap;
 import cn.whitetown.dogbase.db.annotation.QueryField;
 import cn.whitetown.dogbase.db.annotation.QueryTable;
@@ -154,7 +155,7 @@ public class DefaultQueryConditionFactory implements QueryConditionFactory{
      * @param obj
      * @return
      */
-    private List<Field> getObjFields(Object obj){
+    protected List<Field> getObjFields(Object obj){
         List<Field> fieldList = new LinkedList<>();
         Field[] fields = obj.getClass().getDeclaredFields();
         Arrays.stream(fields).forEach(field -> fieldList.add(field));
@@ -176,7 +177,7 @@ public class DefaultQueryConditionFactory implements QueryConditionFactory{
      * @param obj
      * @return
      */
-    public Map<String,Method> getObjGetMethods(Object obj){
+    protected Map<String,Method> getObjGetMethods(Object obj){
         Map<String,Method> methods = new HashMap<>(16);
         Method[] ms = obj.getClass().getMethods();
         Arrays.stream(ms).filter(method -> method.getName().startsWith("get"))

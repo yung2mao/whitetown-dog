@@ -1,6 +1,7 @@
 package cn.whitetown.usersecurity.controller;
 
 import cn.whitetown.authcommon.constant.AuthConstant;
+import cn.whitetown.authcommon.entity.ao.RoleUserQuery;
 import cn.whitetown.authcommon.util.token.JwtTokenUtil;
 import cn.whitetown.dogbase.common.entity.vo.ResponseData;
 import cn.whitetown.dogbase.common.entity.vo.ResponsePage;
@@ -13,6 +14,7 @@ import cn.whitetown.authcommon.entity.ao.UserBasicQuery;
 import cn.whitetown.authcommon.entity.vo.UserBasicInfoVo;
 import cn.whitetown.usersecurity.service.UserManageService;
 import com.alibaba.fastjson.JSONObject;
+import jdk.nashorn.internal.objects.annotations.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -22,6 +24,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * 用户管理
@@ -48,6 +51,18 @@ public class UserManageController {
     public ResponseData<ResponsePage<UserBasicInfoVo>> queryUserList(UserBasicQuery userQuery){
         WhiteToolUtil.defaultPage(userQuery);
         ResponsePage<UserBasicInfoVo> result =  service.queryUserBasicList(userQuery);
+        return ResponseData.ok(result);
+    }
+
+    /**
+     * 获取角色ID对应的所有用户信息
+     * @param roleUserQuery
+     * @return
+     */
+    @GetMapping("/roleUsers")
+    public  ResponseData<ResponsePage<UserBasicInfoVo>> queryUserListByRoleId(@Valid RoleUserQuery roleUserQuery){
+        WhiteToolUtil.defaultPage(roleUserQuery);
+        ResponsePage<UserBasicInfoVo> result = service.queryUserByRoleId(roleUserQuery);
         return ResponseData.ok(result);
     }
 

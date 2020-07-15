@@ -1,6 +1,7 @@
 package cn.whitetown.usersecurity.mappers;
 
 import cn.whitetown.authcommon.entity.UserRoleRelation;
+import cn.whitetown.authcommon.entity.po.UserBasicInfo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -30,4 +31,11 @@ public interface UserRoleRelationMapper extends BaseMapper<UserRoleRelation> {
      * @param roleIds
      */
     void updateUserRoleRelation(@Param("userId") Long userId,@Param("roleIds") List<Long> roleIds);
+
+    /**
+     * 根据角色ID查用户信息
+     * @param roleId
+     * @return
+     */
+    List<UserBasicInfo> selectAllUserByRoleId(Long roleId);
 }

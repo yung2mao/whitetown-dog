@@ -1,5 +1,6 @@
 package cn.whitetown.usersecurity.service.impl;
 
+import cn.whitetown.authcommon.entity.ao.RoleUserQuery;
 import cn.whitetown.authcommon.entity.po.UserRole;
 import cn.whitetown.authcommon.entity.UserRoleRelation;
 import cn.whitetown.authcommon.constant.AuthConstant;
@@ -154,6 +155,20 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
                 pageResult.getSize(),
                 pageResult.getTotal(),
                 userVos);
+    }
+
+    /**
+     * 基于角色ID查询用户分页数据
+     * @param roleUserQuery
+     * @return
+     */
+    @Override
+    public ResponsePage<UserBasicInfoVo> queryUserByRoleId(RoleUserQuery roleUserQuery) {
+        List<UserBasicInfo> users = userRoleRelationMapper.selectAllUserByRoleId(roleUserQuery.getRoleId());
+        List<UserBasicInfoVo> userVos = users.stream()
+                .map(us -> transFactory.trans(us, UserBasicInfoVo.class))
+                .collect(Collectors.toList());
+        return WhiteToolUtil.result2Page(userVos,roleUserQuery.getPage(),roleUserQuery.getSize());
     }
 
     /**

@@ -1,6 +1,7 @@
 package cn.whitetown.dogbase.common.util;
 
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
+import cn.whitetown.dogbase.common.entity.vo.ResponsePage;
 import cn.whitetown.dogbase.common.exception.CustomException;
 import cn.whitetown.dogbase.common.entity.ao.PageQuery;
 
@@ -123,5 +124,35 @@ public class WhiteToolUtil {
             pageQuery.setSize(10);
         }
         return pageQuery;
+    }
+
+    /**
+     * 结果集分页处理
+     * @param resultList
+     * @param page
+     * @param size
+     * @param <T>
+     * @return
+     */
+    public static <T> ResponsePage<T> result2Page(List<T> resultList, Integer page, Integer size) {
+        if(page == null || size == null || resultList == null){
+            throw new NullPointerException("page , size or result is null");
+        }
+        ResponsePage<T> responsePage = new ResponsePage<>();
+        Integer startRow = (page-1) * size;
+        Integer endRow = page * size;
+        if(startRow < 0 || startRow > resultList.size()){
+            return responsePage;
+        }
+        for (int i = startRow; i < resultList.size(); i++) {
+            responsePage.getResultList().add(resultList.get(i));
+            if(i >= endRow){
+                break;
+            }
+        }
+        responsePage.setPage(Long.valueOf(page));
+        responsePage.setRows(Long.valueOf(size));
+        responsePage.setTotal(Long.valueOf(resultList.size()));
+        return responsePage;
     }
 }
