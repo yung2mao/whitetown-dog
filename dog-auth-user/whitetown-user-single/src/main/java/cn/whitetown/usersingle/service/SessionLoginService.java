@@ -6,7 +6,7 @@ import cn.whitetown.authcommon.util.token.JwtTokenUtil;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.exception.CustomException;
 import cn.whitetown.dogbase.common.memdata.WhiteExpireMap;
-import cn.whitetown.authcommon.entity.vo.LoginUser;
+import cn.whitetown.authcommon.entity.dto.LoginUser;
 import cn.whitetown.authcommon.entity.po.UserBasicInfo;
 import cn.whitetown.dogbase.common.util.DataCheckUtil;
 import cn.whitetown.dogbase.common.util.FormatUtil;

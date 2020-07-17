@@ -1,12 +1,8 @@
 package cn.whitetown.dogbase.db.factory;
 
-import cn.whitetown.dogbase.common.entity.ao.PageQuery;
-import cn.whitetown.dogbase.common.entity.vo.ResponsePage;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-
-import java.util.List;
 
 /**
  * @author GrainRain

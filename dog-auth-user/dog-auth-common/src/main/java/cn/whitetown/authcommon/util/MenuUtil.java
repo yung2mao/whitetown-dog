@@ -1,7 +1,7 @@
 package cn.whitetown.authcommon.util;
 
 import cn.whitetown.authcommon.entity.po.MenuInfo;
-import cn.whitetown.authcommon.entity.vo.MenuTree;
+import cn.whitetown.authcommon.entity.dto.MenuTree;
 
 import java.util.List;
 
@@ -24,4 +24,11 @@ public interface MenuUtil {
      * @return
      */
     List<Long> getMenuIdsFromList(List<MenuInfo> menuInfos);
+
+    /**
+     * 获取菜单树中的所有ID信息
+     * @param menuTree
+     * @return
+     */
+    List<Long> getMenuIdsFromTree(MenuTree menuTree);
 }

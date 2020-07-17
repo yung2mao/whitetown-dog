@@ -40,8 +40,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.csrf().disable().  //开启跨域
-                sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);  //关闭session
+        //开启跨域
+        http.csrf().disable().
+                //关闭session
+                sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         /**
          * 异常处理

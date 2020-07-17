@@ -1,4 +1,4 @@
-package cn.whitetown.authcommon.entity.vo;
+package cn.whitetown.authcommon.entity.dto;
 
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -14,7 +14,7 @@ import java.util.Date;
  **/
 @Setter
 @Getter
-public class UserBasicInfoVo {
+public class UserBasicInfoDto {
     /**
      * 用户名
      */

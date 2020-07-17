@@ -3,7 +3,7 @@ package cn.whitetown.authcommon.util.defaultimpl;
 import cn.whitetown.authcommon.util.MenuUtil;
 import cn.whitetown.dogbase.db.factory.BeanTransFactory;
 import cn.whitetown.authcommon.entity.po.MenuInfo;
-import cn.whitetown.authcommon.entity.vo.MenuTree;
+import cn.whitetown.authcommon.entity.dto.MenuTree;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
@@ -30,6 +30,26 @@ public class DefaultMenuUtil implements MenuUtil {
     }
 
     /**
+     * 获取树形结构中菜单对应的ID集合
+     * @param menuInfos
+     * @return
+     */
+    @Override
+    public List<Long> getMenuIdsFromList(List<MenuInfo> menuInfos) {
+        return this.getMenuIdsFromList(null,null,menuInfos);
+    }
+
+    /**
+     * 获取菜单树中所有ID信息
+     * @param menuTree
+     * @return
+     */
+    @Override
+    public List<Long> getMenuIdsFromTree(MenuTree menuTree) {
+        return this.getMenuIdsFromTree(null,menuTree);
+    }
+
+    /**
      * 根据父级tree和list构建树形菜单结构
      * @param parentMenuTree
      * @param menuInfos
@@ -51,16 +71,6 @@ public class DefaultMenuUtil implements MenuUtil {
         return parentMenuTree;
     }
 
-    /**
-     * 获取树形结构中菜单对应的ID集合
-     * @param menuInfos
-     * @return
-     */
-    @Override
-    public List<Long> getMenuIdsFromList(List<MenuInfo> menuInfos) {
-        return this.getMenuIdsFromList(null,null,menuInfos);
-    }
-
     public List<Long> getMenuIdsFromList(List<Long> menuIds, MenuInfo parentMenu, List<MenuInfo> menuInfos) {
         if(menuIds == null){
             menuIds = new ArrayList<>();
@@ -76,6 +86,22 @@ public class DefaultMenuUtil implements MenuUtil {
             if(menu.getParentId().equals(parentMenu.getMenuId())){
                 menuIds.add(menu.getMenuId());
                 this.getMenuIdsFromList(menuIds,menu,menuInfos);
+            }
+        }
+        return menuIds;
+    }
+
+    public List<Long> getMenuIdsFromTree(List<Long> menuIds,MenuTree menuTree){
+        if(menuIds == null){
+            menuIds = new ArrayList<>();
+        }
+        if (menuTree == null){
+            return new ArrayList<>();
+        }
+        menuIds.add(menuTree.getMenuId());
+        if(menuTree.getChildren().size() != 0){
+            for(MenuTree menu:menuTree.getChildren()){
+                this.getMenuIdsFromTree(menuIds,menu);
             }
         }
         return menuIds;

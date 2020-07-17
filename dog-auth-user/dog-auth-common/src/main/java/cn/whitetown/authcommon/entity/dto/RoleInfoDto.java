@@ -1,4 +1,4 @@
-package cn.whitetown.authcommon.entity.vo;
+package cn.whitetown.authcommon.entity.dto;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.annotation.JSONField;
@@ -19,7 +19,7 @@ import java.util.Date;
  **/
 @Getter
 @Setter
-public class RoleInfoVo {
+public class RoleInfoDto {
     /**
      * 角色id
      */

@@ -2,9 +2,9 @@ package cn.whitetown.usersecurity.controller;
 
 import cn.whitetown.authcommon.entity.ao.RoleQuery;
 import cn.whitetown.authcommon.entity.ao.UserRoleConfigure;
-import cn.whitetown.authcommon.entity.vo.RoleInfoVo;
+import cn.whitetown.authcommon.entity.dto.RoleInfoDto;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
-import cn.whitetown.dogbase.common.entity.vo.ResponseData;
+import cn.whitetown.dogbase.common.entity.dto.ResponseData;
 import cn.whitetown.dogbase.common.exception.CustomException;
 import cn.whitetown.usersecurity.service.RoleManageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +16,6 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -37,8 +36,8 @@ public class RoleManageController {
      * @return
      */
     @GetMapping("/getAll")
-    public ResponseData<List<RoleInfoVo>> queryAllRoles(){
-        List<RoleInfoVo> roleInfoList =  service.queryAllRoles();
+    public ResponseData<List<RoleInfoDto>> queryAllRoles(){
+        List<RoleInfoDto> roleInfoList =  service.queryAllRoles();
         return ResponseData.ok(roleInfoList);
     }
 
@@ -47,14 +46,14 @@ public class RoleManageController {
      * @return
      */
     @GetMapping("/users")
-    public ResponseData<List<RoleInfoVo>> queryUserRoleByUsername(@NotBlank(message = "用户名不能为空") String username){
-        List<RoleInfoVo> roleInfoVoList = service.queryRolesByUsername(username);
-        return ResponseData.ok(roleInfoVoList);
+    public ResponseData<List<RoleInfoDto>> queryUserRoleByUsername(@NotBlank(message = "用户名不能为空") String username){
+        List<RoleInfoDto> roleInfoDtoList = service.queryRolesByUsername(username);
+        return ResponseData.ok(roleInfoDtoList);
     }
 
     @GetMapping("/search")
-    public ResponseData<List<RoleInfoVo>> search(RoleQuery roleQuery){
-        List<RoleInfoVo> roleInfos = service.searchRole(roleQuery);
+    public ResponseData<List<RoleInfoDto>> search(RoleQuery roleQuery){
+        List<RoleInfoDto> roleInfos = service.searchRole(roleQuery);
         return ResponseData.ok(roleInfos);
     }
 
@@ -64,7 +63,7 @@ public class RoleManageController {
      * @return
      */
     @PostMapping(value = "/add",produces = "application/json;charset=UTF-8")
-    public ResponseData addRole(@RequestBody @Valid RoleInfoVo role){
+    public ResponseData addRole(@RequestBody @Valid RoleInfoDto role){
         service.addRole(role);
         return ResponseData.ok();
     }
@@ -75,7 +74,7 @@ public class RoleManageController {
      * @return
      */
     @PostMapping(value = "/update",produces = "application/json;charset=UTF-8")
-    public ResponseData updateRole(@RequestBody @Valid RoleInfoVo role){
+    public ResponseData updateRole(@RequestBody @Valid RoleInfoDto role){
         if(role.getRoleId() == null){
             throw new CustomException(ResponseStatusEnum.ERROR_PARAMS);
         }
@@ -97,7 +96,6 @@ public class RoleManageController {
         service.updateRoleStatus(roleId,roleStatus);
         return ResponseData.ok();
     }
-
 
     /**
      * 用户角色分配

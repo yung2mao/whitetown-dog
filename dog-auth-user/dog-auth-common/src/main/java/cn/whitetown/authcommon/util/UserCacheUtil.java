@@ -1,6 +1,6 @@
 package cn.whitetown.authcommon.util;
 
-import cn.whitetown.authcommon.entity.vo.LoginUser;
+import cn.whitetown.authcommon.entity.dto.LoginUser;
 import org.springframework.security.core.userdetails.UserDetails;
 
 /**

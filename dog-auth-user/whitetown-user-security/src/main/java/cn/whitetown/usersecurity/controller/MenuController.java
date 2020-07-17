@@ -3,9 +3,8 @@ package cn.whitetown.usersecurity.controller;
 import cn.whitetown.authcommon.entity.ao.MenuInfoAo;
 import cn.whitetown.authcommon.entity.ao.RoleMenuConfigure;
 import cn.whitetown.authcommon.util.token.JwtTokenUtil;
-import cn.whitetown.dogbase.common.entity.vo.ResponseData;
-import cn.whitetown.authcommon.entity.po.MenuInfo;
-import cn.whitetown.authcommon.entity.vo.MenuTree;
+import cn.whitetown.dogbase.common.entity.dto.ResponseData;
+import cn.whitetown.authcommon.entity.dto.MenuTree;
 import cn.whitetown.usersecurity.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
@@ -42,7 +41,6 @@ public class MenuController {
         MenuTree menuTree = service.queryMenuTree(menuId,lowLevel);
         return ResponseData.ok(menuTree);
     }
-
     /**
      * 查询当前登录用户可以查看的菜单项
      * @return
@@ -64,6 +62,18 @@ public class MenuController {
         MenuTree menuTree = service.queryMenuTreeByRoleName(roleName);
         return ResponseData.ok(menuTree);
     }
+
+    /**
+     * 根据roleId查询绑定菜单的Id信息
+     * @param roleId
+     * @return
+     */
+    @GetMapping("/roleMenuIds")
+    public ResponseData<List<Long>> getMenuIdsByRoleId(@NotNull Long roleId){
+        List<Long> ids = service.queryMenuIdsByRoleId(roleId);
+        return ResponseData.ok(ids);
+    }
+
 
     /**
      * 新增菜单信息

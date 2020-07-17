@@ -3,11 +3,9 @@ package cn.whitetown.authcommon.util.defaultimpl;
 import cn.whitetown.authcommon.util.UserCacheUtil;
 import cn.whitetown.authcommon.constant.AuthConstant;
 import cn.whitetown.dogbase.common.memdata.WhiteExpireMap;
-import cn.whitetown.authcommon.entity.vo.LoginUser;
+import cn.whitetown.authcommon.entity.dto.LoginUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
-
-import java.util.Arrays;
 
 /**
  * 用户信息缓存工具类
@@ -57,19 +55,19 @@ public class DefaultUserCacheUtil implements UserCacheUtil {
      */
     @Override
     public UserDetails saveUserDetail(String username, UserDetails userDetails){
-        return (UserDetails) expireMap.putS(AuthConstant.USERDETAIL_PREFIX+username,
+        return (UserDetails) expireMap.putS(AuthConstant.USER_DETAIL_PREFIX +username,
                 userDetails,
                 AuthConstant.USER_SAVE_TIME);
     }
 
     @Override
     public UserDetails getUserDetails(String username){
-        return (UserDetails) expireMap.get(AuthConstant.USERDETAIL_PREFIX+username);
+        return (UserDetails) expireMap.get(AuthConstant.USER_DETAIL_PREFIX +username);
     }
 
     @Override
     public UserDetails removeUserDetails(String username) {
-        return (UserDetails)expireMap.remove(AuthConstant.USERDETAIL_PREFIX+username);
+        return (UserDetails)expireMap.remove(AuthConstant.USER_DETAIL_PREFIX +username);
     }
 
     @Override

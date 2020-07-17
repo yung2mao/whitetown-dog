@@ -1,4 +1,4 @@
-package cn.whitetown.dogbase.common.entity.vo;
+package cn.whitetown.dogbase.common.entity.dto;
 
 import com.alibaba.fastjson.JSON;
 import lombok.Getter;

@@ -1,6 +1,6 @@
 package cn.whitetown.usersecurity.service;
 
-import cn.whitetown.authcommon.entity.vo.LoginUser;
+import cn.whitetown.authcommon.entity.dto.LoginUser;
 import cn.whitetown.authcommon.entity.po.UserBasicInfo;
 import com.baomidou.mybatisplus.extension.service.IService;
 

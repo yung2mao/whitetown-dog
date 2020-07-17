@@ -1,6 +1,6 @@
 package cn.whitetown.usersecurity.util.securityHandler;
 
-import cn.whitetown.dogbase.common.entity.vo.ResponseData;
+import cn.whitetown.dogbase.common.entity.dto.ResponseData;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;

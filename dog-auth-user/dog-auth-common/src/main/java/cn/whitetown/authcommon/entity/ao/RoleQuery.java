@@ -27,7 +27,7 @@ public class RoleQuery {
     @Setter(value= AccessLevel.NONE)
     private String startTime;
 
-    @QueryField(value = "create_time",operation = "le")
+    @QueryField(value = "create_time",operation = "lt")
     @Setter(value=AccessLevel.NONE)
     private String endTime;
 

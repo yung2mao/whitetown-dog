@@ -1,10 +1,9 @@
 package cn.whitetown.usersecurity.controller;
 
 import cn.whitetown.authcommon.util.captcha.CaptchaDataDeal;
-import cn.whitetown.authcommon.util.token.JwtTokenUtil;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
-import cn.whitetown.dogbase.common.entity.vo.ResponseData;
-import cn.whitetown.authcommon.entity.vo.LoginUser;
+import cn.whitetown.dogbase.common.entity.dto.ResponseData;
+import cn.whitetown.authcommon.entity.dto.LoginUser;
 import cn.whitetown.dogbase.common.exception.CustomException;
 import cn.whitetown.dogbase.common.util.DataCheckUtil;
 import cn.whitetown.dogbase.common.util.WebUtil;

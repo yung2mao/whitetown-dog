@@ -1,5 +1,6 @@
 package cn.whitetown.dogbase.config;
 
+import cn.whitetown.dogbase.common.constant.DogBaseConstant;
 import cn.whitetown.dogbase.common.util.SnowIDCreateUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,6 +16,6 @@ public class IDCreateUtilConfig {
 
     @Bean
     public SnowIDCreateUtil getInstance(){
-        return new SnowIDCreateUtil(01);
+        return new SnowIDCreateUtil(DogBaseConstant.CURRENT_WORK_ID);
     }
 }

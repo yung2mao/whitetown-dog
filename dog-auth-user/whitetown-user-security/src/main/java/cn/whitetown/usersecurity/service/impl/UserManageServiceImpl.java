@@ -6,7 +6,8 @@ import cn.whitetown.authcommon.entity.UserRoleRelation;
 import cn.whitetown.authcommon.constant.AuthConstant;
 import cn.whitetown.authcommon.util.UserCacheUtil;
 import cn.whitetown.authcommon.util.token.JwtTokenUtil;
-import cn.whitetown.dogbase.common.entity.vo.ResponsePage;
+import cn.whitetown.dogbase.common.constant.DogBaseConstant;
+import cn.whitetown.dogbase.common.entity.dto.ResponsePage;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.exception.CustomException;
 import cn.whitetown.dogbase.common.util.DataCheckUtil;
@@ -16,7 +17,7 @@ import cn.whitetown.authcommon.entity.po.UserBasicInfo;
 import cn.whitetown.dogbase.common.util.WhiteToolUtil;
 import cn.whitetown.dogbase.common.util.secret.Md5WithSaltUtil;
 import cn.whitetown.authcommon.entity.ao.UserBasicQuery;
-import cn.whitetown.authcommon.entity.vo.UserBasicInfoVo;
+import cn.whitetown.authcommon.entity.dto.UserBasicInfoDto;
 import cn.whitetown.usersecurity.manager.RoleManager;
 import cn.whitetown.usersecurity.manager.UserManager;
 import cn.whitetown.usersecurity.mappers.UserBasicInfoMapper;
@@ -100,8 +101,8 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
         newUser.setUsername(username);
         newUser.setPassword(md5Password);
         newUser.setSalt(salt);
-        newUser.setUserStatus(0);
-        newUser.setUserVersion(0);
+        newUser.setUserStatus(DogBaseConstant.ACTIVE_NORMAL);
+        newUser.setUserVersion(DogBaseConstant.INIT_VERSION);
         Long userId = jwtTokenUtil.getUserId();
         newUser.setCreateUserId(userId);
         newUser.setCreateTime(new Date());
@@ -118,7 +119,7 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
      * @return
      */
     @Override
-    public ResponsePage<UserBasicInfoVo> queryUserBasicList(UserBasicQuery userQuery) {
+    public ResponsePage<UserBasicInfoDto> queryUserBasicList(UserBasicQuery userQuery) {
         //粗粒度条件简单匹配 - 此处仅提供手机号或用户名
         if(!DataCheckUtil.checkTextNullBool(userQuery.getSearchDetail())){
             String detail = userQuery.getSearchDetail();
@@ -133,7 +134,7 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
         //create condition
         LambdaQueryWrapper<UserBasicInfo> condition = queryConditionFactory.
                 allEqWithNull2IsNull(userQuery, UserBasicInfo.class)
-                .in(UserBasicInfo::getUserStatus,0,1);
+                .in(UserBasicInfo::getUserStatus,DogBaseConstant.ACTIVE_NORMAL,DogBaseConstant.DISABLE_WARN);
         if(!DataCheckUtil.checkTextNullBool(userQuery.getStartTime())){
             condition.ge(UserBasicInfo::getCreateTime,userQuery.getStartTime());
         }
@@ -147,8 +148,8 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
             return new ResponsePage<>();
         }
         //to vo
-        List<UserBasicInfoVo> userVos = pageResult.getRecords().stream()
-                .map(us -> transFactory.trans(us, UserBasicInfoVo.class))
+        List<UserBasicInfoDto> userVos = pageResult.getRecords().stream()
+                .map(us -> transFactory.trans(us, UserBasicInfoDto.class))
                 .collect(Collectors.toList());
 
         return ResponsePage.createPage(pageResult.getCurrent(),
@@ -163,10 +164,10 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
      * @return
      */
     @Override
-    public ResponsePage<UserBasicInfoVo> queryUserByRoleId(RoleUserQuery roleUserQuery) {
+    public ResponsePage<UserBasicInfoDto> queryUserByRoleId(RoleUserQuery roleUserQuery) {
         List<UserBasicInfo> users = userRoleRelationMapper.selectAllUserByRoleId(roleUserQuery.getRoleId());
-        List<UserBasicInfoVo> userVos = users.stream()
-                .map(us -> transFactory.trans(us, UserBasicInfoVo.class))
+        List<UserBasicInfoDto> userVos = users.stream()
+                .map(us -> transFactory.trans(us, UserBasicInfoDto.class))
                 .collect(Collectors.toList());
         return WhiteToolUtil.result2Page(userVos,roleUserQuery.getPage(),roleUserQuery.getSize());
     }
@@ -237,7 +238,7 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
         if(!oldPassword.equals(userBasicInfo.getPassword())){
             throw new CustomException(ResponseStatusEnum.OLD_PWD_NOT_RIGHT);
         }
-        Map<String,Object> tokenMap = new HashMap<>(1);
+        Map<String,Object> tokenMap = new HashMap<>(2);
         tokenMap.put(JwtTokenUtil.USERNAME,username);
         tokenMap.put(AuthConstant.PWD_TOKEN_TIME,System.currentTimeMillis());
         String tokenByParams = jwtTokenUtil.createTokenByParams(tokenMap);
@@ -293,7 +294,7 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
         updateWrapper.eq(UserBasicInfo::getUsername,username)
                 .set(UserBasicInfo::getUserStatus,userStatus);
         this.update(updateWrapper);
-        if(userStatus == 2){
+        if(userStatus == DogBaseConstant.DELETE_ERROR){
             //删除状态，同步移除用户角色关联信息
             userRoleRelationMapper.removeRoleRelationByUserId(userBasicInfo.getUserId());
         }

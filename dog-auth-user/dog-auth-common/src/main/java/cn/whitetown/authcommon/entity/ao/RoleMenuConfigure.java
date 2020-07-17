@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.util.Arrays;
 
 /**
@@ -18,12 +19,12 @@ public class RoleMenuConfigure {
     /**
      * 角色ID
      */
-    @NotBlank(message = "角色ID不能为空")
+    @NotNull(message = "角色ID不能为空")
     private Long roleId;
     /**
      * 菜单ID项
      */
-    @NotBlank(message = "菜单列表不能为空")
+    @NotNull(message = "菜单列表不能为空")
     private Long[] menuIds;
 
     @Override

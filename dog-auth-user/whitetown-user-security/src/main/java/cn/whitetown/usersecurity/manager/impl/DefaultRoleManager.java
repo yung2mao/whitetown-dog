@@ -1,6 +1,7 @@
 package cn.whitetown.usersecurity.manager.impl;
 
 import cn.whitetown.authcommon.entity.po.UserRole;
+import cn.whitetown.dogbase.common.constant.DogBaseConstant;
 import cn.whitetown.dogbase.db.factory.QueryConditionFactory;
 import cn.whitetown.usersecurity.manager.RoleManager;
 import cn.whitetown.usersecurity.mappers.RoleInfoMapper;
@@ -29,7 +30,7 @@ public class DefaultRoleManager implements RoleManager {
     public UserRole queryRoleById(Long roleId) {
         LambdaQueryWrapper<UserRole> queryWrapper = conditionFactory.getQueryCondition(UserRole.class);
         queryWrapper.eq(UserRole::getRoleId,roleId)
-                .in(UserRole::getRoleStatus,0,1);
+                .in(UserRole::getRoleStatus, DogBaseConstant.ACTIVE_NORMAL,DogBaseConstant.DISABLE_WARN);
         return roleInfoMapper.selectOne(queryWrapper);
     }
 
@@ -37,7 +38,7 @@ public class DefaultRoleManager implements RoleManager {
     public UserRole queryRoleByRoleName(String roleName) {
         LambdaQueryWrapper<UserRole> queryWrapper = conditionFactory.getQueryCondition(UserRole.class);
         queryWrapper.eq(UserRole::getName,roleName)
-                .in(UserRole::getRoleStatus,0,1);
+                .in(UserRole::getRoleStatus,DogBaseConstant.ACTIVE_NORMAL,DogBaseConstant.DISABLE_WARN);
         UserRole userRole = roleInfoMapper.selectOne(queryWrapper);
         return userRole;
     }

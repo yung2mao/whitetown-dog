@@ -1,16 +1,14 @@
 package cn.whitetown.usersecurity.service.impl;
 
 import cn.whitetown.authcommon.util.UserCacheUtil;
-import cn.whitetown.authcommon.constant.AuthConstant;
 import cn.whitetown.authcommon.util.token.JwtTokenUtil;
+import cn.whitetown.dogbase.common.constant.DogBaseConstant;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.exception.CustomException;
 import cn.whitetown.authcommon.entity.po.UserBasicInfo;
 import cn.whitetown.usersecurity.manager.UserManager;
-import cn.whitetown.usersecurity.mappers.UserBasicInfoMapper;
 import cn.whitetown.usersecurity.service.DefaultUserDetailService;
 import cn.whitetown.usersecurity.util.LoginUserUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,8 +54,8 @@ public class UserDetailServiceImpl implements DefaultUserDetailService {
             if(userBasicInfo==null){
                 throw new CustomException(ResponseStatusEnum.NO_THIS_USER);
             }
-            if(userBasicInfo.getUserStatus() == 1){
-                throw new CustomException(ResponseStatusEnum.ACCOUNT_FREEZED);
+            if(userBasicInfo.getUserStatus() == DogBaseConstant.DISABLE_WARN){
+                throw new CustomException(ResponseStatusEnum.ACCOUNT_FREEZE);
             }
             String version = jwtTokenUtil.getTokenValue(JwtTokenUtil.USER_VERSION);
             if(version==null){

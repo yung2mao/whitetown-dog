@@ -1,7 +1,7 @@
 package cn.whitetown.dogbase.common.util;
 
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
-import cn.whitetown.dogbase.common.entity.vo.ResponsePage;
+import cn.whitetown.dogbase.common.entity.dto.ResponsePage;
 import cn.whitetown.dogbase.common.exception.CustomException;
 import cn.whitetown.dogbase.common.entity.ao.PageQuery;
 

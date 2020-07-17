@@ -1,4 +1,4 @@
-package cn.whitetown.authcommon.entity.vo;
+package cn.whitetown.authcommon.entity.dto;
 
 import com.alibaba.fastjson.JSON;
 import lombok.Getter;

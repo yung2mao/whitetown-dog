@@ -3,7 +3,7 @@ package cn.whitetown.usersecurity.service;
 import cn.whitetown.authcommon.entity.ao.RoleQuery;
 import cn.whitetown.authcommon.entity.ao.UserRoleConfigure;
 import cn.whitetown.authcommon.entity.po.UserRole;
-import cn.whitetown.authcommon.entity.vo.RoleInfoVo;
+import cn.whitetown.authcommon.entity.dto.RoleInfoDto;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
@@ -19,33 +19,33 @@ public interface RoleManageService extends IService<UserRole> {
      * 查询所有角色信息
      * @return
      */
-    List<RoleInfoVo> queryAllRoles();
+    List<RoleInfoDto> queryAllRoles();
 
     /**
      * 根据用户名查询用户角色信息
      * @param username
      * @return
      */
-    List<RoleInfoVo> queryRolesByUsername(String username);
+    List<RoleInfoDto> queryRolesByUsername(String username);
 
     /**
      * 搜索角色信息
      * @param roleQuery
      * @return
      */
-    List<RoleInfoVo> searchRole(RoleQuery roleQuery);
+    List<RoleInfoDto> searchRole(RoleQuery roleQuery);
 
     /**
      * 添加角色信息
      * @param role
      */
-    void addRole(RoleInfoVo role);
+    void addRole(RoleInfoDto role);
 
     /**
      * 更新角色信息
      * @param role
      */
-    void updateRoleInfo(RoleInfoVo role);
+    void updateRoleInfo(RoleInfoDto role);
 
     /**
      * 角色状态更新

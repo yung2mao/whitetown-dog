@@ -3,8 +3,10 @@ package cn.whitetown.usersecurity.service;
 import cn.whitetown.authcommon.entity.ao.MenuInfoAo;
 import cn.whitetown.authcommon.entity.ao.RoleMenuConfigure;
 import cn.whitetown.authcommon.entity.po.MenuInfo;
-import cn.whitetown.authcommon.entity.vo.MenuTree;
+import cn.whitetown.authcommon.entity.dto.MenuTree;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * 菜单管理服务
@@ -28,11 +30,18 @@ public interface MenuService extends IService<MenuInfo> {
     MenuTree queryActiveMenuByUserId(Long userId);
 
     /**
-     * 根据角色查询相应绑定的
+     * 根据角色查询相应绑定的菜单信息
      * @param roleName
      * @return
      */
     MenuTree queryMenuTreeByRoleName(String roleName);
+
+    /**
+     * 根据角色ID查询绑定的菜单ID
+     * @param roleId
+     * @return
+     */
+    List<Long> queryMenuIdsByRoleId(Long roleId);
 
     /**
      * 添加一个菜单

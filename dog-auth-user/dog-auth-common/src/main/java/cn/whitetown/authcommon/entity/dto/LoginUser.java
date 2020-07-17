@@ -1,4 +1,4 @@
-package cn.whitetown.authcommon.entity.vo;
+package cn.whitetown.authcommon.entity.dto;
 
 import cn.whitetown.authcommon.entity.AbstractUser;
 import com.alibaba.fastjson.JSON;

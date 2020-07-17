@@ -1,6 +1,6 @@
 package cn.whitetown.dogbase.common.exception;
 
-import cn.whitetown.dogbase.common.entity.vo.ResponseData;
+import cn.whitetown.dogbase.common.entity.dto.ResponseData;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;

@@ -2,7 +2,7 @@ package cn.whitetown.usersecurity.filter;
 
 import cn.whitetown.authcommon.util.token.JwtTokenUtil;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
-import cn.whitetown.dogbase.common.entity.vo.ResponseData;
+import cn.whitetown.dogbase.common.entity.dto.ResponseData;
 import cn.whitetown.dogbase.common.exception.CustomException;
 import cn.whitetown.dogbase.common.util.DataCheckUtil;
 import cn.whitetown.usersecurity.service.impl.UserDetailServiceImpl;

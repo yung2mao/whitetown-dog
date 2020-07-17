@@ -1,10 +1,10 @@
 package cn.whitetown.usersecurity.service;
 
 import cn.whitetown.authcommon.entity.ao.RoleUserQuery;
-import cn.whitetown.dogbase.common.entity.vo.ResponsePage;
+import cn.whitetown.dogbase.common.entity.dto.ResponsePage;
 import cn.whitetown.authcommon.entity.po.UserBasicInfo;
 import cn.whitetown.authcommon.entity.ao.UserBasicQuery;
-import cn.whitetown.authcommon.entity.vo.UserBasicInfoVo;
+import cn.whitetown.authcommon.entity.dto.UserBasicInfoDto;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -19,14 +19,14 @@ public interface UserManageService extends IService<UserBasicInfo> {
      * @param userQuery
      * @return
      */
-    ResponsePage<UserBasicInfoVo> queryUserBasicList(UserBasicQuery userQuery);
+    ResponsePage<UserBasicInfoDto> queryUserBasicList(UserBasicQuery userQuery);
 
     /**
      * 根据角色ID查询绑定的用户信息
      * @param roleUserQuery
      * @return
      */
-    ResponsePage<UserBasicInfoVo> queryUserByRoleId(RoleUserQuery roleUserQuery);
+    ResponsePage<UserBasicInfoDto> queryUserByRoleId(RoleUserQuery roleUserQuery);
 
     /**
      * 分配用户/注册用户

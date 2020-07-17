@@ -3,22 +3,19 @@ package cn.whitetown.usersecurity.service.impl;
 import cn.whitetown.authcommon.entity.po.UserRole;
 import cn.whitetown.authcommon.util.UserCacheUtil;
 import cn.whitetown.authcommon.util.captcha.CaptchaDataDeal;
-import cn.whitetown.authcommon.constant.AuthConstant;
 import cn.whitetown.authcommon.util.token.JwtTokenUtil;
+import cn.whitetown.dogbase.common.constant.DogBaseConstant;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.exception.CustomException;
-import cn.whitetown.authcommon.entity.vo.LoginUser;
+import cn.whitetown.authcommon.entity.dto.LoginUser;
 import cn.whitetown.authcommon.entity.po.UserBasicInfo;
 import cn.whitetown.dogbase.common.util.DataCheckUtil;
-import cn.whitetown.dogbase.db.entity.WhiteLambdaQueryWrapper;
 import cn.whitetown.dogbase.common.util.secret.Md5WithSaltUtil;
 import cn.whitetown.usersecurity.manager.RoleManager;
 import cn.whitetown.usersecurity.manager.UserManager;
 import cn.whitetown.usersecurity.mappers.UserBasicInfoMapper;
 import cn.whitetown.usersecurity.service.DogUserService;
 import cn.whitetown.usersecurity.util.LoginUserUtil;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -87,8 +84,8 @@ public class DogUserServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserBasi
         if(user==null){
             throw new CustomException(ResponseStatusEnum.AUTH_REQUEST_ERROR);
         }
-        if(user.getUserStatus()==1){
-            throw new CustomException(ResponseStatusEnum.ACCOUNT_FREEZED);
+        if(user.getUserStatus() == DogBaseConstant.DISABLE_WARN){
+            throw new CustomException(ResponseStatusEnum.ACCOUNT_FREEZE);
         }
         String salt = user.getSalt();
         String md5WithSalt = Md5WithSaltUtil.md5Encrypt(password,salt);

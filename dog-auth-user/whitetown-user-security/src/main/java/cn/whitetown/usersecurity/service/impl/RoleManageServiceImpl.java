@@ -1,12 +1,14 @@
 package cn.whitetown.usersecurity.service.impl;
 
+import cn.whitetown.authcommon.constant.AuthConstant;
 import cn.whitetown.authcommon.entity.ao.RoleQuery;
 import cn.whitetown.authcommon.entity.ao.UserRoleConfigure;
 import cn.whitetown.authcommon.entity.po.UserBasicInfo;
 import cn.whitetown.authcommon.entity.po.UserRole;
-import cn.whitetown.authcommon.entity.vo.RoleInfoVo;
+import cn.whitetown.authcommon.entity.dto.RoleInfoDto;
 import cn.whitetown.authcommon.util.UserCacheUtil;
 import cn.whitetown.authcommon.util.token.JwtTokenUtil;
+import cn.whitetown.dogbase.common.constant.DogBaseConstant;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.exception.CustomException;
 import cn.whitetown.dogbase.common.util.DataCheckUtil;
@@ -68,10 +70,10 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
      * @return
      */
     @Override
-    public List<RoleInfoVo> queryAllRoles() {
+    public List<RoleInfoDto> queryAllRoles() {
         //condition
         LambdaQueryWrapper<UserRole> queryWrapper = queryConditionFactory.getQueryCondition(UserRole.class);
-        queryWrapper.in(UserRole::getRoleStatus,0,1);
+        queryWrapper.in(UserRole::getRoleStatus, DogBaseConstant.ACTIVE_NORMAL,DogBaseConstant.DISABLE_WARN);
         //query
         List<UserRole> roleList = this.list(queryWrapper);
         roleList = roleList.stream().sorted(Comparator.comparing(UserRole::getSort)).collect(Collectors.toList());
@@ -85,7 +87,7 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
      * @return
      */
     @Override
-    public List<RoleInfoVo> queryRolesByUsername(String username) {
+    public List<RoleInfoDto> queryRolesByUsername(String username) {
         UserBasicInfo userBasicInfo = userManager.getUserByUsername(username);
         if(userBasicInfo == null){
             throw new CustomException(ResponseStatusEnum.NO_THIS_USER);
@@ -96,7 +98,7 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
     }
 
     @Override
-    public List<RoleInfoVo> searchRole(RoleQuery roleQuery) {
+    public List<RoleInfoDto> searchRole(RoleQuery roleQuery) {
         if(!DataCheckUtil.checkTextNullBool(roleQuery.getDetail())){
             String detail = roleQuery.getDetail();
             if(detail.matches("[a-zA-Z_]+")){
@@ -115,7 +117,7 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
      * @param role
      */
     @Override
-    public void addRole(RoleInfoVo role){
+    public void addRole(RoleInfoDto role){
         LambdaQueryWrapper<UserRole> queryWrapper = new LambdaQueryWrapper<>();
         queryWrapper.eq(UserRole::getName,role.getName());
         UserRole ro = this.getOne(queryWrapper);
@@ -126,11 +128,11 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
         userRole = transUtil.trans(role, UserRole.class);
         Long createUserId = jwtTokenUtil.getUserId();
         if(role.getSort() == null){
-            userRole.setSort(100);
+            userRole.setSort(AuthConstant.MENU_MAX_SORT);
         }
         userRole.setRoleId(null);
-        userRole.setRoleStatus(0);
-        userRole.setVersion(0);
+        userRole.setRoleStatus(DogBaseConstant.ACTIVE_NORMAL);
+        userRole.setVersion(DogBaseConstant.INIT_VERSION);
         userRole.setCreateUserId(createUserId);
         userRole.setCreateTime(new Date());
         this.save(userRole);
@@ -142,7 +144,7 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
      * @param role
      */
     @Override
-    public void updateRoleInfo(RoleInfoVo role) {
+    public void updateRoleInfo(RoleInfoDto role) {
         UserRole oldRole = roleManager.queryRoleById(role.getRoleId());
         if(oldRole == null){
             throw new CustomException(ResponseStatusEnum.NO_THIS_ROLE);
@@ -152,7 +154,7 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
         }
 
         Long updateUserId = jwtTokenUtil.getUserId();
-        if(role.getSort() != null && role.getSort() > 0){
+        if(role.getSort() != null && role.getSort() > 0 && role.getSort() <= AuthConstant.MENU_MAX_SORT){
             oldRole.setSort(role.getSort());
         }
         oldRole.setDescription(role.getDescription());
@@ -179,7 +181,7 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
                 .set(UserRole::getRoleStatus,roleStatus);
         this.update(updateWrapper);
 
-        if(roleStatus == 2){
+        if(roleStatus == DogBaseConstant.DELETE_ERROR){
             //角色删除，对应关联关系一并删除
             userRoleRelationMapper.removeRoleRelation(roleId);
         }
@@ -207,10 +209,10 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
      * @param roleList
      * @return
      */
-    private List<RoleInfoVo> roleInfo2Vo(List<UserRole> roleList){
-        List<RoleInfoVo> roleInfoVoList = roleList.stream()
-                .map(userRole -> transUtil.trans(userRole, RoleInfoVo.class))
+    private List<RoleInfoDto> roleInfo2Vo(List<UserRole> roleList){
+        List<RoleInfoDto> roleInfoDtoList = roleList.stream()
+                .map(userRole -> transUtil.trans(userRole, RoleInfoDto.class))
                 .collect(Collectors.toList());
-        return roleInfoVoList;
+        return roleInfoDtoList;
     }
 }

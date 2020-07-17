@@ -6,11 +6,11 @@ import cn.whitetown.authcommon.entity.ao.RoleMenuConfigure;
 import cn.whitetown.authcommon.entity.po.UserRole;
 import cn.whitetown.authcommon.util.MenuCacheUtil;
 import cn.whitetown.authcommon.util.MenuUtil;
-import cn.whitetown.dogbase.common.constant.DogConstant;
+import cn.whitetown.dogbase.common.constant.DogBaseConstant;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.exception.CustomException;
 import cn.whitetown.authcommon.entity.po.MenuInfo;
-import cn.whitetown.authcommon.entity.vo.MenuTree;
+import cn.whitetown.authcommon.entity.dto.MenuTree;
 import cn.whitetown.dogbase.db.factory.BeanTransFactory;
 import cn.whitetown.dogbase.db.factory.QueryConditionFactory;
 import cn.whitetown.usersecurity.manager.RoleManager;
@@ -76,7 +76,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
      */
     @Override
     public MenuTree queryActiveMenuByUserId(Long userId) {
-        List<MenuInfo> menuInfos = menuInfoMapper.selectActiveMenuByUserId(DogConstant.ACTIVE_NORMAL,userId);
+        List<MenuInfo> menuInfos = menuInfoMapper.selectActiveMenuByUserId(DogBaseConstant.ACTIVE_NORMAL,userId);
         if(menuInfos.size() == 0){
             return new MenuTree();
         }
@@ -105,13 +105,37 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
     }
 
     /**
+     * 根据角色ID查询绑定的菜单ID
+     * @param roleId
+     * @return
+     */
+    @Override
+    public List<Long> queryMenuIdsByRoleId(Long roleId) {
+        MenuTree menuTree = menuCacheUtil.getCacheMenu(roleId);
+        if(menuTree!= null){
+            menuCacheUtil.saveCacheMenu(roleId,menuTree);
+            return menuUtil.getMenuIdsFromTree(menuTree);
+        }
+        UserRole userRole = roleManager.queryRoleById(roleId);
+        if(userRole == null){
+            throw new CustomException(ResponseStatusEnum.NO_THIS_ROLE);
+        }
+        List<MenuInfo> menuInfos = menuInfoMapper.selectMenuByRoleId(roleId);
+        List<Long> ids = new ArrayList<>();
+        menuInfos.stream()
+                .sorted(Comparator.comparing(MenuInfo::getMenuSort))
+                .forEach(menu -> ids.add(menu.getMenuId()));
+        return ids;
+    }
+
+    /**
      * 添加菜单信息
      * @param menuInfo
      */
     @Override
     public void addSingleMenu(Long createUserId,MenuInfoAo menuInfo) {
         LambdaQueryWrapper<MenuInfo> queryWrapper = conditionFactory.getQueryCondition(MenuInfo.class);
-        int[] menuStatusArr = {DogConstant.ACTIVE_NORMAL,DogConstant.DISABLE_WARN};
+        int[] menuStatusArr = {DogBaseConstant.ACTIVE_NORMAL, DogBaseConstant.DISABLE_WARN};
         queryWrapper.eq(MenuInfo::getMenuCode,menuInfo.getMenuCode())
                 .or().eq(MenuInfo::getMenuUrl,menuInfo.getMenuUrl())
                 .or().eq(MenuInfo::getMenuId,menuInfo.getParentId())
@@ -132,7 +156,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
         addMenu.setMenuLevel(parentMenu.getMenuLevel()+1);
         addMenu.setCreateUserId(createUserId);
         addMenu.setCreateTime(new Date());
-        addMenu.setMenuStatus(DogConstant.ACTIVE_NORMAL);
+        addMenu.setMenuStatus(DogBaseConstant.ACTIVE_NORMAL);
         menuInfoMapper.insert(addMenu);
     }
 
@@ -150,6 +174,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
         List<MenuInfo> menuInfos = menuInfoMapper.selectList(queryWrapper);
         MenuInfo oldMenu = null;
         MenuInfo parentMenu = null;
+        //只应该查询到2条菜单信息,一条为需要更新的菜单,一条为父菜单
         if(menuInfos.size() == 2){
             for (MenuInfo menu : menuInfos){
                 if(menu.getMenuId().equals(menuInfo.getMenuId())){
@@ -190,7 +215,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
             throw new CustomException(ResponseStatusEnum.NO_THIS_MENU);
         }
         //菜单删除，清除关联的所有数据
-        if(menuStatus == DogConstant.DELETE_ERROR){
+        if(menuStatus == DogBaseConstant.DELETE_ERROR){
             List<MenuInfo> menuInfos = menuInfoMapper.selectMenuListByIdAndLevel(menuId, AuthConstant.LOWEST_MENU_LEVEL);
             List<Long> menuIds = menuUtil.getMenuIdsFromList(menuInfos);
             menuInfoMapper.deleteRelationAndSubMenu(menuIds);
@@ -214,7 +239,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
             throw new CustomException(ResponseStatusEnum.NO_THIS_ROLE);
         }
         Set menuSet = new LinkedHashSet();
-        menuSet.add(1);
+        menuSet.add(AuthConstant.ROOT_MENU_ID);
         Arrays.stream(configure.getMenuIds()).forEach(id->menuSet.add(id));
         menuInfoMapper.updateRoleMenus(configure.getRoleId(),menuSet);
         menuCacheUtil.reset();
@@ -225,7 +250,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
      * @param menuId
      */
     private void checkRootMenuId(Long menuId){
-        if(menuId == 1){
+        if(AuthConstant.ROOT_MENU_ID == menuId){
             throw new CustomException(ResponseStatusEnum.NO_PERMISSION);
         }
     }
