@@ -101,7 +101,8 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
     public List<RoleInfoDto> searchRole(RoleQuery roleQuery) {
         if(!DataCheckUtil.checkTextNullBool(roleQuery.getDetail())){
             String detail = roleQuery.getDetail();
-            if(detail.matches("[a-zA-Z_]+")){
+            String nameRegex = "[a-zA-Z_]+";
+            if(detail.matches(nameRegex)){
                 roleQuery.setRoleName(detail);
             }else {
                 roleQuery.setDescription(detail);

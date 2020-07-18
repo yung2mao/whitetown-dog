@@ -1,10 +1,13 @@
 package cn.whitetown.authcommon.entity.dto;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -41,9 +44,20 @@ public class MenuTree {
      */
     private Integer menuSort;
     /**
+     * 菜单描述
+     */
+    private String description;
+    /**
      * 菜单状态
      */
     private Integer menuStatus;
+
+    /**
+     * 创建时间
+     */
+    @JsonFormat(pattern = "yyyy-MM-dd  HH:mm:ss")
+    @JSONField(format = "yyyy-MM-dd  HH:mm:ss")
+    private Date createTime;
     /**
      * 子菜单列表
      */

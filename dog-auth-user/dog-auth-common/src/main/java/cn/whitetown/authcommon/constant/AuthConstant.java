@@ -6,7 +6,7 @@ package cn.whitetown.authcommon.constant;
  * @date 2020/05/31 10:14
  **/
 public class AuthConstant {
-    /*\*****************权限和用户相关**************************\*/
+    /*\*****************权限相关**************************\*/
 
     public static final String TOKEN_SECRET = "hy#@gsfds*&gvd^%((<gtyqwe4564sd:#";
     public static final String TOKEN_PREFIX = "Bearer";
@@ -43,9 +43,13 @@ public class AuthConstant {
      */
     public static final int CAPTCHA_EXPIRE_TIME = 180;
 
+    /*\*****************用户相关**************************\*/
+
+    public static final String SUPER_MANAGE_USERNAME = "admin";
+
     /*\*****************角色相关**************************\*/
     /**
-     * 注册用户初始角色
+     * 注册用户默认角色
      */
     public static final String DEFAULT_ROLE = "NORMAL";
 

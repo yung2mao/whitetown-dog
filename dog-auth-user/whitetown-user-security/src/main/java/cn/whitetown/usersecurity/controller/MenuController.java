@@ -41,6 +41,7 @@ public class MenuController {
         MenuTree menuTree = service.queryMenuTree(menuId,lowLevel);
         return ResponseData.ok(menuTree);
     }
+
     /**
      * 查询当前登录用户可以查看的菜单项
      * @return

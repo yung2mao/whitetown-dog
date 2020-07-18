@@ -104,6 +104,12 @@ public class RoleManageController {
      */
     @PostMapping(value = "/configureRole",produces = "application/json;charset=UTF-8")
     public ResponseData configureUserRole(@RequestBody @Valid UserRoleConfigure roleConfigureAo){
+        Long[] roleIds = roleConfigureAo.getRoleIds();
+        for(Long id:roleIds){
+            if(id == null || id < 1){
+                throw new CustomException(ResponseStatusEnum.REQUEST_INVALIDATE);
+            }
+        }
         service.updateUserRoleRelation(roleConfigureAo);
         return ResponseData.ok();
     }

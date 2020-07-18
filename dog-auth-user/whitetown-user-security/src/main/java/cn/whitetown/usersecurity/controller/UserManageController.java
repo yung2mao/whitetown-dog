@@ -157,7 +157,7 @@ public class UserManageController {
      */
     @GetMapping("/active")
     public ResponseData userActiveControl(@NotBlank String username,@NotNull @Min(0) @Max(2) Integer userStatus){
-        if("admin".equalsIgnoreCase(username)){
+        if(AuthConstant.SUPER_MANAGE_USERNAME.equalsIgnoreCase(username)){
             return ResponseData.build(400,"禁止操作超级管理员状态",null);
         }
         service.changeUserStatus(username,userStatus);

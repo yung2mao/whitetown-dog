@@ -39,7 +39,6 @@ public class MenuInfoAo {
     /**
      * 路由地址
      */
-    @NotBlank(message = "路由地址不能为空")
     private String menuUrl;
     /**
      * 菜单图标
