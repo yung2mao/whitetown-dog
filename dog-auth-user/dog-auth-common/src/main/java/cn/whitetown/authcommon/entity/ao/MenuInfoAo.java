@@ -19,7 +19,7 @@ public class MenuInfoAo {
     /**
      * 菜单ID
      */
-    @Min(value = 2,message = "menuId必须大于1")
+    @Min(value = 2,message = "禁止操作顶级菜单")
     private Long menuId;
     /**
      * 菜单中文名称

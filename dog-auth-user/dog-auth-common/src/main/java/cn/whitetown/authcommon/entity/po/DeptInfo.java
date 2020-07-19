@@ -1,10 +1,17 @@
 package cn.whitetown.authcommon.entity.po;
 
 import com.alibaba.fastjson.annotation.JSONField;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import java.lang.annotation.Target;
 import java.util.Date;
 
 /**
@@ -14,19 +21,29 @@ import java.util.Date;
  **/
 @Getter
 @Setter
+@TableName("dept_info")
 public class DeptInfo {
     /**
      * 部门ID
      */
+    @TableId(type = IdType.AUTO)
+    @Min(value = 2,message = "顶级部门信息禁止变更")
     private Long deptId;
     /**
      * 部门编码
      */
+    @NotBlank(message = "部门编码禁止为空")
     private String deptCode;
     /**
      * 部门名称
      */
+    @NotBlank(message = "部门名称禁止为空")
     private String deptName;
+
+    /**
+     * 父级部门ID
+     */
+    private Long parentId;
     /**
      * 部门负责人ID
      */
@@ -42,11 +59,16 @@ public class DeptInfo {
     /**
      * 联系电话
      */
+    @Pattern(regexp = "\\d+")
     private String phone;
     /**
      * 部门职责/描述
      */
     private String description;
+    /**
+     * 部门状态
+     */
+    private Integer deptStatus;
     /**
      * 创建时间
      */

@@ -48,6 +48,11 @@ public class DeptInfoDto {
      * 部门职责/描述
      */
     private String description;
+
+    /**
+     * 部门状态
+     */
+    private Integer deptStatus;
     /**
      * 创建时间
      */

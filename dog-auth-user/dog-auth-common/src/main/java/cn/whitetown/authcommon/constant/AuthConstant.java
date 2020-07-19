@@ -61,4 +61,8 @@ public class AuthConstant {
     public static final long MENU_SAVE_TIME = 1800L;
     public static final long ROOT_MENU_ID = 1L;
     public static final int MENU_MAX_SORT = 100;
+
+    /*\*****************菜单相关**************************\*/
+
+    public static final Long ROOT_DEPT_ID = 1L;
 }

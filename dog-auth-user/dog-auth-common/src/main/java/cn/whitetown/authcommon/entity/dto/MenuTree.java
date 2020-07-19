@@ -47,6 +47,11 @@ public class MenuTree {
      * 菜单描述
      */
     private String description;
+
+    /**
+     * 父菜单ID
+     */
+    private Long parentId;
     /**
      * 菜单状态
      */

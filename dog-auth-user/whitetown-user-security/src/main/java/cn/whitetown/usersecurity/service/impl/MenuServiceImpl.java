@@ -11,6 +11,7 @@ import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.exception.CustomException;
 import cn.whitetown.authcommon.entity.po.MenuInfo;
 import cn.whitetown.authcommon.entity.dto.MenuTree;
+import cn.whitetown.dogbase.common.util.DataCheckUtil;
 import cn.whitetown.dogbase.db.factory.BeanTransFactory;
 import cn.whitetown.dogbase.db.factory.QueryConditionFactory;
 import cn.whitetown.usersecurity.manager.RoleManager;
@@ -137,14 +138,16 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
         LambdaQueryWrapper<MenuInfo> queryWrapper = conditionFactory.getQueryCondition(MenuInfo.class);
         int[] menuStatusArr = {DogBaseConstant.ACTIVE_NORMAL, DogBaseConstant.DISABLE_WARN};
         queryWrapper.eq(MenuInfo::getMenuCode,menuInfo.getMenuCode())
-                .or().eq(MenuInfo::getMenuUrl,menuInfo.getMenuUrl())
                 .or().eq(MenuInfo::getMenuId,menuInfo.getParentId())
                 .in(MenuInfo::getMenuStatus,menuStatusArr);
+        if(!DataCheckUtil.checkTextNullBool(menuInfo.getMenuUrl())){
+            queryWrapper.or().eq(MenuInfo::getMenuUrl,menuInfo.getMenuUrl());
+        }
         List<MenuInfo> oldMenus = menuInfoMapper.selectList(queryWrapper);
         if(oldMenus.size() == 0){
             throw new CustomException(ResponseStatusEnum.MENU_LEVEL_ERROR);
         }else if (oldMenus.size() == 1){
-            if(oldMenus.get(0).getMenuId().equals(menuInfo.getParentId())){
+            if(!oldMenus.get(0).getMenuId().equals(menuInfo.getParentId())){
                 throw new CustomException(ResponseStatusEnum.EXISTED_THE_MENU);
             }
         }else {
@@ -167,10 +170,11 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
     @Override
     public void updateMenuInfo(Long updateUserId,MenuInfoAo menuInfo) {
         LambdaQueryWrapper<MenuInfo> queryWrapper = conditionFactory.getQueryCondition(MenuInfo.class);
-        queryWrapper.eq(MenuInfo::getMenuId,menuInfo.getMenuId())
-                .or().eq(MenuInfo::getMenuCode,menuInfo.getMenuCode())
-                .or().eq(MenuInfo::getMenuUrl,menuInfo.getMenuUrl())
-                .or().eq(MenuInfo::getMenuId,menuInfo.getParentId());
+        queryWrapper.in(MenuInfo::getMenuId,menuInfo.getMenuId(),menuInfo.getParentId())
+                .or().eq(MenuInfo::getMenuCode,menuInfo.getMenuCode());
+        if(!DataCheckUtil.checkTextNullBool(menuInfo.getMenuUrl())){
+            queryWrapper.or().eq(MenuInfo::getMenuUrl,menuInfo.getMenuUrl());
+        }
         List<MenuInfo> menuInfos = menuInfoMapper.selectList(queryWrapper);
         MenuInfo oldMenu = null;
         MenuInfo parentMenu = null;

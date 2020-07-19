@@ -75,7 +75,6 @@ public class MenuController {
         return ResponseData.ok(ids);
     }
 
-
     /**
      * 新增菜单信息
      * @param menuInfo
@@ -114,7 +113,7 @@ public class MenuController {
      * @return
      */
     @GetMapping("status")
-    public ResponseData updateMenuStatus(@NotNull(message = "菜单ID不能为空") @Min(value = 2,message = "menuId大于1") Long menuId, @NotNull @Min(0) @Max(2) Integer menuStatus){
+    public ResponseData updateMenuStatus(@NotNull(message = "菜单ID不能为空") @Min(value = 2,message = "禁止操作顶级菜单") Long menuId, @NotNull @Min(0) @Max(2) Integer menuStatus){
         service.updateMenuStatus(menuId,menuStatus);
         return ResponseData.ok();
     }

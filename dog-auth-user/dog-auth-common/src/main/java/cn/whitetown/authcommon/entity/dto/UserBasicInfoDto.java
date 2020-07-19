@@ -34,6 +34,14 @@ public class UserBasicInfoDto {
      */
     private String gender;
     /**
+     * 所属部门ID
+     */
+    private Long deptId;
+    /**
+     * 所属部门名称
+     */
+    private String deptName;
+    /**
      * 邮箱
      */
     private String email;

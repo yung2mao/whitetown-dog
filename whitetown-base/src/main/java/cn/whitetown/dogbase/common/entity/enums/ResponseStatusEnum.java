@@ -64,8 +64,16 @@ public enum ResponseStatusEnum {
     AUTH_CAPTCHA_EXPIRE(400,"验证码已过期"),
 
     /*\***************菜单相关********************\*/
+
     MENU_LEVEL_ERROR(400,"菜单层级错误"),
     NO_THIS_MENU(400,"没有此菜单项"),
+
+    /*\***************部门相关********************\*/
+
+    DEPT_EXISTS(400,"部门信息已存在"),
+    NO_PARENT_DEPT(400, "父级部门不可为空"),
+    NO_THIS_DEPT(400, "当前部门不存在"),
+    DEPT_PARENT_REPEAT(400, "部门ID不允许等于父级部门ID"),
 
     /*\***************错误的请求*******************\*/
 
@@ -86,7 +94,6 @@ public enum ResponseStatusEnum {
      */
     ACT_NO_FLOW(900, "无可用流程，请先导入或新建流程"),
     ACT_ADD_ERROR(901, "新建流程错误");
-
     /**
      * 状态码
      */
