@@ -12,6 +12,7 @@
     <module>whitetown-user-single</module>
     <module>whitetown-user-security</module>
     <module>dog-auth-common</module>
+      <module>whitetown-auth-security</module>
   </modules>
 
   <parent>

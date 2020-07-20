@@ -54,7 +54,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         // 防止iframe 造成跨域
         http.headers().frameOptions().disable();
 
-        http.authorizeRequests().antMatchers("/erus/login","/erus/ver","/erus/check-capt")
+        http.authorizeRequests().antMatchers("/erus/login","/erus/ver","/erus/check-capt",
+                "/webjars/**","/swagger/**","/v2/api-docs","/swagger-resources/**","/swagger-ui.html")
                 .permitAll()   //访问不受限的路径信息
                 .anyRequest().authenticated()
                 .and()

@@ -52,6 +52,14 @@ public class UserBasicInfo extends AbstractUser {
      */
     private String deptName;
     /**
+     * 职位ID
+     */
+    private Long positionId;
+    /**
+     * 职位名称
+     */
+    private String positionName;
+    /**
      * 邮箱
      */
     @Email

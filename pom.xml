@@ -40,6 +40,7 @@
     <rector-core.version>3.3.0.RELEASE</rector-core.version>
 <!--    <spring-beans.version>5.1.6.RELEASE</spring-beans.version>-->
     <lombok.version>1.18.8</lombok.version>
+    <swagger2.version>2.9.2</swagger2.version>
     <junit.version>4.11</junit.version>
   </properties>
 
@@ -117,7 +118,17 @@
         <artifactId>lombok</artifactId>
         <version>${lombok.version}</version>
       </dependency>
-
+      <!--swagger2-->
+      <dependency>
+        <groupId>io.springfox</groupId>
+        <artifactId>springfox-swagger2</artifactId>
+        <version>${swagger2.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>io.springfox</groupId>
+        <artifactId>springfox-swagger-ui</artifactId>
+        <version>${swagger2.version}</version>
+      </dependency>
 
       <dependency>
         <groupId>junit</groupId>

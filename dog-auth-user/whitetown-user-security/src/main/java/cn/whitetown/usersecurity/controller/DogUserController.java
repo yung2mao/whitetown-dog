@@ -9,10 +9,12 @@ import cn.whitetown.dogbase.common.util.DataCheckUtil;
 import cn.whitetown.dogbase.common.util.WebUtil;
 import cn.whitetown.usersecurity.service.DogUserService;
 import com.alibaba.fastjson.JSONObject;
+import io.swagger.annotations.Api;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
@@ -116,7 +118,7 @@ public class DogUserController {
      * @return
      */
     @PostMapping(value = "/login",produces = "application/json;charset=UTF-8")
-    public ResponseData<String> login(@RequestBody JSONObject params,HttpServletRequest request){
+    public ResponseData<String> dogLogin(@RequestBody JSONObject params,HttpServletRequest request){
         String captcha = params.getString("captcha");
         String clientIp = WebUtil.getClientIP(request);
         userService.checkCaptcha(captcha,clientIp);
@@ -146,7 +148,7 @@ public class DogUserController {
      * @return
      */
     @RequestMapping(value = "/logout",method = {RequestMethod.GET,RequestMethod.POST})
-    public ResponseData logout(){
+    public ResponseData dogLogout(){
         userService.logout();
         return ResponseData.ok();
     }
@@ -156,10 +158,9 @@ public class DogUserController {
      * @return
      */
     @GetMapping("/info")
-    public ResponseData<LoginUser> getUser(){
+    public ResponseData<LoginUser> getUserInfo(){
         LoginUser user = userService.getUserByToken();
         user.setRoles(null);
         return ResponseData.ok(user);
     }
-
 }

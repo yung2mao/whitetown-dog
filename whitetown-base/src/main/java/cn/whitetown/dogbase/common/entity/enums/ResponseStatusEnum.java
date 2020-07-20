@@ -75,6 +75,12 @@ public enum ResponseStatusEnum {
     NO_THIS_DEPT(400, "当前部门不存在"),
     DEPT_PARENT_REPEAT(400, "部门ID不允许等于父级部门ID"),
 
+
+    /*\***************职位相关********************\*/
+
+    NO_THIS_POSITION(400,"当前职位不存在"),
+    ONLY_ONE_PERSON_POSITION(400,"当前职位仅允许一人"),
+
     /*\***************错误的请求*******************\*/
 
     MENU_PCODE_COINCIDENCE(400, "菜单编号和副编号不能一致"),

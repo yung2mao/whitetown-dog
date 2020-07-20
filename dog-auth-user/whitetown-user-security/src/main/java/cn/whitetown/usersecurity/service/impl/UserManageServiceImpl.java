@@ -1,6 +1,8 @@
 package cn.whitetown.usersecurity.service.impl;
 
 import cn.whitetown.authcommon.entity.ao.RoleUserQuery;
+import cn.whitetown.authcommon.entity.po.DeptInfo;
+import cn.whitetown.authcommon.entity.po.PositionInfo;
 import cn.whitetown.authcommon.entity.po.UserRole;
 import cn.whitetown.authcommon.entity.UserRoleRelation;
 import cn.whitetown.authcommon.constant.AuthConstant;
@@ -11,6 +13,7 @@ import cn.whitetown.dogbase.common.entity.dto.ResponsePage;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.exception.CustomException;
 import cn.whitetown.dogbase.common.util.DataCheckUtil;
+import cn.whitetown.dogbase.db.entity.WhiteLambdaQueryWrapper;
 import cn.whitetown.dogbase.db.factory.BeanTransFactory;
 import cn.whitetown.dogbase.db.factory.QueryConditionFactory;
 import cn.whitetown.authcommon.entity.po.UserBasicInfo;
@@ -18,8 +21,11 @@ import cn.whitetown.dogbase.common.util.WhiteToolUtil;
 import cn.whitetown.dogbase.common.util.secret.Md5WithSaltUtil;
 import cn.whitetown.authcommon.entity.ao.UserBasicQuery;
 import cn.whitetown.authcommon.entity.dto.UserBasicInfoDto;
+import cn.whitetown.usersecurity.manager.DeptManager;
+import cn.whitetown.usersecurity.manager.PositionManager;
 import cn.whitetown.usersecurity.manager.RoleManager;
 import cn.whitetown.usersecurity.manager.UserManager;
+import cn.whitetown.usersecurity.mappers.DeptInfoMapper;
 import cn.whitetown.usersecurity.mappers.UserBasicInfoMapper;
 import cn.whitetown.usersecurity.mappers.UserRoleRelationMapper;
 import cn.whitetown.usersecurity.service.UserManageService;
@@ -62,6 +68,12 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
 
     @Autowired
     private RoleManager roleManager;
+
+    @Autowired
+    private DeptManager deptManager;
+
+    @Autowired
+    private PositionManager positionManager;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -135,12 +147,9 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
         LambdaQueryWrapper<UserBasicInfo> condition = queryConditionFactory.
                 allEqWithNull2IsNull(userQuery, UserBasicInfo.class)
                 .in(UserBasicInfo::getUserStatus,DogBaseConstant.ACTIVE_NORMAL,DogBaseConstant.DISABLE_WARN);
-        if(!DataCheckUtil.checkTextNullBool(userQuery.getStartTime())){
-            condition.ge(UserBasicInfo::getCreateTime,userQuery.getStartTime());
-        }
-        if(!DataCheckUtil.checkTextNullBool(userQuery.getEndTime())){
-            condition.le(UserBasicInfo::getCreateTime,userQuery.getEndTime());
-        }
+        WhiteLambdaQueryWrapper<UserBasicInfo> whiteQueryWrapper = queryConditionFactory.createWhiteQueryWrapper(condition);
+        condition = whiteQueryWrapper.between(UserBasicInfo::getCreateTime,userQuery.getStartTime(),userQuery.getEndTime(),false)
+                .getLambdaQueryWrapper();
         //select data
         Page<UserBasicInfo> page = queryConditionFactory.createPage(userQuery.getPage(),userQuery.getSize(), UserBasicInfo.class);
         Page<UserBasicInfo> pageResult = userMapper.selectPage(page, condition);
@@ -182,6 +191,32 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
         if(user==null){
             throw new CustomException(ResponseStatusEnum.NO_THIS_USER);
         }
+        //部门信息判断
+        if(userInfo.getDeptId() != null) {
+            DeptInfo deptInfo = deptManager.queryDeptInfoById(userInfo.getDeptId());
+            if(deptInfo == null) {
+                throw new CustomException(ResponseStatusEnum.NO_THIS_DEPT);
+            }
+            userInfo.setDeptName(deptInfo.getDeptName());
+            //职位信息判断
+            if(userInfo.getPositionId() != null) {
+                PositionInfo positionInfo = positionManager.queryPositionByIdAndDeptCode(userInfo.getPositionId(),deptInfo.getDeptCode());
+                if(positionInfo == null) {
+                    throw new CustomException(ResponseStatusEnum.NO_THIS_POSITION);
+                }
+                //只允许一人的职位,检索当前职位是否已经有人
+                if(positionInfo.getPositionLevel() == AuthConstant.ONE_PERSON_LEVEL) {
+                    LambdaQueryWrapper<UserBasicInfo> queryCondition = queryConditionFactory.getQueryCondition(UserBasicInfo.class);
+                    queryCondition.eq(UserBasicInfo::getDeptId,deptInfo.getDeptId())
+                            .eq(UserBasicInfo::getPositionId,positionInfo.getPositionId());
+                    List<UserBasicInfo> usList = userMapper.selectList(queryCondition);
+                    if(usList.size() > 0) {
+                        throw new CustomException(ResponseStatusEnum.ONLY_ONE_PERSON_POSITION);
+                    }
+                }
+                userInfo.setPositionName(positionInfo.getPositionName());
+            }
+        }
         //更新的信息处理
         UserBasicInfo newUser = (UserBasicInfo) WhiteToolUtil.mergeObject(user, userInfo);
         newUser.setUserId(user.getUserId());
@@ -206,7 +241,7 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
      * @param username
      */
     @Override
-    public void reSetPassword(String username) {
+    public void resetPassword(String username) {
         UserBasicInfo userBasicInfo = userManager.getUserByUsername(username);
         if(userBasicInfo==null){
             throw new CustomException(ResponseStatusEnum.NO_THIS_USER);

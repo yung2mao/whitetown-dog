@@ -105,8 +105,8 @@ public class UserManageController {
      * @return
      */
     @GetMapping("/reSetPwd")
-    public ResponseData retryPassword(@NotBlank String username){
-        service.reSetPassword(username);
+    public ResponseData resetPassword(@NotBlank String username){
+        service.resetPassword(username);
         return ResponseData.ok();
     }
 

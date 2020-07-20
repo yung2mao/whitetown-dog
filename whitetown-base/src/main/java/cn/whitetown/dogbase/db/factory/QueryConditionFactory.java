@@ -1,5 +1,6 @@
 package cn.whitetown.dogbase.db.factory;
 
+import cn.whitetown.dogbase.db.entity.WhiteLambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -34,6 +35,14 @@ public interface QueryConditionFactory {
      * @return
      */
     <T> LambdaQueryWrapper<T> allEqWithNull2IsNull(Object obj,Class<T> claz);
+
+    /**
+     * 获取自定义的WhiteLambdaQueryWrapper
+     * @param queryWrapper
+     * @param <T>
+     * @return
+     */
+    <T>WhiteLambdaQueryWrapper<T> createWhiteQueryWrapper(LambdaQueryWrapper<T> queryWrapper);
 
     /**
      * 创建用作分页的Page对象

@@ -3,6 +3,8 @@ package cn.whitetown.usersecurity.util;
 import cn.whitetown.authcommon.entity.po.UserRole;
 import cn.whitetown.authcommon.entity.dto.LoginUser;
 import cn.whitetown.authcommon.entity.po.UserBasicInfo;
+import cn.whitetown.dogbase.db.factory.BeanTransFactory;
+import org.springframework.cglib.beans.BeanCopier;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -16,6 +18,8 @@ import java.util.List;
  * @date 2020/05/30 16:46
  **/
 public class LoginUserUtil {
+
+    private static BeanCopier beanCopier = BeanCopier.create(UserBasicInfo.class,LoginUser.class,false);
     /**
      * 获取登录的用户信息
      * @param user
@@ -23,16 +27,15 @@ public class LoginUserUtil {
      * @return
      */
     public static LoginUser getLoginUser(UserBasicInfo user, List<UserRole> roles){
-        LoginUser us = new LoginUser(user.getAvatar(),user.getRealName(),user.getBirthday(),
-                user.getGender(),user.getEmail(),user.getTelephone());
+        LoginUser loginUser = new LoginUser();
+        beanCopier.copy(user,loginUser,null);
+        loginUser.setPassword(null);
         if(roles != null && roles.size()>0) {
             List<String> ros = new ArrayList<>();
             roles.stream().forEach(r -> ros.add(r.getName()));
-            us.setRoles(ros);
+            loginUser.setRoles(ros);
         }
-        us.setUserId(user.getUserId());
-        us.setUsername(user.getUsername());
-        return us;
+        return loginUser;
     }
 
     /**

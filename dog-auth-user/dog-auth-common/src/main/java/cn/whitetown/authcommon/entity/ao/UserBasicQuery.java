@@ -29,6 +29,15 @@ public class UserBasicQuery extends PageQuery{
      */
     private String gender;
     /**
+     * 部门名称
+     */
+    private String deptName;
+    /**
+     * 职位名称
+     */
+    private String positionName;
+
+    /**
      * 用户电话
      */
     private String telephone;

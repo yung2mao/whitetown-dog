@@ -52,7 +52,7 @@ public class RoleManageController {
     }
 
     @GetMapping("/search")
-    public ResponseData<List<RoleInfoDto>> search(RoleQuery roleQuery){
+    public ResponseData<List<RoleInfoDto>> searchRole(RoleQuery roleQuery){
         List<RoleInfoDto> roleInfos = service.searchRole(roleQuery);
         return ResponseData.ok(roleInfos);
     }
@@ -92,7 +92,7 @@ public class RoleManageController {
      * @return
      */
     @GetMapping("/status")
-    public ResponseData updateUserStatus(@NotNull Long roleId,@NotNull @Min(0) @Max(2) Integer roleStatus){
+    public ResponseData updateRoleStatus(@NotNull Long roleId,@NotNull @Min(0) @Max(2) Integer roleStatus){
         service.updateRoleStatus(roleId,roleStatus);
         return ResponseData.ok();
     }

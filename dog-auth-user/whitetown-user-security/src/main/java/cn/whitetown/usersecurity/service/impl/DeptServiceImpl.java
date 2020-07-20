@@ -5,12 +5,14 @@ import cn.whitetown.authcommon.entity.ao.DeptQuery;
 import cn.whitetown.authcommon.entity.dto.DeptInfoDto;
 import cn.whitetown.authcommon.entity.dto.DeptSimpleDto;
 import cn.whitetown.authcommon.entity.po.DeptInfo;
+import cn.whitetown.authcommon.entity.po.PositionInfo;
 import cn.whitetown.authcommon.util.token.JwtTokenUtil;
 import cn.whitetown.dogbase.common.constant.DogBaseConstant;
 import cn.whitetown.dogbase.common.entity.dto.ResponsePage;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.exception.CustomException;
 import cn.whitetown.dogbase.common.util.DataCheckUtil;
+import cn.whitetown.dogbase.db.entity.WhiteLambdaQueryWrapper;
 import cn.whitetown.dogbase.db.factory.BeanTransFactory;
 import cn.whitetown.dogbase.db.factory.QueryConditionFactory;
 import cn.whitetown.usersecurity.mappers.DeptInfoMapper;
@@ -18,7 +20,6 @@ import cn.whitetown.usersecurity.service.DeptService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
-import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -65,13 +66,11 @@ public class DeptServiceImpl extends ServiceImpl<DeptInfoMapper,DeptInfo> implem
             }
         }
         LambdaQueryWrapper<DeptInfo> queryCondition = conditionFactory.allEqWithNull2IsNull(deptQuery,DeptInfo.class);
-        queryCondition.in(DeptInfo::getDeptStatus,DogBaseConstant.ACTIVE_NORMAL,DogBaseConstant.DISABLE_WARN);
-        if(!DataCheckUtil.checkTextNullBool(deptQuery.getStartTime())){
-            queryCondition.ge(DeptInfo::getCreateTime,deptQuery.getStartTime());
-        }
-        if(!DataCheckUtil.checkTextNullBool(deptQuery.getEndTime())){
-            queryCondition.lt(DeptInfo::getCreateTime,deptQuery.getEndTime());
-        }
+        queryCondition.in(DeptInfo::getDeptStatus,DogBaseConstant.ACTIVE_NORMAL,DogBaseConstant.DISABLE_WARN)
+                .ne(DeptInfo::getDeptId,AuthConstant.ROOT_DEPT_ID);
+        WhiteLambdaQueryWrapper<DeptInfo> whiteQueryWrapper = conditionFactory.createWhiteQueryWrapper(queryCondition);
+        queryCondition = whiteQueryWrapper.between(DeptInfo::getCreateTime,deptQuery.getStartTime(), deptQuery.getEndTime(),false)
+                .getLambdaQueryWrapper();
         Page<DeptInfo> page = conditionFactory.createPage(deptQuery.getPage(), deptQuery.getSize(), DeptInfo.class);
         Page<DeptInfo> pageResult = this.page(page, queryCondition);
         List<DeptInfo> records = pageResult.getRecords();
@@ -87,7 +86,8 @@ public class DeptServiceImpl extends ServiceImpl<DeptInfoMapper,DeptInfo> implem
     @Override
     public List<DeptSimpleDto> searchAllSimpleDept() {
         LambdaQueryWrapper<DeptInfo> queryCondition = conditionFactory.getQueryCondition(DeptInfo.class);
-        queryCondition.in(DeptInfo::getDeptStatus,DogBaseConstant.ACTIVE_NORMAL,DogBaseConstant.DISABLE_WARN);
+        queryCondition.in(DeptInfo::getDeptStatus,DogBaseConstant.ACTIVE_NORMAL,DogBaseConstant.DISABLE_WARN)
+                .ne(DeptInfo::getDeptId,AuthConstant.ROOT_DEPT_ID);
         queryCondition.select(DeptInfo::getDeptId,
                 DeptInfo::getDeptCode,
                 DeptInfo::getDeptName,

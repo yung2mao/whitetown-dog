@@ -92,7 +92,7 @@ public class MenuController {
      * @return
      */
     @PostMapping(value = "update", produces = "application/json;charset=UTF-8")
-    public ResponseData updateMenu(@RequestBody @Valid MenuInfoAo menuInfo){
+    public ResponseData updateMenuInfo(@RequestBody @Valid MenuInfoAo menuInfo){
         if(menuInfo.getMenuId()==null){
             return ResponseData.build(400,"ID不能为空",null);
         }

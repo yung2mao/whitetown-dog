@@ -108,7 +108,7 @@ public class DefaultCaptchaDataDeal implements CaptchaDataDeal {
      */
     @Override
     public void saveCaptcha(String sessionId, String captchaText) {
-        expireMap.put(captchaText,sessionId, 1000 * AuthConstant.CAPTCHA_EXPIRE_TIME);
+        expireMap.putS(captchaText,sessionId, AuthConstant.CAPTCHA_EXPIRE_TIME);
     }
 
     /**

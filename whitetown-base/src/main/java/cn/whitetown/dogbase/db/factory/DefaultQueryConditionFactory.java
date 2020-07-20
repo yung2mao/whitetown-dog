@@ -5,6 +5,7 @@ import cn.whitetown.dogbase.db.annotation.QueryField;
 import cn.whitetown.dogbase.db.annotation.QueryTable;
 import cn.whitetown.dogbase.common.util.DataCheckUtil;
 import cn.whitetown.dogbase.db.entity.DataBaseConstant;
+import cn.whitetown.dogbase.db.entity.WhiteLambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
@@ -130,6 +131,17 @@ public class DefaultQueryConditionFactory implements QueryConditionFactory{
             }
         }
         return queryWrapper.lambda();
+    }
+
+    /**
+     * 获取自定义的QueryWrapper
+     * @param queryWrapper
+     * @param <T>
+     * @return
+     */
+    @Override
+    public <T> WhiteLambdaQueryWrapper<T> createWhiteQueryWrapper(LambdaQueryWrapper<T> queryWrapper) {
+        return WhiteLambdaQueryWrapper.getInstance(queryWrapper);
     }
 
     /**

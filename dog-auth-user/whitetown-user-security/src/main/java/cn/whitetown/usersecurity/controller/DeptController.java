@@ -10,7 +10,6 @@ import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.exception.CustomException;
 import cn.whitetown.dogbase.common.util.WhiteToolUtil;
 import cn.whitetown.usersecurity.service.DeptService;
-import jdk.nashorn.internal.objects.annotations.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -93,7 +92,7 @@ public class DeptController {
      * @return
      */
     @GetMapping("/status")
-    public ResponseData updateStatus(@NotNull @Min(value = 2,message = "禁止操作ROOT层级部门") Long deptId,
+    public ResponseData updateDeptStatus(@NotNull @Min(value = 2,message = "禁止操作ROOT层级部门") Long deptId,
                                      @NotNull @Min(0) @Max(2) Integer deptStatus){
         deptService.updateDeptStatus(deptId,deptStatus);
         return ResponseData.ok();
