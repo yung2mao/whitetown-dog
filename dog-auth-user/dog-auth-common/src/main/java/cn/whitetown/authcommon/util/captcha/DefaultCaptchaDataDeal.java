@@ -102,23 +102,23 @@ public class DefaultCaptchaDataDeal implements CaptchaDataDeal {
     }
 
     /**
-     * 存储验证码和对应客户端IP地址
+     * 验证码临时存储
      * @param sessionId
      * @param captchaText
      */
     @Override
     public void saveCaptcha(String sessionId, String captchaText) {
-        expireMap.putS(captchaText,sessionId, AuthConstant.CAPTCHA_EXPIRE_TIME);
+        expireMap.putS(sessionId, captchaText,AuthConstant.CAPTCHA_EXPIRE_TIME);
     }
 
     /**
-     * 根据验证码获取IP地址
-     * @param captcha
+     * 获取内存中存储的验证码信息
+     * @param sessionId
      * @return
      */
     @Override
-    public String getCaptcha(String captcha) {
-        return (String) expireMap.get(captcha);
+    public String getCaptcha(String sessionId) {
+        return (String) expireMap.get(sessionId);
     }
 
 }

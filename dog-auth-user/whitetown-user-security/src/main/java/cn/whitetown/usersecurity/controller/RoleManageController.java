@@ -35,7 +35,7 @@ public class RoleManageController {
      * 获取所有角色信息
      * @return
      */
-    @GetMapping("/getAll")
+    @GetMapping("/get_all")
     public ResponseData<List<RoleInfoDto>> queryAllRoles(){
         List<RoleInfoDto> roleInfoList =  service.queryAllRoles();
         return ResponseData.ok(roleInfoList);
@@ -102,7 +102,7 @@ public class RoleManageController {
      * @param roleConfigureAo
      * @return
      */
-    @PostMapping(value = "/configureRole",produces = "application/json;charset=UTF-8")
+    @PostMapping(value = "/configure_role",produces = "application/json;charset=UTF-8")
     public ResponseData configureUserRole(@RequestBody @Valid UserRoleConfigure roleConfigureAo){
         Long[] roleIds = roleConfigureAo.getRoleIds();
         for(Long id:roleIds){

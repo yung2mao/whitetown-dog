@@ -29,6 +29,14 @@ public class DeptInfoDto {
      */
     private String deptName;
     /**
+     * 理论负责人职位ID
+     */
+    private Long bossPositionId;
+    /**
+     * 理论负责人职位名称
+     */
+    private String bossPositionName;
+    /**
      * 部门负责人ID
      */
     private Long bossUserId;

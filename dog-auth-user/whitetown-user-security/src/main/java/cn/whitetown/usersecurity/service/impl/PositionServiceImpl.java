@@ -44,7 +44,8 @@ public class PositionServiceImpl extends ServiceImpl<PositionMapper, PositionInf
      */
     @Override
     public ResponsePage<PositionDto> queryPagePositions(PositionQuery positionQuery) {
-        LambdaQueryWrapper<PositionInfo> queryWrapper = conditionFactory.allEqWithNull2IsNull(positionQuery, PositionInfo.class);
+        LambdaQueryWrapper<PositionInfo> queryWrapper = conditionFactory.allEqWithNull2IsNull(positionQuery, PositionInfo.class)
+                .in(PositionInfo::getPositionStatus,DogBaseConstant.ACTIVE_NORMAL,DogBaseConstant.DISABLE_WARN);
         WhiteLambdaQueryWrapper<PositionInfo> whiteQueryWrapper = conditionFactory.createWhiteQueryWrapper(queryWrapper);
         queryWrapper = whiteQueryWrapper.between(PositionInfo::getCreateTime,positionQuery.getStartTime(),positionQuery.getEndTime(),false)
                 .getLambdaQueryWrapper();

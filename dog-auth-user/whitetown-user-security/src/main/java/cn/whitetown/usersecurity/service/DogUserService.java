@@ -13,9 +13,9 @@ public interface DogUserService extends IService<UserBasicInfo> {
     /**
      * 验证码校验
      * @param captcha
-     * @param clientIp
+     * @param sessionId
      */
-    void checkCaptcha(String captcha, String clientIp);
+    void checkCaptcha(String captcha, String sessionId);
 
     /**
      * 执行登录逻辑，校验用户名和密码并生成token

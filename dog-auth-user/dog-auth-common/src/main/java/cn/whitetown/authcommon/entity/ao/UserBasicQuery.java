@@ -7,6 +7,8 @@ import com.alibaba.fastjson.JSON;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.validation.constraints.Min;
+
 /**
  * 用户信息的查询条件
  * @author GrainRain
@@ -29,13 +31,14 @@ public class UserBasicQuery extends PageQuery{
      */
     private String gender;
     /**
-     * 部门名称
+     * 部门ID
      */
-    private String deptName;
+    @Min(value = 1,message = "非法操作,禁止选择隐藏部门")
+    private Long deptId;
     /**
-     * 职位名称
+     * 职位ID
      */
-    private String positionName;
+    private Long positionId;
 
     /**
      * 用户电话

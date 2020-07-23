@@ -24,4 +24,9 @@ public class DeptManagerImpl implements DeptManager {
         }
         return deptInfoMapper.selectById(deptId);
     }
+
+    @Override
+    public void updatePositionInfo(Long positionId, Long userId, String realName) {
+        deptInfoMapper.updateDeptBossInfo(positionId,userId,realName);
+    }
 }

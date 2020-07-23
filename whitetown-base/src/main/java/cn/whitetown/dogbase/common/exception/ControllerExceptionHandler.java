@@ -29,7 +29,12 @@ public class ControllerExceptionHandler{
             HttpMessageNotReadableException.class,
             NullPointerException.class})
     public ResponseData methodArgumentNotValidException(Exception e) {
-        return ResponseData.build(ResponseStatusEnum.ERROR_PARAMS.getStatus(),"参数错误",null);
+        String message = e.getMessage();
+        int keepLen  = 100;
+        if(message.length() > keepLen) {
+            message = message.substring(0,keepLen);
+        }
+        return ResponseData.build(ResponseStatusEnum.ERROR_PARAMS.getStatus(),message,null);
     }
 
     /**

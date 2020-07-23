@@ -43,6 +43,8 @@ public class AuthConstant {
      */
     public static final int CAPTCHA_EXPIRE_TIME = 180;
 
+    public static final int RANDOM_SESSION_ID_LEN = 12;
+
     /*\*****************用户相关**************************\*/
 
     public static final String SUPER_MANAGE_USERNAME = "admin";
@@ -67,5 +69,7 @@ public class AuthConstant {
     public static final long ROOT_DEPT_ID = 1L;
 
     /*\*****************职位相关**************************\*/
+
     public static final int ONE_PERSON_LEVEL = 1;
+    public static final Integer DEFAULT_DEPT_LEVEL = 1;
 }

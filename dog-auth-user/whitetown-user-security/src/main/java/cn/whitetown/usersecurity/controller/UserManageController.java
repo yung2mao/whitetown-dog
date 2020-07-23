@@ -45,8 +45,8 @@ public class UserManageController {
      * @param userQuery
      * @return
      */
-    @GetMapping("/pageUser")
-    public ResponseData<ResponsePage<UserBasicInfoDto>> queryUserList(UserBasicQuery userQuery){
+    @GetMapping("/page")
+    public ResponseData<ResponsePage<UserBasicInfoDto>> queryUserList(@Valid UserBasicQuery userQuery){
         WhiteToolUtil.defaultPage(userQuery);
         ResponsePage<UserBasicInfoDto> result =  service.queryUserBasicList(userQuery);
         return ResponseData.ok(result);
@@ -57,7 +57,7 @@ public class UserManageController {
      * @param roleUserQuery
      * @return
      */
-    @GetMapping("/roleUsers")
+    @GetMapping("/role_users")
     public  ResponseData<ResponsePage<UserBasicInfoDto>> queryUserListByRoleId(@Valid RoleUserQuery roleUserQuery){
         WhiteToolUtil.defaultPage(roleUserQuery);
         ResponsePage<UserBasicInfoDto> result = service.queryUserByRoleId(roleUserQuery);
@@ -104,7 +104,7 @@ public class UserManageController {
      * @param username
      * @return
      */
-    @GetMapping("/reSetPwd")
+    @GetMapping("/reset_pwd")
     public ResponseData resetPassword(@NotBlank String username){
         service.resetPassword(username);
         return ResponseData.ok();
@@ -115,7 +115,7 @@ public class UserManageController {
      * @param jsonObject
      * @return
      */
-    @PostMapping(value = "pwdCheck",produces = "application/json;charset=UTF-8")
+    @PostMapping(value = "pwd_check",produces = "application/json;charset=UTF-8")
     public ResponseData<String> checkPassword(@RequestBody JSONObject jsonObject){
         String password = (String)jsonObject.get("password");
         if(DataCheckUtil.checkTextNullBool(password)){
@@ -132,7 +132,7 @@ public class UserManageController {
      * @param jsonObject
      * @return
      */
-    @PostMapping(value = "pwdChange",produces = "application/json;charset=UTF-8")
+    @PostMapping(value = "pwd_change",produces = "application/json;charset=UTF-8")
     public ResponseData updatePassword(@RequestBody JSONObject jsonObject){
         String pwdToken = jsonObject.getString("pwdToken");
         String newPassword = jsonObject.getString("newPassword");
@@ -155,7 +155,7 @@ public class UserManageController {
      * @param userStatus
      * @return
      */
-    @GetMapping("/active")
+    @GetMapping("/status")
     public ResponseData userActiveControl(@NotBlank String username,@NotNull @Min(0) @Max(2) Integer userStatus){
         if(AuthConstant.SUPER_MANAGE_USERNAME.equalsIgnoreCase(username)){
             return ResponseData.build(400,"禁止操作超级管理员状态",null);

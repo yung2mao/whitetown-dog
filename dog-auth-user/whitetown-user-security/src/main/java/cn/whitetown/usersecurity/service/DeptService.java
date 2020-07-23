@@ -40,6 +40,14 @@ public interface DeptService extends IService<DeptInfo> {
     void updateDeptInfo(DeptInfo deptInfo);
 
     /**
+     * boss信息分配
+     * @param deptId
+     * @param positionId
+     * @param userId
+     */
+    void configureBoss(Long deptId,Long positionId, Long userId);
+
+    /**
      * 部门状态变更
      * @param deptId
      * @param deptStatus

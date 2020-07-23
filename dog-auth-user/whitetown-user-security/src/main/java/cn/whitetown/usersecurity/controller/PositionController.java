@@ -31,7 +31,7 @@ public class PositionController {
      * @param positionQuery
      * @return
      */
-    @GetMapping("/pagePosition")
+    @GetMapping("/page")
     public ResponseData<ResponsePage<PositionDto>> queryPositions(PositionQuery positionQuery){
         WhiteToolUtil.defaultPage(positionQuery);
         ResponsePage<PositionDto> positions = positionService.queryPagePositions(positionQuery);
@@ -43,7 +43,7 @@ public class PositionController {
      * @param deptId
      * @return
      */
-    @GetMapping("/deptPosition")
+    @GetMapping("/depts")
     public ResponseData<List<PositionDto>> queryPositionByDeptCode(@NotNull(message = "部门ID不能为空") Long deptId){
         List<PositionDto> positionDtoList = positionService.queryDeptPosition(deptId);
         return ResponseData.ok(positionDtoList);

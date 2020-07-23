@@ -1,5 +1,6 @@
 package cn.whitetown.usersecurity.controller;
 
+import cn.whitetown.authcommon.constant.AuthConstant;
 import cn.whitetown.authcommon.util.captcha.CaptchaDataDeal;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.entity.dto.ResponseData;
@@ -7,6 +8,7 @@ import cn.whitetown.authcommon.entity.dto.LoginUser;
 import cn.whitetown.dogbase.common.exception.CustomException;
 import cn.whitetown.dogbase.common.util.DataCheckUtil;
 import cn.whitetown.dogbase.common.util.WebUtil;
+import cn.whitetown.dogbase.common.util.WhiteToolUtil;
 import cn.whitetown.usersecurity.service.DogUserService;
 import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.Api;
@@ -61,10 +63,9 @@ public class DogUserController {
         response.setContentType("image/jpeg");
 
         String captchaText = captchaDataDeal.createCaptchaText();
-        // store the text and ip
-        String clientIP = WebUtil.getClientIP(request);
-        captchaDataDeal.saveCaptcha(clientIP,captchaText.toLowerCase());
-
+        // store the text and sessionId
+        String sessionId = WebUtil.getCusSessionId(request);
+        captchaDataDeal.saveCaptcha(sessionId,captchaText.toLowerCase());
         //write image
         BufferedImage bi = captchaDataDeal.createCaptchaImage(captchaText);
         ServletOutputStream out = null;
@@ -93,7 +94,7 @@ public class DogUserController {
                 e.printStackTrace();
             }
         }
-        log.warn("验证码生成成功，客户端IP地址为>"+clientIP+", 验证码为>"+captchaText);
+        log.warn("验证码生成成功，客户端IP地址为>"+WebUtil.getClientIP(request)+", 验证码为>"+captchaText);
     }
 
     /**
@@ -102,13 +103,13 @@ public class DogUserController {
      * @param captchaJson
      * @return
      */
-    @PostMapping(value = "check-capt",produces = "application/json;charset=UTF-8")
+    @PostMapping(value = "check_capt",produces = "application/json;charset=UTF-8")
     public ResponseData checkCaptcha(@RequestBody JSONObject captchaJson, HttpServletRequest request){
         String captcha = captchaJson.getString("captcha");
-        String clientIp = WebUtil.getClientIP(request);
+        String sessionId = WebUtil.getCusSessionId(request);
 
-        userService.checkCaptcha(captcha,clientIp);
-        log.warn("验证码校验通过，当前用户IP地址为 >>"+clientIp);
+        userService.checkCaptcha(captcha,sessionId);
+        log.warn("验证码校验通过，当前用户IP地址为 >>" + WebUtil.getClientIP(request));
         return ResponseData.ok();
     }
 
@@ -120,8 +121,11 @@ public class DogUserController {
     @PostMapping(value = "/login",produces = "application/json;charset=UTF-8")
     public ResponseData<String> dogLogin(@RequestBody JSONObject params,HttpServletRequest request){
         String captcha = params.getString("captcha");
-        String clientIp = WebUtil.getClientIP(request);
-        userService.checkCaptcha(captcha,clientIp);
+        if(DataCheckUtil.checkTextNullBool(captcha)){
+            throw new CustomException(ResponseStatusEnum.AUTH_CAPTCHA_ERROR);
+        }
+        String sessionId = WebUtil.getCusSessionId(request);
+        userService.checkCaptcha(captcha,sessionId);
         //check username and password
         String username = params.getString("username");
         String password = params.getString("password");
@@ -137,7 +141,7 @@ public class DogUserController {
      * token更新，解析原有token，签发一个新的token
      * @return
      */
-    @GetMapping("/newToken")
+    @GetMapping("/new_token")
     public ResponseData<String> updateToken(){
         String token = userService.updateToken();
         return ResponseData.ok(token);

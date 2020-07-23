@@ -46,7 +46,7 @@ public class MenuController {
      * 查询当前登录用户可以查看的菜单项
      * @return
      */
-    @GetMapping("/loginMenu")
+    @GetMapping("/login_menu")
     public ResponseData<MenuTree> queryActiveMenuTree(){
         Long userId = jwtTokenUtil.getUserId();
         MenuTree menuTree = service.queryActiveMenuByUserId(userId);
@@ -69,7 +69,7 @@ public class MenuController {
      * @param roleId
      * @return
      */
-    @GetMapping("/roleMenuIds")
+    @GetMapping("/role_menuIds")
     public ResponseData<List<Long>> getMenuIdsByRoleId(@NotNull Long roleId){
         List<Long> ids = service.queryMenuIdsByRoleId(roleId);
         return ResponseData.ok(ids);

@@ -55,19 +55,19 @@ public class DogUserServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserBasi
     /**
      * 验证码校验
      * @param captcha 验证码
-     * @param clientIp 客户ip地址
+     * @param sessionId
      */
     @Override
-    public void checkCaptcha(String captcha, String clientIp) {
+    public void checkCaptcha(String captcha, String sessionId) {
         if(DataCheckUtil.checkTextNullBool(captcha)){
             throw new CustomException(ResponseStatusEnum.AUTH_CAPTCHA_ERROR);
         }
-        String saveIp = captchaDataDeal.getCaptcha(captcha.toLowerCase());
-        if(DataCheckUtil.checkTextNullBool(saveIp)){
+        String realCaptcha = captchaDataDeal.getCaptcha(sessionId);
+        if(DataCheckUtil.checkTextNullBool(realCaptcha)){
             throw new CustomException(ResponseStatusEnum.AUTH_CAPTCHA_ERROR);
         }
-        //校验两次IP是否相同，由此判断是否同一用户
-        if(!saveIp.equalsIgnoreCase(clientIp)){
+        //校验存储的验证码和传入值是否相同
+        if(!captcha.equalsIgnoreCase(realCaptcha)){
             throw new CustomException(ResponseStatusEnum.AUTH_CAPTCHA_ERROR);
         }
     }

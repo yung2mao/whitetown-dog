@@ -14,4 +14,12 @@ public interface DeptManager {
      * @return
      */
     DeptInfo queryDeptInfoById(Long deptId);
+
+    /**
+     * 部门表数据更新
+     * @param positionId
+     * @param userId
+     * @param realName
+     */
+    void updatePositionInfo(Long positionId, Long userId, String realName);
 }

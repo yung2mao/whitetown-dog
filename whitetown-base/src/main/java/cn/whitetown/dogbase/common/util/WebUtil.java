@@ -1,5 +1,6 @@
 package cn.whitetown.dogbase.common.util;
 
+import io.swagger.models.auth.In;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -99,5 +100,27 @@ public class WebUtil {
         }
 
         return "0:0:0:0:0:0:0:1".equals(ip) ? localIP : ip;
+    }
+
+    /**
+     * 获取客户端浏览器类型
+     * @param request
+     * @return
+     */
+    public static String getBrowser(HttpServletRequest request) {
+        String agent = request.getHeader("user-agent");
+        return agent == null ? "" : agent;
+    }
+
+    /**
+     * 基于IP,服务端口,浏览器类型生成唯一ID作为sessionId
+     * @return
+     */
+    public static String getCusSessionId(HttpServletRequest request){
+        try {
+            return getClientIP(request).trim() + getBrowser(request).hashCode();
+        }catch (Exception e){
+            return "";
+        }
     }
 }

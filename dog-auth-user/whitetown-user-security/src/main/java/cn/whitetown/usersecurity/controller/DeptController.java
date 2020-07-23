@@ -10,6 +10,7 @@ import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.exception.CustomException;
 import cn.whitetown.dogbase.common.util.WhiteToolUtil;
 import cn.whitetown.usersecurity.service.DeptService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -37,7 +38,7 @@ public class DeptController {
      * @param deptQuery
      * @return
      */
-    @GetMapping("/pageDept")
+    @GetMapping("/page")
     public ResponseData<ResponsePage<DeptInfoDto>> queryDeptInfos(DeptQuery deptQuery){
         WhiteToolUtil.defaultPage(deptQuery);
         ResponsePage<DeptInfoDto> result = deptService.searchDeptInfos(deptQuery);
@@ -48,7 +49,7 @@ public class DeptController {
      * 获取所有部门的简化基本信息
      * @return
      */
-    @GetMapping("allSimple")
+    @GetMapping("simples")
     public ResponseData<List<DeptSimpleDto>> queryAllSimpleDept(){
         List<DeptSimpleDto> deptSimpleDtoList = deptService.searchAllSimpleDept();
         return ResponseData.ok(deptSimpleDtoList);
@@ -82,6 +83,18 @@ public class DeptController {
             throw new CustomException(ResponseStatusEnum.DEPT_PARENT_REPEAT);
         }
         deptService.updateDeptInfo(deptInfo);
+        return ResponseData.ok();
+    }
+
+    /**
+     * 分配Boss信息
+     * @param positionId
+     * @param userId
+     * @return
+     */
+    @GetMapping("/boss")
+    public ResponseData configureBoss(@NotNull(message = "部门ID不能为空") Long deptId,@NotNull(message = "职位ID不能为空") Long positionId, Long userId){
+        deptService.configureBoss(deptId,positionId,userId);
         return ResponseData.ok();
     }
 

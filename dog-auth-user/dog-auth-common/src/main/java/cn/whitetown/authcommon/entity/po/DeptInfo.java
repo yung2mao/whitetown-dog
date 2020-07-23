@@ -39,11 +39,22 @@ public class DeptInfo {
      */
     @NotBlank(message = "部门名称禁止为空")
     private String deptName;
-
     /**
      * 父级部门ID
      */
     private Long parentId;
+    /**
+     * 部门层级
+     */
+    private Integer deptLevel;
+    /**
+     * 理论负责人职位ID
+     */
+    private Long bossPositionId;
+    /**
+     * 理论负责人职位名称
+     */
+    private String bossPositionName;
     /**
      * 部门负责人ID
      */

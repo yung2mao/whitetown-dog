@@ -10,8 +10,8 @@ public interface PositionManager {
     /**
      * 查询职位信息
      * @param positionId
-     * @param deptCode
+     * @param deptId
      * @return
      */
-    PositionInfo queryPositionByIdAndDeptCode(Long positionId, String deptCode);
+    PositionInfo queryPositionByIdAndDeptId(Long deptId, Long positionId);
 }

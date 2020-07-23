@@ -74,7 +74,7 @@ public enum ResponseStatusEnum {
     NO_PARENT_DEPT(400, "父级部门不可为空"),
     NO_THIS_DEPT(400, "当前部门不存在"),
     DEPT_PARENT_REPEAT(400, "部门ID不允许等于父级部门ID"),
-
+    DEPT_INFO_ERROR(400,"部门信息填写错误"),
 
     /*\***************职位相关********************\*/
 

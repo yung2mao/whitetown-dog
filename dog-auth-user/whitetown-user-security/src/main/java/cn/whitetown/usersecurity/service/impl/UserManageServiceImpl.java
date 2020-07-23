@@ -25,7 +25,6 @@ import cn.whitetown.usersecurity.manager.DeptManager;
 import cn.whitetown.usersecurity.manager.PositionManager;
 import cn.whitetown.usersecurity.manager.RoleManager;
 import cn.whitetown.usersecurity.manager.UserManager;
-import cn.whitetown.usersecurity.mappers.DeptInfoMapper;
 import cn.whitetown.usersecurity.mappers.UserBasicInfoMapper;
 import cn.whitetown.usersecurity.mappers.UserRoleRelationMapper;
 import cn.whitetown.usersecurity.service.UserManageService;
@@ -185,37 +184,45 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
      * 用户信息更新
      * @param userInfo
      */
+    @Transactional(rollbackFor = Throwable.class)
     @Override
     public void updateUser(UserBasicInfo userInfo) {
         UserBasicInfo user = userManager.getUserByUsername(userInfo.getUsername());
         if(user==null){
             throw new CustomException(ResponseStatusEnum.NO_THIS_USER);
         }
-        //部门信息判断
-        if(userInfo.getDeptId() != null) {
+        //判断deptId和positionId是否有变更,如果有变更则执行相应合法性校验
+        boolean deptChange = false;
+        boolean positionChange = false;
+        if(userInfo.getDeptId() != null && !userInfo.getDeptId().equals(user.getDeptId())){
+            deptChange = true;
+        }
+        if(userInfo.getDeptId() != null && userInfo.getPositionId() != null && !userInfo.getPositionId().equals(user.getPositionId())) {
+            positionChange = true;
+        }
+        if(deptChange){
             DeptInfo deptInfo = deptManager.queryDeptInfoById(userInfo.getDeptId());
             if(deptInfo == null) {
                 throw new CustomException(ResponseStatusEnum.NO_THIS_DEPT);
             }
             userInfo.setDeptName(deptInfo.getDeptName());
-            //职位信息判断
-            if(userInfo.getPositionId() != null) {
-                PositionInfo positionInfo = positionManager.queryPositionByIdAndDeptCode(userInfo.getPositionId(),deptInfo.getDeptCode());
-                if(positionInfo == null) {
-                    throw new CustomException(ResponseStatusEnum.NO_THIS_POSITION);
-                }
-                //只允许一人的职位,检索当前职位是否已经有人
-                if(positionInfo.getPositionLevel() == AuthConstant.ONE_PERSON_LEVEL) {
-                    LambdaQueryWrapper<UserBasicInfo> queryCondition = queryConditionFactory.getQueryCondition(UserBasicInfo.class);
-                    queryCondition.eq(UserBasicInfo::getDeptId,deptInfo.getDeptId())
-                            .eq(UserBasicInfo::getPositionId,positionInfo.getPositionId());
-                    List<UserBasicInfo> usList = userMapper.selectList(queryCondition);
-                    if(usList.size() > 0) {
-                        throw new CustomException(ResponseStatusEnum.ONLY_ONE_PERSON_POSITION);
-                    }
-                }
-                userInfo.setPositionName(positionInfo.getPositionName());
+        }
+        if(positionChange){
+            PositionInfo positionInfo = positionManager.queryPositionByIdAndDeptId(userInfo.getDeptId(),userInfo.getPositionId());
+            if(positionInfo == null) {
+                throw new CustomException(ResponseStatusEnum.NO_THIS_POSITION);
             }
+            //只允许一人的职位,检索当前职位是否已经有人
+            if(positionInfo.getPositionLevel() == AuthConstant.ONE_PERSON_LEVEL) {
+                LambdaQueryWrapper<UserBasicInfo> queryCondition = queryConditionFactory.getQueryCondition(UserBasicInfo.class);
+                queryCondition.eq(UserBasicInfo::getDeptId,userInfo.getDeptId())
+                        .eq(UserBasicInfo::getPositionId,positionInfo.getPositionId());
+                List<UserBasicInfo> usList = userMapper.selectList(queryCondition);
+                if(usList.size() > 0) {
+                    throw new CustomException(ResponseStatusEnum.ONLY_ONE_PERSON_POSITION);
+                }
+            }
+            userInfo.setPositionName(positionInfo.getPositionName());
         }
         //更新的信息处理
         UserBasicInfo newUser = (UserBasicInfo) WhiteToolUtil.mergeObject(user, userInfo);
@@ -232,6 +239,9 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
         newUser.setUpdateTime(new Date());
         //update
         userMapper.updateById(newUser);
+        if(newUser.getPositionId() != null) {
+            deptManager.updatePositionInfo(userInfo.getPositionId(),newUser.getUserId(),newUser.getRealName());
+        }
         //内存旧数据移除(如果存在)
         userCacheUtil.removeLoginUser(newUser.getUsername());
     }

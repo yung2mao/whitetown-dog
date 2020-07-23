@@ -25,12 +25,12 @@ public class PositionManagerImpl implements PositionManager {
     private QueryConditionFactory conditionFactory;
 
     @Override
-    public PositionInfo queryPositionByIdAndDeptCode(Long positionId, String deptCode) {
-        if(positionId==null || DataCheckUtil.checkTextNullBool(deptCode)) {
+    public PositionInfo queryPositionByIdAndDeptId(Long deptId, Long positionId) {
+        if(positionId==null || deptId == null) {
             return null;
         }
         LambdaQueryWrapper<PositionInfo> queryCondition = conditionFactory.getQueryCondition(PositionInfo.class);
-        queryCondition.eq(PositionInfo::getDeptCode,deptCode)
+        queryCondition.eq(PositionInfo::getDeptId,deptId)
                 .eq(PositionInfo::getPositionId,positionId);
         return positionMapper.selectOne(queryCondition);
     }
