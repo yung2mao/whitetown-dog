@@ -21,7 +21,6 @@ import java.util.Map;
  * @author taixian
  * @date 2020/07/24
  **/
-@Component
 public class WhiteSecurityConfigureManager implements SpringSecurityConfigureManager{
     @Autowired
     private ApplicationContext applicationContext;
@@ -64,10 +63,10 @@ public class WhiteSecurityConfigureManager implements SpringSecurityConfigureMan
                 authors = authAnnotation.value();
                 WhiteUriAuthManager whiteUriAuthManager = AuthHandleEnum.authManager(type);
                 System.out.println(paths[0] + "," +type + "," + authors[0]);
-//                if (whiteUriAuthManager != null) {
-//                    whiteUriAuthManager.configurePathAuth(paths, authors);
-//                    Arrays.stream(paths).forEach(path->pathAuthMap.put(path,whiteUriAuthManager));
-//                }
+                if (whiteUriAuthManager != null) {
+                    whiteUriAuthManager.configurePathAuth(paths, authors);
+                    Arrays.stream(paths).forEach(path->pathAuthMap.put(path,whiteUriAuthManager));
+                }
             }
         }
         this.taskOver();

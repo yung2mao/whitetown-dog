@@ -62,7 +62,6 @@ public enum AuthHandleEnum {
     }
 
     public static WhiteUriAuthManager authManager(String type) {
-
         return valueOf(type) == null ? null : valueOf(type).authManager;
     }
 }
