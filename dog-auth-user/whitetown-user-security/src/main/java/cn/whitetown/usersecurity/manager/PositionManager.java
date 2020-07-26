@@ -14,4 +14,11 @@ public interface PositionManager {
      * @return
      */
     PositionInfo queryPositionByIdAndDeptId(Long deptId, Long positionId);
+
+    /**
+     * 根据ID检索职位信息
+     * @param bossPositionId
+     * @return
+     */
+    PositionInfo queryPositionById(Long bossPositionId);
 }

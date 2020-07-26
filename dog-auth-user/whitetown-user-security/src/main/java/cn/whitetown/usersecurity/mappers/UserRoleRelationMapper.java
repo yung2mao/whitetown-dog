@@ -20,10 +20,10 @@ public interface UserRoleRelationMapper extends BaseMapper<UserRoleRelation> {
     void removeRoleRelation(Long roleId);
 
     /**
-     * 删除用户关联的角色信息
+     * 删除用户关联信息
      * @param userId
      */
-    void removeRoleRelationByUserId(Long userId);
+    void removeUserRelationInfo(Long userId);
 
     /**
      * 用户与角色关联关系更新

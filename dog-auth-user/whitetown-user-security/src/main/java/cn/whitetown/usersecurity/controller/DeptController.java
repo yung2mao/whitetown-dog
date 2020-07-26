@@ -1,16 +1,20 @@
 package cn.whitetown.usersecurity.controller;
 
+import cn.whitetown.authcommon.constant.AuthConstant;
 import cn.whitetown.authcommon.entity.ao.DeptQuery;
 import cn.whitetown.authcommon.entity.dto.DeptInfoDto;
+import cn.whitetown.authcommon.entity.dto.DeptInfoTree;
 import cn.whitetown.authcommon.entity.dto.DeptSimpleDto;
+import cn.whitetown.authcommon.entity.dto.DeptSimpleTree;
 import cn.whitetown.authcommon.entity.po.DeptInfo;
+import cn.whitetown.authsecurity.annotation.WhiteAuthAnnotation;
+import cn.whitetown.authsecurity.modo.WhiteControlType;
 import cn.whitetown.dogbase.common.entity.dto.ResponseData;
 import cn.whitetown.dogbase.common.entity.dto.ResponsePage;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.exception.CustomException;
 import cn.whitetown.dogbase.common.util.WhiteToolUtil;
 import cn.whitetown.usersecurity.service.DeptService;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -18,8 +22,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.List;
 
 /**
  * 部门管理
@@ -32,7 +36,6 @@ import java.util.List;
 public class DeptController {
     @Autowired
     private DeptService deptService;
-
     /**
      * 部门信息检索
      * @param deptQuery
@@ -46,14 +49,27 @@ public class DeptController {
     }
 
     /**
-     * 获取所有部门的简化基本信息
+     * 查询部门树
      * @return
      */
-    @GetMapping("simples")
-    public ResponseData<List<DeptSimpleDto>> queryAllSimpleDept(){
-        List<DeptSimpleDto> deptSimpleDtoList = deptService.searchAllSimpleDept();
-        return ResponseData.ok(deptSimpleDtoList);
+    @GetMapping("/tree")
+    public ResponseData<DeptInfoTree> queryDeptDetailTree(@NotNull(message = "部门ID不能为空") Long deptId,
+                                                          @NotNull(message = "部门最低层级不能为空") @Min(value = 1,message = "最低层级为1") Integer lowLevel){
+        DeptInfoTree deptInfoTree = deptService.queryDeptDetailTree(deptId,lowLevel);
+        return ResponseData.ok(deptInfoTree);
     }
+
+    /**
+     * 查询简化部门树
+     * @return
+     */
+    @GetMapping("/simple_tree")
+    public ResponseData<DeptSimpleTree> queryDeptTree(@NotNull(message = "部门ID不能为空") Long deptId,
+                                                      @NotNull(message = "部门最低层级不能为空") @Min(value = 1,message = "最低层级为1") Integer lowLevel) {
+        DeptSimpleTree simpleTree = deptService.querySimpleTree(deptId,lowLevel);
+        return ResponseData.ok(simpleTree);
+    }
+
 
     /**
      * 添加部门信息
@@ -77,7 +93,7 @@ public class DeptController {
             throw new CustomException(ResponseStatusEnum.NO_THIS_DEPT);
         }
         if(deptInfo.getParentId() == null){
-            throw new CustomException(ResponseStatusEnum.NO_PARENT_DEPT);
+            deptInfo.setParentId(AuthConstant.ROOT_DEPT_ID);
         }
         if(deptInfo.getDeptId().equals(deptInfo.getParentId())){
             throw new CustomException(ResponseStatusEnum.DEPT_PARENT_REPEAT);
@@ -88,13 +104,14 @@ public class DeptController {
 
     /**
      * 分配Boss信息
-     * @param positionId
-     * @param userId
+     * @param deptId
+     * @param username
      * @return
      */
     @GetMapping("/boss")
-    public ResponseData configureBoss(@NotNull(message = "部门ID不能为空") Long deptId,@NotNull(message = "职位ID不能为空") Long positionId, Long userId){
-        deptService.configureBoss(deptId,positionId,userId);
+    public ResponseData configureBoss(@NotNull(message = "部门ID不能为空") @Min(value = 2,message = "非法操作顶层部门") Long deptId,
+                                      @NotBlank(message = "用户名不能为空") String username){
+        deptService.configureBoss(deptId,username);
         return ResponseData.ok();
     }
 

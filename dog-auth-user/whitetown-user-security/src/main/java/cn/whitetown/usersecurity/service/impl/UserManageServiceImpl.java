@@ -225,25 +225,30 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
             userInfo.setPositionName(positionInfo.getPositionName());
         }
         //更新的信息处理
-        UserBasicInfo newUser = (UserBasicInfo) WhiteToolUtil.mergeObject(user, userInfo);
-        newUser.setUserId(user.getUserId());
-        newUser.setPassword(user.getPassword());
-        newUser.setSalt(user.getSalt());
-        newUser.setUserStatus(user.getUserStatus());
-        newUser.setUserVersion(user.getUserVersion());
-        newUser.setCreateUserId(user.getCreateUserId());
-        newUser.setCreateTime(user.getCreateTime());
+        if(userInfo.getDeptId() == null) {
+            userInfo.setDeptName(null);
+        }
+        if(userInfo.getPositionId() == null) {
+            userInfo.setPositionName(null);
+        }
+        userInfo.setUserId(user.getUserId());
+        userInfo.setPassword(user.getPassword());
+        userInfo.setSalt(user.getSalt());
+        userInfo.setUserStatus(user.getUserStatus());
+        userInfo.setUserVersion(user.getUserVersion());
+        userInfo.setCreateUserId(user.getCreateUserId());
+        userInfo.setCreateTime(user.getCreateTime());
         //update user
         Long userId = jwtTokenUtil.getUserId();
-        newUser.setUpdateUserId(userId);
-        newUser.setUpdateTime(new Date());
+        userInfo.setUpdateUserId(userId);
+        userInfo.setUpdateTime(new Date());
         //update
-        userMapper.updateById(newUser);
-        if(newUser.getPositionId() != null) {
-            deptManager.updatePositionInfo(userInfo.getPositionId(),newUser.getUserId(),newUser.getRealName());
+        userMapper.updateById(userInfo);
+        if(positionChange || userInfo.getPositionId() != null) {
+            deptManager.updatePositionInfo(userInfo.getPositionId(),userInfo.getUserId(),userInfo.getRealName());
         }
         //内存旧数据移除(如果存在)
-        userCacheUtil.removeLoginUser(newUser.getUsername());
+        userCacheUtil.removeLoginUser(userInfo.getUsername());
     }
 
     /**
@@ -340,8 +345,8 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
                 .set(UserBasicInfo::getUserStatus,userStatus);
         this.update(updateWrapper);
         if(userStatus == DogBaseConstant.DELETE_ERROR){
-            //删除状态，同步移除用户角色关联信息
-            userRoleRelationMapper.removeRoleRelationByUserId(userBasicInfo.getUserId());
+            //删除状态，同步移除用户关联信息
+            userRoleRelationMapper.removeUserRelationInfo(userBasicInfo.getUserId());
         }
         userCacheUtil.removeAllUserInfo(username);
     }

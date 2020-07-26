@@ -25,9 +25,11 @@ public interface MenuService extends IService<MenuInfo> {
     /**
      * 根据用户ID查询用户可查看的菜单项
      * @param userId
+     * @param menuId
+     * @param lowLevel
      * @return
      */
-    MenuTree queryActiveMenuByUserId(Long userId);
+    MenuTree queryActiveMenuByUserId(Long userId, Long menuId, Integer lowLevel);
 
     /**
      * 根据角色查询相应绑定的菜单信息

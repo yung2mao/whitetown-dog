@@ -11,6 +11,15 @@ import java.util.List;
  * @date 2020/07/18
  **/
 public interface DeptInfoMapper extends BaseMapper<DeptInfo> {
+
+    /**
+     * 查询部门信息-获取部门树
+     * @param deptId
+     * @param lowLevel
+     * @return
+     */
+    List<DeptInfo> selectDeptTreeList(@Param("deptId") Long deptId, @Param("lowLevel") Integer lowLevel);
+
     /**
      * 删除- 处理部门关联的相关信息
      * @param deptId

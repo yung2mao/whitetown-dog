@@ -1,5 +1,6 @@
 package cn.whitetown.authcommon.entity.ao;
 
+import cn.whitetown.authcommon.constant.AuthConstant;
 import com.alibaba.fastjson.JSON;
 import lombok.Getter;
 import lombok.Setter;
@@ -58,6 +59,10 @@ public class MenuInfoAo {
      * 1 - 停用
      */
     private Integer menuStatus;
+
+    public void setMenuSort(Integer menuSort) {
+        this.menuSort = menuSort == null ? AuthConstant.MENU_MAX_SORT : menuSort;
+    }
 
     @Override
     public String toString() {

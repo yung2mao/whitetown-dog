@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.whitetown.usersecurity.mappers.PositionMapper" >
+    <update id="updatePositionInfo">
+        update user_basic_info set position_name = #{positionName}
+        where position_id = #{positionId};
+        update dept_info set boss_position_name = #{positionName}
+        where boss_position_id = #{positionId};
+    </update>
+    <update id="updatePositionWithNull">
+                update user_basic_info set position_id = null,position_name = null
+        where position_id = #{positionId};
+        update dept_info set boss_position_id = null,boss_position_name = null
+        where boss_position_id = #{positionId};
+    </update>
+</mapper>

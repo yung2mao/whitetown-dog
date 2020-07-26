@@ -27,4 +27,23 @@ public interface PositionService extends IService<PositionInfo> {
      * @return
      */
     List<PositionDto> queryDeptPosition(Long deptId);
+
+    /**
+     * 添加职位信息
+     * @param position
+     */
+    void addPosition(PositionInfo position);
+
+    /**
+     * 更新职位信息
+     * @param position
+     */
+    void updatePosition(PositionInfo position);
+
+    /**
+     * 职位状态更新
+     * @param positionId
+     * @param status
+     */
+    void updatePositionStatus(Long positionId, int status);
 }

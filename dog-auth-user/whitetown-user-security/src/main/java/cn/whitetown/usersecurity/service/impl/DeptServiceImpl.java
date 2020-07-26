@@ -3,10 +3,13 @@ package cn.whitetown.usersecurity.service.impl;
 import cn.whitetown.authcommon.constant.AuthConstant;
 import cn.whitetown.authcommon.entity.ao.DeptQuery;
 import cn.whitetown.authcommon.entity.dto.DeptInfoDto;
+import cn.whitetown.authcommon.entity.dto.DeptInfoTree;
 import cn.whitetown.authcommon.entity.dto.DeptSimpleDto;
+import cn.whitetown.authcommon.entity.dto.DeptSimpleTree;
 import cn.whitetown.authcommon.entity.po.DeptInfo;
 import cn.whitetown.authcommon.entity.po.PositionInfo;
 import cn.whitetown.authcommon.entity.po.UserBasicInfo;
+import cn.whitetown.authcommon.util.DeptUtil;
 import cn.whitetown.authcommon.util.token.JwtTokenUtil;
 import cn.whitetown.dogbase.common.constant.DogBaseConstant;
 import cn.whitetown.dogbase.common.entity.dto.ResponsePage;
@@ -16,12 +19,14 @@ import cn.whitetown.dogbase.common.util.DataCheckUtil;
 import cn.whitetown.dogbase.db.entity.WhiteLambdaQueryWrapper;
 import cn.whitetown.dogbase.db.factory.BeanTransFactory;
 import cn.whitetown.dogbase.db.factory.QueryConditionFactory;
+import cn.whitetown.usersecurity.manager.DeptManager;
 import cn.whitetown.usersecurity.manager.PositionManager;
 import cn.whitetown.usersecurity.manager.UserManager;
 import cn.whitetown.usersecurity.mappers.DeptInfoMapper;
 import cn.whitetown.usersecurity.service.DeptService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +48,12 @@ public class DeptServiceImpl extends ServiceImpl<DeptInfoMapper,DeptInfo> implem
 
     @Resource
     private DeptInfoMapper deptMapper;
+
+    @Autowired
+    private DeptManager deptManager;
+
+    @Autowired
+    private DeptUtil deptUtil;
 
     @Autowired
     private QueryConditionFactory conditionFactory;
@@ -94,17 +105,25 @@ public class DeptServiceImpl extends ServiceImpl<DeptInfoMapper,DeptInfo> implem
      * @return
      */
     @Override
-    public List<DeptSimpleDto> searchAllSimpleDept() {
-        LambdaQueryWrapper<DeptInfo> queryCondition = conditionFactory.getQueryCondition(DeptInfo.class);
-        queryCondition.in(DeptInfo::getDeptStatus,DogBaseConstant.ACTIVE_NORMAL,DogBaseConstant.DISABLE_WARN)
-                .lt(DeptInfo::getDeptId,AuthConstant.ROOT_DEPT_ID);
-        queryCondition.select(DeptInfo::getDeptId,
-                DeptInfo::getDeptCode,
-                DeptInfo::getDeptName,
-                DeptInfo::getDeptStatus);
-        List<DeptInfo> list = this.list(queryCondition);
-        return list.stream().map(deptInfo -> transFactory.trans(deptInfo,DeptSimpleDto.class))
-                .collect(Collectors.toList());
+    public DeptInfoTree queryDeptDetailTree(Long deptId,Integer lowLevel) {
+        List<DeptInfo> deptInfos = deptManager.queryDeptInfoTreeList(deptId, lowLevel);
+        if(deptInfos.size() == 0) {
+            return new DeptInfoTree();
+        }
+        DeptInfoTree deptInfoTree = deptUtil.createDeptDetailTree(deptInfos);
+        return deptInfoTree;
+    }
+
+    /**
+     * 查询简化部门树
+     * @param deptId
+     * @param lowLevel
+     * @return
+     */
+    @Override
+    public DeptSimpleTree querySimpleTree(Long deptId, Integer lowLevel) {
+        List<DeptInfo> deptInfos = deptManager.queryDeptInfoTreeList(deptId,lowLevel);
+        return deptInfos.size() == 0 ? new DeptSimpleTree() : deptUtil.createDeptSimpleTree(deptInfos);
     }
 
     /**
@@ -116,8 +135,9 @@ public class DeptServiceImpl extends ServiceImpl<DeptInfoMapper,DeptInfo> implem
         LambdaQueryWrapper<DeptInfo> queryCondition = conditionFactory.getQueryCondition(DeptInfo.class);
         queryCondition.eq(DeptInfo::getDeptCode,deptInfo.getDeptCode());
         if(deptInfo.getParentId() != null) {
-            queryCondition.or().eq(DeptInfo::getParentId,deptInfo.getDeptId());
+            queryCondition.or().eq(DeptInfo::getDeptId,deptInfo.getParentId());
         }
+        queryCondition.in(DeptInfo::getDeptStatus,DogBaseConstant.ACTIVE_NORMAL,DogBaseConstant.DISABLE_WARN);
         List<DeptInfo> list = this.list(queryCondition);
         //如果有parentId,则应该查到一个部门信息,否则没有
         boolean isRealSize = deptInfo.getParentId() == null ? list.size() == 0 : list.size() == 1;
@@ -125,7 +145,7 @@ public class DeptServiceImpl extends ServiceImpl<DeptInfoMapper,DeptInfo> implem
             throw new CustomException(ResponseStatusEnum.DEPT_INFO_ERROR);
         }
         if(list.size() == 1){
-            if(!list.get(0).equals(deptInfo.getParentId())) {
+            if(!list.get(0).getDeptId().equals(deptInfo.getParentId())) {
                 throw new CustomException(ResponseStatusEnum.DEPT_EXISTS);
             }
         }
@@ -153,6 +173,7 @@ public class DeptServiceImpl extends ServiceImpl<DeptInfoMapper,DeptInfo> implem
      */
     @Override
     public void updateDeptInfo(DeptInfo deptInfo) {
+        // check exists and parent dept
         LambdaQueryWrapper<DeptInfo> queryCondition = conditionFactory.getQueryCondition(DeptInfo.class);
         queryCondition.in(DeptInfo::getDeptId,deptInfo.getDeptId(),deptInfo.getParentId())
                 .or().eq(DeptInfo::getDeptCode,deptInfo.getDeptCode());
@@ -169,17 +190,45 @@ public class DeptServiceImpl extends ServiceImpl<DeptInfoMapper,DeptInfo> implem
                 }
             }
             if(oldDept == null || parentDept == null){
-                throw new CustomException(ResponseStatusEnum.ERROR_PARAMS);
+                throw new CustomException(ResponseStatusEnum.DEPT_INFO_ERROR);
             }
         }else {
-            throw new CustomException(ResponseStatusEnum.ERROR_PARAMS);
+            throw new CustomException(ResponseStatusEnum.DEPT_INFO_ERROR);
+        }
+        //check position / if change
+        Long checkPositionUserId = null;
+        if(deptInfo.getBossPositionId() != null && !deptInfo.getBossPositionId().equals(oldDept.getBossPositionId())) {
+            PositionInfo positionInfo = positionManager.queryPositionById(deptInfo.getBossPositionId());
+            if(positionInfo == null) {
+                throw new CustomException(ResponseStatusEnum.NO_THIS_POSITION);
+            }
+            deptInfo.setBossPositionName(positionInfo.getPositionName());
+            if(positionInfo.getPositionLevel() == AuthConstant.ONE_PERSON_LEVEL) {
+                checkPositionUserId = positionInfo.getPositionId();
+            }
+        }else {
+            deptInfo.setBossPositionId(oldDept.getBossPositionId());
+            deptInfo.setBossPositionName(oldDept.getBossPositionName());
+        }
+        //set new boss / if position is changed
+        boolean setNewBoss = false;
+        if(checkPositionUserId != null) {
+            LambdaQueryWrapper<UserBasicInfo> userQuery = conditionFactory.getQueryCondition(UserBasicInfo.class)
+                    .eq(UserBasicInfo::getPositionId,checkPositionUserId)
+                    .select(UserBasicInfo::getUserId,UserBasicInfo::getRealName);
+            List<UserBasicInfo> userList = userManager.getUserByWrapper(userQuery);
+            if(userList.size() == 1) {
+                deptInfo.setBossUserId(userList.get(0).getUserId());
+                deptInfo.setBossName(userList.get(0).getRealName());
+                setNewBoss = true;
+            }
+        }
+        if(!setNewBoss) {
+            deptInfo.setBossUserId(oldDept.getBossUserId());
+            deptInfo.setBossName(oldDept.getBossName());
         }
         deptInfo.setDeptLevel(parentDept.getDeptLevel()+1);
         deptInfo.setDeptStatus(oldDept.getDeptStatus());
-        deptInfo.setBossPositionId(oldDept.getBossPositionId());
-        deptInfo.setBossPositionName(oldDept.getBossPositionName());
-        deptInfo.setBossUserId(oldDept.getBossUserId());
-        deptInfo.setBossName(oldDept.getBossName());
         deptInfo.setCreateUserId(oldDept.getCreateUserId());
         deptInfo.setCreateTime(oldDept.getCreateTime());
         deptInfo.setUpdateUserId(jwtTokenUtil.getUserId());
@@ -188,33 +237,31 @@ public class DeptServiceImpl extends ServiceImpl<DeptInfoMapper,DeptInfo> implem
     }
 
     /**
-     * 部门负责人信息分配
+     * 指定部门负责人
      * @param deptId
-     * @param positionId
-     * @param userId
+     * @param username
      */
     @Transactional(rollbackFor = Throwable.class)
     @Override
-    public void configureBoss(Long deptId, Long positionId, Long userId) {
-        PositionInfo position = positionManager.queryPositionByIdAndDeptId(deptId, positionId);
-        if(position == null || position.getPositionLevel() != AuthConstant.ONE_PERSON_LEVEL) {
-            throw new CustomException(ResponseStatusEnum.NO_THIS_POSITION);
+    public void configureBoss(Long deptId, String username) {
+        LambdaQueryWrapper<DeptInfo> queryWrapper = conditionFactory.getQueryCondition(DeptInfo.class)
+                .eq(DeptInfo::getDeptId, deptId)
+                .in(DeptInfo::getDeptStatus, DogBaseConstant.ACTIVE_NORMAL, DogBaseConstant.DISABLE_WARN)
+                .select(DeptInfo::getDeptId);
+        DeptInfo deptInfo = this.getOne(queryWrapper);
+        if(deptInfo == null) {
+            throw new CustomException(ResponseStatusEnum.NO_THIS_DEPT);
+        }
+        UserBasicInfo userInfo = userManager.getUserByUsername(username);
+        if(userInfo == null) {
+            throw new CustomException(ResponseStatusEnum.NO_THIS_USER);
         }
         LambdaUpdateWrapper<DeptInfo> updateWrapper = conditionFactory.getUpdateCondition(DeptInfo.class)
-                .eq(DeptInfo::getDeptId,deptId)
-                .set(DeptInfo::getBossPositionId,position.getPositionId())
-                .set(DeptInfo::getBossPositionName,position.getPositionName());
-        if(userId != null) {
-            LambdaQueryWrapper<UserBasicInfo> queryWrapper = conditionFactory.getQueryCondition(UserBasicInfo.class)
-                    .eq(UserBasicInfo::getUserId,userId);
-            List<UserBasicInfo> users = userManager.getUserByWrapper(queryWrapper);
-            if(users.size() != 1) {
-                throw new CustomException(ResponseStatusEnum.NO_THIS_USER);
-            }
-            updateWrapper.set(DeptInfo::getBossUserId,userId);
-            updateWrapper.set(DeptInfo::getBossName,users.get(0).getRealName());
-            deptMapper.updateUserDeptInfoIfExists(deptId,positionId,userId);
-        }
+                .eq(DeptInfo::getDeptId, deptId)
+                .set(DeptInfo::getBossUserId, userInfo.getUserId())
+                .set(DeptInfo::getBossName, userInfo.getRealName())
+                .set(DeptInfo::getUpdateUserId, jwtTokenUtil.getUserId())
+                .set(DeptInfo::getUpdateTime, new Date());
         this.update(updateWrapper);
     }
 
@@ -239,5 +286,6 @@ public class DeptServiceImpl extends ServiceImpl<DeptInfoMapper,DeptInfo> implem
                 .set(DeptInfo::getDeptStatus,deptStatus);
         this.update(updateCondition);
     }
+
 
 }

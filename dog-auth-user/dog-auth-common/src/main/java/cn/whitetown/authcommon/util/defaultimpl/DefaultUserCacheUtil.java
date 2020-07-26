@@ -7,6 +7,8 @@ import cn.whitetown.authcommon.entity.dto.LoginUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.HashSet;
+
 /**
  * 用户信息缓存工具类
  * @author GrainRain
@@ -23,7 +25,7 @@ public class DefaultUserCacheUtil implements UserCacheUtil {
      * @return
      */
     @Override
-    public LoginUser saveUserBasicInfo(String key, LoginUser info){
+    public LoginUser saveLoginUser(String key, LoginUser info){
         return (LoginUser) expireMap.putS(key,info, AuthConstant.USER_SAVE_TIME);
     }
 
@@ -33,7 +35,7 @@ public class DefaultUserCacheUtil implements UserCacheUtil {
      * @return
      */
     @Override
-    public LoginUser getUserBasicInfo(String key) {
+    public LoginUser getLoginUser(String key) {
         return (LoginUser) expireMap.get(key);
     }
 
@@ -71,8 +73,26 @@ public class DefaultUserCacheUtil implements UserCacheUtil {
     }
 
     @Override
+    public HashSet<String> saveUserAuthors(String username,HashSet<String> authors) {
+        return (HashSet<String>)expireMap.putS(AuthConstant.USER_AUTHORS_PREFIX+username,
+                authors,
+                AuthConstant.MENU_SAVE_TIME);
+    }
+
+    @Override
+    public HashSet<String> getUserAuthors(String username) {
+        return (HashSet<String>) expireMap.get(AuthConstant.USER_AUTHORS_PREFIX+username);
+    }
+
+    @Override
+    public HashSet<String> removeUserAuthors(String username) {
+        return (HashSet<String>) expireMap.remove(AuthConstant.USER_AUTHORS_PREFIX+username);
+    }
+
+    @Override
     public void removeAllUserInfo(String username) {
         this.removeLoginUser(username);
         this.removeUserDetails(username);
+        this.removeUserAuthors(username);
     }
 }

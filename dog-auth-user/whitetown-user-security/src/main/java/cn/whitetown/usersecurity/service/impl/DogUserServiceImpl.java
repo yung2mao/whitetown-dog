@@ -110,7 +110,7 @@ public class DogUserServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserBasi
         String token = jwtTokenUtil.createTokenByParams(map);
 
         //存放登录用户的信息，方便用户获取使用,存储时间为2小时
-        userCacheUtil.saveUserBasicInfo(loginUser.getUsername(),loginUser);
+        userCacheUtil.saveLoginUser(loginUser.getUsername(),loginUser);
 
         //存储用户校验使用的信息在内存中,方便快速校验
         Collection<GrantedAuthority> roleCollection = LoginUserUtil.createRoleCollection(loginUser.getRoles());
@@ -138,7 +138,7 @@ public class DogUserServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserBasi
     @Override
     public LoginUser getUserByToken() {
         String username = jwtTokenUtil.getUsername();
-        LoginUser user = userCacheUtil.getUserBasicInfo(username);
+        LoginUser user = userCacheUtil.getLoginUser(username);
         if(user ==null){
             UserBasicInfo userBasic = userManager.getUserByUsername(username);
             if(userBasic==null){
@@ -146,7 +146,7 @@ public class DogUserServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserBasi
             }
             user = LoginUserUtil.getLoginUser(userBasic,null);
             //save to memory
-            userCacheUtil.saveUserBasicInfo(user.getUsername(),user);
+            userCacheUtil.saveLoginUser(user.getUsername(),user);
         }
         return user;
     }

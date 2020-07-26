@@ -8,9 +8,11 @@
         delete from role_menu
             where role_id = #{roleId};
     </delete>
-    <delete id="removeRoleRelationByUserId">
+    <delete id="removeUserRelationInfo">
         delete from user_role_relation
         where user_id = #{userId};
+        update set dept_info boss_user_id = null,boss_name = null
+        where boss_user_id = #{userId};
     </delete>
     <!--基于角色ID查询用户信息-->
     <select id="selectAllUserByRoleId" resultType="cn.whitetown.authcommon.entity.po.UserBasicInfo">

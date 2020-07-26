@@ -1,5 +1,6 @@
 package cn.whitetown.usersecurity.config;
 
+import cn.whitetown.authcommon.util.DeptUtil;
 import cn.whitetown.authcommon.util.MenuCacheUtil;
 import cn.whitetown.authcommon.util.MenuUtil;
 import cn.whitetown.authcommon.util.UserCacheUtil;
@@ -7,6 +8,7 @@ import cn.whitetown.authcommon.util.captcha.CaptchaBasicInfo;
 import cn.whitetown.authcommon.util.captcha.CaptchaDataDeal;
 import cn.whitetown.authcommon.util.captcha.DefaultCaptchaDataDeal;
 import cn.whitetown.authcommon.constant.AuthConstant;
+import cn.whitetown.authcommon.util.defaultimpl.DefaultDeptUtil;
 import cn.whitetown.authcommon.util.defaultimpl.DefaultMenuCacheUtil;
 import cn.whitetown.authcommon.util.defaultimpl.DefaultMenuUtil;
 import cn.whitetown.authcommon.util.token.JwtTokenUtil;
@@ -94,5 +96,14 @@ public class UserInitConfig {
         DefaultMenuCacheUtil menuCacheUtil = new DefaultMenuCacheUtil();
         menuCacheUtil.init();
         return menuCacheUtil;
+    }
+
+    /**
+     * 初始化部门处理工具类
+     * @return
+     */
+    @Bean
+    public DeptUtil deptUtil(){
+        return new DefaultDeptUtil();
     }
 }

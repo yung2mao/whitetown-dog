@@ -22,6 +22,7 @@ public class PositionDto {
     private String positionCode;
     private String positionName;
     private Integer positionLevel;
+    private Integer positionSort;
     private String description;
     @JsonFormat(pattern = "yyyy-MM-dd  HH:mm:ss")
     @JSONField(format = "yyyy-MM-dd  HH:mm:ss")

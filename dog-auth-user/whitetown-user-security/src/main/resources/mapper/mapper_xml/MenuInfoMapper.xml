@@ -26,24 +26,30 @@
 
     <select id="selectMenuListByIdAndLevel" resultType="cn.whitetown.authcommon.entity.po.MenuInfo">
     select t1.* from
-        (select * from sys_menu where menu_level &lt;= #{lowLevel}) as t1
+        (select * from sys_menu where menu_level &lt;= #{lowLevel} and menu_status in (0,1)) as t1
     where
-        t1.menu_status in (0,1)
-        and (t1.menu_id = #{menuId}
+        t1.menu_id = #{menuId}
         or t1.menu_level &gt;
-            (select menu_level from sys_menu where menu_id = #{menuId}))
+            (select menu_level from sys_menu where menu_id = #{menuId})
+        order by menu_sort asc
   </select>
     <select id="selectActiveMenuByUserId" resultType="cn.whitetown.authcommon.entity.po.MenuInfo">
-        select
-        <include refid="selectParamsForVo"></include>
-        from sys_menu
+        select * from
+            (select
+            <include refid="selectParamsForVo"></include>
+            from sys_menu
+            where
+            menu_status = #{menuStatus}
+            and menu_id in
+            (select menu_id from role_menu
+            where role_id in
+            (select role_id from user_role_relation where user_id = #{userId})
+            ) and menu_level &lt;= #{lowLevel}) t1
         where
-        menu_status = #{menuStatus}
-        and menu_id in
-        (select menu_id from role_menu
-        where role_id in
-        (select role_id from user_role_relation where user_id = #{userId})
-        )
+            t1.menu_id = #{menuId}
+            or t1.menu_level &gt;
+            (select menu_level from sys_menu where menu_id = #{menuId})
+            order by menu_sort asc
     </select>
     <select id="selectMenuByRoleId" resultType="cn.whitetown.authcommon.entity.po.MenuInfo">
         select
@@ -52,5 +58,6 @@
         where menu_status in (0,1)
         and menu_id in
         (select menu_id from role_menu where role_id = #{roleId})
+        order by menu_sort asc;
     </select>
 </mapper>

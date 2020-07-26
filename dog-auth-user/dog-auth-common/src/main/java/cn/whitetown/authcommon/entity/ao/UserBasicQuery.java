@@ -25,6 +25,7 @@ public class UserBasicQuery extends PageQuery{
     /**
      * 用户真实姓名
      */
+    @QueryField(operation = "like")
     private String realName;
     /**
      * 用户性别

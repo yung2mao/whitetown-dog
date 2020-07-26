@@ -2,10 +2,13 @@ package cn.whitetown.usersecurity.service;
 
 import cn.whitetown.authcommon.entity.ao.DeptQuery;
 import cn.whitetown.authcommon.entity.dto.DeptInfoDto;
+import cn.whitetown.authcommon.entity.dto.DeptInfoTree;
 import cn.whitetown.authcommon.entity.dto.DeptSimpleDto;
+import cn.whitetown.authcommon.entity.dto.DeptSimpleTree;
 import cn.whitetown.authcommon.entity.po.DeptInfo;
 import cn.whitetown.dogbase.common.entity.dto.ResponsePage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import io.swagger.models.auth.In;
 
 import java.util.List;
 
@@ -23,9 +26,19 @@ public interface DeptService extends IService<DeptInfo> {
 
     /**
      * 获取部门信息的简化信息
+     * @param deptId
+     * @param lowLevel
      * @return
      */
-    List<DeptSimpleDto> searchAllSimpleDept();
+    DeptInfoTree queryDeptDetailTree(Long deptId, Integer lowLevel);
+
+    /**
+     * 查询返回简化部门树
+     * @param deptId
+     * @param lowLevel
+     * @return
+     */
+    DeptSimpleTree querySimpleTree(Long deptId, Integer lowLevel);
 
     /**
      * 添加部门信息
@@ -42,10 +55,9 @@ public interface DeptService extends IService<DeptInfo> {
     /**
      * boss信息分配
      * @param deptId
-     * @param positionId
-     * @param userId
+     * @param username
      */
-    void configureBoss(Long deptId,Long positionId, Long userId);
+    void configureBoss(Long deptId,String username);
 
     /**
      * 部门状态变更

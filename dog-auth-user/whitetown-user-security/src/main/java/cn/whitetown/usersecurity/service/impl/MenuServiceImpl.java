@@ -20,6 +20,7 @@ import cn.whitetown.usersecurity.service.MenuService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -65,7 +66,6 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
         if (menuInfos.size()==0){
             throw new CustomException(ResponseStatusEnum.NO_THIS_MENU);
         }
-        menuInfos = menuInfos.stream().sorted(Comparator.comparing(MenuInfo::getMenuSort)).collect(Collectors.toList());
         MenuTree menuTree = menuUtil.createMenuTreeByMenuList(menuInfos);
         return menuTree;
     }
@@ -73,15 +73,16 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
     /**
      * 根据用户ID查询可查阅的的菜单项
      * @param userId
+     * @param menuId
+     * @param lowLevel
      * @return
      */
     @Override
-    public MenuTree queryActiveMenuByUserId(Long userId) {
-        List<MenuInfo> menuInfos = menuInfoMapper.selectActiveMenuByUserId(DogBaseConstant.ACTIVE_NORMAL,userId);
+    public MenuTree queryActiveMenuByUserId(Long userId, Long menuId, Integer lowLevel) {
+        List<MenuInfo> menuInfos = menuInfoMapper.selectActiveMenuByUserId(DogBaseConstant.ACTIVE_NORMAL,userId,menuId,lowLevel);
         if(menuInfos.size() == 0){
             return new MenuTree();
         }
-        menuInfos = menuInfos.stream().sorted(Comparator.comparing(MenuInfo::getMenuSort)).collect(Collectors.toList());
         return menuUtil.createMenuTreeByMenuList(menuInfos);
     }
 
@@ -123,9 +124,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
         }
         List<MenuInfo> menuInfos = menuInfoMapper.selectMenuByRoleId(roleId);
         List<Long> ids = new ArrayList<>();
-        menuInfos.stream()
-                .sorted(Comparator.comparing(MenuInfo::getMenuSort))
-                .forEach(menu -> ids.add(menu.getMenuId()));
+        menuInfos.stream().forEach(menu -> ids.add(menu.getMenuId()));
         return ids;
     }
 

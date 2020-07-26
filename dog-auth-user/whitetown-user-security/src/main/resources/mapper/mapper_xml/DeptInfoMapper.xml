@@ -9,9 +9,9 @@
     <update id="updateDeptBossInfo">
         update dept_info
         set
-        boss_user_id = #{userId},boss_user_name = #{bossName}
-        where position_id = #{positionId}
-        and (select count(1) from position_info where position_id = #{positionId} and position_level = 1) > 0
+        boss_user_id = #{userId},boss_name = #{bossName}
+        where boss_position_id = #{positionId}
+        and (select count(1) from position_info where boss_position_id = #{positionId} and position_level = 1) > 0
     </update>
     <!--删除部门信息及其关联信息-->
     <delete id="delDeptStatusAndRelationSystem">
@@ -22,4 +22,14 @@
         update position_info set position_status = 2
         where dept_id = #{deptId};
     </delete>
+    <select id="selectDeptTreeList" resultType="cn.whitetown.authcommon.entity.po.DeptInfo">
+        select t1.* from
+            (select *
+            from dept_info
+            where dept_level &lt;= #{lowLevel} and dept_status in (0,1)) as t1
+        where
+        t1.dept_id = #{deptId}
+        or
+        t1.dept_level > (select dept_level from dept_info where dept_id = #{deptId})
+    </select>
 </mapper>

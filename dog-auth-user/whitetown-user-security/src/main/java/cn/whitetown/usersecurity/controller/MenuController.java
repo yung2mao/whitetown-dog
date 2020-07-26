@@ -47,9 +47,9 @@ public class MenuController {
      * @return
      */
     @GetMapping("/login_menu")
-    public ResponseData<MenuTree> queryActiveMenuTree(){
+    public ResponseData<MenuTree> queryActiveMenuTree(@NotNull(message = "菜单ID不能为空") Long menuId,@NotNull(message = "最低层级不能为空") Integer lowLevel){
         Long userId = jwtTokenUtil.getUserId();
-        MenuTree menuTree = service.queryActiveMenuByUserId(userId);
+        MenuTree menuTree = service.queryActiveMenuByUserId(userId,menuId,lowLevel);
         return ResponseData.ok(menuTree);
     }
 

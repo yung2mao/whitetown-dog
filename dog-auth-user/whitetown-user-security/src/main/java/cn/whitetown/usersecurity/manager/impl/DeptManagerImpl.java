@@ -6,6 +6,8 @@ import cn.whitetown.usersecurity.mappers.DeptInfoMapper;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * 部门通用信息管理
@@ -23,6 +25,14 @@ public class DeptManagerImpl implements DeptManager {
             return null;
         }
         return deptInfoMapper.selectById(deptId);
+    }
+
+    @Override
+    public List<DeptInfo> queryDeptInfoTreeList(Long deptId, Integer lowLevel) {
+        if(deptId == null || lowLevel == null){
+            return new ArrayList<>();
+        }
+        return deptInfoMapper.selectDeptTreeList(deptId,lowLevel);
     }
 
     @Override

@@ -3,6 +3,10 @@ package cn.whitetown.authcommon.util;
 import cn.whitetown.authcommon.entity.dto.LoginUser;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+
 /**
  * 与用户相关信息内存的操作
  * @author GrainRain
@@ -15,14 +19,14 @@ public interface UserCacheUtil {
      * @param info
      * @return
      */
-    LoginUser saveUserBasicInfo(String key, LoginUser info);
+    LoginUser saveLoginUser(String key, LoginUser info);
 
     /**
      * 从内存中获取LoginUser
      * @param key
      * @return
      */
-    LoginUser getUserBasicInfo(String key);
+    LoginUser getLoginUser(String key);
 
     /**
      * 移除内存中存储的登录信息
@@ -53,6 +57,29 @@ public interface UserCacheUtil {
      * @return
      */
     UserDetails removeUserDetails(String key);
+
+    /**
+     * 保存用户访问后端接口所有权限列表
+     * @param key
+     * @param authors
+     * @return
+     */
+    HashSet<String> saveUserAuthors(String key,HashSet<String> authors);
+
+    /**
+     * 获取用户访问后端接口所有权限列表
+     * @param key
+     * @return
+     */
+    HashSet<String> getUserAuthors(String key);
+
+    /**
+     * 移除访问后端接口所有权限列表
+     * @param key
+     * @return
+     */
+    HashSet<String> removeUserAuthors(String key);
+
 
     /**
      * 内存中相关key数据重置操作

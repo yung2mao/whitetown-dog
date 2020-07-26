@@ -28,9 +28,12 @@ public interface MenuInfoMapper extends BaseMapper<MenuInfo> {
      * 根据用户ID搜索具有访问权限的活跃菜单项
      * @param menuStatus
      * @param userId
+     * @param menuId
+     * @param lowLevel
      * @return
      */
-    List<MenuInfo> selectActiveMenuByUserId(@Param("menuStatus") Integer menuStatus,@Param("userId") Long userId);
+    List<MenuInfo> selectActiveMenuByUserId(@Param("menuStatus") Integer menuStatus,@Param("userId") Long userId,
+                                            @Param("menuId") Long menuId,@Param("lowLevel") Integer lowLevel);
 
     /**
      * 根据角色ID查询菜单信息

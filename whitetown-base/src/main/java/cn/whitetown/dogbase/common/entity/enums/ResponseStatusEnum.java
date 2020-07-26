@@ -42,7 +42,7 @@ public enum ResponseStatusEnum {
 
     /*\***************账户问题********************\*/
 
-    NOT_LOGIN(401, "当前用户未登录"),
+    NOT_LOGIN(700, "当前用户未登录"),
     USER_ALREADY_REG(401, "该用户已存在"),
     NO_THIS_USER(400, "没有此用户"),
     ACCOUNT_FREEZE(401, "账号被冻结"),
@@ -80,6 +80,8 @@ public enum ResponseStatusEnum {
 
     NO_THIS_POSITION(400,"当前职位不存在"),
     ONLY_ONE_PERSON_POSITION(400,"当前职位仅允许一人"),
+    POSITION_EXISTS(400,"当前职位已存在"),
+    POSITION_INFO_ERROR(400,"职位信息填写错误"),
 
     /*\***************错误的请求*******************\*/
 

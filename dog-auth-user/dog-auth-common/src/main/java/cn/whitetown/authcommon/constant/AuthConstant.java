@@ -17,7 +17,7 @@ public class AuthConstant {
     /**
      * 登录后用户信息存储时长
      */
-    public static final int USER_SAVE_TIME = 7200;
+    public static final int USER_SAVE_TIME = 1800;
     /**
      * 初始密码
      */
@@ -33,7 +33,11 @@ public class AuthConstant {
     /**
      * 存储在内存的UserDetail key值前缀，用于区分存储用户登录使用信息的LoginUser
      */
-    public static final String USER_DETAIL_PREFIX = "AUTH";
+    public static final String USER_DETAIL_PREFIX = "USERDETAIL";
+    /**
+     * 存储在内存的用户所有权限列表前缀
+     */
+    public static final String USER_AUTHORS_PREFIX = "AUTHORS";
     /**
      * 定义客户端存储sessionId的cookie名称
      */
@@ -67,6 +71,7 @@ public class AuthConstant {
     /*\*****************部门相关**************************\*/
 
     public static final long ROOT_DEPT_ID = 1L;
+    public static final int LOWEST_DEPT_LEVEL = 100;
 
     /*\*****************职位相关**************************\*/
 

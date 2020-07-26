@@ -2,6 +2,8 @@ package cn.whitetown.usersecurity.controller;
 
 import cn.whitetown.authcommon.entity.ao.PositionQuery;
 import cn.whitetown.authcommon.entity.dto.PositionDto;
+import cn.whitetown.authcommon.entity.po.PositionInfo;
+import cn.whitetown.dogbase.common.constant.DogBaseConstant;
 import cn.whitetown.dogbase.common.entity.dto.ResponseData;
 import cn.whitetown.dogbase.common.entity.dto.ResponsePage;
 import cn.whitetown.dogbase.common.util.WhiteToolUtil;
@@ -10,7 +12,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -55,8 +56,9 @@ public class PositionController {
      * @return
      */
     @PostMapping(value = "/add",produces = "application/json;charset=UTF-8")
-    public ResponseData addPosition(@RequestBody @Valid PositionDto position) {
-        return null;
+    public ResponseData addPosition(@RequestBody @Valid PositionInfo position) {
+        positionService.addPosition(position);
+        return ResponseData.ok();
     }
 
     /**
@@ -65,8 +67,9 @@ public class PositionController {
      * @return
      */
     @PostMapping(value = "/update", produces = "application/json;charset=UTF-8")
-    public ResponseData updatePosition(@RequestBody @Valid PositionDto position) {
-        return null;
+    public ResponseData updatePosition(@RequestBody @Valid PositionInfo position) {
+        positionService.updatePosition(position);
+        return ResponseData.ok();
     }
 
     /**
@@ -75,7 +78,8 @@ public class PositionController {
      * @return
      */
     @GetMapping("/del")
-    public ResponseData deletePosition(@NotNull Long positionId) {
-        return null;
+    public ResponseData deletePosition(@NotNull(message = "职位ID不能为空") Long positionId) {
+        positionService.updatePositionStatus(positionId, DogBaseConstant.DELETE_ERROR);
+        return ResponseData.ok();
     }
 }
