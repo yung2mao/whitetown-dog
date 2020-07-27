@@ -31,14 +31,6 @@ public class AuthConstant {
      */
     public static final int PWD_TOKEN_EXPIRE_TIME = 180000;
     /**
-     * 存储在内存的UserDetail key值前缀，用于区分存储用户登录使用信息的LoginUser
-     */
-    public static final String USER_DETAIL_PREFIX = "USERDETAIL";
-    /**
-     * 存储在内存的用户所有权限列表前缀
-     */
-    public static final String USER_AUTHORS_PREFIX = "AUTHORS";
-    /**
      * 定义客户端存储sessionId的cookie名称
      */
     public static final String SESSION_COOKIE_NAME = "sessionId";

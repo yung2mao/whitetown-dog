@@ -12,7 +12,6 @@
     <module>whitetown-user-single</module>
     <module>whitetown-user-security</module>
     <module>dog-auth-common</module>
-      <module>whitetown-auth-security</module>
   </modules>
 
   <parent>
@@ -32,15 +31,22 @@
 
   <dependencyManagement>
     <dependencies>
+      <!--base module-->
       <dependency>
         <groupId>cn.whitetown</groupId>
         <artifactId>whitetown-base</artifactId>
         <version>1.0-SNAPSHOT</version>
       </dependency>
-
+      <!--auth common-->
       <dependency>
         <groupId>cn.whitetown</groupId>
         <artifactId>dog-auth-common</artifactId>
+        <version>1.0-SNAPSHOT</version>
+      </dependency>
+      <!--whitetown security component-->
+      <dependency>
+        <groupId>cn.whitetown</groupId>
+        <artifactId>dog-auth-ea</artifactId>
         <version>1.0-SNAPSHOT</version>
       </dependency>
     </dependencies>

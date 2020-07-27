@@ -1,9 +1,7 @@
 package cn.whitetown.usersecurity.manager;
 
-import cn.whitetown.authcommon.entity.UserRoleRelation;
 import cn.whitetown.authcommon.entity.po.UserBasicInfo;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 
 import java.util.List;
 

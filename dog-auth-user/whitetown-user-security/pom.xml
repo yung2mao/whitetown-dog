@@ -23,24 +23,21 @@
   </properties>
 
   <dependencies>
-
+    <!--base-module-->
     <dependency>
       <groupId>cn.whitetown</groupId>
       <artifactId>whitetown-base</artifactId>
     </dependency>
+    <!--whitetown-auth-common-->
     <dependency>
       <groupId>cn.whitetown</groupId>
       <artifactId>dog-auth-common</artifactId>
     </dependency>
+    <!--whitetown security component-->
     <dependency>
       <groupId>cn.whitetown</groupId>
-      <artifactId>whitetown-auth-security</artifactId>
-      <version>1.0-SNAPSHOT</version>
-    </dependency>
-    <!--security-->
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-security</artifactId>
+      <artifactId>dog-auth-ea</artifactId>
+      <scope>provided</scope>
     </dependency>
   </dependencies>
 

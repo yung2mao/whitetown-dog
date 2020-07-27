@@ -29,10 +29,10 @@
       <artifactId>whitetown-base</artifactId>
       <scope>provided</scope>
     </dependency>
-    <!--security-->
+    <!--whitetown security component-->
     <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-security</artifactId>
+      <groupId>cn.whitetown</groupId>
+      <artifactId>dog-auth-ea</artifactId>
       <scope>provided</scope>
     </dependency>
   </dependencies>

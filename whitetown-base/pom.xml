@@ -70,12 +70,6 @@
       <groupId>io.projectreactor</groupId>
       <artifactId>reactor-core</artifactId>
     </dependency>
-    <!--security-->
-    <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-security</artifactId>
-      <scope>provided</scope>
-    </dependency>
 
     <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
     <dependency>

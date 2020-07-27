@@ -3,7 +3,6 @@ package cn.whitetown.usersecurity.config;
 import cn.whitetown.authcommon.util.DeptUtil;
 import cn.whitetown.authcommon.util.MenuCacheUtil;
 import cn.whitetown.authcommon.util.MenuUtil;
-import cn.whitetown.authcommon.util.UserCacheUtil;
 import cn.whitetown.authcommon.util.captcha.CaptchaBasicInfo;
 import cn.whitetown.authcommon.util.captcha.CaptchaDataDeal;
 import cn.whitetown.authcommon.util.captcha.DefaultCaptchaDataDeal;
@@ -11,10 +10,10 @@ import cn.whitetown.authcommon.constant.AuthConstant;
 import cn.whitetown.authcommon.util.defaultimpl.DefaultDeptUtil;
 import cn.whitetown.authcommon.util.defaultimpl.DefaultMenuCacheUtil;
 import cn.whitetown.authcommon.util.defaultimpl.DefaultMenuUtil;
-import cn.whitetown.authcommon.util.token.JwtTokenUtil;
-import cn.whitetown.authcommon.util.defaultimpl.DefaultUserCacheUtil;
-import cn.whitetown.usersecurity.util.securityHandler.AccessFailHandler;
-import cn.whitetown.usersecurity.util.securityHandler.AuthenticationErrorHandler;
+import cn.whitetown.authcommon.util.token.WhiteJwtTokenUtil;
+import cn.whitetown.authcommon.util.defaultimpl.WhiteUserCacheUtil;
+import cn.whitetown.usersecurity.util.AuthUserCacheUtil;
+import cn.whitetown.usersecurity.util.define.WhiteAuthUserCache;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -47,35 +46,17 @@ public class UserInitConfig {
      * @return
      */
     @Bean
-    public JwtTokenUtil jwtTokenUtil(){
-        return new JwtTokenUtil(tokenSecret,tokenExpire);
+    public WhiteJwtTokenUtil jwtTokenUtil(){
+        return new WhiteJwtTokenUtil(tokenSecret,tokenExpire);
     }
 
     /**
-     * 初始化权限异常处理器
+     * 初始化用户权限信息缓存工具类
      * @return
      */
     @Bean
-    public AccessFailHandler accessFailHandler(){
-        return new AccessFailHandler();
-    }
-
-    /**
-     * 初始化未登录用户处理器
-     * @return
-     */
-    @Bean
-    public AuthenticationErrorHandler notLoginHandler(){
-        return new AuthenticationErrorHandler();
-    }
-
-    /**
-     * 初始化用户信息缓存工具类
-     * @return
-     */
-    @Bean
-    public UserCacheUtil userCacheUtil(){
-        return new DefaultUserCacheUtil();
+    public AuthUserCacheUtil userCacheUtil(){
+        return new WhiteAuthUserCache(new WhiteUserCacheUtil());
     }
 
     /**

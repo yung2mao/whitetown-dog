@@ -4,7 +4,7 @@ import cn.whitetown.authcommon.entity.ao.PositionQuery;
 import cn.whitetown.authcommon.entity.dto.PositionDto;
 import cn.whitetown.authcommon.entity.po.DeptInfo;
 import cn.whitetown.authcommon.entity.po.PositionInfo;
-import cn.whitetown.authcommon.util.token.JwtTokenUtil;
+import cn.whitetown.authcommon.util.token.WhiteJwtTokenUtil;
 import cn.whitetown.dogbase.common.constant.DogBaseConstant;
 import cn.whitetown.dogbase.common.entity.dto.ResponsePage;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
@@ -19,14 +19,11 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.sun.org.apache.xpath.internal.operations.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.io.DataOutput;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -51,7 +48,7 @@ public class PositionServiceImpl extends ServiceImpl<PositionMapper, PositionInf
     private DeptManager deptManager;
 
     @Autowired
-    private JwtTokenUtil jwtTokenUtil;
+    private WhiteJwtTokenUtil whiteJwtTokenUtil;
     /**
      * 分页查询职位信息
      * @param positionQuery
@@ -112,7 +109,7 @@ public class PositionServiceImpl extends ServiceImpl<PositionMapper, PositionInf
         //非必要数据处理
         position.setPositionId(null);
         position.setPositionStatus(DogBaseConstant.ACTIVE_NORMAL);
-        position.setCreateUserId(jwtTokenUtil.getUserId());
+        position.setCreateUserId(whiteJwtTokenUtil.getUserId());
         position.setCreateTime(new Date());
         this.save(position);
     }
@@ -143,7 +140,7 @@ public class PositionServiceImpl extends ServiceImpl<PositionMapper, PositionInf
                 .set(PositionInfo::getPositionLevel,position.getPositionLevel())
                 .set(PositionInfo::getPositionSort,position.getPositionSort())
                 .set(PositionInfo::getDescription,position.getDescription())
-                .set(PositionInfo::getUpdateUserId,jwtTokenUtil.getUserId())
+                .set(PositionInfo::getUpdateUserId, whiteJwtTokenUtil.getUserId())
                 .set(PositionInfo::getUpdateTime,new Date());
         this.update(updateCondition);
         //关联表更新 - 部门表/员工表

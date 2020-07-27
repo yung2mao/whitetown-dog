@@ -6,8 +6,8 @@ import cn.whitetown.authcommon.entity.ao.UserRoleConfigure;
 import cn.whitetown.authcommon.entity.po.UserBasicInfo;
 import cn.whitetown.authcommon.entity.po.UserRole;
 import cn.whitetown.authcommon.entity.dto.RoleInfoDto;
-import cn.whitetown.authcommon.util.UserCacheUtil;
-import cn.whitetown.authcommon.util.token.JwtTokenUtil;
+import cn.whitetown.authcommon.util.token.WhiteJwtTokenUtil;
+import cn.whitetown.authea.util.AuthCacheUtil;
 import cn.whitetown.dogbase.common.constant.DogBaseConstant;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.exception.CustomException;
@@ -49,9 +49,9 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
 
     @Autowired
     private UserManager userManager;
-    
+
     @Autowired
-    private UserCacheUtil userCacheUtil;
+    private AuthCacheUtil authCacheUtil;
 
     @Autowired
     private RoleManager roleManager;
@@ -60,7 +60,7 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
     private BeanTransFactory transUtil;
 
     @Autowired
-    private JwtTokenUtil jwtTokenUtil;
+    private WhiteJwtTokenUtil whiteJwtTokenUtil;
 
     @Autowired
     private QueryConditionFactory queryConditionFactory;
@@ -127,7 +127,7 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
         }
         UserRole userRole = null;
         userRole = transUtil.trans(role, UserRole.class);
-        Long createUserId = jwtTokenUtil.getUserId();
+        Long createUserId = whiteJwtTokenUtil.getUserId();
         if(role.getSort() == null){
             userRole.setSort(AuthConstant.MENU_MAX_SORT);
         }
@@ -154,7 +154,7 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
             throw new CustomException(ResponseStatusEnum.REQUEST_INVALIDATE);
         }
 
-        Long updateUserId = jwtTokenUtil.getUserId();
+        Long updateUserId = whiteJwtTokenUtil.getUserId();
         if(role.getSort() != null && role.getSort() > 0 && role.getSort() <= AuthConstant.MENU_MAX_SORT){
             oldRole.setSort(role.getSort());
         }
@@ -202,7 +202,7 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
         }
         List<Long> roleIds = Arrays.asList(roleConfigure.getRoleIds());
         userRoleRelationMapper.updateUserRoleRelation(userBasicInfo.getUserId(),roleIds);
-        userCacheUtil.removeUserDetails(roleConfigure.getUsername());
+        authCacheUtil.removeUserDetails(roleConfigure.getUsername());
     }
 
     /**

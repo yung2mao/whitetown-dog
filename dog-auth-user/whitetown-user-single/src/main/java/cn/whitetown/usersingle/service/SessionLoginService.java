@@ -2,7 +2,7 @@ package cn.whitetown.usersingle.service;
 
 import cn.whitetown.authcommon.constant.AuthConstant;
 import cn.whitetown.authcommon.entity.po.UserRole;
-import cn.whitetown.authcommon.util.token.JwtTokenUtil;
+import cn.whitetown.authcommon.util.token.WhiteJwtTokenUtil;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.exception.CustomException;
 import cn.whitetown.dogbase.common.memdata.WhiteExpireMap;
@@ -31,7 +31,7 @@ import java.util.*;
 @Service
 public class SessionLoginService implements LoginService {
     @Autowired
-    private JwtTokenUtil jwtTokenUtil;
+    private WhiteJwtTokenUtil whiteJwtTokenUtil;
 
     @Autowired
     private WhiteExpireMap whiteExpireMap;
@@ -70,7 +70,7 @@ public class SessionLoginService implements LoginService {
         Map<String,Object> map = new HashMap<>();
         map.put("username",username);
         map.put("roles",loginUser.getRoles());
-        String token = jwtTokenUtil.createTokenByParams(map);
+        String token = whiteJwtTokenUtil.createTokenByParams(map);
         //存放登录用户的信息，方便用户获取使用
         whiteExpireMap.put(loginUser.getUsername(),loginUser,7200000);
         return token;
@@ -84,7 +84,7 @@ public class SessionLoginService implements LoginService {
     @Override
     public String checkLogin(String token) {
         try {
-            Claims userMap = jwtTokenUtil.readTokenAsMapParams(token);
+            Claims userMap = whiteJwtTokenUtil.readTokenAsMapParams(token);
             String username = userMap.get("username").toString();
             if(DataCheckUtil.checkTextNullBool(username)){
                 throw new CustomException(ResponseStatusEnum.TOKEN_ERROR);
@@ -101,7 +101,7 @@ public class SessionLoginService implements LoginService {
                 Map<String,Object> map = new HashMap<>();
                 map.put("username",username);
                 map.put("roles",roles);
-                String newToken = jwtTokenUtil.createTokenByParams(map);
+                String newToken = whiteJwtTokenUtil.createTokenByParams(map);
                 return newToken;
             }
         }catch (ExpiredJwtException e){
@@ -138,7 +138,7 @@ public class SessionLoginService implements LoginService {
      * @return
      */
     String getUsernameByToken(String token) {
-        Claims userMap = jwtTokenUtil.readTokenAsMapParams(token);
+        Claims userMap = whiteJwtTokenUtil.readTokenAsMapParams(token);
         String username = userMap.get("username").toString();
         if (DataCheckUtil.checkTextNullBool(username)) {
             throw new CustomException(ResponseStatusEnum.TOKEN_ERROR);

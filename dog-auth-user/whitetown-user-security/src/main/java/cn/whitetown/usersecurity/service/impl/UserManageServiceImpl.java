@@ -4,10 +4,9 @@ import cn.whitetown.authcommon.entity.ao.RoleUserQuery;
 import cn.whitetown.authcommon.entity.po.DeptInfo;
 import cn.whitetown.authcommon.entity.po.PositionInfo;
 import cn.whitetown.authcommon.entity.po.UserRole;
-import cn.whitetown.authcommon.entity.UserRoleRelation;
+import cn.whitetown.authcommon.entity.po.UserRoleRelation;
 import cn.whitetown.authcommon.constant.AuthConstant;
-import cn.whitetown.authcommon.util.UserCacheUtil;
-import cn.whitetown.authcommon.util.token.JwtTokenUtil;
+import cn.whitetown.authcommon.util.token.WhiteJwtTokenUtil;
 import cn.whitetown.dogbase.common.constant.DogBaseConstant;
 import cn.whitetown.dogbase.common.entity.dto.ResponsePage;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
@@ -28,6 +27,7 @@ import cn.whitetown.usersecurity.manager.UserManager;
 import cn.whitetown.usersecurity.mappers.UserBasicInfoMapper;
 import cn.whitetown.usersecurity.mappers.UserRoleRelationMapper;
 import cn.whitetown.usersecurity.service.UserManageService;
+import cn.whitetown.usersecurity.util.AuthUserCacheUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -63,7 +63,7 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
     private UserManager userManager;
 
     @Autowired
-    private UserCacheUtil userCacheUtil;
+    private AuthUserCacheUtil userCacheUtil;
 
     @Autowired
     private RoleManager roleManager;
@@ -75,7 +75,7 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
     private PositionManager positionManager;
 
     @Autowired
-    private JwtTokenUtil jwtTokenUtil;
+    private WhiteJwtTokenUtil whiteJwtTokenUtil;
 
     @Autowired
     private QueryConditionFactory queryConditionFactory;
@@ -114,7 +114,7 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
         newUser.setSalt(salt);
         newUser.setUserStatus(DogBaseConstant.ACTIVE_NORMAL);
         newUser.setUserVersion(DogBaseConstant.INIT_VERSION);
-        Long userId = jwtTokenUtil.getUserId();
+        Long userId = whiteJwtTokenUtil.getUserId();
         newUser.setCreateUserId(userId);
         newUser.setCreateTime(new Date());
         //insert into database
@@ -239,7 +239,7 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
         userInfo.setCreateUserId(user.getCreateUserId());
         userInfo.setCreateTime(user.getCreateTime());
         //update user
-        Long userId = jwtTokenUtil.getUserId();
+        Long userId = whiteJwtTokenUtil.getUserId();
         userInfo.setUpdateUserId(userId);
         userInfo.setUpdateTime(new Date());
         //update
@@ -261,7 +261,7 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
         if(userBasicInfo==null){
             throw new CustomException(ResponseStatusEnum.NO_THIS_USER);
         }
-        Long updateUserId = jwtTokenUtil.getUserId();
+        Long updateUserId = whiteJwtTokenUtil.getUserId();
         LambdaUpdateWrapper<UserBasicInfo> updateWrapper = new LambdaUpdateWrapper<>();
         String salt = Md5WithSaltUtil.getRandomSalt();
         String defaultPwd = Md5WithSaltUtil.md5Encrypt(AuthConstant.DEFAULT_PWD,salt);
@@ -289,9 +289,9 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
             throw new CustomException(ResponseStatusEnum.OLD_PWD_NOT_RIGHT);
         }
         Map<String,Object> tokenMap = new HashMap<>(2);
-        tokenMap.put(JwtTokenUtil.USERNAME,username);
+        tokenMap.put(WhiteJwtTokenUtil.USERNAME,username);
         tokenMap.put(AuthConstant.PWD_TOKEN_TIME,System.currentTimeMillis());
-        String tokenByParams = jwtTokenUtil.createTokenByParams(tokenMap);
+        String tokenByParams = whiteJwtTokenUtil.createTokenByParams(tokenMap);
         return tokenByParams;
     }
 
@@ -303,8 +303,8 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
      */
     @Override
     public void updatePassword(String username, String pwdToken, String newPassword) {
-        Claims claims = jwtTokenUtil.readTokenAsMapParams(pwdToken);
-        String pwdUsername = claims.get(JwtTokenUtil.USERNAME,String.class);
+        Claims claims = whiteJwtTokenUtil.readTokenAsMapParams(pwdToken);
+        String pwdUsername = claims.get(WhiteJwtTokenUtil.USERNAME,String.class);
         Long pwdTokenTime = claims.get(AuthConstant.PWD_TOKEN_TIME,Long.class);
         if(!username.equals(pwdUsername)){
             throw new CustomException(ResponseStatusEnum.ERROR_PARAMS);
@@ -329,7 +329,7 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
 
     /**
      * 用户状态变更
-     * 当状态变为删除时，涉及的用户将被全部下线
+     * 当状态变为删除时，涉及的用户将被全部强制下线
      * @param username
      * @param userStatus
      */
@@ -348,6 +348,6 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
             //删除状态，同步移除用户关联信息
             userRoleRelationMapper.removeUserRelationInfo(userBasicInfo.getUserId());
         }
-        userCacheUtil.removeAllUserInfo(username);
+        userCacheUtil.removeAllInfo(username);
     }
 }

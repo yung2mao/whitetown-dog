@@ -1,6 +1,6 @@
 package cn.whitetown.usersecurity.mappers;
 
-import cn.whitetown.authcommon.entity.UserRoleRelation;
+import cn.whitetown.authcommon.entity.po.UserRoleRelation;
 import cn.whitetown.authcommon.entity.po.UserBasicInfo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.Param;

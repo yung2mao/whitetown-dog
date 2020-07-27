@@ -4,13 +4,12 @@ import cn.whitetown.authcommon.constant.AuthConstant;
 import cn.whitetown.authcommon.entity.ao.DeptQuery;
 import cn.whitetown.authcommon.entity.dto.DeptInfoDto;
 import cn.whitetown.authcommon.entity.dto.DeptInfoTree;
-import cn.whitetown.authcommon.entity.dto.DeptSimpleDto;
 import cn.whitetown.authcommon.entity.dto.DeptSimpleTree;
 import cn.whitetown.authcommon.entity.po.DeptInfo;
 import cn.whitetown.authcommon.entity.po.PositionInfo;
 import cn.whitetown.authcommon.entity.po.UserBasicInfo;
 import cn.whitetown.authcommon.util.DeptUtil;
-import cn.whitetown.authcommon.util.token.JwtTokenUtil;
+import cn.whitetown.authcommon.util.token.WhiteJwtTokenUtil;
 import cn.whitetown.dogbase.common.constant.DogBaseConstant;
 import cn.whitetown.dogbase.common.entity.dto.ResponsePage;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
@@ -26,7 +25,6 @@ import cn.whitetown.usersecurity.mappers.DeptInfoMapper;
 import cn.whitetown.usersecurity.service.DeptService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,7 +63,7 @@ public class DeptServiceImpl extends ServiceImpl<DeptInfoMapper,DeptInfo> implem
     private UserManager userManager;
 
     @Autowired
-    private JwtTokenUtil jwtTokenUtil;
+    private WhiteJwtTokenUtil whiteJwtTokenUtil;
 
     @Autowired
     private BeanTransFactory transFactory;
@@ -162,7 +160,7 @@ public class DeptServiceImpl extends ServiceImpl<DeptInfoMapper,DeptInfo> implem
         deptInfo.setBossPositionName(null);
         deptInfo.setBossUserId(null);
         deptInfo.setBossName(null);
-        deptInfo.setCreateUserId(jwtTokenUtil.getUserId());
+        deptInfo.setCreateUserId(whiteJwtTokenUtil.getUserId());
         deptInfo.setCreateTime(new Date());
         this.save(deptInfo);
     }
@@ -231,7 +229,7 @@ public class DeptServiceImpl extends ServiceImpl<DeptInfoMapper,DeptInfo> implem
         deptInfo.setDeptStatus(oldDept.getDeptStatus());
         deptInfo.setCreateUserId(oldDept.getCreateUserId());
         deptInfo.setCreateTime(oldDept.getCreateTime());
-        deptInfo.setUpdateUserId(jwtTokenUtil.getUserId());
+        deptInfo.setUpdateUserId(whiteJwtTokenUtil.getUserId());
         deptInfo.setUpdateTime(new Date());
         this.updateById(deptInfo);
     }
@@ -260,7 +258,7 @@ public class DeptServiceImpl extends ServiceImpl<DeptInfoMapper,DeptInfo> implem
                 .eq(DeptInfo::getDeptId, deptId)
                 .set(DeptInfo::getBossUserId, userInfo.getUserId())
                 .set(DeptInfo::getBossName, userInfo.getRealName())
-                .set(DeptInfo::getUpdateUserId, jwtTokenUtil.getUserId())
+                .set(DeptInfo::getUpdateUserId, whiteJwtTokenUtil.getUserId())
                 .set(DeptInfo::getUpdateTime, new Date());
         this.update(updateWrapper);
     }

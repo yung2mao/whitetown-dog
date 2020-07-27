@@ -1,9 +1,9 @@
 package cn.whitetown.usersecurity.service.impl;
 
 import cn.whitetown.authcommon.entity.po.UserRole;
-import cn.whitetown.authcommon.util.UserCacheUtil;
 import cn.whitetown.authcommon.util.captcha.CaptchaDataDeal;
-import cn.whitetown.authcommon.util.token.JwtTokenUtil;
+import cn.whitetown.authcommon.util.token.WhiteJwtTokenUtil;
+import cn.whitetown.authea.util.AuthCacheUtil;
 import cn.whitetown.dogbase.common.constant.DogBaseConstant;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.exception.CustomException;
@@ -15,6 +15,7 @@ import cn.whitetown.usersecurity.manager.RoleManager;
 import cn.whitetown.usersecurity.manager.UserManager;
 import cn.whitetown.usersecurity.mappers.UserBasicInfoMapper;
 import cn.whitetown.usersecurity.service.DogUserService;
+import cn.whitetown.usersecurity.util.AuthUserCacheUtil;
 import cn.whitetown.usersecurity.util.LoginUserUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,10 +48,13 @@ public class DogUserServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserBasi
     private RoleManager roleManager;
 
     @Autowired
-    private JwtTokenUtil jwtTokenUtil;
+    private WhiteJwtTokenUtil whiteJwtTokenUtil;
 
     @Autowired
-    private UserCacheUtil userCacheUtil;
+    private AuthUserCacheUtil userCacheUtil;
+
+    @Autowired
+    private AuthCacheUtil authCacheUtil;
 
     /**
      * 验证码校验
@@ -103,11 +107,11 @@ public class DogUserServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserBasi
         //create token
         //存储信息包括userId，username,roles,userVersion
         Map<String,Object> map = new HashMap<>(8);
-        map.put(JwtTokenUtil.USER_ID,user.getUserId());
-        map.put(JwtTokenUtil.USERNAME,username);
-        map.put(JwtTokenUtil.USER_ROLE,loginUser.getRoles());
-        map.put(JwtTokenUtil.USER_VERSION,user.getUserVersion());
-        String token = jwtTokenUtil.createTokenByParams(map);
+        map.put(WhiteJwtTokenUtil.USER_ID,user.getUserId());
+        map.put(WhiteJwtTokenUtil.USERNAME,username);
+        map.put(WhiteJwtTokenUtil.USER_ROLE,loginUser.getRoles());
+        map.put(WhiteJwtTokenUtil.USER_VERSION,user.getUserVersion());
+        String token = whiteJwtTokenUtil.createTokenByParams(map);
 
         //存放登录用户的信息，方便用户获取使用,存储时间为2小时
         userCacheUtil.saveLoginUser(loginUser.getUsername(),loginUser);
@@ -115,7 +119,7 @@ public class DogUserServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserBasi
         //存储用户校验使用的信息在内存中,方便快速校验
         Collection<GrantedAuthority> roleCollection = LoginUserUtil.createRoleCollection(loginUser.getRoles());
         UserDetails userDetails = new User(user.getUsername(),user.getPassword(),roleCollection);
-        userCacheUtil.saveUserDetail(userDetails.getUsername(),
+        authCacheUtil.saveUserDetail(userDetails.getUsername(),
                 userDetails);
         return token;
     }
@@ -126,8 +130,8 @@ public class DogUserServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserBasi
      */
     @Override
     public String updateToken() {
-        String token = jwtTokenUtil.getToken();
-        String newToken = jwtTokenUtil.updateToken(token);
+        String token = whiteJwtTokenUtil.getToken();
+        String newToken = whiteJwtTokenUtil.updateToken(token);
         return newToken;
     }
 
@@ -137,7 +141,7 @@ public class DogUserServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserBasi
      */
     @Override
     public LoginUser getUserByToken() {
-        String username = jwtTokenUtil.getUsername();
+        String username = whiteJwtTokenUtil.getUsername();
         LoginUser user = userCacheUtil.getLoginUser(username);
         if(user ==null){
             UserBasicInfo userBasic = userManager.getUserByUsername(username);
@@ -157,11 +161,11 @@ public class DogUserServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserBasi
      */
     @Override
     public void logout() {
-        String username = jwtTokenUtil.getUsername();
+        String username = whiteJwtTokenUtil.getUsername();
         if(username==null){
             return;
         }
-        userCacheUtil.removeAllUserInfo(username);
+        userCacheUtil.removeAllInfo(username);
         //version update
         userMapper.updateUserVersionByUsername(username);
     }
