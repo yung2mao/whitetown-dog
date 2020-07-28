@@ -8,11 +8,11 @@ import cn.whitetown.dogbase.common.memdata.WhiteExpireMap;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.annotation.PreDestroy;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.awt.*;
+import java.util.*;
 import java.util.List;
-import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
+import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 /**
@@ -25,7 +25,7 @@ public class DefaultMenuCacheUtil implements MenuCacheUtil {
     @Autowired
     private WhiteExpireMap expireMap;
     /**
-     * 保存角色ID信息
+     * 保存存储数据的key信息
      */
     private Set<String> menuCacheMetaSet = null;
 
@@ -54,59 +54,68 @@ public class DefaultMenuCacheUtil implements MenuCacheUtil {
 
     @Override
     public MenuTree saveCacheMenu(Long roleOrUserId,MenuTree menuTree) {
-        Object result = expireMap.putS(AuthConstant.MENU_CACHE_PREFIX + roleOrUserId, menuTree, AuthConstant.MENU_SAVE_TIME);
+        Object result = expireMap.putS(AuthConstant.MENU_CACHE_PREFIX_A + roleOrUserId, menuTree, AuthConstant.MENU_SAVE_TIME);
         menuCacheMetaSet.add(roleOrUserId+"");
         return (MenuTree) result;
     }
 
     @Override
     public MenuTree getCacheMenu(Long roleOrUserId) {
-        Object result = expireMap.get(AuthConstant.MENU_CACHE_PREFIX + roleOrUserId);
+        Object result = expireMap.get(AuthConstant.MENU_CACHE_PREFIX_A + roleOrUserId);
         return result == null ? null : (MenuTree) result;
     }
 
     @Override
-    public MenuTree removeMenu(Long roleOrUserId) {
-        Object result = expireMap.remove(AuthConstant.MENU_CACHE_PREFIX + roleOrUserId);
+    public MenuTree removeCacheMenu(Long roleOrUserId) {
+        Object result = expireMap.remove(AuthConstant.MENU_CACHE_PREFIX_A + roleOrUserId);
         menuCacheMetaSet.remove(roleOrUserId);
         return result == null ? null : (MenuTree) result;
     }
 
     @Override
-    public MenuTree updateCacheMenu(Long roleOrUserId, MenuTree menuTree) {
-        return this.saveCacheMenu(roleOrUserId,menuTree);
-    }
-
-    @Override
-    public List<MenuInfo> saveMenuList(Long roleId, List<MenuInfo> menuInfos) {
-        Object result = expireMap.putS(AuthConstant.MENU_CACHE_PREFIX + roleId, menuInfos, AuthConstant.MENU_SAVE_TIME);
-        menuCacheMetaSet.add(AuthConstant.MENU_CACHE_PREFIX +roleId);
+    public List<MenuInfo> saveMenuList(Long userId, List<MenuInfo> menuInfos) {
+        Object result = expireMap.putS(AuthConstant.MENU_CACHE_PREFIX_B + userId, menuInfos, AuthConstant.MENU_SAVE_TIME);
+        menuCacheMetaSet.add(AuthConstant.MENU_CACHE_PREFIX_B +userId);
+        Map<Long,MenuInfo> menuInfoMap = new HashMap<>();
+        menuInfos.stream().forEach(menuInfo -> menuInfoMap.put(menuInfo.getMenuId(),menuInfo));
+        //save menuId<->menuInfo
+        expireMap.putS(AuthConstant.MENU_CACHE_PREFIX_M+userId,menuInfoMap,AuthConstant.MENU_SAVE_TIME);
+        menuCacheMetaSet.add(AuthConstant.MENU_CACHE_PREFIX_M+userId);
         return (List<MenuInfo>) result;
     }
 
     @Override
-    public List<MenuInfo> getMenuList(Long ... roleIds) {
-        if(roleIds == null || roleIds.length==0){
+    public List<MenuInfo> getMenuList(Long userId) {
+        if(userId == null){
             return new ArrayList<>();
         }
-        List<MenuInfo> menuInfos = new ArrayList<>();
-        Arrays.stream(roleIds).forEach(roleId->{
-            Object menus = expireMap.get(AuthConstant.MENU_CACHE_PREFIX + roleId);
-            if(menus == null) { return; }
-            ((List<MenuInfo>)menus).forEach(menu->menuInfos.add(menu));
-        });
-        return menuInfos.stream().distinct().collect(Collectors.toList());
+        return (List<MenuInfo>) expireMap.get(AuthConstant.MENU_CACHE_PREFIX_B + userId);
     }
 
     @Override
-    public List<MenuInfo> updateMenuList(Long roleId, List<MenuInfo> menuInfos) {
-        return this.saveMenuList(roleId,menuInfos);
+    public List<MenuInfo> getMenuList(Long userId, Long menuId, Integer lowLevel) {
+        MenuInfo parentMenu = ((Map<Long,MenuInfo>) expireMap.get(AuthConstant.MENU_CACHE_PREFIX_M+userId)).get(menuId);
+        if(parentMenu == null) {
+            return new ArrayList<>();
+        }
+        List<MenuInfo> menuList = this.getMenuList(userId);
+        if(menuList == null) {
+            return new ArrayList<>();
+        }
+        this.saveMenuList(userId,menuList);
+        List<MenuInfo> resultList = menuList.stream().filter(menuInfo -> {
+            return menuInfo.getMenuId().equals(menuId) ||
+                    (menuInfo.getMenuLevel() <= lowLevel && menuInfo.getMenuLevel() > parentMenu.getMenuLevel());
+        }).collect(Collectors.toList());
+        System.out.println(resultList.size()+","+menuList.size());
+        resultList.add(parentMenu);
+        return resultList;
     }
 
     @Override
-    public List<MenuInfo> removeMenuList(Long roleId) {
-        Object result = expireMap.remove(AuthConstant.MENU_CACHE_PREFIX + roleId);
-        menuCacheMetaSet.remove(AuthConstant.MENU_CACHE_PREFIX +roleId);
+    public List<MenuInfo> removeMenuList(Long userId) {
+        Object result = expireMap.remove(AuthConstant.MENU_CACHE_PREFIX_B + userId);
+        menuCacheMetaSet.remove(AuthConstant.MENU_CACHE_PREFIX_A +userId);
         return result == null ? null : (List<MenuInfo>) result;
     }
 }

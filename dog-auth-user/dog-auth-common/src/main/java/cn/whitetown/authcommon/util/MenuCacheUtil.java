@@ -28,7 +28,7 @@ public interface MenuCacheUtil {
     void reset();
 
     /**
-     * 保存菜单信息到内存中
+     * 保存菜单树信息到内存中
      * key为id
      * @param id
      * @param menuTree
@@ -37,7 +37,7 @@ public interface MenuCacheUtil {
     MenuTree saveCacheMenu(Long id,MenuTree menuTree);
 
     /**
-     * 通过id获取内存中存储的对应菜单信息
+     * 通过id获取内存中存储的对应菜单树
      * @param id
      * @return
      */
@@ -48,45 +48,39 @@ public interface MenuCacheUtil {
      * @param id
      * @return
      */
-    MenuTree removeMenu(Long id);
+    MenuTree removeCacheMenu(Long id);
 
     /**
-     * 更新内存中id对应的菜单信息
-     * @param id
-     * @param menuTree
-     * @return
-     */
-    MenuTree updateCacheMenu(Long id,MenuTree menuTree);
-
-    /**
-     * 保留角色对应的MenuList
+     * 保存key对应的MenuList
      * 包括活跃的和停用的
-     * @param roleId
+     * @param key
      * @param menuInfos
      * @return
      */
-    List<MenuInfo> saveMenuList(Long roleId,List<MenuInfo> menuInfos);
+    List<MenuInfo> saveMenuList(Long key,List<MenuInfo> menuInfos);
 
     /**
-     * 获取角色对应的MenuList
+     * 获取保存的MenuList
      * 包括活跃的和停用的
-     * @param roleId
+     * @param key
      * @return
      */
-    List<MenuInfo> getMenuList(Long ... roleId);
+    List<MenuInfo> getMenuList(Long key);
 
     /**
-     * 更新角色对应的MenuList
-     * @param roleId
-     * @param menuInfos
+     * 获取活跃状态的menuList
+     * 指定parentId和最低层级
+     * @param key
+     * @param menuId
+     * @param lowLevel
      * @return
      */
-    List<MenuInfo> updateMenuList(Long roleId,List<MenuInfo> menuInfos);
+    List<MenuInfo> getMenuList(Long key, Long menuId, Integer lowLevel);
 
     /**
-     * 移除roleId对应的MenuList
-     * @param roleId
+     * 移除key对应的MenuList
+     * @param
      * @return
      */
-    List<MenuInfo> removeMenuList(Long roleId);
+    List<MenuInfo> removeMenuList(Long key);
 }

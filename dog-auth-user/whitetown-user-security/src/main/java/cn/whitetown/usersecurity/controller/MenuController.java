@@ -2,7 +2,7 @@ package cn.whitetown.usersecurity.controller;
 
 import cn.whitetown.authcommon.entity.ao.MenuInfoAo;
 import cn.whitetown.authcommon.entity.ao.RoleMenuConfigure;
-import cn.whitetown.authea.manager.JwtTokenUtil;
+import cn.whitetown.authcommon.util.JwtTokenUtil;
 import cn.whitetown.dogbase.common.entity.dto.ResponseData;
 import cn.whitetown.authcommon.entity.dto.MenuTree;
 import cn.whitetown.usersecurity.service.MenuService;
@@ -28,7 +28,7 @@ public class MenuController {
     private MenuService service;
 
     @Autowired
-    private JwtTokenUtil whiteJwtTokenUtil;
+    private JwtTokenUtil jwtTokenUtil;
 
     /**
      * 查询指定菜单层级范围内的所有菜单信息，以树形结构返回
@@ -48,7 +48,7 @@ public class MenuController {
      */
     @GetMapping("/login_menu")
     public ResponseData<MenuTree> queryActiveMenuTree(@NotNull(message = "菜单ID不能为空") Long menuId,@NotNull(message = "最低层级不能为空") Integer lowLevel){
-        Long userId = whiteJwtTokenUtil.getUserId();
+        Long userId = jwtTokenUtil.getUserId();
         MenuTree menuTree = service.queryActiveMenuByUserId(userId,menuId,lowLevel);
         return ResponseData.ok(menuTree);
     }
@@ -82,7 +82,7 @@ public class MenuController {
      */
     @PostMapping(value = "/add", produces = "application/json;charset=UTF-8")
     public ResponseData addMenu(@RequestBody @Valid MenuInfoAo menuInfo){
-        service.addSingleMenu(whiteJwtTokenUtil.getUserId(),menuInfo);
+        service.addSingleMenu(jwtTokenUtil.getUserId(),menuInfo);
         return ResponseData.ok();
     }
 
@@ -99,7 +99,7 @@ public class MenuController {
         if(menuInfo.getMenuId().equals(menuInfo.getParentId())){
             return ResponseData.build(400,"父级菜单不能等于自身",null);
         }
-        service.updateMenuInfo(whiteJwtTokenUtil.getUserId(),menuInfo);
+        service.updateMenuInfo(jwtTokenUtil.getUserId(),menuInfo);
         return ResponseData.ok();
     }
 

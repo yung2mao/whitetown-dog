@@ -9,7 +9,7 @@ import cn.whitetown.authcommon.entity.po.DeptInfo;
 import cn.whitetown.authcommon.entity.po.PositionInfo;
 import cn.whitetown.authcommon.entity.po.UserBasicInfo;
 import cn.whitetown.authcommon.util.DeptUtil;
-import cn.whitetown.authcommon.util.token.WhiteJwtTokenUtil;
+import cn.whitetown.authcommon.util.JwtTokenUtil;
 import cn.whitetown.dogbase.common.constant.DogBaseConstant;
 import cn.whitetown.dogbase.common.entity.dto.ResponsePage;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
@@ -63,7 +63,7 @@ public class DeptServiceImpl extends ServiceImpl<DeptInfoMapper,DeptInfo> implem
     private UserManager userManager;
 
     @Autowired
-    private WhiteJwtTokenUtil whiteJwtTokenUtil;
+    private JwtTokenUtil jwtTokenUtil;
 
     @Autowired
     private BeanTransFactory transFactory;
@@ -160,7 +160,7 @@ public class DeptServiceImpl extends ServiceImpl<DeptInfoMapper,DeptInfo> implem
         deptInfo.setBossPositionName(null);
         deptInfo.setBossUserId(null);
         deptInfo.setBossName(null);
-        deptInfo.setCreateUserId(whiteJwtTokenUtil.getUserId());
+        deptInfo.setCreateUserId(jwtTokenUtil.getUserId());
         deptInfo.setCreateTime(new Date());
         this.save(deptInfo);
     }
@@ -229,7 +229,7 @@ public class DeptServiceImpl extends ServiceImpl<DeptInfoMapper,DeptInfo> implem
         deptInfo.setDeptStatus(oldDept.getDeptStatus());
         deptInfo.setCreateUserId(oldDept.getCreateUserId());
         deptInfo.setCreateTime(oldDept.getCreateTime());
-        deptInfo.setUpdateUserId(whiteJwtTokenUtil.getUserId());
+        deptInfo.setUpdateUserId(jwtTokenUtil.getUserId());
         deptInfo.setUpdateTime(new Date());
         this.updateById(deptInfo);
     }
@@ -258,7 +258,7 @@ public class DeptServiceImpl extends ServiceImpl<DeptInfoMapper,DeptInfo> implem
                 .eq(DeptInfo::getDeptId, deptId)
                 .set(DeptInfo::getBossUserId, userInfo.getUserId())
                 .set(DeptInfo::getBossName, userInfo.getRealName())
-                .set(DeptInfo::getUpdateUserId, whiteJwtTokenUtil.getUserId())
+                .set(DeptInfo::getUpdateUserId, jwtTokenUtil.getUserId())
                 .set(DeptInfo::getUpdateTime, new Date());
         this.update(updateWrapper);
     }

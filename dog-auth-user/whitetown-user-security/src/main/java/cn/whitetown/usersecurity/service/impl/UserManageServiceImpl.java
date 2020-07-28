@@ -6,7 +6,8 @@ import cn.whitetown.authcommon.entity.po.PositionInfo;
 import cn.whitetown.authcommon.entity.po.UserRole;
 import cn.whitetown.authcommon.entity.po.UserRoleRelation;
 import cn.whitetown.authcommon.constant.AuthConstant;
-import cn.whitetown.authcommon.util.token.WhiteJwtTokenUtil;
+import cn.whitetown.authcommon.util.JwtTokenUtil;
+import cn.whitetown.authcommon.util.defaultimpl.WhiteJwtTokenUtil;
 import cn.whitetown.dogbase.common.constant.DogBaseConstant;
 import cn.whitetown.dogbase.common.entity.dto.ResponsePage;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
@@ -75,7 +76,7 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
     private PositionManager positionManager;
 
     @Autowired
-    private WhiteJwtTokenUtil whiteJwtTokenUtil;
+    private JwtTokenUtil jwtTokenUtil;
 
     @Autowired
     private QueryConditionFactory queryConditionFactory;
@@ -114,7 +115,7 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
         newUser.setSalt(salt);
         newUser.setUserStatus(DogBaseConstant.ACTIVE_NORMAL);
         newUser.setUserVersion(DogBaseConstant.INIT_VERSION);
-        Long userId = whiteJwtTokenUtil.getUserId();
+        Long userId = jwtTokenUtil.getUserId();
         newUser.setCreateUserId(userId);
         newUser.setCreateTime(new Date());
         //insert into database
@@ -239,7 +240,7 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
         userInfo.setCreateUserId(user.getCreateUserId());
         userInfo.setCreateTime(user.getCreateTime());
         //update user
-        Long userId = whiteJwtTokenUtil.getUserId();
+        Long userId = jwtTokenUtil.getUserId();
         userInfo.setUpdateUserId(userId);
         userInfo.setUpdateTime(new Date());
         //update
@@ -261,7 +262,7 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
         if(userBasicInfo==null){
             throw new CustomException(ResponseStatusEnum.NO_THIS_USER);
         }
-        Long updateUserId = whiteJwtTokenUtil.getUserId();
+        Long updateUserId = jwtTokenUtil.getUserId();
         LambdaUpdateWrapper<UserBasicInfo> updateWrapper = new LambdaUpdateWrapper<>();
         String salt = Md5WithSaltUtil.getRandomSalt();
         String defaultPwd = Md5WithSaltUtil.md5Encrypt(AuthConstant.DEFAULT_PWD,salt);
@@ -291,7 +292,7 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
         Map<String,Object> tokenMap = new HashMap<>(2);
         tokenMap.put(WhiteJwtTokenUtil.USERNAME,username);
         tokenMap.put(AuthConstant.PWD_TOKEN_TIME,System.currentTimeMillis());
-        String tokenByParams = whiteJwtTokenUtil.createTokenByParams(tokenMap);
+        String tokenByParams = jwtTokenUtil.createTokenByParams(tokenMap);
         return tokenByParams;
     }
 
@@ -303,7 +304,7 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
      */
     @Override
     public void updatePassword(String username, String pwdToken, String newPassword) {
-        Claims claims = whiteJwtTokenUtil.readTokenAsMapParams(pwdToken);
+        Claims claims = jwtTokenUtil.readTokenAsMapParams(pwdToken);
         String pwdUsername = claims.get(WhiteJwtTokenUtil.USERNAME,String.class);
         Long pwdTokenTime = claims.get(AuthConstant.PWD_TOKEN_TIME,Long.class);
         if(!username.equals(pwdUsername)){

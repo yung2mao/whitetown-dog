@@ -1,8 +1,6 @@
 package cn.whitetown.usersecurity.config;
 
-import cn.whitetown.authcommon.util.DeptUtil;
-import cn.whitetown.authcommon.util.MenuCacheUtil;
-import cn.whitetown.authcommon.util.MenuUtil;
+import cn.whitetown.authcommon.util.*;
 import cn.whitetown.authcommon.util.captcha.CaptchaBasicInfo;
 import cn.whitetown.authcommon.util.captcha.CaptchaDataDeal;
 import cn.whitetown.authcommon.util.captcha.DefaultCaptchaDataDeal;
@@ -10,10 +8,11 @@ import cn.whitetown.authcommon.constant.AuthConstant;
 import cn.whitetown.authcommon.util.defaultimpl.DefaultDeptUtil;
 import cn.whitetown.authcommon.util.defaultimpl.DefaultMenuCacheUtil;
 import cn.whitetown.authcommon.util.defaultimpl.DefaultMenuUtil;
-import cn.whitetown.authcommon.util.token.WhiteJwtTokenUtil;
+import cn.whitetown.authcommon.util.defaultimpl.WhiteJwtTokenUtil;
 import cn.whitetown.authcommon.util.defaultimpl.WhiteUserCacheUtil;
 import cn.whitetown.usersecurity.util.AuthUserCacheUtil;
 import cn.whitetown.usersecurity.util.define.WhiteAuthUserCache;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -32,6 +31,7 @@ public class UserInitConfig {
      */
     private long tokenExpire = AuthConstant.TOKEN_EXPIRE;
 
+
     /**
      * 初始化验证码操作类
      * @return
@@ -46,7 +46,7 @@ public class UserInitConfig {
      * @return
      */
     @Bean
-    public WhiteJwtTokenUtil jwtTokenUtil(){
+    public JwtTokenUtil jwtTokenUtil(){
         return new WhiteJwtTokenUtil(tokenSecret,tokenExpire);
     }
 
@@ -55,8 +55,18 @@ public class UserInitConfig {
      * @return
      */
     @Bean
-    public AuthUserCacheUtil userCacheUtil(){
-        return new WhiteAuthUserCache(new WhiteUserCacheUtil());
+    public AuthUserCacheUtil authUserCacheUtil(){
+        return new WhiteAuthUserCache(userCacheUtil);
+    }
+
+    /**
+     * userCache初始化
+     */
+    @Autowired
+    private UserCacheUtil userCacheUtil;
+    @Bean
+    public UserCacheUtil userCacheUtil() {
+        return new WhiteUserCacheUtil();
     }
 
     /**
@@ -75,7 +85,6 @@ public class UserInitConfig {
     @Bean
     public MenuCacheUtil menuCacheUtil(){
         DefaultMenuCacheUtil menuCacheUtil = new DefaultMenuCacheUtil();
-        menuCacheUtil.init();
         return menuCacheUtil;
     }
 

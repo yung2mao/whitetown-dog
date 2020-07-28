@@ -20,14 +20,12 @@ import cn.whitetown.usersecurity.service.MenuService;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * 菜单管理服务
@@ -79,7 +77,13 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
      */
     @Override
     public MenuTree queryActiveMenuByUserId(Long userId, Long menuId, Integer lowLevel) {
-        List<MenuInfo> menuInfos = menuInfoMapper.selectActiveMenuByUserId(DogBaseConstant.ACTIVE_NORMAL,userId,menuId,lowLevel);
+        List<MenuInfo> menuInfos = menuCacheUtil.getMenuList(userId,menuId,lowLevel);
+        if(menuInfos.size() == 0) {
+            menuInfos = menuInfoMapper.selectActiveMenuByUserId(DogBaseConstant.ACTIVE_NORMAL, userId,
+                    AuthConstant.ROOT_MENU_ID, AuthConstant.LOWEST_MENU_LEVEL);
+            menuCacheUtil.saveMenuList(userId,menuInfos);
+            menuInfos = menuCacheUtil.getMenuList(userId,menuId,lowLevel);
+        }
         if(menuInfos.size() == 0){
             return new MenuTree();
         }
@@ -97,13 +101,8 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
         if(userRole == null){
             throw new CustomException(ResponseStatusEnum.NO_THIS_ROLE);
         }
-        MenuTree menuTree = menuCacheUtil.getCacheMenu(userRole.getRoleId());
-        if(menuTree == null){
-            List<MenuInfo> menuInfos = menuInfoMapper.selectMenuByRoleId(userRole.getRoleId());
-            menuTree = menuUtil.createMenuTreeByMenuList(menuInfos);
-        }
-        menuCacheUtil.saveCacheMenu(userRole.getRoleId(),menuTree);
-        return menuTree;
+        List<MenuInfo> menuInfos = menuInfoMapper.selectMenuByRoleId(userRole.getRoleId());
+        return menuUtil.createMenuTreeByMenuList(menuInfos);
     }
 
     /**
@@ -113,11 +112,6 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
      */
     @Override
     public List<Long> queryMenuIdsByRoleId(Long roleId) {
-        MenuTree menuTree = menuCacheUtil.getCacheMenu(roleId);
-        if(menuTree!= null){
-            menuCacheUtil.saveCacheMenu(roleId,menuTree);
-            return menuUtil.getMenuIdsFromTree(menuTree);
-        }
         UserRole userRole = roleManager.queryRoleById(roleId);
         if(userRole == null){
             throw new CustomException(ResponseStatusEnum.NO_THIS_ROLE);
@@ -201,7 +195,6 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
         menu.setMenuLevel(parentMenu.getMenuLevel()+1);
         menu.setMenuStatus(oldMenu.getMenuStatus());
         menuInfoMapper.updateById(menu);
-        menuCacheUtil.reset();
     }
 
     /**
@@ -228,7 +221,6 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
                     .set(MenuInfo::getMenuStatus, menuStatus);
             this.update(updateCondition);
         }
-        menuCacheUtil.reset();
     }
 
     /**
@@ -245,7 +237,6 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
         menuSet.add(AuthConstant.ROOT_MENU_ID);
         Arrays.stream(configure.getMenuIds()).forEach(id->menuSet.add(id));
         menuInfoMapper.updateRoleMenus(configure.getRoleId(),menuSet);
-        menuCacheUtil.reset();
     }
 
     /**

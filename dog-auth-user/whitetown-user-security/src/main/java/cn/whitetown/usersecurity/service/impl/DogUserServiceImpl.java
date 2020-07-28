@@ -1,8 +1,9 @@
 package cn.whitetown.usersecurity.service.impl;
 
 import cn.whitetown.authcommon.entity.po.UserRole;
+import cn.whitetown.authcommon.util.JwtTokenUtil;
 import cn.whitetown.authcommon.util.captcha.CaptchaDataDeal;
-import cn.whitetown.authcommon.util.token.WhiteJwtTokenUtil;
+import cn.whitetown.authcommon.util.defaultimpl.WhiteJwtTokenUtil;
 import cn.whitetown.authea.util.AuthCacheUtil;
 import cn.whitetown.dogbase.common.constant.DogBaseConstant;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
@@ -48,7 +49,7 @@ public class DogUserServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserBasi
     private RoleManager roleManager;
 
     @Autowired
-    private WhiteJwtTokenUtil whiteJwtTokenUtil;
+    private JwtTokenUtil jwtTokenUtil;
 
     @Autowired
     private AuthUserCacheUtil userCacheUtil;
@@ -111,7 +112,7 @@ public class DogUserServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserBasi
         map.put(WhiteJwtTokenUtil.USERNAME,username);
         map.put(WhiteJwtTokenUtil.USER_ROLE,loginUser.getRoles());
         map.put(WhiteJwtTokenUtil.USER_VERSION,user.getUserVersion());
-        String token = whiteJwtTokenUtil.createTokenByParams(map);
+        String token = jwtTokenUtil.createTokenByParams(map);
 
         //存放登录用户的信息，方便用户获取使用,存储时间为2小时
         userCacheUtil.saveLoginUser(loginUser.getUsername(),loginUser);
@@ -130,8 +131,8 @@ public class DogUserServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserBasi
      */
     @Override
     public String updateToken() {
-        String token = whiteJwtTokenUtil.getToken();
-        String newToken = whiteJwtTokenUtil.updateToken(token);
+        String token = jwtTokenUtil.getToken();
+        String newToken = jwtTokenUtil.updateToken(token);
         return newToken;
     }
 
@@ -141,7 +142,7 @@ public class DogUserServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserBasi
      */
     @Override
     public LoginUser getUserByToken() {
-        String username = whiteJwtTokenUtil.getUsername();
+        String username = jwtTokenUtil.getUsername();
         LoginUser user = userCacheUtil.getLoginUser(username);
         if(user ==null){
             UserBasicInfo userBasic = userManager.getUserByUsername(username);
@@ -161,7 +162,7 @@ public class DogUserServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserBasi
      */
     @Override
     public void logout() {
-        String username = whiteJwtTokenUtil.getUsername();
+        String username = jwtTokenUtil.getUsername();
         if(username==null){
             return;
         }

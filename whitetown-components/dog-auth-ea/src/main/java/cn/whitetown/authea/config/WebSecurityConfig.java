@@ -65,10 +65,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
          * 设置token解析过滤器
          */
         http.addFilterBefore(tokenCheckManager, UsernamePasswordAuthenticationFilter.class);
-
     }
 
-    //指定UserDetailService
+    /**
+     * 指定UserDetail
+     * @param auth
+     * @throws Exception
+     */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService);

@@ -29,12 +29,6 @@
       <artifactId>whitetown-base</artifactId>
       <scope>provided</scope>
     </dependency>
-    <!--whitetown security component-->
-    <dependency>
-      <groupId>cn.whitetown</groupId>
-      <artifactId>dog-auth-ea</artifactId>
-      <scope>provided</scope>
-    </dependency>
   </dependencies>
 
 </project>

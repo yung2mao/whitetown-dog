@@ -2,7 +2,7 @@ package cn.whitetown.usersecurity.controller;
 
 import cn.whitetown.authcommon.constant.AuthConstant;
 import cn.whitetown.authcommon.entity.ao.RoleUserQuery;
-import cn.whitetown.authea.manager.JwtTokenUtil;
+import cn.whitetown.authcommon.util.JwtTokenUtil;
 import cn.whitetown.dogbase.common.entity.dto.ResponseData;
 import cn.whitetown.dogbase.common.entity.dto.ResponsePage;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
@@ -38,7 +38,7 @@ public class UserManageController {
     private UserManageService service;
 
     @Autowired
-    private JwtTokenUtil whiteJwtTokenUtil;
+    private JwtTokenUtil jwtTokenUtil;
 
     /**
      * 分页查询用户信息
@@ -121,7 +121,7 @@ public class UserManageController {
         if(DataCheckUtil.checkTextNullBool(password)){
             throw new CustomException(ResponseStatusEnum.OLD_PWD_NOT_RIGHT);
         }
-        String username = whiteJwtTokenUtil.getUsername();
+        String username = jwtTokenUtil.getUsername();
         String pwdToken = service.checkPassword(username,password);
         return ResponseData.ok(pwdToken);
     }
@@ -140,7 +140,7 @@ public class UserManageController {
             DataCheckUtil.checkTextNullBool(newPassword)){
             throw new CustomException(ResponseStatusEnum.ERROR_PARAMS);
         }
-        String username = whiteJwtTokenUtil.getUsername();
+        String username = jwtTokenUtil.getUsername();
         service.updatePassword(username,pwdToken,newPassword);
         return ResponseData.ok();
     }

@@ -32,7 +32,7 @@
         or t1.menu_level &gt;
             (select menu_level from sys_menu where menu_id = #{menuId})
         order by menu_sort asc
-  </select>
+    </select>
     <select id="selectActiveMenuByUserId" resultType="cn.whitetown.authcommon.entity.po.MenuInfo">
         select * from
             (select
@@ -41,10 +41,13 @@
             where
             menu_status = #{menuStatus}
             and menu_id in
-            (select menu_id from role_menu
-            where role_id in
-            (select role_id from user_role_relation where user_id = #{userId})
-            ) and menu_level &lt;= #{lowLevel}) t1
+                (select menu_id from role_menu
+                where role_id in
+                    (select relation.role_id
+                    from user_role_relation relation inner join user_role roles
+                    on relation.role_id = roles.role_id
+                    where relation.user_id = #{userId} and roles.role_status = 0)
+                ) and menu_level &lt;= #{lowLevel}) t1
         where
             t1.menu_id = #{menuId}
             or t1.menu_level &gt;

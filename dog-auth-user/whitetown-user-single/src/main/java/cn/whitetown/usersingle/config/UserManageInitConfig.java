@@ -3,7 +3,7 @@ package cn.whitetown.usersingle.config;
 import cn.whitetown.authcommon.constant.AuthConstant;
 import cn.whitetown.authcommon.util.captcha.CaptchaDataDeal;
 import cn.whitetown.authcommon.util.captcha.KapCaptchaDataDeal;
-import cn.whitetown.authcommon.util.token.WhiteJwtTokenUtil;
+import cn.whitetown.authcommon.util.defaultimpl.WhiteJwtTokenUtil;
 import com.google.code.kaptcha.Constants;
 import com.google.code.kaptcha.Producer;
 import com.google.code.kaptcha.impl.DefaultKaptcha;

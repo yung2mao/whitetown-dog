@@ -1,7 +1,7 @@
-package cn.whitetown.authcommon.util.token;
+package cn.whitetown.authcommon.util.defaultimpl;
 
 import cn.whitetown.authcommon.constant.AuthConstant;
-import cn.whitetown.authea.manager.JwtTokenUtil;
+import cn.whitetown.authcommon.util.JwtTokenUtil;
 import cn.whitetown.dogbase.common.util.WebUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;

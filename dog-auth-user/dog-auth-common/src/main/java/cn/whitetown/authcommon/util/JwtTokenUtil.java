@@ -1,6 +1,7 @@
-package cn.whitetown.authea.manager;
+package cn.whitetown.authcommon.util;
 
 import io.jsonwebtoken.Claims;
+
 import java.util.Map;
 
 /**

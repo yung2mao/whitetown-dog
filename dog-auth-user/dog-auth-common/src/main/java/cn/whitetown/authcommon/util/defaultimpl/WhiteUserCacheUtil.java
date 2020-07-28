@@ -12,8 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @date 2020/06/18 09:48
  **/
 public class WhiteUserCacheUtil implements UserCacheUtil {
-    @Autowired
+
     private WhiteExpireMap expireMap;
+
+    @Autowired
+    public void setExpireMap(WhiteExpireMap expireMap) {
+        this.expireMap = expireMap;
+    }
 
     /**
      * 保存用户信息到内存中

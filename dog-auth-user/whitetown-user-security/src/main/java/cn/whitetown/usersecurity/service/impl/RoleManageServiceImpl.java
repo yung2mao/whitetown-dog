@@ -6,7 +6,7 @@ import cn.whitetown.authcommon.entity.ao.UserRoleConfigure;
 import cn.whitetown.authcommon.entity.po.UserBasicInfo;
 import cn.whitetown.authcommon.entity.po.UserRole;
 import cn.whitetown.authcommon.entity.dto.RoleInfoDto;
-import cn.whitetown.authcommon.util.token.WhiteJwtTokenUtil;
+import cn.whitetown.authcommon.util.JwtTokenUtil;
 import cn.whitetown.authea.util.AuthCacheUtil;
 import cn.whitetown.dogbase.common.constant.DogBaseConstant;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
@@ -60,7 +60,7 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
     private BeanTransFactory transUtil;
 
     @Autowired
-    private WhiteJwtTokenUtil whiteJwtTokenUtil;
+    private JwtTokenUtil jwtTokenUtil;
 
     @Autowired
     private QueryConditionFactory queryConditionFactory;
@@ -127,7 +127,7 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
         }
         UserRole userRole = null;
         userRole = transUtil.trans(role, UserRole.class);
-        Long createUserId = whiteJwtTokenUtil.getUserId();
+        Long createUserId = jwtTokenUtil.getUserId();
         if(role.getSort() == null){
             userRole.setSort(AuthConstant.MENU_MAX_SORT);
         }
@@ -154,7 +154,7 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
             throw new CustomException(ResponseStatusEnum.REQUEST_INVALIDATE);
         }
 
-        Long updateUserId = whiteJwtTokenUtil.getUserId();
+        Long updateUserId = jwtTokenUtil.getUserId();
         if(role.getSort() != null && role.getSort() > 0 && role.getSort() <= AuthConstant.MENU_MAX_SORT){
             oldRole.setSort(role.getSort());
         }

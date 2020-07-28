@@ -34,6 +34,7 @@ public class ControllerExceptionHandler{
         if(message != null && message.length() > keepLen) {
             message = message.substring(0,keepLen);
         }
+        e.printStackTrace();
         return ResponseData.build(ResponseStatusEnum.ERROR_PARAMS.getStatus(),message,null);
     }
 

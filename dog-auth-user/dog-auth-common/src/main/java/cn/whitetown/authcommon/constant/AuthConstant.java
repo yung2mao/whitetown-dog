@@ -54,8 +54,9 @@ public class AuthConstant {
     /*\*****************菜单相关**************************\*/
 
     public static final int LOWEST_MENU_LEVEL = 100;
-    public static final String INIT_MENU_CACHE_DATA_NAME = "MENU_MAP";
-    public static final String MENU_CACHE_PREFIX = "MENU_ROLE";
+    public static final String MENU_CACHE_PREFIX_A = "MENU_A";
+    public static final String MENU_CACHE_PREFIX_B = "MENU_B";
+    public static final String MENU_CACHE_PREFIX_M = "MENU_M";
     public static final long MENU_SAVE_TIME = 1800L;
     public static final long ROOT_MENU_ID = 1L;
     public static final int MENU_MAX_SORT = 100;

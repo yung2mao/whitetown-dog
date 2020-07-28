@@ -1,6 +1,7 @@
 package cn.whitetown.usersecurity.service.impl;
 
-import cn.whitetown.authcommon.util.token.WhiteJwtTokenUtil;
+import cn.whitetown.authcommon.util.JwtTokenUtil;
+import cn.whitetown.authcommon.util.defaultimpl.WhiteJwtTokenUtil;
 import cn.whitetown.authea.service.WhiteUserDetailService;
 import cn.whitetown.dogbase.common.constant.DogBaseConstant;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
@@ -28,9 +29,9 @@ import java.util.List;
  * @date 2020/06/13 15:49
  **/
 @Component
-public class UserDetailServiceImpl implements WhiteUserDetailService {
+public class WhiteUserDetailServiceImpl implements WhiteUserDetailService {
 
-    private Log log = LogFactory.getLog(UserDetailServiceImpl.class);
+    private Log log = LogFactory.getLog(WhiteUserDetailServiceImpl.class);
 
     @Autowired
     private AuthUserCacheUtil authCacheUtil;
@@ -39,7 +40,7 @@ public class UserDetailServiceImpl implements WhiteUserDetailService {
     private UserManager userManager;
 
     @Autowired
-    private WhiteJwtTokenUtil whiteJwtTokenUtil;
+    private JwtTokenUtil jwtTokenUtil;
 
     /**
      * 根据用户名获取UserDetail用于校验登录状态
@@ -57,7 +58,7 @@ public class UserDetailServiceImpl implements WhiteUserDetailService {
             if(userBasicInfo.getUserStatus() == DogBaseConstant.DISABLE_WARN){
                 throw new CustomException(ResponseStatusEnum.ACCOUNT_FREEZE);
             }
-            String version = whiteJwtTokenUtil.getTokenValue(WhiteJwtTokenUtil.USER_VERSION);
+            String version = jwtTokenUtil.getTokenValue(WhiteJwtTokenUtil.USER_VERSION);
             if(version==null){
                 throw new CustomException(ResponseStatusEnum.TOKEN_EXPIRED);
             }
@@ -65,13 +66,15 @@ public class UserDetailServiceImpl implements WhiteUserDetailService {
             if(!userVersion.equals(userBasicInfo.getUserVersion())){
                 throw new CustomException(ResponseStatusEnum.TOKEN_EXPIRED);
             }
-            List<String> roles = (List<String>) whiteJwtTokenUtil.getTokenValueAsObject(WhiteJwtTokenUtil.USER_ROLE);
+            List<String> roles = (List<String>) jwtTokenUtil.getTokenValueAsObject(WhiteJwtTokenUtil.USER_ROLE);
             log.warn("当前登录的用户角色为 >>" + roles);
             Collection<GrantedAuthority> roleCollection = LoginUserUtil.createRoleCollection(roles);
 
             userDetails = new User(userBasicInfo.getUsername(),userBasicInfo.getPassword(),roleCollection);
         }
         authCacheUtil.saveUserDetail(username,userDetails);
+
+        Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
         return userDetails;
     }
 

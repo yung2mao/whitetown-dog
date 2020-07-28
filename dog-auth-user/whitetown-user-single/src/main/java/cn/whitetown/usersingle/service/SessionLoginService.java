@@ -2,7 +2,7 @@ package cn.whitetown.usersingle.service;
 
 import cn.whitetown.authcommon.constant.AuthConstant;
 import cn.whitetown.authcommon.entity.po.UserRole;
-import cn.whitetown.authcommon.util.token.WhiteJwtTokenUtil;
+import cn.whitetown.authcommon.util.defaultimpl.WhiteJwtTokenUtil;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.exception.CustomException;
 import cn.whitetown.dogbase.common.memdata.WhiteExpireMap;
