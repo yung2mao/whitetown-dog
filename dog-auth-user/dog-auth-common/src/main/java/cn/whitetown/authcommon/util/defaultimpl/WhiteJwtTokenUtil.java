@@ -4,13 +4,19 @@ import cn.whitetown.authcommon.constant.AuthConstant;
 import cn.whitetown.authcommon.util.JwtTokenUtil;
 import cn.whitetown.dogbase.common.util.WebUtil;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.impl.DefaultClaims;
+import jdk.internal.org.objectweb.asm.tree.TryCatchBlockNode;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 import javax.servlet.http.HttpServletRequest;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -18,6 +24,8 @@ import java.util.Map;
  * @date 2020/05/30 09:23
  **/
 public class WhiteJwtTokenUtil implements JwtTokenUtil {
+
+    private Log logger = LogFactory.getLog(WhiteJwtTokenUtil.class);
     /**
      * 用户名键值
      */
@@ -49,24 +57,20 @@ public class WhiteJwtTokenUtil implements JwtTokenUtil {
     /**
      * token前缀
      */
-    private final String TOKEN_PREFIX = AuthConstant.TOKEN_PREFIX;
+    private final String TOKEN_PREFIX;
     /**
      * 请求头名称
      */
-    private final String HEADER_STRING = AuthConstant.HEADER_STRING;
+    private final String HEADER_STRING;
 
-    private final SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:ss:mm");
-
-    public WhiteJwtTokenUtil(String secret, long expire) {
+    public WhiteJwtTokenUtil(String secret, long expire,String TOKEN_PREFIX,String HEADER_STRING) {
         this.EXPIRATION_TIME = expire;
         this.SECRET = secret;
-        System.out.println("正在初始化Jwthelper，expire="+expire);
+        this.TOKEN_PREFIX = TOKEN_PREFIX;
+        this.HEADER_STRING = HEADER_STRING;
+        logger.warn("正在初始化Jwt util，expire time="+expire);
     }
-    /**
-     * 生成Token
-     * @param claims 需要保存在token的参数，如用户名username，用户ID
-     * @return
-     */
+
     @Override
     public String createTokenByParams(Map<String, Object> claims) {
         Calendar c = Calendar.getInstance();
@@ -81,28 +85,22 @@ public class WhiteJwtTokenUtil implements JwtTokenUtil {
         return TOKEN_PREFIX + " " + jwtToken;
     }
 
-    /**
-     * 解析token
-     * @param token
-     * @return
-     */
     @Override
     public Claims readTokenAsMapParams(String token) {
         if (token == null) {
-            return null;
+            return new DefaultClaims(new HashMap<>(0));
         }
-        Claims body = Jwts.parser()
-                .setSigningKey(SECRET)
-                .parseClaimsJws(token.replace(TOKEN_PREFIX,""))
-                .getBody();
-        return body;
+        Claims body = null;
+        try {
+            body = Jwts.parser()
+                    .setSigningKey(SECRET)
+                    .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
+                    .getBody();
+        }catch (ExpiredJwtException expiredException) {
+            logger.warn(expiredException.getMessage());
+        }catch (Exception e) {}
+        return body == null ? new DefaultClaims(new HashMap<>(0)) : body;
     }
-
-    /**
-     * token更新
-     * @param token
-     * @return
-     */
     @Override
     public String updateToken(String token){
         Map<String, Object> oldToken = readTokenAsMapParams(token);
@@ -113,11 +111,6 @@ public class WhiteJwtTokenUtil implements JwtTokenUtil {
         }
     }
 
-    /**
-     * 根据key值获取保存在token中的信息
-     * @param key
-     * @return String类型
-     */
     @Override
     public String getTokenValue(String key){
         Object value = this.getTokenValueAsObject(key);
@@ -127,11 +120,6 @@ public class WhiteJwtTokenUtil implements JwtTokenUtil {
         return null;
     }
 
-    /**
-     * 获取token中保存的信息
-     * @param key
-     * @return Object类型
-     */
     @Override
     public Object getTokenValueAsObject(String key){
         String token = this.getToken();
@@ -142,43 +130,34 @@ public class WhiteJwtTokenUtil implements JwtTokenUtil {
         return null;
     }
 
-    /**
-     * 从token中获取用户名信息
-     * @return
-     */
     @Override
     public String getUsername(){
         String token = this.getToken();
         if(token != null) {
             Claims claims = this.readTokenAsMapParams(token);
-            return (String) claims.get(USERNAME);
-
+            return claims.get(USERNAME,String.class);
         }else {
             return null;
         }
     }
 
-    /**
-     * 获取用户id
-     * @return
-     */
     @Override
     public Long getUserId(){
         String token = this.getToken();
         if(token != null){
             Claims claims = this.readTokenAsMapParams(token);
-            return Long.valueOf(String.valueOf(claims.get(USER_ID)));
+            return claims.get(USER_ID,Long.class);
         }
         return null;
     }
 
-    /**
-     * 获取token
-     * @return
-     */
     @Override
     public String getToken(){
         HttpServletRequest request = WebUtil.getRequest();
-        return request.getHeader(AuthConstant.HEADER_STRING);
+        String header = request.getHeader(HEADER_STRING);
+        if(header == null) {
+            return null;
+        }
+        return header.startsWith(TOKEN_PREFIX) ? header : null;
     }
 }

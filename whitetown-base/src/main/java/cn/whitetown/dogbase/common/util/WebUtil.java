@@ -26,6 +26,15 @@ public class WebUtil {
     }
 
     /**
+     * 获取访问资源路径
+     * @return
+     */
+    public static String getUri(){
+        HttpServletRequest request = getRequest();
+        return request == null ? null : request.getRequestURI();
+    }
+
+    /**
      * 获取指定名称的cookie value
      * @param name
      * @param request

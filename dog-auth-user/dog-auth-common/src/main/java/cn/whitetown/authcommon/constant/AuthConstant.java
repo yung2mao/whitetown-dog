@@ -12,7 +12,7 @@ public class AuthConstant {
     public static final String TOKEN_PREFIX = "Bearer";
     public static final String HEADER_STRING = "Authorization";
     public static final String TOKEN_COOKIE_NAME = "token";
-    public static final int TOKEN_EXPIRE = 604800;
+    public static final int TOKEN_EXPIRE = 432000;
     public static final int TOKEN_RESET_TIME = 3600;
     /**
      * 登录后用户信息存储时长
@@ -55,9 +55,8 @@ public class AuthConstant {
 
     public static final int LOWEST_MENU_LEVEL = 100;
     public static final String MENU_CACHE_PREFIX_A = "MENU_A";
-    public static final String MENU_CACHE_PREFIX_B = "MENU_B";
     public static final String MENU_CACHE_PREFIX_M = "MENU_M";
-    public static final long MENU_SAVE_TIME = 1800L;
+    public static final long MENU_SAVE_TIME = 300L;
     public static final long ROOT_MENU_ID = 1L;
     public static final int MENU_MAX_SORT = 100;
 

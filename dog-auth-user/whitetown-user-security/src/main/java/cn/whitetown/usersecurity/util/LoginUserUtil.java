@@ -40,12 +40,12 @@ public class LoginUserUtil {
 
     /**
      * 根据角色信息创建角色集合
-     * @param roles
+     * @param authories
      * @return
      */
-    public static Collection<GrantedAuthority> createRoleCollection(List<String> roles){
+    public static Collection<GrantedAuthority> createAuthCollection(Collection<String> authories){
         Collection<GrantedAuthority> collection = new ArrayList<>();
-        roles.stream().forEach(r->collection.add(new SimpleGrantedAuthority(r)));
+        authories.stream().forEach(r->collection.add(new SimpleGrantedAuthority(r)));
         return collection;
     }
 }

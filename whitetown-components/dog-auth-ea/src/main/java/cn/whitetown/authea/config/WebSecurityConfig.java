@@ -1,6 +1,8 @@
 package cn.whitetown.authea.config;
 
+import cn.whitetown.authea.manager.SpringSecurityConfigureManager;
 import cn.whitetown.authea.manager.TokenCheckManager;
+import cn.whitetown.authea.manager.WhiteSecurityConfigureManager;
 import cn.whitetown.authea.manager.refuse.AuthenticationErrorHandler;
 import cn.whitetown.authea.service.WhiteUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,11 +11,13 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.config.annotation.web.configurers.ExpressionUrlAuthorizationConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 /**
+ * security配置类
  * @author GrainRain
  * @date 2020/06/13 16:06
  **/
@@ -22,6 +26,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private WhiteUserDetailService userDetailsService;
+
+    @Autowired
+    private SpringSecurityConfigureManager securityConfigureManager;
 
     @Autowired
     private AuthenticationErrorHandler authenticationErrorHandler;
@@ -40,31 +47,38 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        //开启跨域
         http.csrf().disable().
-                //关闭session
                 sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         /**
          * 异常处理
          */
-        http.exceptionHandling().authenticationEntryPoint(authenticationErrorHandler);
-        http.exceptionHandling().accessDeniedHandler(accessDeniedHandler);
+        http.exceptionHandling().authenticationEntryPoint(authenticationErrorHandler)
+                .accessDeniedHandler(accessDeniedHandler);
 
-        // 防止iframe 造成跨域
         http.headers().frameOptions().disable();
 
-        http.authorizeRequests().antMatchers("/erus/login","/erus/ver","/erus/check-capt",
-                "/webjars/**","/swagger/**","/v2/api-docs","/swagger-resources/**","/swagger-ui.html")
-                .permitAll()   //访问不受限的路径信息
-                .anyRequest().authenticated()
+        ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry authorizeRequest = http.authorizeRequests()
+                .antMatchers("/webjars/**", "/swagger/**", "/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html")
+                .permitAll();
+        this.authPathHandle(authorizeRequest);
+        authorizeRequest.anyRequest().authenticated()
                 .and()
-                .logout().permitAll();    //退出登录
+                .logout().permitAll();
 
         /**
-         * 设置token解析过滤器
+         * token解析过滤器
          */
         http.addFilterBefore(tokenCheckManager, UsernamePasswordAuthenticationFilter.class);
+    }
+
+    /**
+     * 处理后端接口权限配置
+     * @param authorizeRequests
+     */
+    public void authPathHandle(ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry authorizeRequests) {
+        ((WhiteSecurityConfigureManager)securityConfigureManager).init(authorizeRequests);
+        securityConfigureManager.authHandle();
     }
 
     /**

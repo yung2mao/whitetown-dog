@@ -2,6 +2,8 @@ package cn.whitetown.usersecurity.controller;
 
 import cn.whitetown.authcommon.constant.AuthConstant;
 import cn.whitetown.authcommon.util.captcha.CaptchaDataDeal;
+import cn.whitetown.authea.annotation.WhiteAuthAnnotation;
+import cn.whitetown.authea.modo.WhiteControlType;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.entity.dto.ResponseData;
 import cn.whitetown.authcommon.entity.dto.LoginUser;
@@ -32,6 +34,7 @@ import java.io.IOException;
  **/
 @RestController
 @RequestMapping("/erus")
+@WhiteAuthAnnotation(type = WhiteControlType.AUTHENTICATED)
 public class DogUserController {
 
     private Log log = LogFactory.getLog(DogUserController.class);
@@ -46,6 +49,7 @@ public class DogUserController {
      * @param response
      */
     @GetMapping("/ver")
+    @WhiteAuthAnnotation
     public void createCaptcha(HttpServletRequest request,HttpServletResponse response){
 
         response.setDateHeader("Expires", 0);
@@ -104,6 +108,7 @@ public class DogUserController {
      * @return
      */
     @PostMapping(value = "check_capt",produces = "application/json;charset=UTF-8")
+    @WhiteAuthAnnotation
     public ResponseData checkCaptcha(@RequestBody JSONObject captchaJson, HttpServletRequest request){
         String captcha = captchaJson.getString("captcha");
         String sessionId = WebUtil.getCusSessionId(request);
@@ -119,6 +124,7 @@ public class DogUserController {
      * @return
      */
     @PostMapping(value = "/login",produces = "application/json;charset=UTF-8")
+    @WhiteAuthAnnotation
     public ResponseData<String> dogLogin(@RequestBody JSONObject params,HttpServletRequest request){
         String captcha = params.getString("captcha");
         if(DataCheckUtil.checkTextNullBool(captcha)){

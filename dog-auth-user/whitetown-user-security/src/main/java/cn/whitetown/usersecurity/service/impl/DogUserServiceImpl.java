@@ -118,7 +118,7 @@ public class DogUserServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserBasi
         userCacheUtil.saveLoginUser(loginUser.getUsername(),loginUser);
 
         //存储用户校验使用的信息在内存中,方便快速校验
-        Collection<GrantedAuthority> roleCollection = LoginUserUtil.createRoleCollection(loginUser.getRoles());
+        Collection<GrantedAuthority> roleCollection = LoginUserUtil.createAuthCollection(loginUser.getRoles());
         UserDetails userDetails = new User(user.getUsername(),user.getPassword(),roleCollection);
         authCacheUtil.saveUserDetail(userDetails.getUsername(),
                 userDetails);

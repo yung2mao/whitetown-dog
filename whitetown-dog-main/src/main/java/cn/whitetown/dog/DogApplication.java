@@ -37,20 +37,4 @@ public class DogApplication {
         SpringApplication.run(DogApplication.class);
         logger.warn(" >> the dog application is started");
     }
-
-/*    @Override
-    public void run(ApplicationArguments args) throws Exception {
-        RequestMappingHandlerMapping handlerMapping = applicationContext.getBean(RequestMappingHandlerMapping.class);
-        Map<RequestMappingInfo, HandlerMethod> handlerMethods = handlerMapping.getHandlerMethods();
-        for(Map.Entry<RequestMappingInfo, HandlerMethod> entry : handlerMethods.entrySet()) {
-            Set<String> patterns = entry.getKey().getPatternsCondition().getPatterns();
-            String path = patterns.toArray(new String[0])[0];
-            Annotation[] annotations = entry.getValue().getMethod().getAnnotations();
-            for(Annotation annotation:annotations) {
-                if(annotation.annotationType().getAnnotationsByType(RequestMapping.class) != null) {
-                    System.out.println(path + "," +annotation);
-                }
-            }
-        }
-    }*/
 }

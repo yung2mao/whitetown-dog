@@ -43,4 +43,14 @@ public class WhiteAuthUserCache extends WhiteAuthCacheUtil implements AuthUserCa
     public LoginUser removeLoginUser(String key) {
         return userCacheUtil.removeLoginUser(key);
     }
+
+    @Override
+    public String saveCaptcha(String sessionId, String captcha) {
+        return userCacheUtil.saveCaptcha(sessionId,captcha);
+    }
+
+    @Override
+    public String getCaptcha(String sessionId) {
+        return userCacheUtil.getCaptcha(sessionId);
+    }
 }

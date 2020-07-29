@@ -21,14 +21,6 @@ import java.util.Properties;
 @Configuration
 public class UserManageInitConfig {
     /**
-     * token密钥
-     */
-    private String tokenSecret = AuthConstant.TOKEN_SECRET;
-    /**
-     * token过期时间为7天 - 7天内免登录
-     */
-    private long tokenExpire = AuthConstant.TOKEN_EXPIRE;
-    /**
      * 初始化验证码配置
      * @return
      */
@@ -68,7 +60,10 @@ public class UserManageInitConfig {
      */
     @Bean
     public WhiteJwtTokenUtil jwtTokenUtil(){
-        return new WhiteJwtTokenUtil(tokenSecret,tokenExpire);
+        return new WhiteJwtTokenUtil(AuthConstant.TOKEN_SECRET,
+                AuthConstant.TOKEN_EXPIRE,
+                AuthConstant.TOKEN_PREFIX,
+                AuthConstant.HEADER_STRING);
     }
 
 }

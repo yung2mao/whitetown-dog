@@ -1,5 +1,6 @@
 package cn.whitetown.authcommon.util.captcha;
 
+import cn.whitetown.authcommon.util.defaultimpl.WhiteUserCacheUtil;
 import cn.whitetown.dogbase.common.memdata.SingleWhiteExpireMap;
 import com.google.code.kaptcha.Producer;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +18,7 @@ import java.awt.image.BufferedImage;
 public class KapCaptchaDataDeal implements CaptchaDataDeal {
 
     @Autowired
-    private SingleWhiteExpireMap singleWhiteExpireMap;
+    private WhiteUserCacheUtil userCacheUtil;
 
     @Autowired
     private Producer producer;
@@ -39,7 +40,7 @@ public class KapCaptchaDataDeal implements CaptchaDataDeal {
      */
     @Override
     public void saveCaptcha(String sessionId, String captchaText) {
-        singleWhiteExpireMap.put(sessionId+"captcha",captchaText,180000);
+        userCacheUtil.saveCaptcha(sessionId,captchaText);
     }
 
     /**
@@ -49,7 +50,7 @@ public class KapCaptchaDataDeal implements CaptchaDataDeal {
      */
     @Override
     public String getCaptcha(String sessionId) {
-        return (String) singleWhiteExpireMap.get(sessionId+"captcha");
+        return userCacheUtil.getCaptcha(sessionId);
     }
 
     /**

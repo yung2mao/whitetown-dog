@@ -20,34 +20,37 @@ public class WhiteUserCacheUtil implements UserCacheUtil {
         this.expireMap = expireMap;
     }
 
-    /**
-     * 保存用户信息到内存中
-     * @param key
-     * @param info
-     * @return
-     */
     @Override
     public LoginUser saveLoginUser(String key, LoginUser info){
-        return (LoginUser) expireMap.putS(key,info, AuthConstant.USER_SAVE_TIME);
+        Object o = expireMap.putS(key, info, AuthConstant.USER_SAVE_TIME);
+        return this.returnLoginUser(o);
     }
 
-    /**
-     * 从内存中获取user
-     * @param key
-     * @return
-     */
     @Override
     public LoginUser getLoginUser(String key) {
-        return (LoginUser) expireMap.get(key);
+        Object o = expireMap.get(key);
+        return this.returnLoginUser(o);
     }
 
-    /**
-     * 从内存中移除登录用户的信息
-     * @param key
-     * @return
-     */
     @Override
     public LoginUser removeLoginUser(String key){
-        return (LoginUser) expireMap.remove(key);
+        Object o = expireMap.remove(key);
+        return this.returnLoginUser(o);
+    }
+
+    @Override
+    public String saveCaptcha(String sessionId, String captchaText) {
+        Object o = expireMap.putS(sessionId, captchaText, AuthConstant.CAPTCHA_EXPIRE_TIME);
+        return !(o instanceof String) ? null : String.class.cast(o);
+    }
+
+    @Override
+    public String getCaptcha(String sessionId) {
+        Object o = expireMap.get(sessionId);
+        return !(o instanceof String) ? null : String.class.cast(o);
+    }
+
+    private LoginUser returnLoginUser(Object o) {
+        return !(o instanceof LoginUser) ? null :LoginUser.class.cast(o);
     }
 }

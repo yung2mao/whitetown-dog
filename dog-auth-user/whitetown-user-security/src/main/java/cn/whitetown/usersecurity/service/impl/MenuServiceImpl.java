@@ -77,12 +77,12 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
      */
     @Override
     public MenuTree queryActiveMenuByUserId(Long userId, Long menuId, Integer lowLevel) {
-        List<MenuInfo> menuInfos = menuCacheUtil.getMenuList(userId,menuId,lowLevel);
+        List<MenuInfo> menuInfos = menuCacheUtil.getCacheMenuList(userId,menuId,lowLevel);
         if(menuInfos.size() == 0) {
             menuInfos = menuInfoMapper.selectActiveMenuByUserId(DogBaseConstant.ACTIVE_NORMAL, userId,
                     AuthConstant.ROOT_MENU_ID, AuthConstant.LOWEST_MENU_LEVEL);
-            menuCacheUtil.saveMenuList(userId,menuInfos);
-            menuInfos = menuCacheUtil.getMenuList(userId,menuId,lowLevel);
+            menuCacheUtil.saveCacheMenuList(userId,menuInfos);
+            menuInfos = menuCacheUtil.getCacheMenuList(userId,menuId,lowLevel);
         }
         if(menuInfos.size() == 0){
             return new MenuTree();

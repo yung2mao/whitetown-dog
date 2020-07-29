@@ -47,7 +47,6 @@ public class WhiteSecurityConfigureManager implements SpringSecurityConfigureMan
     /**
      * 执行资源和权限配置方法
      */
-    @PostConstruct
     @Override
     public void authHandle() {
         RequestMappingHandlerMapping mappingBean = applicationContext.getBean(RequestMappingHandlerMapping.class);
@@ -61,7 +60,6 @@ public class WhiteSecurityConfigureManager implements SpringSecurityConfigureMan
                 type = authAnnotation.type();
                 authors = authAnnotation.value();
                 WhiteUriAuthManager whiteUriAuthManager = AuthHandleEnum.authManager(type);
-                System.out.println(paths[0] + "," +type + "," + authors[0]);
                 if (whiteUriAuthManager != null) {
                     whiteUriAuthManager.configurePathAuth(paths, authors);
                     Arrays.stream(paths).forEach(path->pathAuthMap.put(path,whiteUriAuthManager));

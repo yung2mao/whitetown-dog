@@ -29,4 +29,19 @@ public interface UserCacheUtil {
      * @return
      */
     LoginUser removeLoginUser(String key);
+
+    /**
+     * 验证码信息缓存
+     * @param sessionId
+     * @param captcha
+     * @return
+     */
+    String saveCaptcha(String sessionId,String captcha);
+
+    /**
+     * 从缓存获取验证码获取
+     * @param sessionId
+     * @return
+     */
+    String getCaptcha(String sessionId);
 }

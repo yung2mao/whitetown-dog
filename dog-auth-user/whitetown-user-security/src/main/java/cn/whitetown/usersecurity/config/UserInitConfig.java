@@ -22,15 +22,6 @@ import org.springframework.context.annotation.Configuration;
  **/
 @Configuration
 public class UserInitConfig {
-    /**
-     * token密钥
-     */
-    private String tokenSecret = AuthConstant.TOKEN_SECRET;
-    /**
-     * token过期时间为7天 - 7天内免登录
-     */
-    private long tokenExpire = AuthConstant.TOKEN_EXPIRE;
-
 
     /**
      * 初始化验证码操作类
@@ -47,7 +38,10 @@ public class UserInitConfig {
      */
     @Bean
     public JwtTokenUtil jwtTokenUtil(){
-        return new WhiteJwtTokenUtil(tokenSecret,tokenExpire);
+        return new WhiteJwtTokenUtil(AuthConstant.TOKEN_SECRET,
+                AuthConstant.TOKEN_EXPIRE,
+                AuthConstant.TOKEN_PREFIX,
+                AuthConstant.HEADER_STRING);
     }
 
     /**

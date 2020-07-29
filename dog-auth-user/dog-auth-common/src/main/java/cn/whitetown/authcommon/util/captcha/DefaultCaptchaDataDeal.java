@@ -1,5 +1,6 @@
 package cn.whitetown.authcommon.util.captcha;
 
+import cn.whitetown.authcommon.util.UserCacheUtil;
 import cn.whitetown.dogbase.common.memdata.WhiteExpireMap;
 import cn.whitetown.authcommon.constant.AuthConstant;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +42,7 @@ public class DefaultCaptchaDataDeal implements CaptchaDataDeal {
     private char[] defaultArr;
 
     @Autowired
-    private WhiteExpireMap expireMap;
+    private UserCacheUtil userCacheUtil;
 
     public DefaultCaptchaDataDeal(CaptchaBasicInfo basicInfo) {
         this.length = basicInfo.getLength();
@@ -102,13 +103,13 @@ public class DefaultCaptchaDataDeal implements CaptchaDataDeal {
     }
 
     /**
-     * 验证码临时存储
+     * 验证码缓存
      * @param sessionId
      * @param captchaText
      */
     @Override
     public void saveCaptcha(String sessionId, String captchaText) {
-        expireMap.putS(sessionId, captchaText,AuthConstant.CAPTCHA_EXPIRE_TIME);
+        userCacheUtil.saveCaptcha(sessionId,captchaText);
     }
 
     /**
@@ -118,7 +119,7 @@ public class DefaultCaptchaDataDeal implements CaptchaDataDeal {
      */
     @Override
     public String getCaptcha(String sessionId) {
-        return (String) expireMap.get(sessionId);
+        return userCacheUtil.getCaptcha(sessionId);
     }
 
 }

@@ -28,36 +28,13 @@ public interface MenuCacheUtil {
     void reset();
 
     /**
-     * 保存菜单树信息到内存中
-     * key为id
-     * @param id
-     * @param menuTree
-     * @return
-     */
-    MenuTree saveCacheMenu(Long id,MenuTree menuTree);
-
-    /**
-     * 通过id获取内存中存储的对应菜单树
-     * @param id
-     * @return
-     */
-    MenuTree getCacheMenu(Long id);
-
-    /**
-     * 移除roleId对应的MenuTree
-     * @param id
-     * @return
-     */
-    MenuTree removeCacheMenu(Long id);
-
-    /**
      * 保存key对应的MenuList
      * 包括活跃的和停用的
      * @param key
      * @param menuInfos
      * @return
      */
-    List<MenuInfo> saveMenuList(Long key,List<MenuInfo> menuInfos);
+    List<MenuInfo> saveCacheMenuList(Long key, List<MenuInfo> menuInfos);
 
     /**
      * 获取保存的MenuList
@@ -65,7 +42,7 @@ public interface MenuCacheUtil {
      * @param key
      * @return
      */
-    List<MenuInfo> getMenuList(Long key);
+    List<MenuInfo> getCacheMenuList(Long key);
 
     /**
      * 获取活跃状态的menuList
@@ -75,12 +52,12 @@ public interface MenuCacheUtil {
      * @param lowLevel
      * @return
      */
-    List<MenuInfo> getMenuList(Long key, Long menuId, Integer lowLevel);
+    List<MenuInfo> getCacheMenuList(Long key, Long menuId, Integer lowLevel);
 
     /**
      * 移除key对应的MenuList
      * @param
      * @return
      */
-    List<MenuInfo> removeMenuList(Long key);
+    List<MenuInfo> removeCacheMenuList(Long key);
 }
