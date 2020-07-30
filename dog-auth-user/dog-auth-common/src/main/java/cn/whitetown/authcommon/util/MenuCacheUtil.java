@@ -2,6 +2,7 @@ package cn.whitetown.authcommon.util;
 
 import cn.whitetown.authcommon.entity.po.MenuInfo;
 import cn.whitetown.authcommon.entity.dto.MenuTree;
+import cn.whitetown.dogbase.common.memdata.WhiteCacheBase;
 
 import java.util.List;
 
@@ -10,17 +11,7 @@ import java.util.List;
  * @author GrainRain
  * @date 2020/07/07 22:05
  **/
-public interface MenuCacheUtil {
-
-    /**
-     * 初始化菜单操作
-     */
-    void init();
-
-    /**
-     * 销毁时操作
-     */
-    void destroy();
+public interface MenuCacheUtil extends WhiteCacheBase {
 
     /**
      * 菜单数据重置

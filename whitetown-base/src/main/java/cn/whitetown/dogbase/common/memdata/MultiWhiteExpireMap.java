@@ -29,7 +29,7 @@ public class MultiWhiteExpireMap<K,V> implements WhiteExpireMap<K,V> {
     public MultiWhiteExpireMap() {
         this.initCapacity = DEFAULT_CAPACITY;
         expireMaps = new SingleWhiteExpireMap[DEFAULT_CAPACITY];
-        this.initExpireMap();
+        this.init();
     }
 
    /**
@@ -51,16 +51,20 @@ public class MultiWhiteExpireMap<K,V> implements WhiteExpireMap<K,V> {
 
         this.initCapacity = initialCapacity;
         expireMaps = new SingleWhiteExpireMap[initialCapacity];
-        this.initExpireMap();
+        this.init();
     }
 
-    /**
-     * 初始化ExpireMap
-     */
-    private void initExpireMap(){
+
+    @Override
+    public void init() {
         for (int i = 0; i < expireMaps.length; i++) {
             expireMaps[i] = new SingleWhiteExpireMap<>();
         }
+    }
+
+    @Override
+    public void destroy() {
+        Arrays.stream(expireMaps).forEach(map->map.clean());
     }
 
     @Override
@@ -133,7 +137,7 @@ public class MultiWhiteExpireMap<K,V> implements WhiteExpireMap<K,V> {
      * @param key
      * @return
      */
-    protected int getIndex(K key){
+    private int getIndex(K key){
         int hashCode = key.hashCode();
         return hashCode & Integer.MAX_VALUE & (initCapacity-1);
     }

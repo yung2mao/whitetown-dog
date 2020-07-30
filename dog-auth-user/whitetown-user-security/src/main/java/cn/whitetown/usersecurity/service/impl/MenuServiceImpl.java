@@ -14,6 +14,7 @@ import cn.whitetown.authcommon.entity.dto.MenuTree;
 import cn.whitetown.dogbase.common.util.DataCheckUtil;
 import cn.whitetown.dogbase.db.factory.BeanTransFactory;
 import cn.whitetown.dogbase.db.factory.QueryConditionFactory;
+import cn.whitetown.usersecurity.manager.MenuInfoManager;
 import cn.whitetown.usersecurity.manager.RoleManager;
 import cn.whitetown.usersecurity.mappers.MenuInfoMapper;
 import cn.whitetown.usersecurity.service.MenuService;
@@ -36,6 +37,9 @@ import java.util.*;
 public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implements MenuService {
     @Resource
     private MenuInfoMapper menuInfoMapper;
+
+    @Autowired
+    private MenuInfoManager menuInfoManager;
 
     @Autowired
     private RoleManager roleManager;
@@ -79,7 +83,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
     public MenuTree queryActiveMenuByUserId(Long userId, Long menuId, Integer lowLevel) {
         List<MenuInfo> menuInfos = menuCacheUtil.getCacheMenuList(userId,menuId,lowLevel);
         if(menuInfos.size() == 0) {
-            menuInfos = menuInfoMapper.selectActiveMenuByUserId(DogBaseConstant.ACTIVE_NORMAL, userId,
+            menuInfos = menuInfoManager.queryActiveMenuByUserId(userId,
                     AuthConstant.ROOT_MENU_ID, AuthConstant.LOWEST_MENU_LEVEL);
             menuCacheUtil.saveCacheMenuList(userId,menuInfos);
             menuInfos = menuCacheUtil.getCacheMenuList(userId,menuId,lowLevel);

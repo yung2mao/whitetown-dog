@@ -82,7 +82,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     /**
-     * 指定UserDetail
+     * 指定UserDetailService
      * @param auth
      * @throws Exception
      */

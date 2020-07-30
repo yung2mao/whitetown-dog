@@ -5,7 +5,7 @@ package cn.whitetown.dogbase.common.memdata;
  * @author GrainRain
  * @date 2020/06/21 15:23
  **/
-public interface WhiteExpireMap<K,V> {
+public interface WhiteExpireMap<K,V> extends WhiteCacheBase{
     /**
      * put and don't set expiration time
      * @param key

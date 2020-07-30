@@ -1,5 +1,6 @@
 package cn.whitetown.authea.service;
 
+import cn.whitetown.authea.modo.WhiteSecurityUser;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
@@ -11,10 +12,10 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 public interface WhiteUserDetailService extends UserDetailsService {
 
     /**
-     * 获取UserDetail - 仅包含基本角色信息和用户密码信息
+     * 获取基础UserDetail,不含角色权限信息
      * @param username
      * @return
      */
-    UserDetails getBasicUserDetail(String username);
+    UserDetails loadBasicUserDetails(String username);
 
 }

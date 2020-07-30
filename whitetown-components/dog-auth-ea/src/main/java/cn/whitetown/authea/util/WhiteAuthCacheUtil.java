@@ -3,11 +3,11 @@ package cn.whitetown.authea.util;
 
 import cn.whitetown.authea.modo.AuthConstants;
 import cn.whitetown.dogbase.common.memdata.WhiteExpireMap;
-import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 用户权限涉及信息的缓存工具类
@@ -18,6 +18,12 @@ public class WhiteAuthCacheUtil implements AuthCacheUtil {
 
     @Autowired
     private WhiteExpireMap expireMap;
+
+    private Set<String> userSet;
+
+    {
+        userSet = new HashSet<>();
+    }
 
     @Override
     public UserDetails saveUserDetail(String username, UserDetails userDetails){
@@ -40,23 +46,47 @@ public class WhiteAuthCacheUtil implements AuthCacheUtil {
     }
 
     @Override
-    public HashSet<String> saveUserAuthors(String username, HashSet<String> authors) {
-        HashSet<String> authorSet = (HashSet<String>)expireMap.putS(AuthConstants.USER_AUTHORS_PREFIX+username,
-                authors,
-                AuthConstants.USER_SAVE_TIME);
+    public Set<String> saveUserAuthors(String username, Set<String> authors) {
+        HashSet<String> authorSet = null;
+        try {
+           authorSet = (HashSet<String>) expireMap.putS(AuthConstants.USER_AUTHORS_PREFIX + username,
+                    authors,
+                    AuthConstants.USER_SAVE_TIME);
+           userSet.add(username);
+        }catch (Exception e) {
+            return new HashSet<>();
+        }
         return authorSet == null ? new HashSet<>() : authorSet;
     }
 
     @Override
-    public HashSet<String> getUserAuthors(String username) {
-        HashSet<String> authorSet =  (HashSet<String>) expireMap.get(AuthConstants.USER_AUTHORS_PREFIX+username);
+    public Set<String> getUserAuthors(String username) {
+        HashSet<String> authorSet = null;
+        try {
+            authorSet = (HashSet<String>) expireMap.get(AuthConstants.USER_AUTHORS_PREFIX + username);
+        }catch (Exception e) {
+            return new HashSet<>();
+        }
         return authorSet == null ? new HashSet<>() : authorSet;
     }
 
     @Override
-    public HashSet<String> removeUserAuthors(String username) {
-        HashSet<String> authorSet = (HashSet<String>) expireMap.remove(AuthConstants.USER_AUTHORS_PREFIX+username);
+    public Set<String> removeUserAuthors(String username) {
+        HashSet<String> authorSet = null;
+        try {
+            authorSet = (HashSet<String>) expireMap.remove(AuthConstants.USER_AUTHORS_PREFIX + username);
+        }catch (Exception e) {
+            return new HashSet<>();
+        }
         return authorSet == null ? new HashSet<>() : authorSet;
+    }
+
+    @Override
+    public void clearAllUsersAuthors() {
+        for(String username : userSet) {
+            this.removeUserAuthors(username);
+        }
+        userSet.clear();
     }
 
     private UserDetails castUserDetails(Object o) {

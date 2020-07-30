@@ -3,6 +3,7 @@ package cn.whitetown.authea.util;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 后端权限管理-缓存工具类
@@ -39,19 +40,24 @@ public interface AuthCacheUtil {
      * @param authors
      * @return
      */
-    HashSet<String> saveUserAuthors(String key, HashSet<String> authors);
+    Set<String> saveUserAuthors(String key, Set<String> authors);
 
     /**
      * 获取用户访问后端接口所有权限列表
      * @param key
      * @return
      */
-    HashSet<String> getUserAuthors(String key);
+    Set<String> getUserAuthors(String key);
 
     /**
-     * 移除访问后端接口所有权限列表
+     * 移除用户访问后端接口所有权限列表
      * @param key
      * @return
      */
-    HashSet<String> removeUserAuthors(String key);
+    Set<String> removeUserAuthors(String key);
+
+    /**
+     * 清空所有用户包含的所有权限列表
+     */
+    void clearAllUsersAuthors();
 }

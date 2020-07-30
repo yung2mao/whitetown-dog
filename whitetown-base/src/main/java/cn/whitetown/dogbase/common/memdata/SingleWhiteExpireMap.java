@@ -18,6 +18,17 @@ public class SingleWhiteExpireMap<K,V> implements WhiteExpireMap<K,V>{
     }
 
     @Override
+    public void init() {
+
+    }
+
+    @Override
+    public void destroy() {
+        expireKeyMap.clear();
+        valueMap.clear();
+    }
+
+    @Override
     public V put(K key, V value){
         return valueMap.put(key,value);
     }

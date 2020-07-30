@@ -16,8 +16,12 @@ import java.util.ArrayList;
  **/
 public class WhiteUserDetailDemo implements WhiteUserDetailService {
     @Override
-    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
-        String username = "admin";
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        return loadBasicUserDetails(username);
+    }
+
+    @Override
+    public UserDetails loadBasicUserDetails(String username) {
         String password = "123456";
         return new User(username, WhiteToolUtil.md5Hex(password),new ArrayList<>());
     }
