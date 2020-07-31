@@ -69,20 +69,12 @@ public class WhiteSecurityConfigureManager implements SpringSecurityConfigureMan
         this.taskOver();
     }
 
-    /**
-     * 获取资源所需权限信息
-     * @param path
-     * @return
-     */
     @Override
     public String[] getAuthorsByPath(String path) {
         WhiteUriAuthManager whiteUriAuthManager = pathAuthMap.get(path);
         return whiteUriAuthManager == null ? new String[0] : whiteUriAuthManager.getPathAuthors(path);
     }
 
-    /**
-     * 任务结束调用
-     */
     @Override
     public void taskOver(){
         basicAuthMap.clear();

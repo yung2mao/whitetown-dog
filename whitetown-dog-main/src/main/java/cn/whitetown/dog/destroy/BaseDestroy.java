@@ -31,9 +31,13 @@ public class BaseDestroy implements DisposableBean {
 
     @Override
     public void destroy() throws Exception {
+        this.cacheDataDestroy();
+        logger.warn("the application is closed, destroy task end");
+    }
+
+    public void cacheDataDestroy() {
         expireMap.destroy();
         menuCacheUtil.destroy();
         whiteAuthUserCache.clearAllUsersAuthors();
-        logger.warn("the application is closed, destroy task end");
     }
 }

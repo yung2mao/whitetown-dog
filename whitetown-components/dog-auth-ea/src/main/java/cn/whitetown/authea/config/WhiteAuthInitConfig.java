@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.HashMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author taixian
@@ -33,7 +34,8 @@ public class WhiteAuthInitConfig {
      */
     @Bean
     public SpringSecurityConfigureManager springSecurityConfigureManager() {
-        return new WhiteSecurityConfigureManager(new HashMap<>(16),new HashMap<>(16));
+        return new WhiteSecurityConfigureManager(new HashMap<>(16),
+                new HashMap<>(16));
     }
 
     /**
