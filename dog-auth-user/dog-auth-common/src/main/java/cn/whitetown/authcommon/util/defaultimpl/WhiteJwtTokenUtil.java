@@ -2,6 +2,8 @@ package cn.whitetown.authcommon.util.defaultimpl;
 
 import cn.whitetown.authcommon.constant.AuthConstant;
 import cn.whitetown.authcommon.util.JwtTokenUtil;
+import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
+import cn.whitetown.dogbase.common.exception.CustomException;
 import cn.whitetown.dogbase.common.util.WebUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -98,7 +100,11 @@ public class WhiteJwtTokenUtil implements JwtTokenUtil {
                     .getBody();
         }catch (ExpiredJwtException expiredException) {
             logger.warn(expiredException.getMessage());
-        }catch (Exception e) {}
+            throw new CustomException(ResponseStatusEnum.TOKEN_EXPIRED);
+        }catch (Exception e) {
+            logger.warn(e.getMessage());
+            throw new CustomException(ResponseStatusEnum.TOKEN_ERROR);
+        }
         return body == null ? new DefaultClaims(new HashMap<>(0)) : body;
     }
     @Override

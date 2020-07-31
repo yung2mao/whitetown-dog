@@ -6,6 +6,8 @@ import cn.whitetown.authcommon.entity.dto.DeptInfoDto;
 import cn.whitetown.authcommon.entity.dto.DeptInfoTree;
 import cn.whitetown.authcommon.entity.dto.DeptSimpleTree;
 import cn.whitetown.authcommon.entity.po.DeptInfo;
+import cn.whitetown.authea.annotation.WhiteAuthAnnotation;
+import cn.whitetown.authea.modo.WhiteControlType;
 import cn.whitetown.dogbase.common.entity.dto.ResponseData;
 import cn.whitetown.dogbase.common.entity.dto.ResponsePage;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
@@ -30,6 +32,7 @@ import javax.validation.constraints.NotNull;
 @RestController
 @RequestMapping("/dept")
 @Validated
+@WhiteAuthAnnotation(type = WhiteControlType.HAS_ANY_AUTHORITY,value = "auth_dept")
 public class DeptController {
     @Autowired
     private DeptService deptService;
@@ -73,6 +76,7 @@ public class DeptController {
      * @param deptInfo
      * @return
      */
+    @WhiteAuthAnnotation(type = WhiteControlType.HAS_AUTHORITY,value = "dept_add_button")
     @PostMapping(value = "/add",produces = "application/json;charset=UTF-8")
     public ResponseData addDeptInfo(@RequestBody @Valid DeptInfo deptInfo){
         deptService.addDeptInfo(deptInfo);

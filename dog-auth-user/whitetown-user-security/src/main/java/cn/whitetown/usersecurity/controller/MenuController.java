@@ -3,6 +3,8 @@ package cn.whitetown.usersecurity.controller;
 import cn.whitetown.authcommon.entity.ao.MenuInfoAo;
 import cn.whitetown.authcommon.entity.ao.RoleMenuConfigure;
 import cn.whitetown.authcommon.util.JwtTokenUtil;
+import cn.whitetown.authea.annotation.WhiteAuthAnnotation;
+import cn.whitetown.authea.modo.WhiteControlType;
 import cn.whitetown.dogbase.common.entity.dto.ResponseData;
 import cn.whitetown.authcommon.entity.dto.MenuTree;
 import cn.whitetown.usersecurity.service.MenuService;
@@ -22,6 +24,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/menu")
 @Validated
+@WhiteAuthAnnotation(type = WhiteControlType.HAS_AUTHORITY,value = "auth_menu")
 public class MenuController {
 
     @Autowired

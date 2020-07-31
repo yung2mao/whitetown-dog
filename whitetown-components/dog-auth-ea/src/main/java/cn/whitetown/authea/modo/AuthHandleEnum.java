@@ -46,14 +46,14 @@ public enum AuthHandleEnum {
     /**
      * 类别
      */
-    private String type;
+    private String name;
     /**
      * 指定管理类
      */
     private WhiteUriAuthManager authManager;
 
-    AuthHandleEnum(String type,WhiteUriAuthManager authManager) {
-        this.type = type;
+    AuthHandleEnum(String name, WhiteUriAuthManager authManager) {
+        this.name = name;
         this.authManager = authManager;
     }
 

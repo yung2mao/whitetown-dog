@@ -4,6 +4,10 @@ import cn.whitetown.authcommon.entity.dto.LoginUser;
 import cn.whitetown.authcommon.util.UserCacheUtil;
 import cn.whitetown.authea.util.WhiteAuthCacheUtil;
 import cn.whitetown.usersecurity.util.AuthUserCacheUtil;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+
+import java.util.logging.Logger;
 
 /**
  * 用户模块缓存工具
@@ -11,6 +15,8 @@ import cn.whitetown.usersecurity.util.AuthUserCacheUtil;
  * @date 2020/07/27
  **/
 public class WhiteAuthUserCache extends WhiteAuthCacheUtil implements AuthUserCacheUtil {
+
+    private Log log = LogFactory.getLog(WhiteAuthUserCache.class);
 
     private UserCacheUtil userCacheUtil;
 
@@ -23,10 +29,11 @@ public class WhiteAuthUserCache extends WhiteAuthCacheUtil implements AuthUserCa
 
 
     @Override
-    public void removeAllInfo(String key) {
+    public void removeAllUserCacheInfo(String key) {
         userCacheUtil.removeLoginUser(key);
         this.removeUserDetails(key);
         this.removeUserAuthors(key);
+        log.warn("the user [" + key + "], cache info is clear");
     }
 
     @Override

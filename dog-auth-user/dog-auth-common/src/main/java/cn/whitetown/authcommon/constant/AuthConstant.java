@@ -17,7 +17,7 @@ public class AuthConstant {
     /**
      * 登录后用户信息存储时长
      */
-    public static final int USER_SAVE_TIME = 1800;
+    public static final int USER_SAVE_TIME = 900;
     /**
      * 初始密码
      */

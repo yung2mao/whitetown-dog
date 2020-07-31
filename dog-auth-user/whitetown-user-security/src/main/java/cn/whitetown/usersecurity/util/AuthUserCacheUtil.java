@@ -13,5 +13,5 @@ public interface AuthUserCacheUtil extends UserCacheUtil, AuthCacheUtil {
      * 移除缓存中所有用户权限相关信息
      * @param key
      */
-    void removeAllInfo(String key);
+    void removeAllUserCacheInfo(String key);
 }

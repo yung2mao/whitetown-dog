@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
 import java.util.List;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.stream.Collectors;
 
@@ -35,7 +36,7 @@ public class DefaultMenuCacheUtil implements MenuCacheUtil {
 
     @Override
     public void init() {
-        menuCacheMetaSet = new CopyOnWriteArraySet<>();
+        menuCacheMetaSet = ConcurrentHashMap.newKeySet();
     }
 
     @Override

@@ -3,10 +3,14 @@ package cn.whitetown.usersecurity.controller;
 import cn.whitetown.authcommon.entity.ao.RoleQuery;
 import cn.whitetown.authcommon.entity.ao.UserRoleConfigure;
 import cn.whitetown.authcommon.entity.dto.RoleInfoDto;
+import cn.whitetown.authcommon.util.MenuCacheUtil;
+import cn.whitetown.authea.annotation.WhiteAuthAnnotation;
+import cn.whitetown.authea.modo.WhiteControlType;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.entity.dto.ResponseData;
 import cn.whitetown.dogbase.common.exception.CustomException;
 import cn.whitetown.usersecurity.service.RoleManageService;
+import cn.whitetown.usersecurity.util.AuthUserCacheUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +30,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/role")
 @Validated
+@WhiteAuthAnnotation(type = WhiteControlType.HAS_AUTHORITY,value = "auth_role")
 public class RoleManageController {
 
     @Autowired

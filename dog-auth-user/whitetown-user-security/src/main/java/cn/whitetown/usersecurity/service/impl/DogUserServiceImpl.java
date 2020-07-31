@@ -1,10 +1,8 @@
 package cn.whitetown.usersecurity.service.impl;
 
-import cn.whitetown.authcommon.entity.po.UserRole;
 import cn.whitetown.authcommon.util.JwtTokenUtil;
 import cn.whitetown.authcommon.util.captcha.CaptchaDataDeal;
 import cn.whitetown.authcommon.util.defaultimpl.WhiteJwtTokenUtil;
-import cn.whitetown.authea.modo.WhiteSecurityUser;
 import cn.whitetown.authea.util.AuthCacheUtil;
 import cn.whitetown.dogbase.common.constant.DogBaseConstant;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
@@ -21,9 +19,6 @@ import cn.whitetown.usersecurity.util.AuthUserCacheUtil;
 import cn.whitetown.usersecurity.util.LoginUserUtil;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -102,10 +97,6 @@ public class DogUserServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserBasi
         map.put(WhiteJwtTokenUtil.USER_VERSION,user.getUserVersion());
         String token = jwtTokenUtil.createTokenByParams(map);
 
-        //userDetail cache
-        UserDetails userDetails = new WhiteSecurityUser(user.getUsername(),user.getPassword(),new ArrayList<>());
-        authCacheUtil.saveUserDetail(userDetails.getUsername(),
-                userDetails);
         return token;
     }
 
@@ -138,7 +129,7 @@ public class DogUserServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserBasi
         if(username==null){
             return;
         }
-        userCacheUtil.removeAllInfo(username);
+        userCacheUtil.removeAllUserCacheInfo(username);
         //version update
         userMapper.updateUserVersionByUsername(username);
     }

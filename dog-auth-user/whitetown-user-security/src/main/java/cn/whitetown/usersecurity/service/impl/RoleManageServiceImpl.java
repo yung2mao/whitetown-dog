@@ -7,6 +7,7 @@ import cn.whitetown.authcommon.entity.po.UserBasicInfo;
 import cn.whitetown.authcommon.entity.po.UserRole;
 import cn.whitetown.authcommon.entity.dto.RoleInfoDto;
 import cn.whitetown.authcommon.util.JwtTokenUtil;
+import cn.whitetown.authcommon.util.MenuCacheUtil;
 import cn.whitetown.authea.util.AuthCacheUtil;
 import cn.whitetown.dogbase.common.constant.DogBaseConstant;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
@@ -19,6 +20,7 @@ import cn.whitetown.usersecurity.manager.UserManager;
 import cn.whitetown.usersecurity.mappers.RoleInfoMapper;
 import cn.whitetown.usersecurity.mappers.UserRoleRelationMapper;
 import cn.whitetown.usersecurity.service.RoleManageService;
+import cn.whitetown.usersecurity.util.AuthUserCacheUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -51,7 +53,10 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
     private UserManager userManager;
 
     @Autowired
-    private AuthCacheUtil authCacheUtil;
+    private AuthUserCacheUtil authUserCacheUtil;
+
+    @Autowired
+    private MenuCacheUtil menuCacheUtil;
 
     @Autowired
     private RoleManager roleManager;
@@ -65,10 +70,6 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
     @Autowired
     private QueryConditionFactory queryConditionFactory;
 
-    /**
-     * 查询所有角色信息
-     * @return
-     */
     @Override
     public List<RoleInfoDto> queryAllRoles() {
         //condition
@@ -81,11 +82,6 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
         return this.roleInfo2Vo(roleList);
     }
 
-    /**
-     * 查询指定用户的全部角色信息
-     * @param username
-     * @return
-     */
     @Override
     public List<RoleInfoDto> queryRolesByUsername(String username) {
         UserBasicInfo userBasicInfo = userManager.getUserByUsername(username);
@@ -113,10 +109,6 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
         return this.roleInfo2Vo(userRoles);
     }
 
-    /**
-     * 添加角色
-     * @param role
-     */
     @Override
     public void addRole(RoleInfoDto role){
         LambdaQueryWrapper<UserRole> queryWrapper = new LambdaQueryWrapper<>();
@@ -140,8 +132,7 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
     }
 
     /**
-     * 角色信息更新
-     * 角色名称禁止变更
+     * 角色更新 - name禁止更新
      * @param role
      */
     @Override
@@ -165,11 +156,6 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
         this.updateById(oldRole);
     }
 
-    /**
-     * 角色状态变更
-     * @param roleId
-     * @param roleStatus
-     */
     @Transactional(rollbackFor = Throwable.class)
     @Override
     public void updateRoleStatus(Long roleId, Integer roleStatus) {
@@ -186,13 +172,11 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
             //角色删除，对应关联关系一并删除
             userRoleRelationMapper.removeRoleRelation(roleId);
         }
+        authUserCacheUtil.clearAllUsersAuthors();
+        menuCacheUtil.reset();
+
     }
 
-    /**
-     * 用户角色分配
-     * 用户角色信息变更后将被强制下线
-     * @param roleConfigure
-     */
     @Transactional(rollbackFor = Throwable.class)
     @Override
     public void updateUserRoleRelation(UserRoleConfigure roleConfigure) {
@@ -202,7 +186,8 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
         }
         List<Long> roleIds = Arrays.asList(roleConfigure.getRoleIds());
         userRoleRelationMapper.updateUserRoleRelation(userBasicInfo.getUserId(),roleIds);
-        authCacheUtil.removeUserDetails(roleConfigure.getUsername());
+        menuCacheUtil.removeCacheMenuList(userBasicInfo.getUserId());
+        authUserCacheUtil.removeAllUserCacheInfo(userBasicInfo.getUsername());
     }
 
     /**

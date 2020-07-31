@@ -21,11 +21,11 @@ public abstract class TokenCheckManager extends OncePerRequestFilter {
      * @param response
      * @return
      */
-    public abstract boolean shouldFilter(HttpServletRequest request, HttpServletResponse response) throws IOException;
+    public abstract boolean shouldRelease(HttpServletRequest request, HttpServletResponse response);
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        boolean isRelease = this.shouldFilter(request,response);
+        boolean isRelease = this.shouldRelease(request,response);
         if(isRelease) {
             filterChain.doFilter(request, response);
             this.afterFilter(request,response);

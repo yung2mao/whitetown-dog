@@ -3,6 +3,7 @@ package cn.whitetown.usersecurity.controller;
 import cn.whitetown.authcommon.constant.AuthConstant;
 import cn.whitetown.authcommon.util.captcha.CaptchaDataDeal;
 import cn.whitetown.authea.annotation.WhiteAuthAnnotation;
+import cn.whitetown.authea.modo.AuthConstants;
 import cn.whitetown.authea.modo.WhiteControlType;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.entity.dto.ResponseData;

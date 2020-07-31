@@ -3,6 +3,8 @@ package cn.whitetown.usersecurity.controller;
 import cn.whitetown.authcommon.constant.AuthConstant;
 import cn.whitetown.authcommon.entity.ao.RoleUserQuery;
 import cn.whitetown.authcommon.util.JwtTokenUtil;
+import cn.whitetown.authea.annotation.WhiteAuthAnnotation;
+import cn.whitetown.authea.modo.WhiteControlType;
 import cn.whitetown.dogbase.common.entity.dto.ResponseData;
 import cn.whitetown.dogbase.common.entity.dto.ResponsePage;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
@@ -32,6 +34,7 @@ import javax.validation.constraints.NotNull;
 @RestController
 @RequestMapping("/user")
 @Validated
+@WhiteAuthAnnotation(type = WhiteControlType.HAS_AUTHORITY,value = "auth_user")
 public class UserManageController {
 
     @Autowired

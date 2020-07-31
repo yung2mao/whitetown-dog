@@ -3,6 +3,8 @@ package cn.whitetown.usersecurity.controller;
 import cn.whitetown.authcommon.entity.ao.PositionQuery;
 import cn.whitetown.authcommon.entity.dto.PositionDto;
 import cn.whitetown.authcommon.entity.po.PositionInfo;
+import cn.whitetown.authea.annotation.WhiteAuthAnnotation;
+import cn.whitetown.authea.modo.WhiteControlType;
 import cn.whitetown.dogbase.common.constant.DogBaseConstant;
 import cn.whitetown.dogbase.common.entity.dto.ResponseData;
 import cn.whitetown.dogbase.common.entity.dto.ResponsePage;
@@ -22,6 +24,7 @@ import java.util.List;
  **/
 @RestController
 @RequestMapping("/position")
+@WhiteAuthAnnotation(type = WhiteControlType.HAS_AUTHORITY,value = "position_manager")
 public class PositionController {
 
     @Autowired

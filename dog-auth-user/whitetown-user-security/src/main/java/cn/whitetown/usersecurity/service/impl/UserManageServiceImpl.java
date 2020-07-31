@@ -7,6 +7,7 @@ import cn.whitetown.authcommon.entity.po.UserRole;
 import cn.whitetown.authcommon.entity.po.UserRoleRelation;
 import cn.whitetown.authcommon.constant.AuthConstant;
 import cn.whitetown.authcommon.util.JwtTokenUtil;
+import cn.whitetown.authcommon.util.MenuCacheUtil;
 import cn.whitetown.authcommon.util.defaultimpl.WhiteJwtTokenUtil;
 import cn.whitetown.dogbase.common.constant.DogBaseConstant;
 import cn.whitetown.dogbase.common.entity.dto.ResponsePage;
@@ -67,6 +68,9 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
     private AuthUserCacheUtil userCacheUtil;
 
     @Autowired
+    private MenuCacheUtil menuCacheUtil;
+
+    @Autowired
     private RoleManager roleManager;
 
     @Autowired
@@ -84,13 +88,6 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
     @Autowired
     private BeanTransFactory transFactory;
 
-    /**
-     * 添加用户基础信息
-     * 可用于注册操作或分配用户操作
-     * @param username
-     * @param password
-     * @param roleName
-     */
     @Transactional(rollbackFor = Throwable.class)
     @Override
     public void addUserBasicInfo(String username, String password, String roleName) {
@@ -125,11 +122,6 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
         userRoleRelationMapper.insert(userRoleRelation);
     }
 
-    /**
-     * 根据条件进行分页查询用户基本信息
-     * @param userQuery
-     * @return
-     */
     @Override
     public ResponsePage<UserBasicInfoDto> queryUserBasicList(UserBasicQuery userQuery) {
         //粗粒度条件简单匹配 - 此处仅提供手机号或用户名
@@ -167,11 +159,6 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
                 userVos);
     }
 
-    /**
-     * 基于角色ID查询用户分页数据
-     * @param roleUserQuery
-     * @return
-     */
     @Override
     public ResponsePage<UserBasicInfoDto> queryUserByRoleId(RoleUserQuery roleUserQuery) {
         List<UserBasicInfo> users = userRoleRelationMapper.selectAllUserByRoleId(roleUserQuery.getRoleId());
@@ -181,10 +168,6 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
         return WhiteToolUtil.result2Page(userVos,roleUserQuery.getPage(),roleUserQuery.getSize());
     }
 
-    /**
-     * 用户信息更新
-     * @param userInfo
-     */
     @Transactional(rollbackFor = Throwable.class)
     @Override
     public void updateUser(UserBasicInfo userInfo) {
@@ -252,10 +235,6 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
         userCacheUtil.removeLoginUser(userInfo.getUsername());
     }
 
-    /**
-     * 密码重置操作
-     * @param username
-     */
     @Override
     public void resetPassword(String username) {
         UserBasicInfo userBasicInfo = userManager.getUserByUsername(username);
@@ -276,12 +255,6 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
         userCacheUtil.removeUserDetails(username);
     }
 
-    /**
-     * 旧有密码校验
-     * @param username
-     * @param oldPassword
-     * @return
-     */
     @Override
     public String checkPassword(String username,String oldPassword) {
         UserBasicInfo userBasicInfo = userManager.getUserByUsername(username);
@@ -296,12 +269,6 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
         return tokenByParams;
     }
 
-    /**
-     * 密码变更
-     * @param username
-     * @param pwdToken
-     * @param newPassword
-     */
     @Override
     public void updatePassword(String username, String pwdToken, String newPassword) {
         Claims claims = jwtTokenUtil.readTokenAsMapParams(pwdToken);
@@ -320,20 +287,9 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
                 .set(UserBasicInfo::getPassword,newPassword)
                 .set(UserBasicInfo::getSalt,randomSalt);
         this.update(updateWrapper);
-        //如果内存中保留了一条相同UserDetail，那么做同步更新
-        UserDetails userDetails = userCacheUtil.getUserDetails(username);
-        if(userDetails != null){
-            UserDetails newUserDetails = new User(username,newPassword,userDetails.getAuthorities());
-            userCacheUtil.saveUserDetail(username,newUserDetails);
-        }
+        userCacheUtil.removeUserDetails(username);
     }
 
-    /**
-     * 用户状态变更
-     * 当状态变为删除时，涉及的用户将被全部强制下线
-     * @param username
-     * @param userStatus
-     */
     @Transactional(rollbackFor = Throwable.class)
     @Override
     public void changeUserStatus(String username, Integer userStatus) {
@@ -349,6 +305,7 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
             //删除状态，同步移除用户关联信息
             userRoleRelationMapper.removeUserRelationInfo(userBasicInfo.getUserId());
         }
-        userCacheUtil.removeAllInfo(username);
+        userCacheUtil.removeAllUserCacheInfo(username);
+        menuCacheUtil.removeCacheMenuList(userBasicInfo.getUserId());
     }
 }

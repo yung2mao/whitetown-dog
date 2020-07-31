@@ -18,6 +18,7 @@ import cn.whitetown.usersecurity.manager.MenuInfoManager;
 import cn.whitetown.usersecurity.manager.RoleManager;
 import cn.whitetown.usersecurity.mappers.MenuInfoMapper;
 import cn.whitetown.usersecurity.service.MenuService;
+import cn.whitetown.usersecurity.util.AuthUserCacheUtil;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
@@ -48,6 +49,9 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
     private MenuCacheUtil menuCacheUtil;
 
     @Autowired
+    private AuthUserCacheUtil authUserCacheUtil;
+
+    @Autowired
     private MenuUtil menuUtil;
 
     @Autowired
@@ -56,12 +60,6 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
     @Autowired
     private QueryConditionFactory conditionFactory;
 
-    /**
-     * 获取菜单的树形结构
-     * @param menuId
-     * @param lowLevel
-     * @return
-     */
     @Override
     public MenuTree queryMenuTree(Long menuId, Integer lowLevel) {
         List<MenuInfo> menuInfos = menuInfoMapper.selectMenuListByIdAndLevel(menuId,lowLevel);
@@ -72,13 +70,6 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
         return menuTree;
     }
 
-    /**
-     * 根据用户ID查询可查阅的的菜单项
-     * @param userId
-     * @param menuId
-     * @param lowLevel
-     * @return
-     */
     @Override
     public MenuTree queryActiveMenuByUserId(Long userId, Long menuId, Integer lowLevel) {
         List<MenuInfo> menuInfos = menuCacheUtil.getCacheMenuList(userId,menuId,lowLevel);
@@ -94,11 +85,6 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
         return menuUtil.createMenuTreeByMenuList(menuInfos);
     }
 
-    /**
-     * 根据角色名称查询绑定的菜单信息
-     * @param roleName
-     * @return
-     */
     @Override
     public MenuTree queryMenuTreeByRoleName(String roleName) {
         UserRole userRole = roleManager.queryRoleByRoleName(roleName);
@@ -109,11 +95,6 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
         return menuUtil.createMenuTreeByMenuList(menuInfos);
     }
 
-    /**
-     * 根据角色ID查询绑定的菜单ID
-     * @param roleId
-     * @return
-     */
     @Override
     public List<Long> queryMenuIdsByRoleId(Long roleId) {
         UserRole userRole = roleManager.queryRoleById(roleId);
@@ -126,10 +107,6 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
         return ids;
     }
 
-    /**
-     * 添加菜单信息
-     * @param menuInfo
-     */
     @Override
     public void addSingleMenu(Long createUserId,MenuInfoAo menuInfo) {
         LambdaQueryWrapper<MenuInfo> queryWrapper = conditionFactory.getQueryCondition(MenuInfo.class);
@@ -160,10 +137,6 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
         menuInfoMapper.insert(addMenu);
     }
 
-    /**
-     * 修改菜单信息
-     * @param menuInfo
-     */
     @Override
     public void updateMenuInfo(Long updateUserId,MenuInfoAo menuInfo) {
         LambdaQueryWrapper<MenuInfo> queryWrapper = conditionFactory.getQueryCondition(MenuInfo.class);
@@ -175,8 +148,8 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
         List<MenuInfo> menuInfos = menuInfoMapper.selectList(queryWrapper);
         MenuInfo oldMenu = null;
         MenuInfo parentMenu = null;
-        //只应该查询到2条菜单信息,一条为需要更新的菜单,一条为父菜单
-        if(menuInfos.size() == 2){
+        int realResultSize = 2;
+        if(menuInfos.size() == realResultSize){
             for (MenuInfo menu : menuInfos){
                 if(menu.getMenuId().equals(menuInfo.getMenuId())){
                     oldMenu = menu;
@@ -199,13 +172,9 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
         menu.setMenuLevel(parentMenu.getMenuLevel()+1);
         menu.setMenuStatus(oldMenu.getMenuStatus());
         menuInfoMapper.updateById(menu);
+        this.cacheReset();
     }
 
-    /**
-     * 菜单状态变更
-     * @param menuId
-     * @param menuStatus
-     */
     @Transactional(rollbackFor = Throwable.class)
     @Override
     public void updateMenuStatus(Long menuId, Integer menuStatus) {
@@ -225,12 +194,10 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
                     .set(MenuInfo::getMenuStatus, menuStatus);
             this.update(updateCondition);
         }
+        this.cacheReset();
     }
 
-    /**
-     * 更新角色与菜单的绑定信息
-     * @param configure
-     */
+    @Transactional(rollbackFor = Throwable.class)
     @Override
     public void updateRoleMenus(RoleMenuConfigure configure) {
         UserRole userRole = roleManager.queryRoleById(configure.getRoleId());
@@ -241,6 +208,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
         menuSet.add(AuthConstant.ROOT_MENU_ID);
         Arrays.stream(configure.getMenuIds()).forEach(id->menuSet.add(id));
         menuInfoMapper.updateRoleMenus(configure.getRoleId(),menuSet);
+        this.cacheReset();
     }
 
     /**
@@ -251,5 +219,13 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
         if(AuthConstant.ROOT_MENU_ID == menuId){
             throw new CustomException(ResponseStatusEnum.NO_PERMISSION);
         }
+    }
+
+    /**
+     * 内存涉及权限信息重置
+     */
+    private void cacheReset() {
+        menuCacheUtil.reset();
+        authUserCacheUtil.clearAllUsersAuthors();
     }
 }

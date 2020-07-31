@@ -30,7 +30,7 @@ import java.util.*;
  * @author GrainRain
  * @date 2020/06/13 15:49
  **/
-@Component
+//@Component
 public class WhiteUserDetailServiceImpl implements WhiteUserDetailService {
 
     private Log log = LogFactory.getLog(WhiteUserDetailServiceImpl.class);
@@ -71,8 +71,8 @@ public class WhiteUserDetailServiceImpl implements WhiteUserDetailService {
             if(version==null || !version.equals(authUser.getUserVersion())){
                 throw new CustomException(ResponseStatusEnum.TOKEN_EXPIRED);
             }
-            userDetails = new WhiteSecurityUser(authUser.getUsername(),authUser.getPassword(),new ArrayList<>());
-            Set<String> authorsSet = this.createAuthorsSet(authUser);
+            userDetails = new WhiteSecurityUser(authUser.getUsername(),authUser.getPassword());
+            Set<String> authorsSet = userDetailManager.createAuthorsSet(authUser);
             authCacheUtil.saveUserAuthors(username,authorsSet);
         }
         authCacheUtil.saveUserDetail(username,userDetails);
@@ -82,6 +82,7 @@ public class WhiteUserDetailServiceImpl implements WhiteUserDetailService {
     private WhiteSecurityUser pathWithAuthorHandle(WhiteSecurityUser userDetails) {
         String uri = WebUtil.getUri();
         String[] authors = securityConfigureManager.getAuthorsByPath(uri);
+        log.warn(uri+"所需访问权限为:"+authors);
         if(authors == null || authors.length == 0){
             return userDetails;
         }
@@ -90,7 +91,7 @@ public class WhiteUserDetailServiceImpl implements WhiteUserDetailService {
         Set<String> userAuthors = authCacheUtil.getUserAuthors(username);
         if(userAuthors == null || userAuthors.size() == 0) {
             AuthUser authUser = userDetailManager.createAuthUser(username);
-            userAuthors = this.createAuthorsSet(authUser);
+            userAuthors = userDetailManager.createAuthorsSet(authUser);
         }
         authCacheUtil.saveUserAuthors(username,userAuthors);
         Collection<GrantedAuthority> authorities = new ArrayList<>();
@@ -102,16 +103,4 @@ public class WhiteUserDetailServiceImpl implements WhiteUserDetailService {
         userDetails.setAuthorities(authorities);
         return userDetails;
     }
-
-    private Set<String> createAuthorsSet(AuthUser authUser) {
-        if(authUser == null) {
-            return new HashSet<>();
-        }
-        List<String> roles = authUser.getRoles();
-        List<String> allAuthors = authUser.getAuthors();
-        Set<String> authSet = new HashSet<>(allAuthors);
-        roles.stream().forEach(role->authSet.add(role.startsWith("ROLE_") ? role : "ROLE_"+role));
-        return authSet;
-    }
-
 }

@@ -1,13 +1,15 @@
 package cn.whitetown.authea.util;
 
-
 import cn.whitetown.authea.modo.AuthConstants;
 import cn.whitetown.dogbase.common.memdata.WhiteExpireMap;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * 用户权限涉及信息的缓存工具类
@@ -16,13 +18,15 @@ import java.util.Set;
  **/
 public class WhiteAuthCacheUtil implements AuthCacheUtil {
 
+    private Log logger = LogFactory.getLog(WhiteAuthCacheUtil.class);
+
     @Autowired
     private WhiteExpireMap expireMap;
 
     private Set<String> userSet;
 
     {
-        userSet = new HashSet<>();
+        userSet = ConcurrentHashMap.newKeySet();
     }
 
     @Override
@@ -30,6 +34,7 @@ public class WhiteAuthCacheUtil implements AuthCacheUtil {
         Object o = expireMap.putS(AuthConstants.USER_DETAIL_PREFIX + username,
                 userDetails,
                 AuthConstants.USER_SAVE_TIME);
+        userSet.add(AuthConstants.USER_DETAIL_PREFIX + username);
         return this.castUserDetails(o);
     }
 
@@ -85,8 +90,10 @@ public class WhiteAuthCacheUtil implements AuthCacheUtil {
     public void clearAllUsersAuthors() {
         for(String username : userSet) {
             this.removeUserAuthors(username);
+            this.removeUserDetails(username);
         }
         userSet.clear();
+        logger.warn("the cache authors is clear");
     }
 
     private UserDetails castUserDetails(Object o) {

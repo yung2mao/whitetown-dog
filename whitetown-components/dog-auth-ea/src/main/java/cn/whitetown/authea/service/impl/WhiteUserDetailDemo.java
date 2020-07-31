@@ -1,7 +1,9 @@
 package cn.whitetown.authea.service.impl;
 
+import cn.whitetown.authea.manager.UserDetailManager;
 import cn.whitetown.authea.service.WhiteUserDetailService;
 import cn.whitetown.dogbase.common.util.WhiteToolUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -15,9 +17,15 @@ import java.util.ArrayList;
  * @date 2020/07/27
  **/
 public class WhiteUserDetailDemo implements WhiteUserDetailService {
+    private UserDetailManager userDetailManager;
+
+    public WhiteUserDetailDemo(UserDetailManager userDetailManager) {
+        this.userDetailManager = userDetailManager;
+    }
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return loadBasicUserDetails(username);
+        return userDetailManager.createUserDetails();
     }
 
     @Override
