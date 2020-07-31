@@ -23,9 +23,21 @@
   </properties>
 
   <dependencies>
+      <!--base dependency-->
     <dependency>
       <groupId>cn.whitetown</groupId>
       <artifactId>whitetown-base</artifactId>
+        <!--remove-->
+      <exclusions>
+        <exclusion>
+          <groupId>mysql</groupId>
+          <artifactId>mysql-connector-java</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>com.alibaba</groupId>
+          <artifactId>druid</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
     <!--web-->
     <dependency>

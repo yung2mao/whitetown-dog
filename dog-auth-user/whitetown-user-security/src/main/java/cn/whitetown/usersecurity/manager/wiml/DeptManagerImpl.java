@@ -1,4 +1,4 @@
-package cn.whitetown.usersecurity.manager.impl;
+package cn.whitetown.usersecurity.manager.wiml;
 
 import cn.whitetown.authcommon.entity.po.DeptInfo;
 import cn.whitetown.usersecurity.manager.DeptManager;

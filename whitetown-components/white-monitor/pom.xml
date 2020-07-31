@@ -27,5 +27,14 @@
       <groupId>cn.whitetown</groupId>
       <artifactId>whitetown-base</artifactId>
     </dependency>
+    <dependency>
+      <groupId>com.github.oshi</groupId>
+      <artifactId>oshi-core</artifactId>
+    </dependency>
+    <!--log4j -->
+    <dependency>
+      <groupId>log4j</groupId>
+      <artifactId>log4j</artifactId>
+    </dependency>
   </dependencies>
 </project>

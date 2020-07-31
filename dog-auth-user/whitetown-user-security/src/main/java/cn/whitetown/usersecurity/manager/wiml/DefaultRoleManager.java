@@ -1,11 +1,10 @@
-package cn.whitetown.usersecurity.manager.impl;
+package cn.whitetown.usersecurity.manager.wiml;
 
 import cn.whitetown.authcommon.entity.po.UserRole;
 import cn.whitetown.dogbase.common.constant.DogBaseConstant;
 import cn.whitetown.dogbase.db.factory.QueryConditionFactory;
 import cn.whitetown.usersecurity.manager.RoleManager;
 import cn.whitetown.usersecurity.mappers.RoleInfoMapper;
-import cn.whitetown.usersecurity.mappers.UserRoleRelationMapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

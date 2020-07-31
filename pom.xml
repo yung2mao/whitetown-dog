@@ -35,13 +35,15 @@
     <druid.version>1.1.21</druid.version>
     <fastjson.version>1.2.58</fastjson.version>
     <easyexcel.version>2.1.6</easyexcel.version>
-    <beetl.version>1.2.28.RELEASE</beetl.version>
+<!--    <beetl.version>1.2.28.RELEASE</beetl.version>-->
     <kaptcha.version>2.3.2</kaptcha.version>
     <jwt.version>0.9.1</jwt.version>
     <rector-core.version>3.3.0.RELEASE</rector-core.version>
 <!--    <spring-beans.version>5.1.6.RELEASE</spring-beans.version>-->
     <lombok.version>1.18.8</lombok.version>
     <swagger2.version>2.9.2</swagger2.version>
+    <oshi.version>3.9.1</oshi.version>
+    <log4j.version>1.2.17</log4j.version>
     <junit.version>4.11</junit.version>
   </properties>
 
@@ -80,11 +82,11 @@
       </dependency>
 
       <!--View模板-->
-      <dependency>
+      <!--<dependency>
         <groupId>com.ibeetl</groupId>
         <artifactId>beetl-framework-starter</artifactId>
         <version>${beetl.version}</version>
-      </dependency>
+      </dependency>-->
 
       <!--验证码-->
       <dependency>
@@ -129,6 +131,19 @@
         <groupId>io.springfox</groupId>
         <artifactId>springfox-swagger-ui</artifactId>
         <version>${swagger2.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>com.github.oshi</groupId>
+        <artifactId>oshi-core</artifactId>
+        <version>${oshi.version}</version>
+      </dependency>
+
+      <!-- https://mvnrepository.com/artifact/log4j/log4j -->
+      <dependency>
+        <groupId>log4j</groupId>
+        <artifactId>log4j</artifactId>
+        <version>${log4j.version}</version>
       </dependency>
 
       <dependency>

@@ -40,6 +40,12 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-quartz</artifactId>
     </dependency>
+    <!--white monitor-->
+    <dependency>
+      <groupId>cn.whitetown</groupId>
+      <artifactId>white-monitor</artifactId>
+      <version>1.0-SNAPSHOT</version>
+    </dependency>
     <!--junit-->
     <dependency>
       <groupId>junit</groupId>

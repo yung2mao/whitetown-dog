@@ -1,8 +1,7 @@
-package cn.whitetown.usersecurity.manager.impl;
+package cn.whitetown.usersecurity.manager.wiml;
 
 import cn.whitetown.authcommon.entity.po.PositionInfo;
 import cn.whitetown.dogbase.common.constant.DogBaseConstant;
-import cn.whitetown.dogbase.common.util.DataCheckUtil;
 import cn.whitetown.dogbase.db.factory.QueryConditionFactory;
 import cn.whitetown.usersecurity.manager.PositionManager;
 import cn.whitetown.usersecurity.mappers.PositionMapper;

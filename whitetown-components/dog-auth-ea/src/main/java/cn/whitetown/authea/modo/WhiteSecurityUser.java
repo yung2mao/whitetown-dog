@@ -1,7 +1,7 @@
 package cn.whitetown.authea.modo;
 
-import io.jsonwebtoken.RequiredTypeException;
-import io.swagger.models.auth.In;
+import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
+import cn.whitetown.dogbase.common.exception.CustomException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -31,7 +31,7 @@ public class WhiteSecurityUser extends User {
 
     public <T> T getUserId(Class<T> claz) {
         if (!claz.isInstance(userId)) {
-            throw new RequiredTypeException("Expected value to be of type: " + userId + ", but was " + userId.getClass());
+            throw new ClassCastException("Expected value to be of type: " + userId + ", but was " + userId.getClass());
         } else {
             return claz.cast(userId);
         }

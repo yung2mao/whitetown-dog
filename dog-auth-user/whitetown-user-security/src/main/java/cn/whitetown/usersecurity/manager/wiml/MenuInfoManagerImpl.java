@@ -1,6 +1,5 @@
-package cn.whitetown.usersecurity.manager.impl;
+package cn.whitetown.usersecurity.manager.wiml;
 
-import cn.whitetown.authcommon.entity.dto.MenuTree;
 import cn.whitetown.authcommon.entity.po.MenuInfo;
 import cn.whitetown.dogbase.common.constant.DogBaseConstant;
 import cn.whitetown.usersecurity.manager.MenuInfoManager;

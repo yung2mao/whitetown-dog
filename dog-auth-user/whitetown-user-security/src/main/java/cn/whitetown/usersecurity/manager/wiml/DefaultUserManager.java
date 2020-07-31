@@ -1,4 +1,4 @@
-package cn.whitetown.usersecurity.manager.impl;
+package cn.whitetown.usersecurity.manager.wiml;
 
 import cn.whitetown.authcommon.entity.po.UserBasicInfo;
 import cn.whitetown.dogbase.common.constant.DogBaseConstant;
@@ -6,7 +6,6 @@ import cn.whitetown.dogbase.db.factory.QueryConditionFactory;
 import cn.whitetown.usersecurity.manager.UserManager;
 import cn.whitetown.usersecurity.mappers.UserBasicInfoMapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
