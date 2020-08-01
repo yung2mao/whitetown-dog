@@ -68,6 +68,7 @@ public class RoleManageController {
      * @return
      */
     @PostMapping(value = "/add",produces = "application/json;charset=UTF-8")
+    @WhiteAuthAnnotation(type = WhiteControlType.HAS_AUTHORITY,value = "role_add_button")
     public ResponseData addRole(@RequestBody @Valid RoleInfoDto role){
         service.addRole(role);
         return ResponseData.ok();
@@ -79,6 +80,7 @@ public class RoleManageController {
      * @return
      */
     @PostMapping(value = "/update",produces = "application/json;charset=UTF-8")
+    @WhiteAuthAnnotation(type = WhiteControlType.HAS_AUTHORITY,value = "auth_role_update")
     public ResponseData updateRole(@RequestBody @Valid RoleInfoDto role){
         if(role.getRoleId() == null){
             throw new CustomException(ResponseStatusEnum.ERROR_PARAMS);
@@ -97,6 +99,7 @@ public class RoleManageController {
      * @return
      */
     @GetMapping("/status")
+    @WhiteAuthAnnotation(type = WhiteControlType.HAS_ANY_AUTHORITY,value = {"auth_role_update","auth_role_del"})
     public ResponseData updateRoleStatus(@NotNull Long roleId,@NotNull @Min(0) @Max(2) Integer roleStatus){
         service.updateRoleStatus(roleId,roleStatus);
         return ResponseData.ok();
@@ -108,6 +111,7 @@ public class RoleManageController {
      * @return
      */
     @PostMapping(value = "/configure_role",produces = "application/json;charset=UTF-8")
+    @WhiteAuthAnnotation(type = WhiteControlType.HAS_AUTHORITY,value = "user_role_configure")
     public ResponseData configureUserRole(@RequestBody @Valid UserRoleConfigure roleConfigureAo){
         Long[] roleIds = roleConfigureAo.getRoleIds();
         for(Long id:roleIds){

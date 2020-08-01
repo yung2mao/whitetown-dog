@@ -11,7 +11,7 @@ public class HasAuthorityManager extends AbstractWhiteUriAuthManager {
 
     @Override
     public boolean configurePathAuth(String[] paths, String... authors) {
-        if(checkSource(paths,authors)) {
+        if(!checkSource(paths,authors)) {
             return false;
         }
         AbstractWhiteUriAuthManager.authorizeRequests.antMatchers(paths).hasAuthority(authors[0]);

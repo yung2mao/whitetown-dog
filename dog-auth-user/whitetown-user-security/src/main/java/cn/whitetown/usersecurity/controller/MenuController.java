@@ -24,7 +24,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/menu")
 @Validated
-@WhiteAuthAnnotation(type = WhiteControlType.HAS_AUTHORITY,value = "auth_menu")
+@WhiteAuthAnnotation(type = WhiteControlType.HAS_ANY_AUTHORITY,value = {"auth_menu","menus_query"})
 public class MenuController {
 
     @Autowired
@@ -84,6 +84,7 @@ public class MenuController {
      * @return
      */
     @PostMapping(value = "/add", produces = "application/json;charset=UTF-8")
+    @WhiteAuthAnnotation(type = WhiteControlType.HAS_AUTHORITY,value = "menus_add_button")
     public ResponseData addMenu(@RequestBody @Valid MenuInfoAo menuInfo){
         service.addSingleMenu(jwtTokenUtil.getUserId(),menuInfo);
         return ResponseData.ok();
@@ -95,6 +96,7 @@ public class MenuController {
      * @return
      */
     @PostMapping(value = "update", produces = "application/json;charset=UTF-8")
+    @WhiteAuthAnnotation(type = WhiteControlType.HAS_AUTHORITY,value = "menus_update_button")
     public ResponseData updateMenuInfo(@RequestBody @Valid MenuInfoAo menuInfo){
         if(menuInfo.getMenuId()==null){
             return ResponseData.build(400,"ID不能为空",null);
@@ -116,6 +118,7 @@ public class MenuController {
      * @return
      */
     @GetMapping("status")
+    @WhiteAuthAnnotation(type = WhiteControlType.HAS_ANY_AUTHORITY,value = {"menus_update_button","menus_del_button"})
     public ResponseData updateMenuStatus(@NotNull(message = "菜单ID不能为空") @Min(value = 2,message = "禁止操作顶级菜单") Long menuId, @NotNull @Min(0) @Max(2) Integer menuStatus){
         service.updateMenuStatus(menuId,menuStatus);
         return ResponseData.ok();
@@ -125,6 +128,7 @@ public class MenuController {
      * @return
      */
     @PostMapping(value = "role_menu",produces = "application/json;charset=UTF-8")
+    @WhiteAuthAnnotation(type = WhiteControlType.HAS_AUTHORITY,value = "role_menus_configure")
     public ResponseData updateRoleMenu(@RequestBody @Valid RoleMenuConfigure configure){
         service.updateRoleMenus(configure);
         return ResponseData.ok();

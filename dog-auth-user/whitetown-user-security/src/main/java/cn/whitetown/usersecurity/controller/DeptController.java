@@ -32,7 +32,7 @@ import javax.validation.constraints.NotNull;
 @RestController
 @RequestMapping("/dept")
 @Validated
-@WhiteAuthAnnotation(type = WhiteControlType.HAS_ANY_AUTHORITY,value = "auth_dept")
+@WhiteAuthAnnotation(type = WhiteControlType.HAS_ANY_AUTHORITY,value = {"auth_dept","dept_query"})
 public class DeptController {
     @Autowired
     private DeptService deptService;
@@ -89,6 +89,7 @@ public class DeptController {
      * @return
      */
     @PostMapping("/update")
+    @WhiteAuthAnnotation(type = WhiteControlType.HAS_AUTHORITY,value = "dept_update_button")
     public ResponseData updateDeptInfo(@RequestBody @Valid DeptInfo deptInfo){
         if(deptInfo.getDeptId()==null){
             throw new CustomException(ResponseStatusEnum.NO_THIS_DEPT);
@@ -110,6 +111,7 @@ public class DeptController {
      * @return
      */
     @GetMapping("/boss")
+    @WhiteAuthAnnotation(type = WhiteControlType.HAS_AUTHORITY,value = "dept_boss_button")
     public ResponseData configureBoss(@NotNull(message = "部门ID不能为空") @Min(value = 2,message = "非法操作顶层部门") Long deptId,
                                       @NotBlank(message = "用户名不能为空") String username){
         deptService.configureBoss(deptId,username);
@@ -123,6 +125,7 @@ public class DeptController {
      * @return
      */
     @GetMapping("/status")
+    @WhiteAuthAnnotation(type = WhiteControlType.HAS_ANY_AUTHORITY,value = {"dept_del_button","dept_update_button"})
     public ResponseData updateDeptStatus(@NotNull @Min(value = 2,message = "禁止操作ROOT层级部门") Long deptId,
                                      @NotNull @Min(0) @Max(2) Integer deptStatus){
         deptService.updateDeptStatus(deptId,deptStatus);

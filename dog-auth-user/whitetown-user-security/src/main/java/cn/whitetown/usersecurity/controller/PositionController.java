@@ -59,6 +59,7 @@ public class PositionController {
      * @return
      */
     @PostMapping(value = "/add",produces = "application/json;charset=UTF-8")
+    @WhiteAuthAnnotation(type = WhiteControlType.HAS_AUTHORITY,value = "position_add_button")
     public ResponseData addPosition(@RequestBody @Valid PositionInfo position) {
         positionService.addPosition(position);
         return ResponseData.ok();
@@ -70,6 +71,7 @@ public class PositionController {
      * @return
      */
     @PostMapping(value = "/update", produces = "application/json;charset=UTF-8")
+    @WhiteAuthAnnotation(type = WhiteControlType.HAS_AUTHORITY,value = "position_update_button")
     public ResponseData updatePosition(@RequestBody @Valid PositionInfo position) {
         positionService.updatePosition(position);
         return ResponseData.ok();
@@ -81,6 +83,7 @@ public class PositionController {
      * @return
      */
     @GetMapping("/del")
+    @WhiteAuthAnnotation(type = WhiteControlType.HAS_AUTHORITY,value = "position_del_button")
     public ResponseData deletePosition(@NotNull(message = "职位ID不能为空") Long positionId) {
         positionService.updatePositionStatus(positionId, DogBaseConstant.DELETE_ERROR);
         return ResponseData.ok();

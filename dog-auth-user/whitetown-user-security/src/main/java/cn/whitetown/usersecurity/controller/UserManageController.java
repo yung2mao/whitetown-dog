@@ -75,6 +75,7 @@ public class UserManageController {
      * @return
      */
     @PostMapping(value = "/registry",produces = "application/json;charset=UTF-8")
+    @WhiteAuthAnnotation(type = WhiteControlType.HAS_AUTHORITY,value = "user_add_button")
     public ResponseData registryUser(@RequestBody JSONObject params){
         String username = params.getString("username");
         String password = params.getString("password");
@@ -96,6 +97,7 @@ public class UserManageController {
      * @return
      */
     @PostMapping(value = "update",produces = "application/json;charset=UTF-8")
+    @WhiteAuthAnnotation(type = WhiteControlType.HAS_AUTHORITY,value = "auth_user_update")
     public ResponseData addUserBasicInfo(@RequestBody @Valid UserBasicInfo userInfo){
         service.updateUser(userInfo);
         return ResponseData.ok();
@@ -108,6 +110,7 @@ public class UserManageController {
      * @return
      */
     @GetMapping("/reset_pwd")
+    @WhiteAuthAnnotation(type = WhiteControlType.HAS_AUTHORITY,value = "user_reset_pwd")
     public ResponseData resetPassword(@NotBlank String username){
         service.resetPassword(username);
         return ResponseData.ok();
@@ -119,6 +122,7 @@ public class UserManageController {
      * @return
      */
     @PostMapping(value = "pwd_check",produces = "application/json;charset=UTF-8")
+    @WhiteAuthAnnotation(type = WhiteControlType.AUTHENTICATED)
     public ResponseData<String> checkPassword(@RequestBody JSONObject jsonObject){
         String password = (String)jsonObject.get("password");
         if(DataCheckUtil.checkTextNullBool(password)){
@@ -136,6 +140,7 @@ public class UserManageController {
      * @return
      */
     @PostMapping(value = "pwd_change",produces = "application/json;charset=UTF-8")
+    @WhiteAuthAnnotation(type = WhiteControlType.AUTHENTICATED)
     public ResponseData updatePassword(@RequestBody JSONObject jsonObject){
         String pwdToken = jsonObject.getString("pwdToken");
         String newPassword = jsonObject.getString("newPassword");
@@ -159,6 +164,7 @@ public class UserManageController {
      * @return
      */
     @GetMapping("/status")
+    @WhiteAuthAnnotation(type = WhiteControlType.HAS_ANY_AUTHORITY,value = {"auth_user_update","user_delete"})
     public ResponseData userActiveControl(@NotBlank String username,@NotNull @Min(0) @Max(2) Integer userStatus){
         if(AuthConstant.SUPER_MANAGE_USERNAME.equalsIgnoreCase(username)){
             return ResponseData.build(400,"禁止操作超级管理员状态",null);
