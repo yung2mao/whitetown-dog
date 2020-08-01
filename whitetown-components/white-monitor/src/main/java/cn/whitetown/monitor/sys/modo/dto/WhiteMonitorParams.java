@@ -1,8 +1,12 @@
 package cn.whitetown.monitor.sys.modo.dto;
 
 import cn.whitetown.monitor.sys.modo.po.*;
+import com.alibaba.fastjson.JSON;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
+
 /**
  * 系统信息汇总类
  * @author taixian
@@ -11,14 +15,17 @@ import lombok.Setter;
 @Getter
 @Setter
 public class WhiteMonitorParams {
-    private ServerInfo serverInfo;
-    private WhiteOsInfo osInfo;
+    private WhiteSysBaseInfo sysBaseInfo;
     private WhiteCpuInfo whiteCpuInfo;
     private WhiteMemInfo memInfo;
     private WhiteJvmInfo jvmInfo;
-    private WhiteFileInfo fileInfo;
-    private WhiteFileSpeed fileSpeed;
+    private List<WhiteFileInfo> fileInfos;
     private WhiteNetInfo netInfo;
     private WhiteNetSpeed netSpeed;
     private long timeStamp;
+
+    @Override
+    public String toString() {
+        return JSON.toJSONString(this);
+    }
 }

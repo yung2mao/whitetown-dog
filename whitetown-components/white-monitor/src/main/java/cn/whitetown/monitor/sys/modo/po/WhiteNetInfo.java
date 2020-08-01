@@ -11,29 +11,33 @@ import lombok.Setter;
  **/
 @Getter
 @Setter
-public class WhiteNetInfo {
+public class WhiteNetInfo implements Cloneable{
     private String ip;
     private String hostname;
-    private String primaryDNS;
-    private String MACAddr;
-    private long readBytes;
-    private long writeBytes;
+    private String primaryDns;
+    private String macAddr;
+    private long recBytes;
+    private long sentBytes;
     private long errorBytes;
 
     private long timeStamp;
 
-    public WhiteNetInfo() {
-    }
-
-    public WhiteNetInfo(String ip, String hostname, String primaryDNS, String MACAddr) {
-        this.ip = ip;
-        this.hostname = hostname;
-        this.primaryDNS = primaryDNS;
-        this.MACAddr = MACAddr;
-    }
-
     @Override
     public String toString() {
         return JSON.toJSONString(this);
+    }
+
+    @Override
+    public Object clone() {
+        try {
+            return super.clone();
+        }catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+    }
+
+    public WhiteNetInfo cloneObj() {
+        Object obj = this.clone();
+        return (WhiteNetInfo) obj;
     }
 }

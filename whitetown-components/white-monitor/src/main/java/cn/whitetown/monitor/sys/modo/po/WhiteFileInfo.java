@@ -12,23 +12,29 @@ import lombok.Setter;
 @Setter
 @Getter
 public class WhiteFileInfo {
-    private String devName;
+    /**
+     * 名称
+     */
+    private String name;
+    /**
+     * 盘符
+     */
+    private String mount;
+    /**
+     * 描述
+     */
+    private String description;
+    /**
+     * 文件类型
+     */
+    private String fsType;
     private long fileTotal;
+    private long fileUsed;
     private long fileFree;
-    private long fileRead;
-    private long fileWrite;
 
     private long timeStamp;
 
     public WhiteFileInfo() {
-    }
-
-    public WhiteFileInfo(String devName, long fileTotal, long fileFree, long fileRead, long fileWrite) {
-        this.devName = devName;
-        this.fileTotal = fileTotal;
-        this.fileFree = fileFree;
-        this.fileRead = fileRead;
-        this.fileWrite = fileWrite;
     }
 
     @Override

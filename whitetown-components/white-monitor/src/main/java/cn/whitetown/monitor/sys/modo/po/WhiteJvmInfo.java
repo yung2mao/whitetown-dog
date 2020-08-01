@@ -16,21 +16,13 @@ public class WhiteJvmInfo {
     private String jdkPath;
     private long jvmMax;
     private long jvmTotal;
+    private long jvmUsed;
     private long jvmFree;
     private int jvmUsedPercent;
 
     private long timeStamp;
 
     public WhiteJvmInfo() {
-    }
-
-    public WhiteJvmInfo(String jvmVersion, String jdkPath, long jvmMax, long jvmTotal, long jvmFree, int jvmUsedPercent) {
-        this.jvmVersion = jvmVersion;
-        this.jdkPath = jdkPath;
-        this.jvmMax = jvmMax;
-        this.jvmTotal = jvmTotal;
-        this.jvmFree = jvmFree;
-        this.jvmUsedPercent = jvmUsedPercent;
     }
 
     @Override

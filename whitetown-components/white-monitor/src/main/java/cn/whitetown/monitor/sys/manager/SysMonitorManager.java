@@ -1,5 +1,6 @@
 package cn.whitetown.monitor.sys.manager;
 
+import cn.whitetown.monitor.sys.modo.dto.WhiteMonitorParams;
 import cn.whitetown.monitor.sys.modo.po.*;
 
 import java.util.List;
@@ -10,17 +11,11 @@ import java.util.List;
  * @date 2020/07/31
  **/
 public interface SysMonitorManager {
-
-    /**
-     * 获取服务基本信息
-     * @return
-     */
-    ServerInfo getServerInfo();
     /**
      * 获取系统信息
      * @return
      */
-    WhiteOsInfo getOsInfo();
+    WhiteSysBaseInfo getSysBaseInfo();
 
     /**
      * 获取CPU信息
@@ -53,18 +48,14 @@ public interface SysMonitorManager {
     WhiteNetInfo getNetInfo();
 
     /**
-     * 获取文件读写速率
-     * @param newFileInfos
-     * @param oldFileInfos
+     * 获取网络读写速率
      * @return
      */
-    WhiteFileSpeed getFileSpeed(List<WhiteFileInfo> newFileInfos,List<WhiteFileInfo> oldFileInfos);
+    WhiteNetSpeed getNetSpeed();
 
     /**
-     * 获取网络读写速率
-     * @param newNetInfo
-     * @param oldNetInfo
+     * 监控信息组装到一起
      * @return
      */
-    WhiteNetSpeed getNetSpeed(WhiteNetInfo newNetInfo, WhiteNetInfo oldNetInfo);
+    WhiteMonitorParams createMonitorParams();
 }

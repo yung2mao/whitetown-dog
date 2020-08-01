@@ -9,7 +9,7 @@ import cn.whitetown.dogbase.common.memdata.WhiteExpireMap;
 import cn.whitetown.authcommon.entity.dto.LoginUser;
 import cn.whitetown.authcommon.entity.po.UserBasicInfo;
 import cn.whitetown.dogbase.common.util.DataCheckUtil;
-import cn.whitetown.dogbase.common.util.FormatUtil;
+import cn.whitetown.dogbase.common.util.WhiteFormatUtil;
 import cn.whitetown.dogbase.common.util.secret.Md5WithSaltUtil;
 import cn.whitetown.usersingle.mappers.UserBasicInfoMapper;
 import cn.whitetown.usersingle.util.LoginUserUtil;
@@ -95,7 +95,7 @@ public class SessionLoginService implements LoginService {
             Date expiration = userMap.getExpiration();
             log.warn("\n当前用户角色为："+roles+"<  > token过期时间为："+expiration);
 
-            long expireTime = FormatUtil.timeAsLong(expiration);
+            long expireTime = WhiteFormatUtil.timeAsLong(expiration);
             if(expireTime - System.currentTimeMillis() < 12000* AuthConstant.TOKEN_RESET_TIME){
                 //create new token
                 Map<String,Object> map = new HashMap<>();

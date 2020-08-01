@@ -1,5 +1,6 @@
 package cn.whitetown.monitor.sys.modo.po;
 
+import com.alibaba.fastjson.JSON;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,8 +17,14 @@ import java.io.Serializable;
 public class WhiteMemInfo implements Serializable {
     private static final long serialVersionUID = 9160942491521617499L;
     private long totalMem;
+    private long usedMem;
     private long freeMem;
     private int usedPercent;
 
     private long timeStamp;
+
+    @Override
+    public String toString() {
+        return JSON.toJSONString(this);
+    }
 }

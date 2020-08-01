@@ -31,26 +31,24 @@ public class WhiteCpuInfo {
 
     /*以下均表示百分比的int数值,例如97.51%则为9751*/
 
-    private int userUse;
     private int sysUse;
+    private int userUse;
     private int idle;
     private int wait;
-    private int free;
 
     private long timeStamp;
 
     public WhiteCpuInfo() {
     }
 
-    public WhiteCpuInfo(String vendor, String model, int totalCores, int userUse, int sysUse, int idle, int wait, int free) {
+    public WhiteCpuInfo(String vendor, String model, int totalCores, int sysUse, int userUse, int idle, int wait) {
         this.vendor = vendor;
         this.model = model;
         this.totalCores = totalCores;
-        this.userUse = userUse;
         this.sysUse = sysUse;
+        this.userUse = userUse;
         this.idle = idle;
         this.wait = wait;
-        this.free = free;
     }
 
     @Override

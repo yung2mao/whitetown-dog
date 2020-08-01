@@ -1,7 +1,5 @@
 package cn.whitetown.monitor.config;
 
-import cn.whitetown.monitor.sys.modo.po.ServerInfo;
-import cn.whitetown.monitor.sys.modo.po.WhiteOsInfo;
 import org.springframework.context.annotation.Configuration;
 
 /**
@@ -12,22 +10,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class MonitorConfig {
 
-    private static WhiteOsInfo osInfo;
-    private static ServerInfo serverInfo;
+    public static final int SYS_INTERVAL_TIME = 5000;
+    public static final String SERVER_ID = "0001";
 
-    public synchronized static void setOsInfo(WhiteOsInfo newOsInfo) {
-        osInfo = newOsInfo;
-    }
-
-    public synchronized static void setServerInfo(ServerInfo newServerInfo) {
-        serverInfo = newServerInfo;
-    }
-
-    public static WhiteOsInfo getOsInfo() {
-        return osInfo;
-    }
-
-    public static ServerInfo getServerInfo () {
-        return serverInfo;
-    }
 }
