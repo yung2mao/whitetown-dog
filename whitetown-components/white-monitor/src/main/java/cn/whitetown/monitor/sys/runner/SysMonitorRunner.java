@@ -7,7 +7,7 @@ import java.util.concurrent.ExecutorService;
  * @author taixian
  * @date 2020/08/02
  **/
-public interface MonitorRunner {
+public interface SysMonitorRunner {
 
     /**
      * 初始化方法

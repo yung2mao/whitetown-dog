@@ -1,6 +1,6 @@
 package cn.whitetown.monitor.sys.runner.wmil;
 
-import cn.whitetown.monitor.sys.runner.MonitorCollectCall;
+import cn.whitetown.monitor.sys.runner.SysMonCollectCall;
 import cn.whitetown.monitor.sys.manager.SysCollectManager;
 import cn.whitetown.monitor.sys.modo.dto.WhiteMonitorParams;
 
@@ -9,7 +9,7 @@ import cn.whitetown.monitor.sys.modo.dto.WhiteMonitorParams;
  * @author taixian
  * @date 2020/08/02
  **/
-public class WhiteMonCollectRun implements MonitorCollectCall<WhiteMonitorParams> {
+public class WhiteMonCollectRun implements SysMonCollectCall<WhiteMonitorParams> {
 
     private SysCollectManager sysCollectManager;
 

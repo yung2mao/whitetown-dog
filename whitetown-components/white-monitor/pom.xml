@@ -32,10 +32,15 @@
       <groupId>com.github.oshi</groupId>
       <artifactId>oshi-core</artifactId>
     </dependency>
-    <!--log4j -->
+    <!-- log4j -->
     <dependency>
       <groupId>log4j</groupId>
       <artifactId>log4j</artifactId>
+    </dependency>
+    <!--quartz定时任务-->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-quartz</artifactId>
     </dependency>
   </dependencies>
 

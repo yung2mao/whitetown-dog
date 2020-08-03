@@ -1,6 +1,6 @@
 package cn.whitetown.monitor.sys.runner.wmil;
 
-import cn.whitetown.monitor.sys.runner.MonitorRunner;
+import cn.whitetown.monitor.sys.runner.SysMonitorRunner;
 import cn.whitetown.monitor.sys.manager.MonitorInfoSaveManager;
 import cn.whitetown.monitor.sys.manager.SysCollectManager;
 import cn.whitetown.monitor.sys.modo.dto.WhiteMonitorParams;
@@ -17,11 +17,11 @@ import java.util.concurrent.Future;
  * @author taixian
  * @date 2020/08/02
  **/
-public class WhiteMonitorRun implements MonitorRunner {
+public class WhiteOnceSysMonRun implements SysMonitorRunner {
 
-    private Logger logger = Logger.getLogger(WhiteMonitorRun.class);
+    private Logger logger = Logger.getLogger(WhiteOnceSysMonRun.class);
 
-    private boolean isActive = false;
+    boolean isActive = false;
 
     private SysCollectManager collectManager;
 
@@ -29,10 +29,10 @@ public class WhiteMonitorRun implements MonitorRunner {
 
     private ExecutorService executorService;
 
-    public WhiteMonitorRun() {
+    public WhiteOnceSysMonRun() {
     }
 
-    public WhiteMonitorRun(SysCollectManager collectManager, MonitorInfoSaveManager saveManager) {
+    public WhiteOnceSysMonRun(SysCollectManager collectManager, MonitorInfoSaveManager saveManager) {
         this.collectManager = collectManager;
         this.saveManager = saveManager;
     }
@@ -55,7 +55,7 @@ public class WhiteMonitorRun implements MonitorRunner {
         Future<WhiteMonitorParams> future = executorService.submit(new WhiteMonCollectRun(collectManager));
         try {
             WhiteMonitorParams whiteMonitorParams = future.get();
-            executorService.execute(new WhiteMonSaveRun(saveManager,whiteMonitorParams));
+            executorService.execute(new WhiteSysMonSaveRun(saveManager,whiteMonitorParams));
         } catch (InterruptedException | ExecutionException e) {
             logger.warn("exception: " + e.getMessage());
         }

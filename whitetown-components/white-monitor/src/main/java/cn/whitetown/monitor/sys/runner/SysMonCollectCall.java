@@ -7,5 +7,5 @@ import java.util.concurrent.Callable;
  * @author taixian
  * @date 2020/08/02
  **/
-public interface MonitorCollectCall<T> extends Callable<T> {
+public interface SysMonCollectCall<T> extends Callable<T> {
 }

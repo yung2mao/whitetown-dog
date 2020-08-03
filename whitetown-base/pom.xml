@@ -43,13 +43,6 @@
       <groupId>com.alibaba</groupId>
       <artifactId>druid</artifactId>
     </dependency>
-
-    <!--View模板-->
-    <!--<dependency>
-      <groupId>com.ibeetl</groupId>
-      <artifactId>beetl-framework-starter</artifactId>
-    </dependency>-->
-
     <!-- json -->
     <dependency>
       <groupId>com.alibaba</groupId>
