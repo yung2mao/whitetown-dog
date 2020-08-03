@@ -1,10 +1,14 @@
 package cn.whitetown.monitor.sys;
 
-import cn.whitetown.monitor.config.MonitorConfig;
-import cn.whitetown.monitor.sys.manager.wiml.WhiteSysMonitorManager;
-import cn.whitetown.monitor.sys.modo.dto.WhiteMonitorParams;
+import cn.whitetown.monitor.config.MonitorConfConstants;
+import cn.whitetown.monitor.sys.runner.MonitorRunner;
+import cn.whitetown.monitor.sys.runner.wmil.WhiteMonitorRun;
+import cn.whitetown.monitor.sys.manager.MonitorInfoSaveManager;
+import cn.whitetown.monitor.sys.manager.wiml.WhiteSysCollectManager;
+import cn.whitetown.monitor.sys.manager.wiml.WhiteMonFileSaveManager;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.util.concurrent.*;
 
 /**
@@ -17,17 +21,18 @@ public class SysMonitorTest {
     public void test01() throws InterruptedException {
         CountDownLatch countDownLatch = new CountDownLatch(1);
         ScheduledExecutorService schedule = Executors.newScheduledThreadPool(1);
-        WhiteSysMonitorManager manager = WhiteSysMonitorManager.WHITE_SYS_MONITOR;
-        schedule.scheduleAtFixedRate(new Runnable() {
-            @Override
-            public void run() {
-                long start = System.currentTimeMillis();
-                WhiteMonitorParams monitorParams = manager.createMonitorParams();
-                System.out.println("执行时间:" + (System.currentTimeMillis() - start));
-                System.out.println(monitorParams);
-                System.out.println("----------------------------------------------------------------------");
-            }
-        }, 5,MonitorConfig.SYS_INTERVAL_TIME, TimeUnit.MILLISECONDS);
+        WhiteSysCollectManager manager = WhiteSysCollectManager.WHITE_SYS_MONITOR;
+        MonitorInfoSaveManager SaveManager = new WhiteMonFileSaveManager();
+        MonitorRunner monitorRun = new WhiteMonitorRun(manager, SaveManager);
+        monitorRun.init(Executors.newFixedThreadPool(2));
+        monitorRun.open();
+        schedule.scheduleAtFixedRate(() -> monitorRun.run(), 5, MonitorConfConstants.SYS_INTERVAL_TIME, TimeUnit.MILLISECONDS);
         countDownLatch.await();
+    }
+
+    @Test
+    public void test02() throws IOException {
+        WhiteMonFileSaveManager whiteSysFileManager = new WhiteMonFileSaveManager();
+        whiteSysFileManager.init();
     }
 }

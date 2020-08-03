@@ -1,6 +1,5 @@
 package cn.whitetown.monitor.app.collect;
 
-import org.apache.catalina.connector.RequestFacade;
 import org.apache.log4j.Logger;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.core.Ordered;

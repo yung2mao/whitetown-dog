@@ -27,6 +27,7 @@
       <groupId>cn.whitetown</groupId>
       <artifactId>whitetown-base</artifactId>
     </dependency>
+    <!--oshi-->
     <dependency>
       <groupId>com.github.oshi</groupId>
       <artifactId>oshi-core</artifactId>
@@ -37,4 +38,14 @@
       <artifactId>log4j</artifactId>
     </dependency>
   </dependencies>
+
+  <build>
+    <finalName>white-monitor</finalName>
+    <plugins>
+      <plugin>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-maven-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
 </project>

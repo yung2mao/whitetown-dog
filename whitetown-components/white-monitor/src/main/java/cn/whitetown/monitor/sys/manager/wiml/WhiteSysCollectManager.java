@@ -1,8 +1,8 @@
 package cn.whitetown.monitor.sys.manager.wiml;
 
 import cn.whitetown.dogbase.common.util.WhiteFormatUtil;
-import cn.whitetown.monitor.config.MonitorConfig;
-import cn.whitetown.monitor.sys.manager.SysMonitorManager;
+import cn.whitetown.monitor.config.MonitorConfConstants;
+import cn.whitetown.monitor.sys.manager.SysCollectManager;
 import cn.whitetown.monitor.sys.modo.dto.WhiteMonitorParams;
 import cn.whitetown.monitor.sys.modo.po.*;
 import oshi.SystemInfo;
@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
  * @author taixian
  * @date 2020/07/31
  **/
-public enum WhiteSysMonitorManager implements SysMonitorManager {
+public enum WhiteSysCollectManager implements SysCollectManager {
     /**
      * 系统监控
      */
@@ -48,7 +48,7 @@ public enum WhiteSysMonitorManager implements SysMonitorManager {
     private WhiteNetInfo netInfo = new WhiteNetInfo();
     private WhiteNetSpeed netSpeed = new WhiteNetSpeed();
 
-    private WhiteSysMonitorManager() {
+    private WhiteSysCollectManager() {
         this.systemInfo = new SystemInfo();
         this.hardware = systemInfo.getHardware();
         this.operatingSystem = systemInfo.getOperatingSystem();
@@ -63,7 +63,7 @@ public enum WhiteSysMonitorManager implements SysMonitorManager {
 
     @Override
     public WhiteSysBaseInfo getSysBaseInfo() {
-        sysBaseInfo.setServerId(MonitorConfig.SERVER_ID);
+        sysBaseInfo.setServerId(MonitorConfConstants.SERVER_ID);
         OperatingSystem operatingSystem = systemInfo.getOperatingSystem();
         sysBaseInfo.setVendor(operatingSystem.getManufacturer());
         sysBaseInfo.setVersion(operatingSystem.getFamily() + " " + operatingSystem.getVersion());
@@ -198,18 +198,13 @@ public enum WhiteSysMonitorManager implements SysMonitorManager {
 
     @Override
     public WhiteMonitorParams createMonitorParams() {
-        long s1 = System.currentTimeMillis();
         this.getSysBaseInfo();
         this.getCpuInfo();
         this.getMemoryInfo();
         this.getJvmInfo();
         this.getFileInfo();
-        long s2 = System.currentTimeMillis();
         this.getNetInfo();
         this.getNetSpeed();
-        long s3 = System.currentTimeMillis();
-
-        System.out.println((s2-s1) + "," + (s3-s2));
         return whiteMonitorParams;
     }
 }

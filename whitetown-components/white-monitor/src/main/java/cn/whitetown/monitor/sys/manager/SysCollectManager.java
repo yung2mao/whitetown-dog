@@ -10,7 +10,7 @@ import java.util.List;
  * @author taixian
  * @date 2020/07/31
  **/
-public interface SysMonitorManager {
+public interface SysCollectManager {
     /**
      * 获取系统信息
      * @return
