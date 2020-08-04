@@ -1,7 +1,7 @@
 package cn.whitetown.monitor.sys.manager.wiml;
 
 import cn.whitetown.dogbase.common.util.WhiteFormatUtil;
-import cn.whitetown.monitor.config.MonitorConfConstants;
+import cn.whitetown.monitor.config.MonConfConstants;
 import cn.whitetown.monitor.sys.manager.SysCollectManager;
 import cn.whitetown.monitor.sys.modo.dto.WhiteMonitorParams;
 import cn.whitetown.monitor.sys.modo.po.*;
@@ -63,7 +63,7 @@ public enum WhiteSysCollectManager implements SysCollectManager {
 
     @Override
     public WhiteSysBaseInfo getSysBaseInfo() {
-        sysBaseInfo.setServerId(MonitorConfConstants.SERVER_ID);
+        sysBaseInfo.setServerId(MonConfConstants.SERVER_ID);
         OperatingSystem operatingSystem = systemInfo.getOperatingSystem();
         sysBaseInfo.setVendor(operatingSystem.getManufacturer());
         sysBaseInfo.setVersion(operatingSystem.getFamily() + " " + operatingSystem.getVersion());

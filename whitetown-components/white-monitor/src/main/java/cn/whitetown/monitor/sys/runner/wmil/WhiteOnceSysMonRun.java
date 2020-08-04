@@ -13,7 +13,7 @@ import java.util.concurrent.Future;
 
 /**
  * 监控任务执行
- * int - open - run - stop - destroy
+ * init - open - run - stop - destroy
  * @author taixian
  * @date 2020/08/02
  **/
@@ -28,9 +28,6 @@ public class WhiteOnceSysMonRun implements SysMonitorRunner {
     private MonitorInfoSaveManager saveManager;
 
     private ExecutorService executorService;
-
-    public WhiteOnceSysMonRun() {
-    }
 
     public WhiteOnceSysMonRun(SysCollectManager collectManager, MonitorInfoSaveManager saveManager) {
         this.collectManager = collectManager;

@@ -9,9 +9,8 @@ import java.util.Properties;
  * @author taixian
  * @date 2020/08/01
  **/
-public class MonitorConfConstants {
+public class MonConfConstants {
     public static final Properties MONITOR_CONF;
-
     public static final int SYS_INTERVAL_TIME;
     public static final String SERVER_ID;
     public static final String LOG_SAVE_PATH;

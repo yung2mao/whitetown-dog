@@ -1,12 +1,11 @@
 package cn.whitetown.monitor.sys.manager.wiml;
 
-import cn.whitetown.monitor.config.MonitorConfConstants;
+import cn.whitetown.monitor.config.MonConfConstants;
 import cn.whitetown.monitor.sys.manager.MonitorInfoSaveManager;
 import cn.whitetown.monitor.sys.modo.dto.WhiteMonitorParams;
 import org.apache.log4j.Logger;
 
 import java.io.*;
-import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -29,15 +28,15 @@ public class WhiteMonFileSaveManager implements MonitorInfoSaveManager {
 
     @Override
     public void init() throws IOException {
-        if(MonitorConfConstants.LOG_SAVE_FAIL_TRY) {
-            retryTimes = new AtomicInteger(MonitorConfConstants.RETRY_TIMES);
+        if(MonConfConstants.LOG_SAVE_FAIL_TRY) {
+            retryTimes = new AtomicInteger(MonConfConstants.RETRY_TIMES);
         }else {
             retryTimes = new AtomicInteger(0);
         }
-        String logSavePath = MonitorConfConstants.LOG_SAVE_PATH;
+        String logSavePath = MonConfConstants.LOG_SAVE_PATH;
         String cusSeparator = "/";
         if(logSavePath == null || logSavePath.equals(cusSeparator) || logSavePath.equals(separator)) {
-            basePath = MonitorConfConstants.PROJECT_DIR;
+            basePath = MonConfConstants.PROJECT_DIR;
         }else {
             basePath = logSavePath;
         }
@@ -51,7 +50,7 @@ public class WhiteMonFileSaveManager implements MonitorInfoSaveManager {
 
     @Override
     public String createDocName() {
-        StringBuilder builder = new StringBuilder(MonitorConfConstants.SERVER_ID);
+        StringBuilder builder = new StringBuilder(MonConfConstants.SERVER_ID);
         LocalDateTime now = LocalDateTime.now();
         builder.append("_")
                 .append(now.getYear()).append("-")
@@ -90,7 +89,7 @@ public class WhiteMonFileSaveManager implements MonitorInfoSaveManager {
                 break;
             }
         }
-        retryTimes.set(MonitorConfConstants.RETRY_TIMES);
+        retryTimes.set(MonConfConstants.RETRY_TIMES);
         return isWrite;
     }
 

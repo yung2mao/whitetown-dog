@@ -1,19 +1,31 @@
 package cn.whitetown.monitor.sys.runner.wmil;
 
+import cn.whitetown.monitor.config.MonConfConstants;
 import cn.whitetown.monitor.sys.runner.SysMonitorRunner;
+import org.apache.log4j.Logger;
+import org.springframework.scheduling.concurrent.CustomizableThreadFactory;
 
-import java.util.concurrent.ExecutorService;
+import java.util.concurrent.*;
 
 /**
+ * 定时监控任务
  * @author taixian
  * @date 2020/08/03
  **/
-public class WhiteScheduleSysMonRun implements SysMonitorRunner {
+public class WhiteScheduleSysMonRun implements SysMonitorRunner{
+
+    private Logger logger = Logger.getLogger(WhiteScheduleSysMonRun.class);
 
     private SysMonitorRunner sysMonitorRunner;
 
-    public WhiteScheduleSysMonRun(SysMonitorRunner sysMonitorRunner) {
-        this.sysMonitorRunner = sysMonitorRunner;
+    private ScheduledExecutorService schedule;
+
+    public WhiteScheduleSysMonRun(SysMonitorRunner monitorRunner) {
+        this.sysMonitorRunner = monitorRunner;
+        String poolName = "white-schedule-pool";
+        CustomizableThreadFactory threadFactory = new CustomizableThreadFactory();
+        threadFactory.setThreadGroupName(poolName);
+        schedule = new ScheduledThreadPoolExecutor(1,threadFactory);
     }
 
     @Override
@@ -23,7 +35,14 @@ public class WhiteScheduleSysMonRun implements SysMonitorRunner {
 
     @Override
     public void run() {
-        //TODO: schedule
+        try {
+            schedule.scheduleAtFixedRate(sysMonitorRunner,
+                    0,
+                    MonConfConstants.SYS_INTERVAL_TIME,
+                    TimeUnit.MILLISECONDS);
+        }catch (Exception e){
+            logger.debug("exception: " +e.getMessage());
+        }
     }
 
     @Override
@@ -38,6 +57,15 @@ public class WhiteScheduleSysMonRun implements SysMonitorRunner {
 
     @Override
     public void destroy() {
+        try {
+            schedule.shutdown();
+            boolean wait = schedule.awaitTermination(5, TimeUnit.SECONDS);
+            if(!wait) {
+                schedule.shutdownNow();
+            }
+        }catch (Exception e) {
+            logger.debug("schedule exception: " + e.getMessage());
+        }
         sysMonitorRunner.destroy();
     }
 }

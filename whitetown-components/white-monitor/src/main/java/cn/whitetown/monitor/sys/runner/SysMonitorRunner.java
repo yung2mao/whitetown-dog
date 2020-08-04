@@ -7,18 +7,13 @@ import java.util.concurrent.ExecutorService;
  * @author taixian
  * @date 2020/08/02
  **/
-public interface SysMonitorRunner {
+public interface SysMonitorRunner extends Runnable{
 
     /**
      * 初始化方法
      * @param executorService 线程池
      */
     void init(ExecutorService executorService);
-
-    /**
-     * 执行系统监控
-     */
-    void run();
 
     /**
      * 允许执行
