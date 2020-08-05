@@ -16,6 +16,8 @@ import java.util.concurrent.atomic.AtomicInteger;
  **/
 public class WhiteMonFileSaveManager implements MonitorInfoSaveManager {
 
+    private static MonitorInfoSaveManager monitorInfoSaveManager = new WhiteMonFileSaveManager();
+
     private Logger logger = Logger.getLogger(WhiteMonFileSaveManager.class);
 
     private String basePath;
@@ -25,6 +27,13 @@ public class WhiteMonFileSaveManager implements MonitorInfoSaveManager {
     private String separator = System.getProperty("file.separator");
 
     private OutputStream outputStream;
+
+    private WhiteMonFileSaveManager() {
+    }
+
+    public static MonitorInfoSaveManager getInstance() {
+        return monitorInfoSaveManager;
+    }
 
     @Override
     public void init() throws IOException {
@@ -45,34 +54,7 @@ public class WhiteMonFileSaveManager implements MonitorInfoSaveManager {
         if(!fileStatus) {
             throw new IOException("文件系统异常");
         }
-        outputStream = new FileOutputStream(docPath);
-    }
-
-    @Override
-    public String createDocName() {
-        StringBuilder builder = new StringBuilder(MonConfConstants.SERVER_ID);
-        LocalDateTime now = LocalDateTime.now();
-        builder.append("_")
-                .append(now.getYear()).append("-")
-                .append(now.getMonth().getValue()).append("-")
-                .append(now.getDayOfMonth())
-                .append(".log");
-        return builder.toString();
-    }
-
-    @Override
-    public boolean checkOrCreateDoc(String path) {
-        File file = new File(path);
-        try {
-            if (!file.exists()) {
-                file.createNewFile();
-                this.resetOutputStream(file);
-            }
-            return true;
-        }catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
+        outputStream = new FileOutputStream(docPath,true);
     }
 
     @Override
@@ -107,15 +89,53 @@ public class WhiteMonFileSaveManager implements MonitorInfoSaveManager {
         }
     }
 
+    /**
+     * 构建文档名称
+     * @return
+     */
+    private String createDocName() {
+        StringBuilder builder = new StringBuilder(MonConfConstants.WORK_ID);
+        LocalDateTime now = LocalDateTime.now();
+        builder.append("_")
+                .append(now.getYear()).append("-")
+                .append(now.getMonth().getValue()).append("-")
+                .append(now.getDayOfMonth())
+                .append(".log");
+        return builder.toString();
+    }
+
+    /**
+     * 检查log文件是否已存在,不存在则创建
+     * @param path
+     * @return
+     */
+    private boolean checkOrCreateDoc(String path) {
+        File file = new File(path);
+        try {
+            if (!file.exists()) {
+                file.createNewFile();
+                this.resetOutputStream(file);
+            }
+            return true;
+        }catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
     private boolean write(WhiteMonitorParams monitorParams) {
         if(monitorParams == null) {
             return false;
         }
-        String monitorLog = monitorParams.toString() + "\n";
+        if(outputStream == null) {
+            return false;
+        }
+        String monitorLog = monitorParams.toString() + MonConfConstants.LINE_SEPARATOR;
         byte[] bytes = monitorLog.getBytes();
         try {
             outputStream.write(bytes);
-        }catch (IOException e) {
+        }catch (NullPointerException nullException) {
+        }catch (Exception e) {
             logger.debug("exception: " + e.getMessage());
             return false;
         }

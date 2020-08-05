@@ -1,4 +1,4 @@
-package cn.whitetown.monitor.sys.runner;
+package cn.whitetown.monitor.sys.client;
 
 import java.util.concurrent.Callable;
 
@@ -7,5 +7,5 @@ import java.util.concurrent.Callable;
  * @author taixian
  * @date 2020/08/02
  **/
-public interface SysMonCollectCall<T> extends Callable<T> {
+public interface SysDataCollectCall<T> extends Callable<T> {
 }

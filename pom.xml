@@ -39,6 +39,7 @@
     <jwt.version>0.9.1</jwt.version>
     <rector-core.version>3.3.0.RELEASE</rector-core.version>
 <!--    <spring-beans.version>5.1.6.RELEASE</spring-beans.version>-->
+    <netty.verson>4.1.42.Final</netty.verson>
     <lombok.version>1.18.8</lombok.version>
     <swagger2.version>2.9.2</swagger2.version>
     <oshi.version>3.9.1</oshi.version>
@@ -106,6 +107,12 @@
         <artifactId>spring-beans</artifactId>
         <version>${spring-beans.version}</version>
       </dependency>-->
+      <!-- netty -->
+      <dependency>
+        <groupId>io.netty</groupId>
+        <artifactId>netty-all</artifactId>
+        <version>${netty.verson}</version>
+      </dependency>
 
       <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
       <dependency>

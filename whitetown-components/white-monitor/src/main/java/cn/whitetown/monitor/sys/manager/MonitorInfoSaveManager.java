@@ -18,19 +18,6 @@ public interface MonitorInfoSaveManager {
     void init() throws IOException;
 
     /**
-     * 构建文件名
-     * @return
-     */
-    String createDocName();
-
-    /**
-     * 路径信息检查
-     * @param path
-     * @return
-     */
-    public boolean checkOrCreateDoc(String path);
-
-    /**
      * 系统监控信息写出保存
      * @param monitorParams
      * @return

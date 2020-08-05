@@ -37,10 +37,10 @@
       <groupId>log4j</groupId>
       <artifactId>log4j</artifactId>
     </dependency>
-    <!--quartz定时任务-->
+    <!--netty-->
     <dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-starter-quartz</artifactId>
+      <groupId>io.netty</groupId>
+      <artifactId>netty-all</artifactId>
     </dependency>
   </dependencies>
 

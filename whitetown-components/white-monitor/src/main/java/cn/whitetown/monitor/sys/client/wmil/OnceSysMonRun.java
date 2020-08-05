@@ -1,6 +1,6 @@
-package cn.whitetown.monitor.sys.runner.wmil;
+package cn.whitetown.monitor.sys.client.wmil;
 
-import cn.whitetown.monitor.sys.runner.SysMonitorRunner;
+import cn.whitetown.monitor.sys.client.SysMonitorRunner;
 import cn.whitetown.monitor.sys.manager.MonitorInfoSaveManager;
 import cn.whitetown.monitor.sys.manager.SysCollectManager;
 import cn.whitetown.monitor.sys.modo.dto.WhiteMonitorParams;
@@ -17,9 +17,9 @@ import java.util.concurrent.Future;
  * @author taixian
  * @date 2020/08/02
  **/
-public class WhiteOnceSysMonRun implements SysMonitorRunner {
+public class OnceSysMonRun implements SysMonitorRunner {
 
-    private Logger logger = Logger.getLogger(WhiteOnceSysMonRun.class);
+    private Logger logger = Logger.getLogger(OnceSysMonRun.class);
 
     boolean isActive = false;
 
@@ -29,7 +29,10 @@ public class WhiteOnceSysMonRun implements SysMonitorRunner {
 
     private ExecutorService executorService;
 
-    public WhiteOnceSysMonRun(SysCollectManager collectManager, MonitorInfoSaveManager saveManager) {
+    public OnceSysMonRun() {
+    }
+
+    public OnceSysMonRun(SysCollectManager collectManager, MonitorInfoSaveManager saveManager) {
         this.collectManager = collectManager;
         this.saveManager = saveManager;
     }
@@ -49,12 +52,12 @@ public class WhiteOnceSysMonRun implements SysMonitorRunner {
         if(!isActive) {
             return;
         }
-        Future<WhiteMonitorParams> future = executorService.submit(new WhiteMonCollectRun(collectManager));
+        Future<WhiteMonitorParams> future = executorService.submit(new OataCollectRun(collectManager));
         try {
             WhiteMonitorParams whiteMonitorParams = future.get();
-            executorService.execute(new WhiteSysMonSaveRun(saveManager,whiteMonitorParams));
-        } catch (InterruptedException | ExecutionException e) {
-            logger.warn("exception: " + e.getMessage());
+            executorService.execute(new SysDataSaveImpl(saveManager, whiteMonitorParams));
+        }catch (Exception e) {
+            logger.warn(e.getMessage());
         }
     }
 
@@ -70,6 +73,7 @@ public class WhiteOnceSysMonRun implements SysMonitorRunner {
 
     @Override
     public void destroy() {
+        this.stop();
         saveManager.destroy();
         collectManager = null;
         saveManager = null;

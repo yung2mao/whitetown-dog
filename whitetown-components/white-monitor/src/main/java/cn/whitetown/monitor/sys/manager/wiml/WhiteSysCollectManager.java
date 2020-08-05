@@ -63,14 +63,14 @@ public enum WhiteSysCollectManager implements SysCollectManager {
 
     @Override
     public WhiteSysBaseInfo getSysBaseInfo() {
-        sysBaseInfo.setServerId(MonConfConstants.SERVER_ID);
+        sysBaseInfo.setServerId(MonConfConstants.WORK_ID);
         OperatingSystem operatingSystem = systemInfo.getOperatingSystem();
         sysBaseInfo.setVendor(operatingSystem.getManufacturer());
         sysBaseInfo.setVersion(operatingSystem.getFamily() + " " + operatingSystem.getVersion());
         sysBaseInfo.setArch(sysProperties.getProperty("os.arch"));
         Sensors sensors = systemInfo.getHardware().getSensors();
         sysBaseInfo.setCpuTemperature(sensors.getCpuTemperature()+"");
-        //windows平台可能被限制
+        //风扇转速 - windows平台可能被限制
         sysBaseInfo.setFanSpeed(sensors.getFanSpeeds()[0]);
         long startTime = ManagementFactory.getRuntimeMXBean().getStartTime();
         sysBaseInfo.setStartTime(WhiteFormatUtil.millisToDate(startTime));

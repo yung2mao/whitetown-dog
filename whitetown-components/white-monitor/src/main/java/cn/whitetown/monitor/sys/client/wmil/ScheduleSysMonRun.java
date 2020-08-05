@@ -1,7 +1,7 @@
-package cn.whitetown.monitor.sys.runner.wmil;
+package cn.whitetown.monitor.sys.client.wmil;
 
 import cn.whitetown.monitor.config.MonConfConstants;
-import cn.whitetown.monitor.sys.runner.SysMonitorRunner;
+import cn.whitetown.monitor.sys.client.SysMonitorRunner;
 import org.apache.log4j.Logger;
 import org.springframework.scheduling.concurrent.CustomizableThreadFactory;
 
@@ -12,15 +12,15 @@ import java.util.concurrent.*;
  * @author taixian
  * @date 2020/08/03
  **/
-public class WhiteScheduleSysMonRun implements SysMonitorRunner{
+public class ScheduleSysMonRun implements SysMonitorRunner{
 
-    private Logger logger = Logger.getLogger(WhiteScheduleSysMonRun.class);
+    private Logger logger = Logger.getLogger(ScheduleSysMonRun.class);
 
     private SysMonitorRunner sysMonitorRunner;
 
     private ScheduledExecutorService schedule;
 
-    public WhiteScheduleSysMonRun(SysMonitorRunner monitorRunner) {
+    public ScheduleSysMonRun(SysMonitorRunner monitorRunner) {
         this.sysMonitorRunner = monitorRunner;
         String poolName = "white-schedule-pool";
         CustomizableThreadFactory threadFactory = new CustomizableThreadFactory();

@@ -1,6 +1,6 @@
-package cn.whitetown.monitor.sys.runner.wmil;
+package cn.whitetown.monitor.sys.client.wmil;
 
-import cn.whitetown.monitor.sys.runner.SysMonCollectCall;
+import cn.whitetown.monitor.sys.client.SysDataCollectCall;
 import cn.whitetown.monitor.sys.manager.SysCollectManager;
 import cn.whitetown.monitor.sys.modo.dto.WhiteMonitorParams;
 
@@ -9,11 +9,11 @@ import cn.whitetown.monitor.sys.modo.dto.WhiteMonitorParams;
  * @author taixian
  * @date 2020/08/02
  **/
-public class WhiteMonCollectRun implements SysMonCollectCall<WhiteMonitorParams> {
+public class OataCollectRun implements SysDataCollectCall<WhiteMonitorParams> {
 
     private SysCollectManager sysCollectManager;
 
-    public WhiteMonCollectRun(SysCollectManager sysCollectManager) {
+    public OataCollectRun(SysCollectManager sysCollectManager) {
         this.sysCollectManager = sysCollectManager;
     }
 

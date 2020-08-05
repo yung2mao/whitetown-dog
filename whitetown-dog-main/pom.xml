@@ -41,6 +41,11 @@
       <artifactId>white-monitor</artifactId>
       <version>1.0-SNAPSHOT</version>
     </dependency>
+    <!--quartz定时任务-->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-quartz</artifactId>
+    </dependency>
     <!--junit-->
     <dependency>
       <groupId>junit</groupId>
