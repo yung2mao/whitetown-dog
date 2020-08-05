@@ -83,7 +83,7 @@ public class WhiteMonFileSaveManager implements MonitorInfoSaveManager {
         try {
             outputStream.close();
         } catch (IOException e) {
-            logger.debug("exception: " + e.getMessage());
+            logger.error(e.getMessage());
         } finally {
             outputStream = null;
         }
@@ -136,7 +136,7 @@ public class WhiteMonFileSaveManager implements MonitorInfoSaveManager {
             outputStream.write(bytes);
         }catch (NullPointerException nullException) {
         }catch (Exception e) {
-            logger.debug("exception: " + e.getMessage());
+            logger.error(e.getMessage());
             return false;
         }
         return true;

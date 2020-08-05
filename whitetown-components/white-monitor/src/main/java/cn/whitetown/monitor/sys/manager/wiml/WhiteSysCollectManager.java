@@ -1,10 +1,10 @@
 package cn.whitetown.monitor.sys.manager.wiml;
 
-import cn.whitetown.dogbase.common.util.WhiteFormatUtil;
 import cn.whitetown.monitor.config.MonConfConstants;
 import cn.whitetown.monitor.sys.manager.SysCollectManager;
 import cn.whitetown.monitor.sys.modo.dto.WhiteMonitorParams;
 import cn.whitetown.monitor.sys.modo.po.*;
+import cn.whitetown.monitor.util.WhiteFormatUtil;
 import oshi.SystemInfo;
 import oshi.hardware.*;
 import oshi.software.os.*;

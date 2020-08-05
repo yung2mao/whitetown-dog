@@ -1,9 +1,7 @@
 package cn.whitetown.usersecurity.controller;
 
-import cn.whitetown.authcommon.constant.AuthConstant;
 import cn.whitetown.authcommon.util.captcha.CaptchaDataDeal;
 import cn.whitetown.authea.annotation.WhiteAuthAnnotation;
-import cn.whitetown.authea.modo.AuthConstants;
 import cn.whitetown.authea.modo.WhiteControlType;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.entity.dto.ResponseData;
@@ -11,15 +9,11 @@ import cn.whitetown.authcommon.entity.dto.LoginUser;
 import cn.whitetown.dogbase.common.exception.CustomException;
 import cn.whitetown.dogbase.common.util.DataCheckUtil;
 import cn.whitetown.dogbase.common.util.WebUtil;
-import cn.whitetown.dogbase.common.util.WhiteToolUtil;
 import cn.whitetown.usersecurity.service.DogUserService;
 import com.alibaba.fastjson.JSONObject;
-import io.swagger.annotations.Api;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-import springfox.documentation.annotations.ApiIgnore;
 
 import javax.imageio.ImageIO;
 import javax.servlet.ServletOutputStream;
@@ -38,7 +32,7 @@ import java.io.IOException;
 @WhiteAuthAnnotation(type = WhiteControlType.AUTHENTICATED)
 public class DogUserController {
 
-    private Log log = LogFactory.getLog(DogUserController.class);
+    private Logger log = Logger.getLogger(DogUserController.class);
 
     @Autowired
     private CaptchaDataDeal captchaDataDeal;
@@ -99,7 +93,7 @@ public class DogUserController {
                 e.printStackTrace();
             }
         }
-        log.warn("验证码生成成功，客户端IP地址为>"+WebUtil.getClientIP(request)+", 验证码为>"+captchaText);
+        log.debug("验证码生成成功，客户端IP地址为>"+WebUtil.getClientIP(request)+", 验证码为>"+captchaText);
     }
 
     /**
@@ -115,7 +109,7 @@ public class DogUserController {
         String sessionId = WebUtil.getCusSessionId(request);
 
         userService.checkCaptcha(captcha,sessionId);
-        log.warn("验证码校验通过，当前用户IP地址为 >>" + WebUtil.getClientIP(request));
+        log.debug("验证码校验通过，当前用户IP地址为 >>" + WebUtil.getClientIP(request));
         return ResponseData.ok();
     }
 

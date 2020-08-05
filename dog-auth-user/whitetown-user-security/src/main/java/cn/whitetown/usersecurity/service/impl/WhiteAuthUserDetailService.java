@@ -1,9 +1,7 @@
 package cn.whitetown.usersecurity.service.impl;
 
-import cn.whitetown.authcommon.entity.dto.LoginUser;
 import cn.whitetown.authcommon.util.JwtTokenUtil;
 import cn.whitetown.authcommon.util.defaultimpl.WhiteJwtTokenUtil;
-import cn.whitetown.authea.manager.SpringSecurityConfigureManager;
 import cn.whitetown.authea.manager.UserDetailManager;
 import cn.whitetown.authea.modo.AuthUser;
 import cn.whitetown.authea.modo.WhiteSecurityUser;
@@ -12,13 +10,11 @@ import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.exception.CustomException;
 import cn.whitetown.usersecurity.util.AuthUserCacheUtil;
 import cn.whitetown.usersecurity.util.LoginUserUtil;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
@@ -31,7 +27,7 @@ import java.util.Set;
 @Component
 public class WhiteAuthUserDetailService implements WhiteUserDetailService {
 
-    private Log log = LogFactory.getLog(WhiteUserDetailServiceImpl.class);
+    private Logger log = Logger.getLogger(WhiteAuthUserDetailService.class);
 
     @Autowired
     private AuthUserCacheUtil authCacheUtil;
@@ -47,7 +43,7 @@ public class WhiteAuthUserDetailService implements WhiteUserDetailService {
         try{
             return this.loadBasicUserDetails(username);
         }catch (Exception e){
-            log.warn("load userDetail error, the reason is "+e.getMessage());
+            log.debug("load userDetail error, the reason is "+e.getMessage());
             throw new CustomException(ResponseStatusEnum.TOKEN_ERROR);
         }
     }

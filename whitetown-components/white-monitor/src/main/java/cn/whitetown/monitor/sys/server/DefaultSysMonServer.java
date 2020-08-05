@@ -59,10 +59,10 @@ public class DefaultSysMonServer implements SysMonServer{
                         }
                     });
             ChannelFuture channelFuture = serverBootstrap.bind(port).sync();
-            logger.debug("the data collect server is started");
+            logger.info("the data collect server is started");
             channelFuture.channel().closeFuture().sync();
         }catch (Exception e){
-            logger.warn(e.getMessage());
+            logger.error(e.getMessage());
         }finally {
             workGroup.shutdownGracefully();
             bossGroup.shutdownGracefully();
@@ -75,7 +75,7 @@ public class DefaultSysMonServer implements SysMonServer{
             workGroup.shutdownGracefully();
             bossGroup.shutdownGracefully();
         }catch (Throwable e) {
-            logger.warn(e.getMessage());
+            logger.error(e.getMessage());
         }
     }
 }

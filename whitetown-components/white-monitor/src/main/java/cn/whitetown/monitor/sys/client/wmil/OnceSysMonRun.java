@@ -7,7 +7,6 @@ import cn.whitetown.monitor.sys.modo.dto.WhiteMonitorParams;
 import org.apache.log4j.Logger;
 
 import java.io.IOException;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Future;
 
@@ -43,7 +42,7 @@ public class OnceSysMonRun implements SysMonitorRunner {
         try {
             this.saveManager.init();
         } catch (IOException e) {
-            logger.warn("exception: " + e.getMessage());
+            logger.error(e.getMessage());
         }
     }
 
@@ -57,7 +56,7 @@ public class OnceSysMonRun implements SysMonitorRunner {
             WhiteMonitorParams whiteMonitorParams = future.get();
             executorService.execute(new SysDataSaveImpl(saveManager, whiteMonitorParams));
         }catch (Exception e) {
-            logger.warn(e.getMessage());
+            logger.error(e.getMessage());
         }
     }
 

@@ -16,6 +16,7 @@ import io.jsonwebtoken.Claims;
 import io.swagger.models.auth.In;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -33,7 +34,7 @@ import java.util.*;
 //@Component
 public class WhiteUserDetailServiceImpl implements WhiteUserDetailService {
 
-    private Log log = LogFactory.getLog(WhiteUserDetailServiceImpl.class);
+    private Logger log = Logger.getLogger(WhiteUserDetailServiceImpl.class);
 
     @Autowired
     private AuthUserCacheUtil authCacheUtil;
@@ -82,7 +83,7 @@ public class WhiteUserDetailServiceImpl implements WhiteUserDetailService {
     private WhiteSecurityUser pathWithAuthorHandle(WhiteSecurityUser userDetails) {
         String uri = WebUtil.getUri();
         String[] authors = securityConfigureManager.getAuthorsByPath(uri);
-        log.warn(uri+"所需访问权限为:"+authors);
+        log.debug(uri+"所需访问权限为:"+authors);
         if(authors == null || authors.length == 0){
             return userDetails;
         }

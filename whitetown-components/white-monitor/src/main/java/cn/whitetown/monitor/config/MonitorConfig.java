@@ -1,5 +1,6 @@
 package cn.whitetown.monitor.config;
 
+import cn.whitetown.monitor.sys.anno.MonAnnotation;
 import cn.whitetown.monitor.sys.client.SysMonClient;
 import cn.whitetown.monitor.sys.client.wmil.DefaultSysMonClient;
 import cn.whitetown.monitor.sys.manager.MonitorInfoSaveManager;
@@ -37,10 +38,10 @@ public class MonitorConfig {
 
     /**
      * 初始化系统监控对象
-     * 本地保存
+     * 默认 - 本地存储+传输服务端
      * @return
      */
-    @Bean
+    @Bean(MonAnnotation.CLI_DEFAULT)
     @Lazy
     public SysMonitorRunner monitorRunner() {
         MonitorInfoSaveManager fileSave = WhiteMonFileSaveManager.getInstance();
@@ -50,17 +51,29 @@ public class MonitorConfig {
         SysMonitorRunner monitorRunner = new ScheduleSysMonRun(monitorRun);
         monitorRunner.init(executorService);
         monitorRunner.open();
-        return monitorRun;
+        return monitorRunner;
     }
 
-    /**
-     * 系统监控客户端
-     * @return
-     */
-    @Bean
+    @Bean(MonAnnotation.CLI_FILE_ONLY)
     @Lazy
-    public SysMonClient sysMonClient() {
-        return new DefaultSysMonClient();
+    public SysMonitorRunner monLocalSave() {
+        MonitorInfoSaveManager localSave = WhiteMonFileSaveManager.getInstance();
+        OnceSysMonRun onceSysMonRun = new OnceSysMonRun(manager, localSave);
+        ScheduleSysMonRun monitorRunner = new ScheduleSysMonRun(onceSysMonRun);
+        monitorRunner.init(executorService);
+        monitorRunner.open();
+        return monitorRunner;
+    }
+
+    @Bean(MonAnnotation.CLI_SENT_NOLY)
+    @Lazy
+    public SysMonitorRunner monSentServer() {
+        MonitorInfoSaveManager sent = WhiteMon2ServerClient.getInstance();
+        OnceSysMonRun onceSysMonRun = new OnceSysMonRun(manager, sent);
+        ScheduleSysMonRun monRunner = new ScheduleSysMonRun(onceSysMonRun);
+        monRunner.init(executorService);
+        monRunner.open();
+        return monRunner;
     }
 
     /**

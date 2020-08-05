@@ -41,7 +41,7 @@ public class ScheduleSysMonRun implements SysMonitorRunner{
                     MonConfConstants.SYS_INTERVAL_TIME,
                     TimeUnit.MILLISECONDS);
         }catch (Exception e){
-            logger.debug("exception: " +e.getMessage());
+            logger.error(e.getMessage());
         }
     }
 
@@ -64,7 +64,7 @@ public class ScheduleSysMonRun implements SysMonitorRunner{
                 schedule.shutdownNow();
             }
         }catch (Exception e) {
-            logger.debug("schedule exception: " + e.getMessage());
+            logger.error(e.getMessage());
         }
         sysMonitorRunner.destroy();
     }

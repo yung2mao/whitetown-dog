@@ -42,9 +42,6 @@ public class DogUserServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserBasi
     private UserManager userManager;
 
     @Autowired
-    private RoleManager roleManager;
-
-    @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
     @Autowired

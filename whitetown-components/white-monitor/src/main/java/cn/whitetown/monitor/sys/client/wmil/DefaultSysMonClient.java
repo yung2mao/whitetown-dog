@@ -11,8 +11,21 @@ import org.springframework.beans.factory.annotation.Autowired;
  **/
 public class DefaultSysMonClient implements SysMonClient {
 
-    @Autowired
+    private static SysMonClient client;
+
     private SysMonitorRunner monitorRunner;
+
+    private DefaultSysMonClient() {
+    }
+
+    public static SysMonClient getInstance(SysMonitorRunner monRunner) {
+        if(client == null) {
+            DefaultSysMonClient sysMonClient = new DefaultSysMonClient();
+            sysMonClient.monitorRunner = monRunner;
+            client = sysMonClient;
+        }
+        return client;
+    }
 
     @Override
     public void run() {

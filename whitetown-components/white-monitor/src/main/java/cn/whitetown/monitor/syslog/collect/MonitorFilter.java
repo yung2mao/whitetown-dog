@@ -1,4 +1,4 @@
-package cn.whitetown.monitor.app.collect;
+package cn.whitetown.monitor.syslog.collect;
 
 import org.apache.log4j.Logger;
 import org.springframework.boot.web.servlet.ServletComponentScan;

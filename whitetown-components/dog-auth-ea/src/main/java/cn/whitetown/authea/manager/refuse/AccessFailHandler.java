@@ -17,6 +17,7 @@ import java.io.PrintWriter;
  * @date 2020/06/13 16:18
  **/
 public class AccessFailHandler implements AccessDeniedHandler {
+
     @Override
     public void handle(HttpServletRequest httpServletRequest, HttpServletResponse response, AccessDeniedException e) throws IOException, ServletException {
         ResponseData result = ResponseData.fail(ResponseStatusEnum.NO_PERMITION);

@@ -12,6 +12,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.impl.DefaultClaims;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Calendar;
@@ -25,7 +26,7 @@ import java.util.Map;
  **/
 public class WhiteJwtTokenUtil implements JwtTokenUtil {
 
-    private Log logger = LogFactory.getLog(WhiteJwtTokenUtil.class);
+    private Logger logger = Logger.getLogger(WhiteJwtTokenUtil.class);
     /**
      * 用户名键值
      */
@@ -68,7 +69,7 @@ public class WhiteJwtTokenUtil implements JwtTokenUtil {
         this.SECRET = secret;
         this.TOKEN_PREFIX = TOKEN_PREFIX;
         this.HEADER_STRING = HEADER_STRING;
-        logger.warn("正在初始化Jwt util，expire time="+expire);
+        logger.info("正在初始化Jwt util，expire time="+expire);
     }
 
     @Override
@@ -97,10 +98,10 @@ public class WhiteJwtTokenUtil implements JwtTokenUtil {
                     .parseClaimsJws(token.replace(TOKEN_PREFIX, ""))
                     .getBody();
         }catch (ExpiredJwtException expiredException) {
-            logger.warn(expiredException.getMessage());
+            logger.debug(expiredException.getMessage());
             throw new CustomException(ResponseStatusEnum.TOKEN_EXPIRED);
         }catch (Exception e) {
-            logger.warn(e.getMessage());
+            logger.debug(e.getMessage());
             throw new CustomException(ResponseStatusEnum.TOKEN_ERROR);
         }
         return body == null ? new DefaultClaims(new HashMap<>(0)) : body;

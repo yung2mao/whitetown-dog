@@ -1,7 +1,6 @@
 package cn.whitetown.monitor.sys.server;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 
 /**
  * 接收数据存储
@@ -10,7 +9,7 @@ import org.apache.commons.logging.LogFactory;
  **/
 public class SysMonSaveHandler implements Runnable {
 
-    private Log log = LogFactory.getLog(SysMonSaveHandler.class);
+    private Logger logger = Logger.getLogger(SysMonSaveHandler.class);
 
     @Override
     public void run() {

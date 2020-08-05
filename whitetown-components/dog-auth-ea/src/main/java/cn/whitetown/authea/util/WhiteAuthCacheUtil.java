@@ -2,8 +2,7 @@ package cn.whitetown.authea.util;
 
 import cn.whitetown.authea.modo.AuthConstants;
 import cn.whitetown.dogbase.common.memdata.WhiteExpireMap;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -18,7 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
  **/
 public class WhiteAuthCacheUtil implements AuthCacheUtil {
 
-    private Log logger = LogFactory.getLog(WhiteAuthCacheUtil.class);
+    private Logger logger = Logger.getLogger(WhiteAuthCacheUtil.class);
 
     @Autowired
     private WhiteExpireMap expireMap;
@@ -93,7 +92,7 @@ public class WhiteAuthCacheUtil implements AuthCacheUtil {
             this.removeUserDetails(username);
         }
         userSet.clear();
-        logger.warn("the cache authors is clear");
+        logger.info("the cache authors is clear");
     }
 
     private UserDetails castUserDetails(Object o) {

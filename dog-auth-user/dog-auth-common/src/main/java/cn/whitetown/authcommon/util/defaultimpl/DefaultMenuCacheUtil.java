@@ -4,14 +4,12 @@ import cn.whitetown.authcommon.constant.AuthConstant;
 import cn.whitetown.authcommon.entity.po.MenuInfo;
 import cn.whitetown.authcommon.util.MenuCacheUtil;
 import cn.whitetown.dogbase.common.memdata.WhiteExpireMap;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.stream.Collectors;
 
 /**
@@ -21,7 +19,7 @@ import java.util.stream.Collectors;
  **/
 public class DefaultMenuCacheUtil implements MenuCacheUtil {
 
-    private Log logger = LogFactory.getLog(DefaultMenuCacheUtil.class);
+    private Logger logger = Logger.getLogger(DefaultMenuCacheUtil.class);
 
     @Autowired
     private WhiteExpireMap expireMap;
@@ -43,7 +41,7 @@ public class DefaultMenuCacheUtil implements MenuCacheUtil {
     public void destroy() {
         menuCacheMetaSet.stream().forEach(key->expireMap.remove(key));
         menuCacheMetaSet = null;
-        logger.warn("the menuCache is destroy");
+        logger.info("the menuCache is destroy");
     }
 
     @Override

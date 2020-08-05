@@ -66,7 +66,7 @@ public class WhiteMon2ServerClient implements MonitorInfoSaveManager {
             channel.writeAndFlush(monitorParams.toString() + MonConfConstants.LINE_SEPARATOR);
             return true;
         }catch (Exception e) {
-            logger.debug("exeception: " + e.getMessage());
+            logger.error(e.getMessage());
         }
         return false;
     }
