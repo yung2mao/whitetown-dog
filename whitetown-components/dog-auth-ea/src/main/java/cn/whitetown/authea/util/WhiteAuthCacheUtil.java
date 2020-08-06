@@ -2,6 +2,7 @@ package cn.whitetown.authea.util;
 
 import cn.whitetown.authea.modo.AuthConstants;
 import cn.whitetown.dogbase.common.memdata.WhiteExpireMap;
+import cn.whitetown.monitor.config.MonConfConstants;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -17,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
  **/
 public class WhiteAuthCacheUtil implements AuthCacheUtil {
 
-    private Logger logger = Logger.getLogger(WhiteAuthCacheUtil.class);
+    private Logger logger = MonConfConstants.logger;
 
     @Autowired
     private WhiteExpireMap expireMap;

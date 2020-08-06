@@ -11,6 +11,7 @@ import cn.whitetown.authea.service.WhiteUserDetailService;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.exception.CustomException;
 import cn.whitetown.dogbase.common.util.WebUtil;
+import cn.whitetown.monitor.config.MonConfConstants;
 import cn.whitetown.usersecurity.util.AuthUserCacheUtil;
 import io.jsonwebtoken.Claims;
 import io.swagger.models.auth.In;
@@ -34,7 +35,7 @@ import java.util.*;
 //@Component
 public class WhiteUserDetailServiceImpl implements WhiteUserDetailService {
 
-    private Logger log = Logger.getLogger(WhiteUserDetailServiceImpl.class);
+    private Logger log = MonConfConstants.logger;
 
     @Autowired
     private AuthUserCacheUtil authCacheUtil;

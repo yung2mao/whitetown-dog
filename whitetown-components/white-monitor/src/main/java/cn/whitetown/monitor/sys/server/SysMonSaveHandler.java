@@ -1,5 +1,6 @@
 package cn.whitetown.monitor.sys.server;
 
+import cn.whitetown.monitor.config.MonConfConstants;
 import org.apache.log4j.Logger;
 
 /**
@@ -9,7 +10,7 @@ import org.apache.log4j.Logger;
  **/
 public class SysMonSaveHandler implements Runnable {
 
-    private Logger logger = Logger.getLogger(SysMonSaveHandler.class);
+    private Logger logger = MonConfConstants.logger;
 
     @Override
     public void run() {

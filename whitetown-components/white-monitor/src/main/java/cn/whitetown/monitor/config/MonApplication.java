@@ -7,6 +7,7 @@ import cn.whitetown.monitor.sys.client.SysMonClient;
 import cn.whitetown.monitor.sys.client.SysMonitorRunner;
 import cn.whitetown.monitor.sys.client.wmil.DefaultSysMonClient;
 import cn.whitetown.monitor.sys.server.SysMonServer;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.ApplicationArguments;
@@ -27,6 +28,8 @@ import java.util.concurrent.ExecutorService;
  **/
 @Component
 public class MonApplication implements ApplicationRunner {
+
+    private Logger logger = MonConfConstants.logger;
 
     @Autowired
     private ApplicationContext context;
@@ -91,8 +94,10 @@ public class MonApplication implements ApplicationRunner {
             @Override
             public void run() {
                 sysMonServer.run();
+                logger.info("the system monitor server is started");
             }
         });
+
     }
 
     /**
@@ -126,6 +131,7 @@ public class MonApplication implements ApplicationRunner {
                     e.printStackTrace();
                 }
                 sysMonClient.run();
+                logger.info("the system monitor client is started");
             }
         });
     }

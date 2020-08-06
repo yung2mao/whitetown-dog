@@ -9,6 +9,7 @@ import cn.whitetown.authcommon.entity.dto.LoginUser;
 import cn.whitetown.dogbase.common.exception.CustomException;
 import cn.whitetown.dogbase.common.util.DataCheckUtil;
 import cn.whitetown.dogbase.common.util.WebUtil;
+import cn.whitetown.monitor.config.MonConfConstants;
 import cn.whitetown.usersecurity.service.DogUserService;
 import com.alibaba.fastjson.JSONObject;
 import org.apache.log4j.Logger;
@@ -32,7 +33,7 @@ import java.io.IOException;
 @WhiteAuthAnnotation(type = WhiteControlType.AUTHENTICATED)
 public class DogUserController {
 
-    private Logger log = Logger.getLogger(DogUserController.class);
+    private Logger log = MonConfConstants.logger;
 
     @Autowired
     private CaptchaDataDeal captchaDataDeal;

@@ -1,5 +1,6 @@
 package cn.whitetown.monitor.syslog.collect;
 
+import cn.whitetown.monitor.config.MonConfConstants;
 import org.apache.log4j.Logger;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 import org.springframework.core.Ordered;
@@ -20,10 +21,10 @@ import java.io.IOException;
 @Component
 @ServletComponentScan
 @WebFilter(urlPatterns = "/*",filterName = "globalMonitorFilter")
-@Order(Ordered.HIGHEST_PRECEDENCE+1)
+@Order(MonConfConstants.MON_FILTER_ORDER)
 public class MonitorFilter extends OncePerRequestFilter {
 
-    Logger logger = Logger.getLogger(MonitorFilter.class);
+    Logger logger = MonConfConstants.logger;
 
     @Override
     public void destroy() {

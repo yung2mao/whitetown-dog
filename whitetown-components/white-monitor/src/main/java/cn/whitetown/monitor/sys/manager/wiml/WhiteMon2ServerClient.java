@@ -23,7 +23,7 @@ import java.io.IOException;
  **/
 public class WhiteMon2ServerClient implements MonitorInfoSaveManager {
 
-    private Logger logger = Logger.getLogger(WhiteMon2ServerClient.class);
+    private Logger logger = MonConfConstants.logger;
 
     private static MonitorInfoSaveManager dataToServerClient = new WhiteMon2ServerClient();
 

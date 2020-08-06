@@ -18,7 +18,7 @@ public class WhiteMonFileSaveManager implements MonitorInfoSaveManager {
 
     private static MonitorInfoSaveManager monitorInfoSaveManager = new WhiteMonFileSaveManager();
 
-    private Logger logger = Logger.getLogger(WhiteMonFileSaveManager.class);
+    private Logger logger = MonConfConstants.logger;
 
     private String basePath;
 

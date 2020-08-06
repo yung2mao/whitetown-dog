@@ -21,7 +21,7 @@ import org.apache.log4j.Logger;
  **/
 public class DefaultSysMonServer implements SysMonServer{
 
-    private Logger logger = Logger.getLogger(DefaultSysMonServer.class);
+    private Logger logger = MonConfConstants.logger;
 
     private int port = MonConfConstants.SERVER_PORT;
 

@@ -8,6 +8,7 @@ import cn.whitetown.authea.modo.WhiteSecurityUser;
 import cn.whitetown.authea.service.WhiteUserDetailService;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.exception.CustomException;
+import cn.whitetown.monitor.config.MonConfConstants;
 import cn.whitetown.usersecurity.util.AuthUserCacheUtil;
 import cn.whitetown.usersecurity.util.LoginUserUtil;
 import org.apache.log4j.Logger;
@@ -27,7 +28,7 @@ import java.util.Set;
 @Component
 public class WhiteAuthUserDetailService implements WhiteUserDetailService {
 
-    private Logger log = Logger.getLogger(WhiteAuthUserDetailService.class);
+    private Logger log = MonConfConstants.logger;
 
     @Autowired
     private AuthUserCacheUtil authCacheUtil;

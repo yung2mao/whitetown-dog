@@ -5,6 +5,7 @@ import cn.whitetown.authcommon.util.JwtTokenUtil;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.exception.CustomException;
 import cn.whitetown.dogbase.common.util.WebUtil;
+import cn.whitetown.monitor.config.MonConfConstants;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -26,7 +27,7 @@ import java.util.Map;
  **/
 public class WhiteJwtTokenUtil implements JwtTokenUtil {
 
-    private Logger logger = Logger.getLogger(WhiteJwtTokenUtil.class);
+    private Logger logger = MonConfConstants.logger;
     /**
      * 用户名键值
      */

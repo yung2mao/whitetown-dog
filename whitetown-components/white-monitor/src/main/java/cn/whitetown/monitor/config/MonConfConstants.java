@@ -1,5 +1,8 @@
 package cn.whitetown.monitor.config;
 
+import org.apache.log4j.Logger;
+import org.springframework.core.Ordered;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
@@ -21,6 +24,20 @@ public class MonConfConstants {
     public static final int RETRY_TIMES;
     public static final String PROJECT_DIR = System.getProperty("user.dir");
     public static final String LINE_SEPARATOR = System.getProperty("line.separator");
+    public static final int MON_FILTER_ORDER = Ordered.HIGHEST_PRECEDENCE+ 10;
+
+    /*-------日志处理相关--------*/
+
+    public static final String LOG_DB_HANDLER = "LOG_DB_HANDLER";
+    public static final String SYS_LOG_NAME = "syslog";
+    public static Logger logger = Logger.getLogger(SYS_LOG_NAME);
+
+    /*-----------数据存储相关-------------*/
+    public static final String DB_DRIVER_NANE;
+    public static final String DB_URL;
+    public static final String DB_USERNAME;
+    public static final String DB_PASSWORD;
+    public static final int DB_TABLE_SPLIT_SIZE;
 
     static {
         InputStream in = MonitorConfig.class.getClassLoader().getResourceAsStream("white-conf.properties");
@@ -38,5 +55,11 @@ public class MonConfConstants {
         LOG_SAVE_PATH = MONITOR_CONF.getProperty("sys.file.savePath");
         LOG_SAVE_FAIL_TRY = Boolean.parseBoolean(MONITOR_CONF.getProperty("sys.fail.reset.isRetry"));
         RETRY_TIMES = Integer.parseInt(MONITOR_CONF.getProperty("sys.fail.retry.times"));
+        DB_DRIVER_NANE = MONITOR_CONF.getProperty("dataSource.driverName");
+        DB_URL = MONITOR_CONF.getProperty("dataSource.url");
+        DB_USERNAME = MONITOR_CONF.getProperty("dataSource.username");
+        DB_PASSWORD = MONITOR_CONF.getProperty("dataSource.password");
+        String size = MONITOR_CONF.getProperty("dataSource.table.size");
+        DB_TABLE_SPLIT_SIZE = size == null ? 1 : Integer.parseInt(size);
     }
 }

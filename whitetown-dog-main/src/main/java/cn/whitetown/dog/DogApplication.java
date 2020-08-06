@@ -1,10 +1,10 @@
 package cn.whitetown.dog;
 
+import cn.whitetown.monitor.config.MonConfConstants;
 import org.apache.log4j.Logger;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
 
 /**
  * @author GrainRain
@@ -13,7 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 @MapperScan("cn.whitetown.**.mappers")
 public class DogApplication {
-    private static Logger logger = Logger.getLogger(DogApplication.class);
+    private static Logger logger = MonConfConstants.logger;
 
     public static void main(String[] args) {
         SpringApplication.run(DogApplication.class);
