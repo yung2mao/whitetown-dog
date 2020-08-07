@@ -1,6 +1,6 @@
 package cn.whitetown.monitor.syslog.collect;
 
-import cn.whitetown.monitor.syslog.manager.LogHandlerEnum;
+import cn.whitetown.monitor.syslog.manager.SimpleWhiteLogHandler;
 import cn.whitetown.monitor.syslog.manager.WhiteLogHandler;
 import org.apache.log4j.AppenderSkeleton;
 import org.apache.log4j.Layout;
@@ -13,7 +13,7 @@ import org.apache.log4j.spi.LoggingEvent;
  **/
 public class WhiteLog4jAppender extends AppenderSkeleton {
 
-    protected String handlerType;
+    protected String className;
 
     protected WhiteLogHandler whiteLogHandler;
 
@@ -44,11 +44,8 @@ public class WhiteLog4jAppender extends AppenderSkeleton {
         return true;
     }
 
-
-    public void setHandlerType(String handlerType) {
-        this.handlerType = handlerType;
-        this.whiteLogHandler = LogHandlerEnum.getLogHandler(handlerType);
+    public void setClassName(String className) {
+        this.className = className;
+        this.whiteLogHandler = new SimpleWhiteLogHandler(className);
     }
-
-
 }

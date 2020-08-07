@@ -8,7 +8,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 /**
- * 常量配置信息
+ * 系统监控配置常量
  * @author taixian
  * @date 2020/08/01
  **/
@@ -28,16 +28,17 @@ public class MonConfConstants {
 
     /*-------日志处理相关--------*/
 
-    public static final String LOG_DB_HANDLER = "LOG_DB_HANDLER";
     public static final String SYS_LOG_NAME = "syslog";
     public static Logger logger = Logger.getLogger(SYS_LOG_NAME);
 
     /*-----------数据存储相关-------------*/
+
     public static final String DB_DRIVER_NANE;
     public static final String DB_URL;
     public static final String DB_USERNAME;
     public static final String DB_PASSWORD;
-    public static final int DB_TABLE_SPLIT_SIZE;
+    public static final int DB_TABLE_SHARDING_SIZE;
+    public static final long SHARDING_SCOPE = 5000000L;
 
     static {
         InputStream in = MonitorConfig.class.getClassLoader().getResourceAsStream("white-conf.properties");
@@ -60,6 +61,6 @@ public class MonConfConstants {
         DB_USERNAME = MONITOR_CONF.getProperty("dataSource.username");
         DB_PASSWORD = MONITOR_CONF.getProperty("dataSource.password");
         String size = MONITOR_CONF.getProperty("dataSource.table.size");
-        DB_TABLE_SPLIT_SIZE = size == null ? 1 : Integer.parseInt(size);
+        DB_TABLE_SHARDING_SIZE = size == null ? 1 : Integer.parseInt(size);
     }
 }

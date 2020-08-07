@@ -1,4 +1,4 @@
-package cn.whitetown.monitor.syslog.dao;
+package cn.whitetown.monitor.dao;
 
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -28,18 +28,18 @@ public interface DataSourceUtil {
 
     /**
      * 数据存储 - 单条数据
-     * @param tableName
+     * @param tableName table名称
      * @param entity
      */
     <T> void saveOne(String tableName ,T entity);
 
     /**
      * 数据存储 - 批量存储
-     * @param tableName
+     * @param tableName 表名称
      * @param entities
      * @param <T>
      */
-    <T> void sageList(String tableName ,List<T> entities);
+    <T> void saveList(String tableName , List<T> entities);
 
     /**
      * 关闭资源

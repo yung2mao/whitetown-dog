@@ -8,13 +8,11 @@ import cn.whitetown.monitor.util.WhiteFormatUtil;
 import oshi.SystemInfo;
 import oshi.hardware.*;
 import oshi.software.os.*;
+import oshi.util.FormatUtil;
 import oshi.util.Util;
 
 import java.lang.management.ManagementFactory;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Properties;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -205,6 +203,7 @@ public enum WhiteSysCollectManager implements SysCollectManager {
         this.getFileInfo();
         this.getNetInfo();
         this.getNetSpeed();
+        this.whiteMonitorParams.setTimeStamp(WhiteFormatUtil.dateFormat(new Date()));
         return whiteMonitorParams;
     }
 }

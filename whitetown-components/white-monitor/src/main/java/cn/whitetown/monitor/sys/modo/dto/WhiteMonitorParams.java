@@ -1,5 +1,6 @@
 package cn.whitetown.monitor.sys.modo.dto;
 
+import cn.whitetown.monitor.dao.WhiteTableKey;
 import cn.whitetown.monitor.sys.modo.po.*;
 import com.alibaba.fastjson.JSON;
 import lombok.Getter;
@@ -15,6 +16,8 @@ import java.util.List;
 @Getter
 @Setter
 public class WhiteMonitorParams {
+    @WhiteTableKey
+    private Long id;
     private WhiteSysBaseInfo sysBaseInfo;
     private WhiteCpuInfo whiteCpuInfo;
     private WhiteMemInfo memInfo;
@@ -22,7 +25,7 @@ public class WhiteMonitorParams {
     private List<WhiteFileInfo> fileInfos;
     private WhiteNetInfo netInfo;
     private WhiteNetSpeed netSpeed;
-    private long timeStamp;
+    private String timeStamp;
 
     @Override
     public String toString() {
