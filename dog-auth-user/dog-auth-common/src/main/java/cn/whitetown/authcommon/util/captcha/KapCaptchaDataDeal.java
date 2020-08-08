@@ -1,7 +1,6 @@
 package cn.whitetown.authcommon.util.captcha;
 
 import cn.whitetown.authcommon.util.defaultimpl.WhiteUserCacheUtil;
-import cn.whitetown.dogbase.common.memdata.SingleWhiteExpireMap;
 import com.google.code.kaptcha.Producer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.context.request.RequestContextHolder;

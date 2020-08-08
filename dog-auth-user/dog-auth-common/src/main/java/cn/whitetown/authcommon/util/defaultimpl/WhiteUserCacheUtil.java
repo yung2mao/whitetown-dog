@@ -2,7 +2,7 @@ package cn.whitetown.authcommon.util.defaultimpl;
 
 import cn.whitetown.authcommon.util.UserCacheUtil;
 import cn.whitetown.authcommon.constant.AuthConstant;
-import cn.whitetown.dogbase.common.memdata.WhiteExpireMap;
+import cn.whitetown.dogbase.wache.WhiteExpireMap;
 import cn.whitetown.authcommon.entity.dto.LoginUser;
 import org.springframework.beans.factory.annotation.Autowired;
 

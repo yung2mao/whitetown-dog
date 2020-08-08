@@ -1,7 +1,7 @@
 package cn.whitetown.dog.config;
 
-import cn.whitetown.dogbase.common.memdata.MultiWhiteExpireMap;
-import cn.whitetown.dogbase.common.memdata.WhiteExpireMap;
+import cn.whitetown.dogbase.wache.wmil.MultiWhiteExpireMap;
+import cn.whitetown.dogbase.wache.WhiteExpireMap;
 import cn.whitetown.dogbase.db.factory.BeanTransFactory;
 import cn.whitetown.dogbase.db.factory.DefaultBeanTransFactory;
 import cn.whitetown.dogbase.db.factory.DefaultQueryConditionFactory;
@@ -9,7 +9,6 @@ import cn.whitetown.dogbase.db.factory.QueryConditionFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 
 /**

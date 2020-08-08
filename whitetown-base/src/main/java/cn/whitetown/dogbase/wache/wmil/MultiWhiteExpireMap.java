@@ -1,4 +1,6 @@
-package cn.whitetown.dogbase.common.memdata;
+package cn.whitetown.dogbase.wache.wmil;
+
+import cn.whitetown.dogbase.wache.WhiteExpireMap;
 
 import java.util.Arrays;
 
@@ -124,6 +126,11 @@ public class MultiWhiteExpireMap<K,V> implements WhiteExpireMap<K,V> {
     @Override
     public void clean() {
         Arrays.stream(expireMaps).forEach(SingleWhiteExpireMap::clean);
+    }
+
+    @Override
+    public void cleanIfFull() {
+        Arrays.stream(expireMaps).forEach(SingleWhiteExpireMap::cleanIfFull);
     }
 
     @Override

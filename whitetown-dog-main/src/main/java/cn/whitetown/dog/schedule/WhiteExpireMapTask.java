@@ -1,7 +1,7 @@
 package cn.whitetown.dog.schedule;
 
-import cn.whitetown.dogbase.common.memdata.WhiteExpireMap;
-import cn.whitetown.dogbase.common.memdata.WhiteExpireMapClean;
+import cn.whitetown.dogbase.wache.WhiteExpireMap;
+import cn.whitetown.dogbase.wache.WhiteExpireMapClean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;

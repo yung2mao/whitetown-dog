@@ -1,4 +1,4 @@
-package cn.whitetown.dogbase.common.memdata;
+package cn.whitetown.dogbase.wache;
 
 /**
  * 定义扫描ExpireMap的接口

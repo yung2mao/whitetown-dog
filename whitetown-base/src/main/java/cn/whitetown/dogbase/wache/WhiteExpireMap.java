@@ -1,4 +1,4 @@
-package cn.whitetown.dogbase.common.memdata;
+package cn.whitetown.dogbase.wache;
 
 /**
  * 定义具有过期时间的缓存结构
@@ -84,6 +84,12 @@ public interface WhiteExpireMap<K,V> extends WhiteCacheBase{
      * reset data
      */
     void clean();
+
+    /**
+     * if the cache capacity is full,
+     * remove some data
+     */
+    void cleanIfFull();
 
     /**
      * 扫描具有定期时间的键值对并处理过期的数据

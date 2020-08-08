@@ -1,4 +1,4 @@
-package cn.whitetown.dogbase.common.memdata;
+package cn.whitetown.dogbase.wache;
 
 /**
  * @author taixian

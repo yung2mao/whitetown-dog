@@ -1,8 +1,6 @@
 package cn.whitetown.authcommon.util.captcha;
 
 import cn.whitetown.authcommon.util.UserCacheUtil;
-import cn.whitetown.dogbase.common.memdata.WhiteExpireMap;
-import cn.whitetown.authcommon.constant.AuthConstant;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.awt.*;

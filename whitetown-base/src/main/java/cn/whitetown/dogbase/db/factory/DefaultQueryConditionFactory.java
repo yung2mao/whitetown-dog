@@ -1,6 +1,6 @@
 package cn.whitetown.dogbase.db.factory;
 
-import cn.whitetown.dogbase.common.memdata.WhiteExpireMap;
+import cn.whitetown.dogbase.wache.WhiteExpireMap;
 import cn.whitetown.dogbase.db.annotation.QueryField;
 import cn.whitetown.dogbase.db.annotation.QueryTable;
 import cn.whitetown.dogbase.common.util.DataCheckUtil;

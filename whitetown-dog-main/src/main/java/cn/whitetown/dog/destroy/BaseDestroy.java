@@ -1,7 +1,7 @@
 package cn.whitetown.dog.destroy;
 
 import cn.whitetown.authcommon.util.MenuCacheUtil;
-import cn.whitetown.dogbase.common.memdata.WhiteExpireMap;
+import cn.whitetown.dogbase.wache.WhiteExpireMap;
 import cn.whitetown.monitor.config.MonConfConstants;
 import cn.whitetown.usersecurity.util.AuthUserCacheUtil;
 import org.apache.log4j.Logger;

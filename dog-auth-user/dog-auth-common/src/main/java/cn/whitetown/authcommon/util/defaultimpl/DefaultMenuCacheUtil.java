@@ -3,7 +3,7 @@ package cn.whitetown.authcommon.util.defaultimpl;
 import cn.whitetown.authcommon.constant.AuthConstant;
 import cn.whitetown.authcommon.entity.po.MenuInfo;
 import cn.whitetown.authcommon.util.MenuCacheUtil;
-import cn.whitetown.dogbase.common.memdata.WhiteExpireMap;
+import cn.whitetown.dogbase.wache.WhiteExpireMap;
 import cn.whitetown.monitor.config.MonConfConstants;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;

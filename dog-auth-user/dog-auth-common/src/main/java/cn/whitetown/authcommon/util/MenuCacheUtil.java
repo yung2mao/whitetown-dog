@@ -1,8 +1,7 @@
 package cn.whitetown.authcommon.util;
 
 import cn.whitetown.authcommon.entity.po.MenuInfo;
-import cn.whitetown.authcommon.entity.dto.MenuTree;
-import cn.whitetown.dogbase.common.memdata.WhiteCacheBase;
+import cn.whitetown.dogbase.wache.WhiteCacheBase;
 
 import java.util.List;
 
