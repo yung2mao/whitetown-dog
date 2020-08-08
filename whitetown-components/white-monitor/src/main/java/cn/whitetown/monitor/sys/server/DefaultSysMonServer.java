@@ -1,6 +1,7 @@
 package cn.whitetown.monitor.sys.server;
 
 import cn.whitetown.monitor.config.MonConfConstants;
+import cn.whitetown.monitor.sys.server.wiml.SysAnalyzerHandler;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
@@ -26,8 +27,6 @@ public class DefaultSysMonServer implements SysMonServer{
     private int port = MonConfConstants.SERVER_PORT;
 
     private SysAnalyzerHandler analyzerHandler;
-
-    private boolean isActive = true;
 
     private EventLoopGroup bossGroup;
     private EventLoopGroup workGroup;

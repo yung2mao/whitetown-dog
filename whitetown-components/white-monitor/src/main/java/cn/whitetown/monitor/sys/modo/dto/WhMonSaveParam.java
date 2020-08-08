@@ -9,20 +9,23 @@ import lombok.Setter;
 import java.util.List;
 
 /**
- * 系统信息汇总类
+ * 监控数据保存数据库结构
  * @author taixian
- * @date 2020/07/31
+ * @date 2020/08/08
  **/
 @Getter
 @Setter
-public class WhiteMonitorParams {
-    private WhiteSysBaseInfo sysBaseInfo;
-    private WhiteCpuInfo whiteCpuInfo;
-    private WhiteMemInfo memInfo;
-    private WhiteJvmInfo jvmInfo;
-    private List<WhiteFileInfo> fileInfos;
-    private WhiteNetInfo netInfo;
-    private WhiteNetSpeed netSpeed;
+public class WhMonSaveParam {
+    @WhiteTableKey
+    private Long id;
+    private String serverId;
+    private String sysBaseInfo;
+    private String whiteCpuInfo;
+    private String memInfo;
+    private String jvmInfo;
+    private String fileInfos;
+    private String netInfo;
+    private String netSpeed;
     private String timeStamp;
 
     @Override

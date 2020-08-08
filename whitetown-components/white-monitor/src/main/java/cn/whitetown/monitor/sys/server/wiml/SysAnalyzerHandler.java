@@ -1,4 +1,4 @@
-package cn.whitetown.monitor.sys.server;
+package cn.whitetown.monitor.sys.server.wiml;
 
 import cn.whitetown.monitor.sys.modo.dto.WhiteMonitorParams;
 import com.alibaba.fastjson.JSON;
@@ -31,7 +31,7 @@ public class SysAnalyzerHandler extends SimpleChannelInboundHandler<String> {
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, String data) throws Exception {
         WhiteMonitorParams monitorParams = JSON.parseObject(data, WhiteMonitorParams.class);
-        executorService.execute(new SysMonSaveHandler(monitorParams));
+        executorService.execute(new SysMonSaveRunner(monitorParams));
     }
 
     @Override

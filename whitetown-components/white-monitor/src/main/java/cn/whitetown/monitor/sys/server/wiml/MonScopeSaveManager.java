@@ -1,9 +1,11 @@
-package cn.whitetown.monitor.sys.server;
+package cn.whitetown.monitor.sys.server.wiml;
 
 import cn.whitetown.monitor.config.MonConfConstants;
 import cn.whitetown.monitor.dao.DataSourceUtil;
 import cn.whitetown.monitor.dao.ShardingDataSourceUtil;
+import cn.whitetown.monitor.sys.modo.dto.WhMonSaveParam;
 import cn.whitetown.monitor.sys.modo.dto.WhiteMonitorParams;
+import com.alibaba.fastjson.JSON;
 import org.apache.log4j.Logger;
 
 import java.sql.Connection;
@@ -16,7 +18,7 @@ import java.util.concurrent.atomic.AtomicLong;
  * @author taixian
  * @date 2020/08/08
  **/
-public class WhMonScopeSaveHandler {
+public class MonScopeSaveManager {
 
     private Logger logger = MonConfConstants.logger;
 
@@ -28,11 +30,11 @@ public class WhMonScopeSaveHandler {
 
     private static long shardingScope = MonConfConstants.SHARDING_SCOPE;
     /**
-     * 当前已存储的最大ID - 需要初始化
+     * 当前已存储的最大ID
      */
     private AtomicLong maxId;
 
-    public WhMonScopeSaveHandler() {
+    public MonScopeSaveManager() {
         maxId = new AtomicLong();
         for (int i = 0; i < shardingSize; i++) {
             String tableName = baseTable + "_" + i;
@@ -51,9 +53,18 @@ public class WhMonScopeSaveHandler {
 
     public void monSave(WhiteMonitorParams whiteMonitorParams) {
         long newId = maxId.incrementAndGet();
-        whiteMonitorParams.setId(newId);
-        whiteMonitorParams.setServerId(whiteMonitorParams.getSysBaseInfo().getServerId());
-        dataSourceUtil.saveOne(baseTable,whiteMonitorParams);
+        WhMonSaveParam whMonSaveParam = new WhMonSaveParam();
+        whMonSaveParam.setId(newId);
+        whMonSaveParam.setServerId(whiteMonitorParams.getSysBaseInfo().getServerId());
+        whMonSaveParam.setSysBaseInfo(whiteMonitorParams.getSysBaseInfo().toString());
+        whMonSaveParam.setWhiteCpuInfo(whiteMonitorParams.getWhiteCpuInfo().toString());
+        whMonSaveParam.setMemInfo(whiteMonitorParams.getMemInfo().toString());
+        whMonSaveParam.setJvmInfo(whiteMonitorParams.getJvmInfo().toString());
+        whMonSaveParam.setFileInfos(JSON.toJSONString(whiteMonitorParams.getFileInfos()));
+        whMonSaveParam.setNetInfo(whiteMonitorParams.getNetInfo().toString());
+        whMonSaveParam.setNetSpeed(whiteMonitorParams.getNetSpeed().toString());
+        whMonSaveParam.setTimeStamp(whiteMonitorParams.getTimeStamp());
+        dataSourceUtil.saveOne(baseTable,whMonSaveParam);
     }
 
     private long getCurrentTableMaxId(String tableName) {

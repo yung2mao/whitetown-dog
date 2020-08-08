@@ -1,8 +1,6 @@
 package cn.whitetown.monitor.config;
 
 import cn.whitetown.monitor.sys.anno.MonAnnotation;
-import cn.whitetown.monitor.sys.client.SysMonClient;
-import cn.whitetown.monitor.sys.client.wmil.DefaultSysMonClient;
 import cn.whitetown.monitor.sys.manager.MonitorInfoSaveManager;
 import cn.whitetown.monitor.sys.manager.wiml.White2SaveManager;
 import cn.whitetown.monitor.sys.manager.wiml.WhiteMonFileSaveManager;
@@ -12,9 +10,8 @@ import cn.whitetown.monitor.sys.client.SysMonitorRunner;
 import cn.whitetown.monitor.sys.client.wmil.OnceSysMonRun;
 import cn.whitetown.monitor.sys.client.wmil.ScheduleSysMonRun;
 import cn.whitetown.monitor.sys.server.DefaultSysMonServer;
-import cn.whitetown.monitor.sys.server.SysAnalyzerHandler;
+import cn.whitetown.monitor.sys.server.wiml.SysAnalyzerHandler;
 import cn.whitetown.monitor.sys.server.SysMonServer;
-import cn.whitetown.monitor.sys.server.SysMonSaveHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
