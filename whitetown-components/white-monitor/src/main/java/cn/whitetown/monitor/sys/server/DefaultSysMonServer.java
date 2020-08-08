@@ -77,5 +77,6 @@ public class DefaultSysMonServer implements SysMonServer{
         }catch (Throwable e) {
             logger.error(e.getMessage());
         }
+        logger.info("the monitor server is destroy");
     }
 }

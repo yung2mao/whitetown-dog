@@ -27,6 +27,8 @@ import java.util.concurrent.ExecutorService;
  * @date 2020/08/05
  **/
 @Component
+@WhiteMonServer
+@WhiteMonClient
 public class MonApplication implements ApplicationRunner {
 
     private Logger logger = MonConfConstants.logger;

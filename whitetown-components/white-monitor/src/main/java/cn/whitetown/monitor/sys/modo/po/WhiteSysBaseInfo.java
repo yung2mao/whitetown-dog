@@ -19,8 +19,7 @@ import java.util.Date;
  */
 @Getter
 @Setter
-public class WhiteSysBaseInfo implements Serializable {
-    private static final long serialVersionUID = 8734157106903476086L;
+public class WhiteSysBaseInfo {
     /**
      * 服务器id
      */

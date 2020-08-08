@@ -1,6 +1,7 @@
 package cn.whitetown.monitor.sys.server;
 
 import cn.whitetown.monitor.config.MonConfConstants;
+import cn.whitetown.monitor.sys.modo.dto.WhiteMonitorParams;
 import org.apache.log4j.Logger;
 
 /**
@@ -10,10 +11,17 @@ import org.apache.log4j.Logger;
  **/
 public class SysMonSaveHandler implements Runnable {
 
-    private Logger logger = MonConfConstants.logger;
+    private static WhMonScopeSaveHandler scopeSaveHandler = new WhMonScopeSaveHandler();
+
+    private WhiteMonitorParams whiteMonitorParams;
+
+    public SysMonSaveHandler(WhiteMonitorParams whiteMonitorParams) {
+        this.whiteMonitorParams = whiteMonitorParams;
+    }
 
     @Override
     public void run() {
+        scopeSaveHandler.monSave(whiteMonitorParams);
     }
 }
 

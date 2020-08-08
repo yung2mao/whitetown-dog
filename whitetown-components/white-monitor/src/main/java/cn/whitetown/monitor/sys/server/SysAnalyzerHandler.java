@@ -1,5 +1,7 @@
 package cn.whitetown.monitor.sys.server;
 
+import cn.whitetown.monitor.sys.modo.dto.WhiteMonitorParams;
+import com.alibaba.fastjson.JSON;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
@@ -16,11 +18,9 @@ public class SysAnalyzerHandler extends SimpleChannelInboundHandler<String> {
 
     private ExecutorService executorService;
 
-    private SysMonSaveHandler paramsSaveHandler;
 
-    public SysAnalyzerHandler(ExecutorService executorService, SysMonSaveHandler paramsSaveHandler) {
+    public SysAnalyzerHandler(ExecutorService executorService) {
         this.executorService = executorService;
-        this.paramsSaveHandler = paramsSaveHandler;
     }
     /**
      * 数据解析处理器
@@ -30,16 +30,17 @@ public class SysAnalyzerHandler extends SimpleChannelInboundHandler<String> {
      */
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, String data) throws Exception {
-        System.out.println(data);
+        WhiteMonitorParams monitorParams = JSON.parseObject(data, WhiteMonitorParams.class);
+        executorService.execute(new SysMonSaveHandler(monitorParams));
     }
 
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
-        System.out.println("data is read complete");
+
     }
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-
+        cause.printStackTrace();
     }
 }

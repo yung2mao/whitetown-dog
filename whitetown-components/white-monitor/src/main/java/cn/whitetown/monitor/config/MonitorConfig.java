@@ -83,8 +83,7 @@ public class MonitorConfig {
     @Bean
     @Lazy
     public SysMonServer sysMonServer() {
-        SysMonSaveHandler saveHandler = new SysMonSaveHandler();
-        SysAnalyzerHandler sysAnalyzerHandler = new SysAnalyzerHandler(executorService, saveHandler);
+        SysAnalyzerHandler sysAnalyzerHandler = new SysAnalyzerHandler(executorService);
         DefaultSysMonServer sysMonServer = new DefaultSysMonServer(sysAnalyzerHandler);
         sysMonServer.init();
         return sysMonServer;

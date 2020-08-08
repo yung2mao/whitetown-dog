@@ -18,6 +18,7 @@ import java.util.List;
 public class WhiteMonitorParams {
     @WhiteTableKey
     private Long id;
+    private String serverId;
     private WhiteSysBaseInfo sysBaseInfo;
     private WhiteCpuInfo whiteCpuInfo;
     private WhiteMemInfo memInfo;

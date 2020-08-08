@@ -22,7 +22,7 @@ public interface ShadingUtil {
      * 哈希取余分片
      * 需在entity中指定分片键
      * @param entity
-     * @throws IllegalArgumentException
+     * @throws IllegalAccessException
      * @return
      */
     public Integer hashSharding(Object entity) throws IllegalAccessException;

@@ -37,8 +37,9 @@ public class MonConfConstants {
     public static final String DB_URL;
     public static final String DB_USERNAME;
     public static final String DB_PASSWORD;
+    public static final String BASE_TABLE_NAME;
     public static final int DB_TABLE_SHARDING_SIZE;
-    public static final long SHARDING_SCOPE = 5000000L;
+    public static final long SHARDING_SCOPE;
 
     static {
         InputStream in = MonitorConfig.class.getClassLoader().getResourceAsStream("white-conf.properties");
@@ -60,7 +61,10 @@ public class MonConfConstants {
         DB_URL = MONITOR_CONF.getProperty("dataSource.url");
         DB_USERNAME = MONITOR_CONF.getProperty("dataSource.username");
         DB_PASSWORD = MONITOR_CONF.getProperty("dataSource.password");
+        BASE_TABLE_NAME = MONITOR_CONF.getProperty("dataSource.monitor.baseTableName");
         String size = MONITOR_CONF.getProperty("dataSource.table.size");
         DB_TABLE_SHARDING_SIZE = size == null ? 1 : Integer.parseInt(size);
+        String scope = MONITOR_CONF.getProperty("dataSource.table.shardingScope");
+        SHARDING_SCOPE = scope == null ? 5000000 : Long.parseLong(scope);
     }
 }

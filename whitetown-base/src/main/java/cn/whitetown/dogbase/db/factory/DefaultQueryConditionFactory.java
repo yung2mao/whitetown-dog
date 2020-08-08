@@ -49,20 +49,17 @@ public class DefaultQueryConditionFactory implements QueryConditionFactory{
     @Override
     public <T> LambdaQueryWrapper<T> allEqWithNull2IsNull(Object obj,Class<T> claz){
         QueryWrapper<T> queryWrapper = new QueryWrapper<>();
-
         //get all field
         String fieldMemName = DataBaseConstant.MEM_FIELD+obj.getClass().getName();
         List<Field> fieldList = (List<Field>) whiteExpireMap.get(fieldMemName);
         if(fieldList == null) {
             fieldList = this.getObjFields(obj);
-
             //store fields to memory
             whiteExpireMap.putS(fieldMemName,
                     fieldList, DataBaseConstant.CLASS_SAVE_TIME);
         }
         whiteExpireMap.sExpire(fieldMemName,
                 DataBaseConstant.CLASS_SAVE_TIME);
-
         //get all getMethod
         String methodMemName = DataBaseConstant.MEM_METHOD + obj.getClass().getName();
         Map<String,Method> methods = (Map<String,Method>) whiteExpireMap.get(methodMemName);
@@ -74,7 +71,6 @@ public class DefaultQueryConditionFactory implements QueryConditionFactory{
         }
         whiteExpireMap.sExpire(methodMemName,
                 DataBaseConstant.CLASS_SAVE_TIME);
-
         //create condition
         for(Field field : fieldList){
             String colName = null;
@@ -93,7 +89,6 @@ public class DefaultQueryConditionFactory implements QueryConditionFactory{
             }else {
                 colName = this.fieldToColName(field.getName());
             }
-
             //获取数据
             try {
                 Method method = methods.get("get" + field.getName().toLowerCase());

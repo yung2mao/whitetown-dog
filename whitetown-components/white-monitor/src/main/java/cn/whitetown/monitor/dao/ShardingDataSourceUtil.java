@@ -157,7 +157,7 @@ public class ShardingDataSourceUtil implements DataSourceUtil{
         StringBuilder fieldBuilder = new StringBuilder("");
         StringBuilder valueBuilder = new StringBuilder("");
         for(Object key : entityMap.keySet()) {
-            fieldBuilder.append(key).append(",");
+            fieldBuilder.append(this.fieldToCol(key.toString())).append(",");
             valueBuilder.append("?").append(",");
         }
         String fields = fieldBuilder.toString();
@@ -166,6 +166,22 @@ public class ShardingDataSourceUtil implements DataSourceUtil{
         values = values.substring(0,values.length()-1);
         String sql = "insert into "+tableName+" ("+fields+") values ("+values+");";
         return sql;
+    }
+
+    private String fieldToCol(String key) {
+        if(key == null) {
+            throw new NullPointerException();
+        }
+        StringBuilder builder = new StringBuilder();
+        char[] fieldChars = key.toCharArray();
+        for (int i = 0; i < fieldChars.length; i++) {
+            if(fieldChars[i] >= 'A' && fieldChars[i] <= 'Z'){
+                builder.append("_").append(String.valueOf(fieldChars[i]).toLowerCase());
+            }else {
+                builder.append(fieldChars[i]);
+            }
+        }
+        return builder.toString();
     }
 
     /**

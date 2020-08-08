@@ -14,8 +14,7 @@ import java.io.Serializable;
  **/
 @Setter
 @Getter
-public class WhiteMemInfo implements Serializable {
-    private static final long serialVersionUID = 9160942491521617499L;
+public class WhiteMemInfo {
     private long totalMem;
     private long usedMem;
     private long freeMem;

@@ -62,7 +62,7 @@ public class DefaultShardingUtil implements ShadingUtil{
     @Override
     public Integer scopeSharding(Object ... keys) {
         long keyTotal = getKeyTotal(keys);
-        int index = Long.valueOf(keyTotal % SCOPE).intValue();
+        int index = Long.valueOf(((Long.MAX_VALUE & keyTotal) - 1) / SCOPE).intValue();
         return index >= SHARDING_SIZE ? SHARDING_SIZE - 1 : index;
     }
 
@@ -74,19 +74,19 @@ public class DefaultShardingUtil implements ShadingUtil{
      */
     public Integer hashSharding(Object ... keys) {
         long keyTotal = getKeyTotal(keys);
-        return Long.valueOf(keyTotal % SHARDING_SIZE).intValue();
+        return Long.valueOf((Long.MAX_VALUE & keyTotal) % SHARDING_SIZE).intValue();
     }
 
-    private static Integer getScopeShardingIndex(List<Field> fields, Object entity) throws IllegalAccessException {
+    private Integer getScopeShardingIndex(List<Field> fields, Object entity) throws IllegalAccessException {
         long total = getKeyTotal(fields,entity);
-        int index = Long.valueOf(total % SCOPE).intValue();
+        int index = Long.valueOf(((Long.MAX_VALUE & total) - 1) / SCOPE).intValue();
         return index >= SHARDING_SIZE ? SHARDING_SIZE - 1 : index;
     }
 
 
-    private static Integer getHashSharding(List<Field> fields, Object entity) throws IllegalAccessException {
+    private Integer getHashSharding(List<Field> fields, Object entity) throws IllegalAccessException {
         long total = getKeyTotal(fields,entity);
-        return Long.valueOf(total % SHARDING_SIZE).intValue();
+        return Long.valueOf((Long.MAX_VALUE & total) % SHARDING_SIZE).intValue();
     }
 
     /**
@@ -94,7 +94,7 @@ public class DefaultShardingUtil implements ShadingUtil{
      * @param entity
      * @return
      */
-    private static List<Field> getShardingKeys(Object entity) {
+    private List<Field> getShardingKeys(Object entity) {
         if(entity == null) {
             return new ArrayList<>();
         }
@@ -117,7 +117,14 @@ public class DefaultShardingUtil implements ShadingUtil{
         return shardingKeys;
     }
 
-    private static long getKeyTotal(List<Field> fields, Object entity) throws IllegalAccessException {
+    /**
+     * 分片键计算总和
+     * @param fields
+     * @param entity
+     * @return
+     * @throws IllegalAccessException
+     */
+    private long getKeyTotal(List<Field> fields, Object entity) throws IllegalAccessException {
         Object[] keys = new Object[fields.size()];
         for (int i = 0; i < fields.size(); i++) {
             Field field = fields.get(i);
@@ -126,7 +133,7 @@ public class DefaultShardingUtil implements ShadingUtil{
         return getKeyTotal(keys);
     }
 
-    private static long getKeyTotal(Object ... keys) {
+    private long getKeyTotal(Object ... keys) {
         if(keys == null || keys.length == 0) {
             return 0;
         }
