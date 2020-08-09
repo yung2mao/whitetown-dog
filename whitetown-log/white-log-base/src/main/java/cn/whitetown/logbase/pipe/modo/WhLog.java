@@ -1,16 +1,29 @@
 package cn.whitetown.logbase.pipe.modo;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.annotation.JSONField;
+
+import java.util.Date;
 
 /**
  * 日志传输信息
  * @author taixian
  * @date 2020/08/09
  **/
-public class WhLog {
+public class WhLog extends WhClone {
     private String logName;
     private String logData;
-    private String timeStamp;
+    @JSONField(format = "yyyy-MM-dd  HH:mm:ss")
+    private Date timeStamp;
+
+    public WhLog() {
+    }
+
+    public WhLog(String logName, String logData, Date timeStamp) {
+        this.logName = logName;
+        this.logData = logData;
+        this.timeStamp = timeStamp;
+    }
 
     public String getLogName() {
         return logName;
@@ -28,11 +41,11 @@ public class WhLog {
         this.logData = logData;
     }
 
-    public String getTimeStamp() {
+    public Date getTimeStamp() {
         return timeStamp;
     }
 
-    public void setTimeStamp(String timeStamp) {
+    public void setTimeStamp(Date timeStamp) {
         this.timeStamp = timeStamp;
     }
 

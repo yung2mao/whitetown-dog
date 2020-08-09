@@ -1,6 +1,6 @@
 package cn.whitetown.monitor.sys.server;
 
-import cn.whitetown.logclient.modo.WhLogConstants;
+import cn.whitetown.logbase.config.LogConstants;
 import cn.whitetown.monitor.config.MonConfConstants;
 import cn.whitetown.monitor.sys.server.wiml.SysAnalyzerHandler;
 import io.netty.bootstrap.ServerBootstrap;
@@ -23,7 +23,7 @@ import org.apache.log4j.Logger;
  **/
 public class DefaultSysMonServer implements SysMonServer{
 
-    private Logger logger = WhLogConstants.sysLogger;
+    private Logger logger = LogConstants.sysLogger;
 
     private int port = MonConfConstants.SERVER_PORT;
 

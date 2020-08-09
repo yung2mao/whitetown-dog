@@ -1,6 +1,6 @@
 package cn.whitetown.monitor.sys.client.wmil;
 
-import cn.whitetown.logclient.modo.WhLogConstants;
+import cn.whitetown.logbase.config.LogConstants;
 import cn.whitetown.monitor.config.MonConfConstants;
 import cn.whitetown.monitor.sys.client.SysMonitorRunner;
 import org.apache.log4j.Logger;
@@ -15,7 +15,7 @@ import java.util.concurrent.*;
  **/
 public class ScheduleSysMonRun implements SysMonitorRunner{
 
-    private Logger logger = WhLogConstants.sysLogger;
+    private Logger logger = LogConstants.sysLogger;
 
     private SysMonitorRunner sysMonitorRunner;
 

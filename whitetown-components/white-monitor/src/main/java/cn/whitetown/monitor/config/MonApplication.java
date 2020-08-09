@@ -1,6 +1,6 @@
 package cn.whitetown.monitor.config;
 
-import cn.whitetown.logclient.modo.WhLogConstants;
+import cn.whitetown.logbase.config.LogConstants;
 import cn.whitetown.monitor.sys.anno.MonAnnotation;
 import cn.whitetown.monitor.sys.anno.WhiteMonClient;
 import cn.whitetown.monitor.sys.anno.WhiteMonServer;
@@ -32,7 +32,7 @@ import java.util.concurrent.ExecutorService;
 //@WhiteMonClient
 public class MonApplication implements ApplicationRunner {
 
-    private Logger logger = WhLogConstants.sysLogger;
+    private Logger logger = LogConstants.sysLogger;
 
     @Autowired
     private ApplicationContext context;

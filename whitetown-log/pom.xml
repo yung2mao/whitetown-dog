@@ -36,12 +36,6 @@
         <artifactId>whitetown-base</artifactId>
         <version>${whitetown-dog.version}</version>
       </dependency>
-      <!--log client-->
-      <dependency>
-        <groupId>cn.whitetown</groupId>
-        <artifactId>white-log-client</artifactId>
-        <version>${whitetown-dog.version}</version>
-      </dependency>
     </dependencies>
   </dependencyManagement>
 </project>

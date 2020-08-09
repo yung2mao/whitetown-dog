@@ -1,5 +1,8 @@
 package cn.whitetown.logbase.listen;
 
+import cn.whitetown.logbase.pipe.WhPipeline;
+import cn.whitetown.logbase.pipe.modo.WhClone;
+
 /**
  * 日志监听者管理器
  * @author taixian
@@ -15,9 +18,15 @@ public interface ListenerManager {
 
     /**
      * 通知监听者数据变化
-     * @param t
+     * @param whPipeline
+     * @param <T>
      */
-    <T> void notifyAll(T t);
+    <T> void eventNotify(WhPipeline<T> whPipeline);
+
+    /**
+     * 通知监听者数据变化
+     */
+    void eventNotify();
 
     /**
      * 注销监听者

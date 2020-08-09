@@ -1,6 +1,6 @@
 package cn.whitetown.monitor.sys.manager.wiml;
 
-import cn.whitetown.logclient.modo.WhLogConstants;
+import cn.whitetown.logbase.config.LogConstants;
 import cn.whitetown.monitor.config.MonConfConstants;
 import cn.whitetown.monitor.sys.manager.MonitorInfoSaveManager;
 import cn.whitetown.monitor.sys.modo.dto.WhiteMonitorParams;
@@ -24,7 +24,7 @@ import java.io.IOException;
  **/
 public class WhiteMon2ServerClient implements MonitorInfoSaveManager {
 
-    private Logger logger = WhLogConstants.sysLogger;
+    private Logger logger = LogConstants.sysLogger;
 
     private static MonitorInfoSaveManager dataToServerClient = new WhiteMon2ServerClient();
 

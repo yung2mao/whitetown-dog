@@ -7,7 +7,7 @@ import cn.whitetown.authea.service.WhiteUserDetailService;
 import cn.whitetown.dogbase.common.entity.dto.ResponseData;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.exception.CustomException;
-import cn.whitetown.logclient.modo.WhLogConstants;
+import cn.whitetown.logbase.config.LogConstants;
 import io.jsonwebtoken.MalformedJwtException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +30,8 @@ import java.io.PrintWriter;
 @Component
 public class TokenCheckFilterManager extends TokenCheckManager {
 
-    private Logger sysLogger = WhLogConstants.sysLogger;
-    private Logger opLogger = WhLogConstants.opLogger;
+    private Logger sysLogger = LogConstants.sysLogger;
+    private Logger opLogger = LogConstants.opLogger;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;

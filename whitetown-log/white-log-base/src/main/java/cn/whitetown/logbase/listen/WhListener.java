@@ -1,10 +1,12 @@
 package cn.whitetown.logbase.listen;
 
+import cn.whitetown.logbase.pipe.WhPipeline;
+
 /**
  * @author taixian
  * @date 2020/08/09
  **/
-public interface WhListener {
+public interface WhListener<T>{
 
     /**
      * 向管理器注册为监听者
@@ -13,10 +15,16 @@ public interface WhListener {
     void registry(ListenerManager listenerManager);
 
     /**
-     * 监听数据并处理数据
-     * @param t
+     * 数据更新调用
+     * @param listenerManager
+     * @param whPipeline
      */
-    <T> void listener(T t);
+    void listener(ListenerManager listenerManager, WhPipeline<T> whPipeline);
+
+    /**
+     * 管道数据变化操作
+     */
+    void listener();
 
     /**
      * 从管理器注销

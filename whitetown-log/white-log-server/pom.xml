@@ -25,9 +25,10 @@
     </properties>
 
     <dependencies>
+        <!--base-->
         <dependency>
             <groupId>cn.whitetown</groupId>
-            <artifactId>white-log-client</artifactId>
+            <artifactId>whitetown-base</artifactId>
         </dependency>
     </dependencies>
 

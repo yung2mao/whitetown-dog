@@ -1,11 +1,9 @@
 package cn.whitetown.monitor.sys.client.wmil;
 
-import cn.whitetown.logclient.modo.WhLogConstants;
-import cn.whitetown.monitor.config.MonConfConstants;
+import cn.whitetown.logbase.config.LogConstants;
 import cn.whitetown.monitor.sys.client.SysMonClient;
 import cn.whitetown.monitor.sys.client.SysMonitorRunner;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * 默认系统监控客户端
@@ -14,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  **/
 public class DefaultSysMonClient implements SysMonClient {
 
-    private Logger logger = WhLogConstants.sysLogger;
+    private Logger logger = LogConstants.sysLogger;
 
     private static SysMonClient client;
 

@@ -2,8 +2,7 @@ package cn.whitetown.dog.destroy;
 
 import cn.whitetown.authcommon.util.MenuCacheUtil;
 import cn.whitetown.dogbase.wache.WhiteExpireMap;
-import cn.whitetown.logclient.modo.WhLogConstants;
-import cn.whitetown.monitor.config.MonConfConstants;
+import cn.whitetown.logbase.config.LogConstants;
 import cn.whitetown.usersecurity.util.AuthUserCacheUtil;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.DisposableBean;
@@ -18,7 +17,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class BaseDestroy implements DisposableBean {
 
-    private Logger logger = WhLogConstants.sysLogger;
+    private Logger logger = LogConstants.sysLogger;
 
     @Autowired
     WhiteExpireMap expireMap;

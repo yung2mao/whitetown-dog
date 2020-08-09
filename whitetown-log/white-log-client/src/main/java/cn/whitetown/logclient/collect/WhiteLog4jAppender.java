@@ -1,10 +1,14 @@
 package cn.whitetown.logclient.collect;
 
-import cn.whitetown.logclient.manager.SimpleWhiteLogHandler;
-import cn.whitetown.logclient.manager.WhiteLogHandler;
+import cn.whitetown.logbase.pipe.modo.WhLog;
+import cn.whitetown.logbase.pub.LogPublish;
+import cn.whitetown.logclient.manager.SimpleLogPublish;
 import org.apache.log4j.AppenderSkeleton;
 import org.apache.log4j.Layout;
+import org.apache.log4j.Level;
 import org.apache.log4j.spi.LoggingEvent;
+
+import java.util.Date;
 
 /**
  * 自定义日志输出
@@ -13,16 +17,21 @@ import org.apache.log4j.spi.LoggingEvent;
  **/
 public class WhiteLog4jAppender extends AppenderSkeleton {
 
-    protected String className;
+    protected String publishClass;
 
-    protected WhiteLogHandler whiteLogHandler;
+    protected LogPublish logPublish;
 
     @Override
     protected void append(LoggingEvent event) {
         String eventString = "";
+        eventString = this.layout == null ? String.valueOf(event.getMessage()) : this.layout.format(event);
+        WhLog whLog = new WhLog(event.getLoggerName(),eventString,new Date());
+        if(event.getLevel().equals(Level.DEBUG)) {
+            System.out.println(whLog);
+            return;
+        }
         try {
-            eventString = this.layout == null ? String.valueOf(event.getMessage()) : this.layout.format(event);
-            whiteLogHandler.publish(event.getLoggerName(),eventString);
+            logPublish.publish(whLog);
         }catch (Exception e) {
             e.printStackTrace();
             throw new RuntimeException(e.getMessage());
@@ -45,8 +54,8 @@ public class WhiteLog4jAppender extends AppenderSkeleton {
         return true;
     }
 
-    public void setClassName(String className) {
-        this.className = className;
-        this.whiteLogHandler = new SimpleWhiteLogHandler(className);
+    public void setPublishClass(String publishClass) {
+        this.publishClass = publishClass;
+        this.logPublish = new SimpleLogPublish(publishClass);
     }
 }
