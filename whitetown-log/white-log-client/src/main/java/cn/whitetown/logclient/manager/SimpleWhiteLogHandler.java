@@ -1,4 +1,4 @@
-package cn.whitetown.monitor.syslog.manager;
+package cn.whitetown.logclient.manager;
 
 import org.apache.log4j.pattern.LogEvent;
 
@@ -17,17 +17,17 @@ public class SimpleWhiteLogHandler implements WhiteLogHandler{
             whiteLogHandler = WhiteLogHandler.class.cast(instance);
         }catch (Exception e) {
             e.printStackTrace();
-            System.exit(0);
+            System.exit(1);
         }
     }
 
     @Override
-    public void analyzer(String logName, String logData) {
-        whiteLogHandler.analyzer(logName,logData);
+    public void publish(String logName, String logData) {
+        whiteLogHandler.publish(logName,logData);
     }
 
     @Override
-    public void analyzer(LogEvent logEvent) {
-        whiteLogHandler.analyzer(logEvent);
+    public void publish(LogEvent logEvent) {
+        whiteLogHandler.publish(logEvent);
     }
 }

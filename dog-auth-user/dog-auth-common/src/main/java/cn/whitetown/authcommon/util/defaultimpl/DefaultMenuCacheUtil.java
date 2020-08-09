@@ -4,6 +4,7 @@ import cn.whitetown.authcommon.constant.AuthConstant;
 import cn.whitetown.authcommon.entity.po.MenuInfo;
 import cn.whitetown.authcommon.util.MenuCacheUtil;
 import cn.whitetown.dogbase.wache.WhiteExpireMap;
+import cn.whitetown.logclient.modo.WhLogConstants;
 import cn.whitetown.monitor.config.MonConfConstants;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
  **/
 public class DefaultMenuCacheUtil implements MenuCacheUtil {
 
-    private Logger logger = MonConfConstants.logger;
+    private Logger logger = WhLogConstants.sysLogger;
 
     @Autowired
     private WhiteExpireMap expireMap;

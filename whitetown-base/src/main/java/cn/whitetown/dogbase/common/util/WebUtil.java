@@ -1,6 +1,5 @@
 package cn.whitetown.dogbase.common.util;
 
-import io.swagger.models.auth.In;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 

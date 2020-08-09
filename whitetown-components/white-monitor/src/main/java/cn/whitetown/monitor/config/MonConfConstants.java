@@ -24,12 +24,6 @@ public class MonConfConstants {
     public static final int RETRY_TIMES;
     public static final String PROJECT_DIR = System.getProperty("user.dir");
     public static final String LINE_SEPARATOR = System.getProperty("line.separator");
-    public static final int MON_FILTER_ORDER = Ordered.HIGHEST_PRECEDENCE+ 10;
-
-    /*-------日志处理相关--------*/
-
-    public static final String SYS_LOG_NAME = "syslog";
-    public static Logger logger = Logger.getLogger(SYS_LOG_NAME);
 
     /*-----------数据存储相关-------------*/
 

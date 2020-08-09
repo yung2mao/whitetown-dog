@@ -1,5 +1,6 @@
 package cn.whitetown.dog.config;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -18,22 +19,32 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 @Configuration
 @EnableSwagger2
 public class SwaggerConfig {
+    @Value("${swagger2.basePackage}")
+    private String basePackage;
+    @Value("${swagger2.title}")
+    private String title;
+    @Value("${swagger2.description}")
+    private String description;
+    @Value("${swagger2.version}")
+    private String version;
+    @Value("${swagger2.isOpen}")
+    private String isOpen;
 
     @Bean
     public Docket createRestApi() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .apiInfo(apiInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("cn.whitetown"))
+                .apis(RequestHandlerSelectors.basePackage(basePackage))
                 .paths(PathSelectors.any())
                 .build();
     }
 
     private ApiInfo apiInfo() {
         return new ApiInfoBuilder()
-                .title("Swagger接口文档")
-                .description("Swagger-接口文档")
-                .version("1.0.0")
+                .title(title)
+                .description(description)
+                .version(version)
                 .build();
     }
 }

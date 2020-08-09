@@ -28,8 +28,6 @@ import java.util.Set;
 @Component
 public class WhiteAuthUserDetailService implements WhiteUserDetailService {
 
-    private Logger log = MonConfConstants.logger;
-
     @Autowired
     private AuthUserCacheUtil authCacheUtil;
 
@@ -44,7 +42,6 @@ public class WhiteAuthUserDetailService implements WhiteUserDetailService {
         try{
             return this.loadBasicUserDetails(username);
         }catch (Exception e){
-            log.debug("load userDetail error, the reason is "+e.getMessage());
             throw new CustomException(ResponseStatusEnum.TOKEN_ERROR);
         }
     }

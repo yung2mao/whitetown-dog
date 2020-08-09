@@ -11,18 +11,12 @@ import cn.whitetown.authea.service.WhiteUserDetailService;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.exception.CustomException;
 import cn.whitetown.dogbase.common.util.WebUtil;
-import cn.whitetown.monitor.config.MonConfConstants;
 import cn.whitetown.usersecurity.util.AuthUserCacheUtil;
 import io.jsonwebtoken.Claims;
-import io.swagger.models.auth.In;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
 
 import java.util.*;
 
@@ -34,8 +28,6 @@ import java.util.*;
  **/
 //@Component
 public class WhiteUserDetailServiceImpl implements WhiteUserDetailService {
-
-    private Logger log = MonConfConstants.logger;
 
     @Autowired
     private AuthUserCacheUtil authCacheUtil;
@@ -84,7 +76,7 @@ public class WhiteUserDetailServiceImpl implements WhiteUserDetailService {
     private WhiteSecurityUser pathWithAuthorHandle(WhiteSecurityUser userDetails) {
         String uri = WebUtil.getUri();
         String[] authors = securityConfigureManager.getAuthorsByPath(uri);
-        log.debug(uri+"所需访问权限为:"+authors);
+        System.out.println(uri+"所需访问权限为:"+authors);
         if(authors == null || authors.length == 0){
             return userDetails;
         }

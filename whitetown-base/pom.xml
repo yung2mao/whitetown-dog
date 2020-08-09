@@ -6,12 +6,12 @@
 
   <groupId>cn.whitetown</groupId>
   <artifactId>whitetown-base</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>${whitetown-dog.version}</version>
 
   <parent>
     <artifactId>whitetown-dog</artifactId>
     <groupId>cn.whitetown</groupId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.0.1</version>
   </parent>
 
   <name>whitetown-base</name>
@@ -28,11 +28,10 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
-    <!--white monitor-->
     <dependency>
       <groupId>cn.whitetown</groupId>
-      <artifactId>white-monitor</artifactId>
-      <version>1.0-SNAPSHOT</version>
+      <artifactId>white-log-client</artifactId>
+      <version>${whitetown-dog.version}</version>
     </dependency>
     <!--Mybatis plus-->
     <dependency>
@@ -54,34 +53,15 @@
       <groupId>com.alibaba</groupId>
       <artifactId>fastjson</artifactId>
     </dependency>
-    <!--验证码-->
-    <dependency>
-      <groupId>com.github.penggle</groupId>
-      <artifactId>kaptcha</artifactId>
-    </dependency>
-    <!--jwt token生成-->
-    <dependency>
-      <groupId>io.jsonwebtoken</groupId>
-      <artifactId>jjwt</artifactId>
-    </dependency>
     <!-- 跨域 -->
     <dependency>
       <groupId>io.projectreactor</groupId>
       <artifactId>reactor-core</artifactId>
     </dependency>
-
     <!--lombok -->
     <dependency>
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>io.springfox</groupId>
-      <artifactId>springfox-swagger2</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>io.springfox</groupId>
-      <artifactId>springfox-swagger-ui</artifactId>
     </dependency>
     <!--junit-->
     <dependency>

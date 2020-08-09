@@ -1,5 +1,6 @@
 package cn.whitetown.monitor.sys.server.wiml;
 
+import cn.whitetown.logclient.modo.WhLogConstants;
 import cn.whitetown.monitor.config.MonConfConstants;
 import cn.whitetown.monitor.dao.DataSourceUtil;
 import cn.whitetown.monitor.dao.ShardingDataSourceUtil;
@@ -20,7 +21,7 @@ import java.util.concurrent.atomic.AtomicLong;
  **/
 public class MonScopeSaveManager {
 
-    private Logger logger = MonConfConstants.logger;
+    private Logger logger = WhLogConstants.sysLogger;
 
     private static DataSourceUtil dataSourceUtil = ShardingDataSourceUtil.DS_UTIL;
 

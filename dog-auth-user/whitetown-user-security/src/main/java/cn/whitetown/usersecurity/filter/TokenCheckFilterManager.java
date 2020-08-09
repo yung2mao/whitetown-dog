@@ -7,7 +7,7 @@ import cn.whitetown.authea.service.WhiteUserDetailService;
 import cn.whitetown.dogbase.common.entity.dto.ResponseData;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.exception.CustomException;
-import cn.whitetown.monitor.config.MonConfConstants;
+import cn.whitetown.logclient.modo.WhLogConstants;
 import io.jsonwebtoken.MalformedJwtException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +30,8 @@ import java.io.PrintWriter;
 @Component
 public class TokenCheckFilterManager extends TokenCheckManager {
 
-    private Logger log = MonConfConstants.logger;
+    private Logger sysLogger = WhLogConstants.sysLogger;
+    private Logger opLogger = WhLogConstants.opLogger;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -61,7 +62,7 @@ public class TokenCheckFilterManager extends TokenCheckManager {
             this.writeError(response,responseData);
             return false;
         }catch (Exception e){
-            log.debug(e.getMessage());
+            opLogger.debug(e.getMessage());
             return false;
         }
         if (userDetails != null) {
@@ -77,7 +78,7 @@ public class TokenCheckFilterManager extends TokenCheckManager {
 
     @Override
     public void afterFilter(HttpServletRequest request, HttpServletResponse response) {
-        log.debug("response status > " + response.getStatus());
+        opLogger.debug("response status > " + response.getStatus());
     }
 
     private void writeError(HttpServletResponse response,ResponseData responseData) {
@@ -87,7 +88,7 @@ public class TokenCheckFilterManager extends TokenCheckManager {
             writer.write(responseData.toString());
             writer.flush();
         } catch (IOException ex) {
-            log.error(ex.getMessage());
+            sysLogger.error(ex.getMessage());
         }finally {
             if(writer != null) {
                 writer.close();

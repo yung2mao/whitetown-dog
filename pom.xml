@@ -7,12 +7,13 @@
   <groupId>cn.whitetown</groupId>
   <artifactId>whitetown-dog</artifactId>
   <packaging>pom</packaging>
-  <version>1.0-SNAPSHOT</version>
+  <version>0.0.1</version>
   <modules>
     <module>dog-auth-user</module>
     <module>whitetown-dog-main</module>
     <module>whitetown-base</module>
       <module>whitetown-components</module>
+      <module>whitetown-log</module>
   </modules>
 
   <parent>
@@ -45,6 +46,7 @@
     <oshi.version>3.9.1</oshi.version>
     <log4j.version>1.2.17</log4j.version>
     <junit.version>4.11</junit.version>
+    <whitetown-dog.version>0.0.1</whitetown-dog.version>
   </properties>
 
   <dependencyManagement>

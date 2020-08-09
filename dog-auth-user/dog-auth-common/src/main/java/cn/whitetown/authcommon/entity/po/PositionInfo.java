@@ -8,7 +8,6 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
-import springfox.documentation.spring.web.json.Json;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;

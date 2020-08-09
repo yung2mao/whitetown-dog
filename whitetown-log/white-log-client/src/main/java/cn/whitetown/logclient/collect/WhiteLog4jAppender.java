@@ -1,7 +1,7 @@
-package cn.whitetown.monitor.syslog.collect;
+package cn.whitetown.logclient.collect;
 
-import cn.whitetown.monitor.syslog.manager.SimpleWhiteLogHandler;
-import cn.whitetown.monitor.syslog.manager.WhiteLogHandler;
+import cn.whitetown.logclient.manager.SimpleWhiteLogHandler;
+import cn.whitetown.logclient.manager.WhiteLogHandler;
 import org.apache.log4j.AppenderSkeleton;
 import org.apache.log4j.Layout;
 import org.apache.log4j.spi.LoggingEvent;
@@ -22,9 +22,10 @@ public class WhiteLog4jAppender extends AppenderSkeleton {
         String eventString = "";
         try {
             eventString = this.layout == null ? String.valueOf(event.getMessage()) : this.layout.format(event);
-            whiteLogHandler.analyzer(event.getLoggerName(),eventString);
+            whiteLogHandler.publish(event.getLoggerName(),eventString);
         }catch (Exception e) {
             e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
         }
     }
 

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>cn.whitetown</groupId>
+  <artifactId>white-log-client</artifactId>
+  <version>${whitetown-dog.version}</version>
+
+  <parent>
+    <groupId>cn.whitetown</groupId>
+    <artifactId>whitetown-log</artifactId>
+    <version>0.0.1</version>
+  </parent>
+
+  <name>white-log-client</name>
+  <url>http://www.whitetown.cn/log</url>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.target>1.8</maven.compiler.target>
+  </properties>
+
+  <dependencies>
+    <dependency>
+      <groupId>cn.whitetown</groupId>
+      <artifactId>white-log-base</artifactId>
+      <version>${whitetown-dog.version}</version>
+    </dependency>
+  </dependencies>
+</project>

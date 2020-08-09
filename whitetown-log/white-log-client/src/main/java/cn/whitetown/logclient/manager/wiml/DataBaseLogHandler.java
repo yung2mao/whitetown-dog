@@ -1,6 +1,6 @@
-package cn.whitetown.monitor.syslog.manager.wiml;
+package cn.whitetown.logclient.manager.wiml;
 
-import cn.whitetown.monitor.syslog.manager.WhiteLogHandler;
+import cn.whitetown.logclient.manager.WhiteLogHandler;
 import org.apache.log4j.pattern.LogEvent;
 
 /**
@@ -10,11 +10,11 @@ import org.apache.log4j.pattern.LogEvent;
  **/
 public class DataBaseLogHandler implements WhiteLogHandler {
     @Override
-    public void analyzer(String logName, String logData){
+    public void publish(String logName, String logData){
         System.out.println(logName + "," + logData);
     }
 
     @Override
-    public void analyzer(LogEvent logEvent) {
+    public void publish(LogEvent logEvent) {
     }
 }

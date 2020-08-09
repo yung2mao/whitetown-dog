@@ -1,5 +1,6 @@
 package cn.whitetown.monitor.sys.client.wmil;
 
+import cn.whitetown.logclient.modo.WhLogConstants;
 import cn.whitetown.monitor.config.MonConfConstants;
 import cn.whitetown.monitor.sys.client.SysMonitorRunner;
 import cn.whitetown.monitor.sys.manager.MonitorInfoSaveManager;
@@ -19,7 +20,7 @@ import java.util.concurrent.Future;
  **/
 public class OnceSysMonRun implements SysMonitorRunner {
 
-    private Logger logger = MonConfConstants.logger;
+    private Logger logger = WhLogConstants.sysLogger;
 
     boolean isActive = false;
 

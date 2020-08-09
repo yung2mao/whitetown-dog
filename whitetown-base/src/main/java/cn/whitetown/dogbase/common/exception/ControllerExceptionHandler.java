@@ -2,7 +2,6 @@ package cn.whitetown.dogbase.common.exception;
 
 import cn.whitetown.dogbase.common.entity.dto.ResponseData;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
-import cn.whitetown.monitor.config.MonConfConstants;
 import org.apache.log4j.Logger;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
@@ -21,7 +20,7 @@ import javax.validation.ConstraintViolationException;
 @ResponseBody
 public class ControllerExceptionHandler{
 
-    private Logger logger = MonConfConstants.logger;
+    private Logger logger = Logger.getLogger(ControllerExceptionHandler.class);
     /**
      * 参数错误处理，空指针异常处理
      * @param e

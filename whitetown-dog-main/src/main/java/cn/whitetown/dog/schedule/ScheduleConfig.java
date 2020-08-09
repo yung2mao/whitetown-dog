@@ -3,10 +3,9 @@ package cn.whitetown.dog.schedule;
 import org.quartz.Scheduler;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.quartz.SchedulerFactoryBean;
-
-import java.nio.charset.StandardCharsets;
 
 /**
  * 定时任务执行配置
@@ -25,12 +24,15 @@ public class ScheduleConfig {
      */
     @Bean
     public Scheduler scheduler(SchedulerFactoryBean schedulerFactoryBean) {
-        return schedulerFactoryBean.getScheduler();
+        Scheduler scheduler = schedulerFactoryBean.getScheduler();
+        return scheduler;
     }
 
     @Bean
     public SchedulerFactoryBean schedulerFactoryBean(){
-        return new SchedulerFactoryBean();
+        SchedulerFactoryBean schedulerFactoryBean = new SchedulerFactoryBean();
+        schedulerFactoryBean.setConfigLocation(new ClassPathResource("quartz.properties"));
+        return schedulerFactoryBean;
     }
 
 

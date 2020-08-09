@@ -1,5 +1,6 @@
 package cn.whitetown.monitor.sys.client.wmil;
 
+import cn.whitetown.logclient.modo.WhLogConstants;
 import cn.whitetown.monitor.config.MonConfConstants;
 import cn.whitetown.monitor.sys.client.SysMonClient;
 import cn.whitetown.monitor.sys.client.SysMonitorRunner;
@@ -13,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  **/
 public class DefaultSysMonClient implements SysMonClient {
 
-    private Logger logger = Logger.getLogger(MonConfConstants.SYS_LOG_NAME);
+    private Logger logger = WhLogConstants.sysLogger;
 
     private static SysMonClient client;
 

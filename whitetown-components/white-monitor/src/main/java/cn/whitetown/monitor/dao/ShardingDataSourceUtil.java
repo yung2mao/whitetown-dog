@@ -1,5 +1,6 @@
 package cn.whitetown.monitor.dao;
 
+import cn.whitetown.logclient.modo.WhLogConstants;
 import cn.whitetown.monitor.config.MonConfConstants;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.fastjson.JSON;
@@ -21,7 +22,7 @@ import java.util.Set;
  **/
 public class ShardingDataSourceUtil implements DataSourceUtil{
 
-    private Logger logger = MonConfConstants.logger;
+    private Logger logger = WhLogConstants.dbLogger;
 
     private ShadingUtil shadingUtil = DefaultShardingUtil.SHARDING_UTIL;
 

@@ -6,12 +6,12 @@
 
   <groupId>cn.whitetown</groupId>
   <artifactId>whitetown-user-single</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>${whitetown-dog.version}</version>
 
   <parent>
     <groupId>cn.whitetown</groupId>
     <artifactId>dog-auth-user</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.0.1</version>
   </parent>
 
   <name>whitetown-user-single</name>

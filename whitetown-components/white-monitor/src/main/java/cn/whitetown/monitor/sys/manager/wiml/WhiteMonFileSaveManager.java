@@ -1,5 +1,6 @@
 package cn.whitetown.monitor.sys.manager.wiml;
 
+import cn.whitetown.logclient.modo.WhLogConstants;
 import cn.whitetown.monitor.config.MonConfConstants;
 import cn.whitetown.monitor.sys.manager.MonitorInfoSaveManager;
 import cn.whitetown.monitor.sys.modo.dto.WhiteMonitorParams;
@@ -18,7 +19,7 @@ public class WhiteMonFileSaveManager implements MonitorInfoSaveManager {
 
     private static MonitorInfoSaveManager monitorInfoSaveManager = new WhiteMonFileSaveManager();
 
-    private Logger logger = MonConfConstants.logger;
+    private Logger logger = WhLogConstants.sysLogger;
 
     private String basePath;
 

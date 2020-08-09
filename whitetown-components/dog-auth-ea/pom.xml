@@ -6,12 +6,12 @@
 
   <groupId>cn.whitetown</groupId>
   <artifactId>dog-auth-ea</artifactId>
-  <version>1.0-SNAPSHOT</version>
+  <version>${whitetown-dog.version}</version>
 
   <parent>
     <artifactId>whitetown-components</artifactId>
     <groupId>cn.whitetown</groupId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.0.1</version>
   </parent>
 
   <name>dog-auth-ea</name>
@@ -27,7 +27,7 @@
     <dependency>
       <groupId>cn.whitetown</groupId>
       <artifactId>whitetown-base</artifactId>
-        <!--remove-->
+      <!--remove-->
       <exclusions>
         <exclusion>
           <groupId>mysql</groupId>
@@ -48,6 +48,11 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-security</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>cn.whitetown</groupId>
+      <artifactId>white-monitor</artifactId>
+      <version>${whitetown-dog.version}</version>
     </dependency>
   </dependencies>
 

@@ -25,3 +25,9 @@ mybatis-plus:
   mapper-locations: classpath*:mapper/**/*.xml
   configuration:
     map-underscore-to-camel-case: true
+swagger2:
+  basePackage: cn.whitetown
+  title: whitetown-dog接口文档
+  description: whitetown-dog接口文档
+  version: 0.0.1
+  isOpen: true

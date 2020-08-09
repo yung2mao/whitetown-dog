@@ -1,18 +1,15 @@
 package cn.whitetown.authcommon.util.defaultimpl;
 
-import cn.whitetown.authcommon.constant.AuthConstant;
 import cn.whitetown.authcommon.util.JwtTokenUtil;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.exception.CustomException;
 import cn.whitetown.dogbase.common.util.WebUtil;
-import cn.whitetown.monitor.config.MonConfConstants;
+import cn.whitetown.logclient.modo.WhLogConstants;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.impl.DefaultClaims;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Logger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +24,7 @@ import java.util.Map;
  **/
 public class WhiteJwtTokenUtil implements JwtTokenUtil {
 
-    private Logger logger = MonConfConstants.logger;
+    private Logger logger = WhLogConstants.sysLogger;
     /**
      * 用户名键值
      */
