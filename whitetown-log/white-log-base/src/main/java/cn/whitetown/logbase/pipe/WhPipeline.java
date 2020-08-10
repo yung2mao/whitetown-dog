@@ -13,27 +13,27 @@ public interface WhPipeline<E> {
      * 从管道获取并移除元素
      * @return
      */
-    E takeRecElement();
+    E getAndRemove();
 
     /**
      * 从管道获取数据-不移除
      * @return
      */
-    E peekElement();
+    E get();
 
     /**
      * 获取所有元素并放入指定集合
      * @param c
      * @return
      */
-    int drainTo(Collection<? super E> c);
+    int copyAllTo(Collection<? super E> c);
 
     /**
      * 向管道添加元素
      * @param e
      * @return
      */
-    boolean addElement(E e);
+    boolean put(E e);
 
     /**
      * 管道当前容量

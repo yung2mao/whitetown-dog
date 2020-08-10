@@ -22,7 +22,7 @@ import java.util.Set;
  **/
 public class ShardingDataSourceUtil implements DataSourceUtil{
 
-    private Logger logger = LogConstants.dbLogger;
+    private Logger logger = LogConstants.DB_LOGGER;
 
     private ShadingUtil shadingUtil = DefaultShardingUtil.SHARDING_UTIL;
 

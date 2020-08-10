@@ -15,7 +15,7 @@ import java.util.concurrent.*;
  **/
 public class ScheduleSysMonRun implements SysMonitorRunner{
 
-    private Logger logger = LogConstants.sysLogger;
+    private Logger logger = LogConstants.SYS_LOGGER;
 
     private SysMonitorRunner sysMonitorRunner;
 

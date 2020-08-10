@@ -19,7 +19,7 @@ import java.util.concurrent.Future;
  **/
 public class OnceSysMonRun implements SysMonitorRunner {
 
-    private Logger logger = LogConstants.sysLogger;
+    private Logger logger = LogConstants.SYS_LOGGER;
 
     boolean isActive = false;
 

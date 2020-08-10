@@ -9,13 +9,14 @@ import cn.whitetown.logbase.pipe.WhPipeline;
  * @author taixian
  * @date 2020/08/09
  **/
-public abstract class BaseWhListener implements WhListener {
+public abstract class BaseWhListener<T> implements WhListener<T> {
 
     protected ListenerManager listenerManager;
 
     @Override
     public void registry(ListenerManager listenerManager) {
         listenerManager.addListener(this);
+        this.listenerManager = listenerManager;
 
     }
 

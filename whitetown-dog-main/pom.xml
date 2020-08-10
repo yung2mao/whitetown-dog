@@ -41,6 +41,12 @@
       <artifactId>white-monitor</artifactId>
       <version>${whitetown-dog.version}</version>
     </dependency>
+    <!--log server-->
+    <dependency>
+      <groupId>cn.whitetown</groupId>
+      <artifactId>white-log-server</artifactId>
+      <version>${whitetown-dog.version}</version>
+    </dependency>
     <!--quartz定时任务-->
     <dependency>
       <groupId>org.springframework.boot</groupId>
@@ -53,11 +59,11 @@
       <scope>test</scope>
     </dependency>
     <!--devtools热部署-->
-    <dependency>
+    <!--<dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-devtools</artifactId>
       <optional>true</optional>
-    </dependency>
+    </dependency>-->
     <!--swagger2-->
     <dependency>
       <groupId>io.springfox</groupId>

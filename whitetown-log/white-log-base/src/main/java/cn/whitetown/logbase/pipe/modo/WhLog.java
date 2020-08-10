@@ -12,6 +12,7 @@ import java.util.Date;
  **/
 public class WhLog extends WhClone {
     private String logName;
+    private int logLevel;
     private String logData;
     @JSONField(format = "yyyy-MM-dd  HH:mm:ss")
     private Date timeStamp;
@@ -19,8 +20,9 @@ public class WhLog extends WhClone {
     public WhLog() {
     }
 
-    public WhLog(String logName, String logData, Date timeStamp) {
+    public WhLog(String logName, int logLevel, String logData, Date timeStamp) {
         this.logName = logName;
+        this.logLevel = logLevel;
         this.logData = logData;
         this.timeStamp = timeStamp;
     }
@@ -31,6 +33,14 @@ public class WhLog extends WhClone {
 
     public void setLogName(String logName) {
         this.logName = logName;
+    }
+
+    public int getLogLevel() {
+        return logLevel;
+    }
+
+    public void setLogLevel(int logLevel) {
+        this.logLevel = logLevel;
     }
 
     public String getLogData() {

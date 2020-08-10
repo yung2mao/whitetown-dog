@@ -17,7 +17,7 @@ import org.springframework.stereotype.Component;
 @Component
 public class BaseDestroy implements DisposableBean {
 
-    private Logger logger = LogConstants.sysLogger;
+    private Logger logger = LogConstants.SYS_LOGGER;
 
     @Autowired
     WhiteExpireMap expireMap;

@@ -33,7 +33,7 @@ import java.io.IOException;
 @WhiteAuthAnnotation(type = WhiteControlType.AUTHENTICATED)
 public class DogUserController {
 
-    private Logger log = LogConstants.opLogger;
+    private Logger log = LogConstants.OP_LOGGER;
 
     @Autowired
     private CaptchaDataDeal captchaDataDeal;

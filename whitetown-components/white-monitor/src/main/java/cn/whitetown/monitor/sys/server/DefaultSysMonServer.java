@@ -23,7 +23,7 @@ import org.apache.log4j.Logger;
  **/
 public class DefaultSysMonServer implements SysMonServer{
 
-    private Logger logger = LogConstants.sysLogger;
+    private Logger logger = LogConstants.SYS_LOGGER;
 
     private int port = MonConfConstants.SERVER_PORT;
 

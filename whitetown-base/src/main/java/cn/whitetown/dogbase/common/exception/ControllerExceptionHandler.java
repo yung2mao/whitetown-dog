@@ -20,7 +20,6 @@ import javax.validation.ConstraintViolationException;
 @ResponseBody
 public class ControllerExceptionHandler{
 
-    private Logger logger = Logger.getLogger(ControllerExceptionHandler.class);
     /**
      * 参数错误处理，空指针异常处理
      * @param e
@@ -37,7 +36,6 @@ public class ControllerExceptionHandler{
         if(message != null && message.length() > keepLen) {
             message = message.substring(0,keepLen);
         }
-        logger.error(e.getMessage());
         return ResponseData.build(ResponseStatusEnum.ERROR_PARAMS.getStatus(),message,null);
     }
 

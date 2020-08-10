@@ -1,5 +1,7 @@
 package cn.whitetown.dogbase.common.constant;
 
+import org.springframework.core.Ordered;
+
 /**
  * 通用常量信息
  * @author taixian
@@ -19,4 +21,9 @@ public class DogBaseConstant {
      * 初始版本号
      */
     public static final int INIT_VERSION = 0;
+
+    /*\***********过滤器优先级***************\*/
+
+    public static final int GLOBAL_FILTER_LEVEL = Ordered.HIGHEST_PRECEDENCE;
+    public static final int LOG_FILTER_LEVEL = Ordered.HIGHEST_PRECEDENCE + 10;
 }

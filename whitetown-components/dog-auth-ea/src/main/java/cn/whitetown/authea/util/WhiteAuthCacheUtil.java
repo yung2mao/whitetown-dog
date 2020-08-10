@@ -18,7 +18,7 @@ import java.util.concurrent.ConcurrentHashMap;
  **/
 public class WhiteAuthCacheUtil implements AuthCacheUtil {
 
-    private Logger logger = LogConstants.sysLogger;
+    private Logger logger = LogConstants.SYS_LOGGER;
 
     @Autowired
     private WhiteExpireMap expireMap;

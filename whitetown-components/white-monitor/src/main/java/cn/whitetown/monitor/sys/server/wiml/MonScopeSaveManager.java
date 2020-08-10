@@ -21,7 +21,7 @@ import java.util.concurrent.atomic.AtomicLong;
  **/
 public class MonScopeSaveManager {
 
-    private Logger logger = LogConstants.sysLogger;
+    private Logger logger = LogConstants.SYS_LOGGER;
 
     private static DataSourceUtil dataSourceUtil = ShardingDataSourceUtil.DS_UTIL;
 

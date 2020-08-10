@@ -13,7 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 @MapperScan("cn.whitetown.**.mappers")
 public class DogApplication {
-    private static Logger logger = LogConstants.sysLogger;
+    private static Logger logger = LogConstants.SYS_LOGGER;
 
     public static void main(String[] args) {
         SpringApplication.run(DogApplication.class);

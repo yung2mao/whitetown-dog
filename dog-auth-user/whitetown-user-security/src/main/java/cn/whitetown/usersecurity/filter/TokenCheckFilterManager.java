@@ -30,8 +30,8 @@ import java.io.PrintWriter;
 @Component
 public class TokenCheckFilterManager extends TokenCheckManager {
 
-    private Logger sysLogger = LogConstants.sysLogger;
-    private Logger opLogger = LogConstants.opLogger;
+    private Logger sysLogger = LogConstants.SYS_LOGGER;
+    private Logger opLogger = LogConstants.OP_LOGGER;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
@@ -78,7 +78,6 @@ public class TokenCheckFilterManager extends TokenCheckManager {
 
     @Override
     public void afterFilter(HttpServletRequest request, HttpServletResponse response) {
-        opLogger.debug("response status > " + response.getStatus());
     }
 
     private void writeError(HttpServletResponse response,ResponseData responseData) {

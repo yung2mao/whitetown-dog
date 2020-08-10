@@ -3,9 +3,12 @@ package cn.whitetown.dogbase.common.util;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.lang.model.element.VariableElement;
+import javax.servlet.ServletInputStream;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * Web相关的工具
@@ -13,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
  * @date 2020/05/30 09:45
  **/
 public class WebUtil {
+
     private WebUtil(){}
 
     /**
@@ -31,6 +35,27 @@ public class WebUtil {
     public static String getUri(){
         HttpServletRequest request = getRequest();
         return request == null ? null : request.getRequestURI();
+    }
+
+    /**
+     * 获取request中的请求参赛
+     * @param request
+     * @return
+     */
+    public static String getRequestParams(HttpServletRequest request) throws IOException {
+        if(request == null) {
+            return "";
+        }
+        String method = request.getMethod();
+        if("get".equalsIgnoreCase(method)) {
+            return request.getQueryString();
+        }else if ("post".equalsIgnoreCase(request.getMethod())) {
+            ServletInputStream in = request.getInputStream();
+            byte[] paramBytes =new byte[1024*1024];
+            int read = in.read(paramBytes);
+            return read == -1 ? "" : new String(paramBytes,0,read);
+        }
+        return "";
     }
 
     /**
@@ -121,7 +146,7 @@ public class WebUtil {
     }
 
     /**
-     * 基于IP,服务端口,浏览器类型生成唯一ID作为sessionId
+     * 基于IP,浏览器类型生成唯一ID作为sessionId
      * @return
      */
     public static String getCusSessionId(HttpServletRequest request){
@@ -131,4 +156,5 @@ public class WebUtil {
             return "";
         }
     }
+
 }

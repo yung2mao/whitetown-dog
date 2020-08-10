@@ -24,7 +24,7 @@ import java.util.Map;
  **/
 public class WhiteJwtTokenUtil implements JwtTokenUtil {
 
-    private Logger logger = LogConstants.sysLogger;
+    private Logger logger = LogConstants.SYS_LOGGER;
     /**
      * 用户名键值
      */

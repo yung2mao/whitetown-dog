@@ -16,27 +16,27 @@ public class LogConstants {
     /**
      * 系统基本日志
      */
-    public static final String SYS_LOG_NAME = "sysLog";
+    public static final String SYS_LOG = "SYS_LOG";
     /**
      * 数据库操作日志
      */
-    public static final String DB_LOG_NAME = "dbLog";
+    public static final String DB_LOG = "DB_LOG";
     /**
      * 接口操作日志
      */
-    private static final String OP_LOG_NAME = "opLog";
+    private static final String OP_LOG = "OP_LOG";
     /**
      * 访问日志
      */
-    public static final String ACC_LOG_NAME = "accLog";
+    public static final String ACC_LOG = "ACC_LOG";
 
-    public static Logger sysLogger = Logger.getLogger(SYS_LOG_NAME);
-    public static Logger dbLogger = Logger.getLogger(DB_LOG_NAME);
-    public static Logger opLogger = Logger.getLogger(OP_LOG_NAME);
-    public static Logger accLogger = Logger.getLogger(ACC_LOG_NAME);
+    public static final Logger SYS_LOGGER = Logger.getLogger(SYS_LOG);
+    public static final Logger DB_LOGGER = Logger.getLogger(DB_LOG);
+    public static final Logger OP_LOGGER = Logger.getLogger(OP_LOG);
+    public static final Logger ACC_LOGGER = Logger.getLogger(ACC_LOG);
 
     /**
-     * 日志中转
+     * 日志中转管道
      */
     public static final WhPipeline<WhLog> LOG_PIPELINE = WhLogPipeline.getDefaultPipeline();
     /**

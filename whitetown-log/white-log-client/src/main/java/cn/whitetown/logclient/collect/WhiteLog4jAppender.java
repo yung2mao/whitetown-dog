@@ -23,13 +23,12 @@ public class WhiteLog4jAppender extends AppenderSkeleton {
 
     @Override
     protected void append(LoggingEvent event) {
-        String eventString = "";
-        eventString = this.layout == null ? String.valueOf(event.getMessage()) : this.layout.format(event);
-        WhLog whLog = new WhLog(event.getLoggerName(),eventString,new Date());
-        if(event.getLevel().equals(Level.DEBUG)) {
-            System.out.println(whLog);
+        if(event == null) {
             return;
         }
+        String eventString = "";
+        eventString = this.layout == null ? String.valueOf(event.getMessage()) : this.layout.format(event);
+        WhLog whLog = new WhLog(event.getLoggerName(),event.getLevel().toInt(),eventString,new Date());
         try {
             logPublish.publish(whLog);
         }catch (Exception e) {

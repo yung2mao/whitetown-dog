@@ -32,7 +32,7 @@ import java.util.concurrent.ExecutorService;
 //@WhiteMonClient
 public class MonApplication implements ApplicationRunner {
 
-    private Logger logger = LogConstants.sysLogger;
+    private Logger logger = LogConstants.SYS_LOGGER;
 
     @Autowired
     private ApplicationContext context;

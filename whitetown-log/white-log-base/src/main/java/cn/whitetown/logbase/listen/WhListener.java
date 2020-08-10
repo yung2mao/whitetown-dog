@@ -3,6 +3,7 @@ package cn.whitetown.logbase.listen;
 import cn.whitetown.logbase.pipe.WhPipeline;
 
 /**
+ * 数据监听
  * @author taixian
  * @date 2020/08/09
  **/

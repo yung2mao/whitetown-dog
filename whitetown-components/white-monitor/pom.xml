@@ -58,11 +58,6 @@
       <groupId>com.alibaba</groupId>
       <artifactId>druid</artifactId>
     </dependency>
-    <!--junit-->
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-    </dependency>
   </dependencies>
 
   <build>

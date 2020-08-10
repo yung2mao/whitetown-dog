@@ -32,22 +32,22 @@ public class WhLogPipeline extends WhClone implements WhPipeline<WhLog> {
     }
 
     @Override
-    public WhLog takeRecElement() {
+    public WhLog getAndRemove() {
         return logQueue.poll();
     }
 
     @Override
-    public WhLog peekElement() {
+    public WhLog get() {
         return logQueue.peek();
     }
 
     @Override
-    public int drainTo(Collection<? super WhLog> c) {
+    public int copyAllTo(Collection<? super WhLog> c) {
         return logQueue.drainTo(c);
     }
 
     @Override
-    public boolean addElement(WhLog whLog) {
+    public boolean put(WhLog whLog) {
         long timeout = 5;
         try {
             logQueue.offer(whLog,timeout, TimeUnit.SECONDS);

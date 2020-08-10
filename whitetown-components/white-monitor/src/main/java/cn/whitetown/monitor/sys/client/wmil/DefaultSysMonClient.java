@@ -12,7 +12,7 @@ import org.apache.log4j.Logger;
  **/
 public class DefaultSysMonClient implements SysMonClient {
 
-    private Logger logger = LogConstants.sysLogger;
+    private Logger logger = LogConstants.SYS_LOGGER;
 
     private static SysMonClient client;
 

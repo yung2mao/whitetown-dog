@@ -1,7 +1,7 @@
 package cn.whitetown.dogbase.config;
 
+import cn.whitetown.dogbase.common.constant.DogBaseConstant;
 import org.springframework.boot.web.servlet.ServletComponentScan;
-import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
 import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Component;
@@ -20,7 +20,7 @@ import java.io.IOException;
 @Component
 @ServletComponentScan
 @WebFilter(urlPatterns = "/*",filterName = "globalFilter")
-@Order(Ordered.HIGHEST_PRECEDENCE)
+@Order(DogBaseConstant.GLOBAL_FILTER_LEVEL)
 public class GlobalHandleFilter implements Filter {
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {

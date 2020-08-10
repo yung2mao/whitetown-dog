@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  **/
 public class DefaultMenuCacheUtil implements MenuCacheUtil {
 
-    private Logger logger = LogConstants.sysLogger;
+    private Logger logger = LogConstants.SYS_LOGGER;
 
     @Autowired
     private WhiteExpireMap expireMap;
