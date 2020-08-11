@@ -43,11 +43,18 @@ public class OpLogCollectFilter implements Filter {
 
     }
 
-    private void doFilter(HttpServletRequest request, HttpServletResponse response,FilterChain filterChain) {
+    private void doFilter(HttpServletRequest request, HttpServletResponse response,FilterChain filterChain) throws IOException, ServletException {
+        if(WebUtil.OPTIONS.equalsIgnoreCase(request.getMethod())) {
+            filterChain.doFilter(request,response);
+            return;
+        }
         String requestURI = request.getRequestURI();
 
         String ip = WebUtil.getClientIP(request);
         long startTime = System.currentTimeMillis();
+        System.out.println(requestURI);
+        String requestParam = WebUtil.getRequestParams(request);
+        System.out.println(requestParam);
         try {
             filterChain.doFilter(request,response);
         }catch (IOException|ServletException e){

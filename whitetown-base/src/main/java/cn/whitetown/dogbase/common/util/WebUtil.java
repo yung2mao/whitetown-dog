@@ -17,6 +17,12 @@ import java.io.IOException;
  **/
 public class WebUtil {
 
+    public static final String GET_METHOD = "GET";
+    public static final String POST_METHOD = "POST";
+    public static final String PUT_METHOD = "PUT";
+    public static final String DELETE_METHOD = "DELETE";
+    public static final String OPTIONS = "OPTIONS";
+
     private WebUtil(){}
 
     /**
@@ -38,7 +44,7 @@ public class WebUtil {
     }
 
     /**
-     * 获取request中的请求参赛
+     * 获取request中的请求参数
      * @param request
      * @return
      */
@@ -46,16 +52,14 @@ public class WebUtil {
         if(request == null) {
             return "";
         }
-        String method = request.getMethod();
-        if("get".equalsIgnoreCase(method)) {
-            return request.getQueryString();
-        }else if ("post".equalsIgnoreCase(request.getMethod())) {
-            ServletInputStream in = request.getInputStream();
-            byte[] paramBytes =new byte[1024*1024];
-            int read = in.read(paramBytes);
-            return read == -1 ? "" : new String(paramBytes,0,read);
+        String requestParams = request.getQueryString();
+        if(requestParams != null) {
+            return requestParams;
         }
-        return "";
+        ServletInputStream in = request.getInputStream();
+        byte[] paramBytes =new byte[1024*1024];
+        int read = in.read(paramBytes);
+        return read == -1 ? "" : new String(paramBytes,0,read);
     }
 
     /**
