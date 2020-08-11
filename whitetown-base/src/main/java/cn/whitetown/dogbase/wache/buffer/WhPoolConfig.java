@@ -1,4 +1,4 @@
-package cn.whitetown.dogbase.wache.conf;
+package cn.whitetown.dogbase.wache.buffer;
 
 import cn.whitetown.dogbase.wache.BufferElement;
 import lombok.Getter;

@@ -1,4 +1,4 @@
-package cn.whitetown.dogbase.wache.wmil;
+package cn.whitetown.dogbase.wache.buffer;
 
 import cn.whitetown.dogbase.wache.BufferElement;
 import cn.whitetown.dogbase.wache.PoolEleFactory;
@@ -12,7 +12,7 @@ import org.apache.log4j.Logger;
  * @author taixian
  * @date 2020/08/11
  **/
-public class WhPoolElleFactory<E> implements PoolEleFactory<E> {
+public class WhPoolEleFactory<E> implements PoolEleFactory<E> {
 
     private static Logger logger = LogConstants.SYS_LOGGER;
 
@@ -20,33 +20,33 @@ public class WhPoolElleFactory<E> implements PoolEleFactory<E> {
     private BufferPool<E> bufferPool;
     private E baseElement;
 
-    private WhPoolElleFactory(BufferElement<E> bufferElement, BufferPool<E> bufferPool, E baseElement) {
+    private WhPoolEleFactory(BufferElement<E> bufferElement, BufferPool<E> bufferPool, E baseElement) {
         this.claz = bufferElement.getClass();
         this.bufferPool = bufferPool;
         this.baseElement = baseElement;
     }
 
     @SuppressWarnings("unchecked")
-    public static <E> WhPoolElleFactory<E> createPoolEleFactory(BufferElement<E> bufferElement, BufferPool<E> bufferPool,Class<E> eleClass) {
+    public static <E> WhPoolEleFactory<E> createPoolEleFactory(BufferElement<E> bufferElement, BufferPool<E> bufferPool, Class<E> eleClass) {
         try {
-            return new WhPoolElleFactory<>(bufferElement,bufferPool,eleClass.newInstance());
+            return new WhPoolEleFactory<>(bufferElement,bufferPool,eleClass.newInstance());
         }catch (Exception e) {
             logger.fatal(e.getMessage());
             throw new IllegalArgumentException(e.getMessage());
         }
     }
 
-    public static <E> WhPoolElleFactory<E> createPoolEleFactory(BufferElement<E> bufferElement, BufferPool<E> bufferPool, E baseElement) {
+    public static <E> WhPoolEleFactory<E> createPoolEleFactory(BufferElement<E> bufferElement, BufferPool<E> bufferPool, E baseElement) {
         if(bufferPool == null) {
             throw new NullPointerException("bufferPool is not init");
         }
         if(bufferElement == null) {
             bufferElement = new DefaultBufferElement<>();
         }
-        return new WhPoolElleFactory<>(bufferElement,bufferPool,baseElement);
+        return new WhPoolEleFactory<>(bufferElement,bufferPool,baseElement);
     }
 
-    public static <E> WhPoolElleFactory<E> createPoolEleFactory(BufferPool<E> bufferPool, E baseElement) {
+    public static <E> WhPoolEleFactory<E> createPoolEleFactory(BufferPool<E> bufferPool, E baseElement) {
         BufferElement<E> bufferElement = new DefaultBufferElement<>();
         return createPoolEleFactory(bufferElement,bufferPool,baseElement);
     }

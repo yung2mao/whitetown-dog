@@ -1,4 +1,4 @@
-package cn.whitetown.dogbase.wache.wmil;
+package cn.whitetown.dogbase.wache.buffer;
 
 import cn.whitetown.dogbase.wache.BufferElement;
 import cn.whitetown.dogbase.wache.BufferPool;
