@@ -1,19 +1,14 @@
 package cn.whitetown.dogbase.wache.buffer;
 
-import cn.whitetown.dogbase.wache.BufferElement;
-import cn.whitetown.dogbase.wache.BufferPool;
-
 /**
  * @author taixian
  * @date 2020/08/11
  **/
 public class DefaultBufferElement<E> implements BufferElement<E> {
 
-    private BufferPool<E> pool;
+    protected BufferPool<E> pool;
 
-    private E e;
-
-    private long expiredTime;
+    protected E e;
 
 
     @Override
@@ -29,16 +24,6 @@ public class DefaultBufferElement<E> implements BufferElement<E> {
     @Override
     public void setE(E e) {
         this.e = this.e == null ? e : this.e;
-    }
-
-    public void setExpireTime(long expiredTime) {
-        long expire = System.currentTimeMillis() + expiredTime;
-        this.expiredTime = expire < 0 ? Long.MAX_VALUE : expire;
-    }
-
-    @Override
-    public long getExpiredTime() {
-        return this.expiredTime;
     }
 
     @Override

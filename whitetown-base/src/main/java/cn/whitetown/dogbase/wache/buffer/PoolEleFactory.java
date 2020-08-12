@@ -1,7 +1,7 @@
-package cn.whitetown.dogbase.wache;
+package cn.whitetown.dogbase.wache.buffer;
 
 /**
- * PoolElemenet创建工厂
+ * PoolElement创建工厂
  * @author taixian
  * @date 2020/08/11
  **/

@@ -1,9 +1,11 @@
 package cn.whitetown.dogbase.wache.buffer;
 
-import cn.whitetown.dogbase.wache.BufferElement;
-import cn.whitetown.dogbase.wache.BufferPool;
 import cn.whitetown.logbase.config.LogConstants;
 import org.apache.log4j.Logger;
+
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -12,6 +14,19 @@ import java.util.concurrent.TimeUnit;
  * @date 2020/08/11
  **/
 public class BaseBufferPool<E> extends AbstractBufferPool<E> {
+
+    private ExecutorService executorService;
+
+    {
+        executorService = new ThreadPoolExecutor(0,
+                1,
+                60,
+                TimeUnit.MILLISECONDS,
+                new ArrayBlockingQueue<>(0));
+    }
+
+    private long beforeTime = System.currentTimeMillis();
+
 
     private static Logger logger = LogConstants.SYS_LOGGER;
 
@@ -50,13 +65,77 @@ public class BaseBufferPool<E> extends AbstractBufferPool<E> {
 
     @Override
     public BufferElement<E> getElement() {
-        return currentEleQueue.poll();
+        BufferElement<E> element = currentEleQueue.poll();
+        if(element != null) {
+            currentEleSize.decrementAndGet();
+            return element;
+        }
+        this.expand();
+        try {
+            long waiting = 30;
+            element = currentEleQueue.poll(waiting, TimeUnit.SECONDS);
+            currentEleSize.decrementAndGet();
+            return element;
+        }catch (Exception e) {
+            logger.error(e.getMessage());
+            throw new IllegalArgumentException();
+        }
     }
 
     @Override
     public boolean returnElement(BufferElement<E> poolEle) {
+        boolean isContains = allEleQueue.contains(poolEle);
+        if(isContains) {
+            currentEleQueue.add(poolEle);
+            currentEleSize.incrementAndGet();
+            if(isReduce()) {
+                executorService.execute(this::reduce);
+            }
+            return true;
+        }
         return false;
     }
-    public void removeElement() {
+
+    private boolean isReduce() {
+        long nowTime = System.currentTimeMillis();
+        long intervalTime = 60000;
+        if((nowTime - beforeTime) > intervalTime ) {
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 缩容
+     */
+    private void reduce() {
+        int currentSize = currentEleSize.get();
+        if(currentSize < (minIdle << 1)) {
+            return;
+        }
+        for (int i = 0; i < minIdle; i++) {
+            BufferElement<E> removeEle = currentEleQueue.poll();
+            allEleQueue.remove(removeEle);
+            currentEleSize.decrementAndGet();
+            allEleSize.decrementAndGet();
+        }
+    }
+
+    /**
+     * 扩容
+     */
+    private void expand() {
+        if(allEleSize.get() >= maxActive) {
+            return;
+        }
+        int expandSize = maxActive - allEleSize.get() >> 1;
+        expandSize = expandSize > 0 ? expandSize : 2;
+        for (int i = 0; i < expandSize; i++) {
+            BufferElement<E> element = eleFactory.createPoolElement();
+            currentEleQueue.add(element);
+            allEleQueue.add(element);
+            currentEleSize.incrementAndGet();
+            allEleSize.incrementAndGet();
+        }
     }
 }

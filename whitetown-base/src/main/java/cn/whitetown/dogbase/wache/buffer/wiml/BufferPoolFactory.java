@@ -1,7 +1,8 @@
-package cn.whitetown.dogbase.wache.buffer;
+package cn.whitetown.dogbase.wache.buffer.wiml;
 
-import cn.whitetown.dogbase.wache.BufferPool;
-import cn.whitetown.dogbase.wache.PoolEleFactory;
+import cn.whitetown.dogbase.wache.buffer.BufferPool;
+import cn.whitetown.dogbase.wache.buffer.PoolEleFactory;
+import cn.whitetown.dogbase.wache.buffer.WhPoolConfig;
 
 import java.util.concurrent.TimeUnit;
 

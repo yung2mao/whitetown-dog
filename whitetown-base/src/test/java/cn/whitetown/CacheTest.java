@@ -1,13 +1,9 @@
 package cn.whitetown;
 
-import cn.whitetown.dogbase.wache.BufferPool;
-import cn.whitetown.dogbase.wache.buffer.WhPoolConfig;
-import cn.whitetown.dogbase.wache.buffer.BaseBufferPool;
-import cn.whitetown.dogbase.wache.buffer.BufferPoolFactory;
-import cn.whitetown.dogbase.wache.buffer.WhPoolEleFactory;
+import cn.whitetown.dogbase.wache.buffer.*;
+import cn.whitetown.dogbase.wache.buffer.wiml.BufferPoolFactory;
+import cn.whitetown.dogbase.wache.buffer.wiml.ByteBufferElement;
 import org.junit.Test;
-
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author taixian
@@ -17,19 +13,13 @@ public class CacheTest {
 
     @Test
     public void cacheTest01() {
-        WhPoolConfig<byte[]> poolConfig = new WhPoolConfig<>(5,10,60,
-                TimeUnit.SECONDS);
-        BufferPool<byte[]> bufferPool = BaseBufferPool.createBasePool(poolConfig);
-        WhPoolEleFactory<byte[]> factory = WhPoolEleFactory.createPoolEleFactory(bufferPool, new byte[1024]);
-        BufferPoolFactory.BU_POOL_FACTORY.buildPool(bufferPool,factory);
+        BufferPoolFactory buPoolFactory = BufferPoolFactory.BU_POOL_FACTORY;
+        WhPoolConfig<byte[]> config = buPoolFactory.createConfig();
+        BufferPool<byte[]> basePool = BaseBufferPool.createBasePool(config);
+        WhPoolEleFactory<byte[]> factory = WhPoolEleFactory.createPoolEleFactory(new ByteBufferElement(), basePool, new byte[1024]);
+        BufferPool<byte[]> bufferPool = buPoolFactory.buildPool(basePool, factory);
 
-        byte[] element = bufferPool.getElement().getElement();
-        byte[] element1 = bufferPool.getElement().getElement();
-        byte[] element2 = bufferPool.getElement().getElement();
-        byte[] element3 = bufferPool.getElement().getElement();
-        System.out.println(element + "," + element.length);
-        System.out.println(element1 + "," + element.length);
-        System.out.println(element2 + "," + element.length);
-        System.out.println(element3 + "," + element.length);
+        BufferElement<byte[]> element = bufferPool.getElement();
+        System.out.println(element.getElement().length);
     }
 }

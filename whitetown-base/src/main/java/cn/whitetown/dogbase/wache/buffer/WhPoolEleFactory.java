@@ -1,8 +1,5 @@
 package cn.whitetown.dogbase.wache.buffer;
 
-import cn.whitetown.dogbase.wache.BufferElement;
-import cn.whitetown.dogbase.wache.PoolEleFactory;
-import cn.whitetown.dogbase.wache.BufferPool;
 import cn.whitetown.logbase.config.LogConstants;
 import com.alibaba.fastjson.JSON;
 import org.apache.log4j.Logger;

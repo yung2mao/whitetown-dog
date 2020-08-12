@@ -1,4 +1,4 @@
-package cn.whitetown.dogbase.wache;
+package cn.whitetown.dogbase.wache.buffer;
 
 /**
  * 缓存池基本元素
@@ -24,12 +24,6 @@ public interface BufferElement<E> {
      * @param e
      */
     void setE(E e);
-
-    /**
-     * 获取过期时间
-     * @return
-     */
-    long getExpiredTime();
 
     /**
      * 元素关闭

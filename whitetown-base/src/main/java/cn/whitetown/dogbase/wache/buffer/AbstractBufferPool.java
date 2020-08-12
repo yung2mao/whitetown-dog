@@ -1,11 +1,7 @@
 package cn.whitetown.dogbase.wache.buffer;
 
-import cn.whitetown.dogbase.wache.BufferElement;
-import cn.whitetown.dogbase.wache.BufferPool;
-import cn.whitetown.dogbase.wache.PoolEleFactory;
-
-import java.util.ArrayDeque;
-import java.util.Queue;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -20,8 +16,8 @@ public abstract class AbstractBufferPool<E> implements BufferPool<E> {
     protected long keepActive;
     protected TimeUnit timeUnit;
 
-    protected Queue<BufferElement<E>> currentEleQueue;
-    protected Queue<BufferElement<E>> allEleQueue;
+    protected BlockingQueue<BufferElement<E>> currentEleQueue;
+    protected BlockingQueue<BufferElement<E>> allEleQueue;
     protected PoolEleFactory<E> eleFactory;
 
     protected AtomicInteger currentEleSize;
@@ -36,8 +32,8 @@ public abstract class AbstractBufferPool<E> implements BufferPool<E> {
     }
 
     AbstractBufferPool() {
-        currentEleQueue = new ArrayDeque<>(maxActive);
-        allEleQueue = new ArrayDeque<>(maxActive);
+        currentEleQueue = new ArrayBlockingQueue<>(maxActive << 1);
+        allEleQueue = new ArrayBlockingQueue<>(maxActive << 1);
         currentEleSize = new AtomicInteger();
         allEleSize = new AtomicInteger();
     }

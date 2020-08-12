@@ -1,10 +1,12 @@
-package cn.whitetown.dogbase.wache;
+package cn.whitetown.dogbase.wache.buffer;
+
+import cn.whitetown.dogbase.wache.WhiteCacheBase;
 
 /**
  * @author taixian
  * @date 2020/08/11
  **/
-public interface BufferPool<E> extends WhiteCacheBase{
+public interface BufferPool<E> extends WhiteCacheBase {
 
     /**
      * 初始化pool元素创建工厂

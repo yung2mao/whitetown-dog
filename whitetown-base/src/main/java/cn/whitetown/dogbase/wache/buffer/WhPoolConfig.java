@@ -1,13 +1,12 @@
 package cn.whitetown.dogbase.wache.buffer;
 
-import cn.whitetown.dogbase.wache.BufferElement;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.util.concurrent.TimeUnit;
 
 /**
- * 元素池配置信息
+ * 缓冲池配置信息
  * @author taixian
  * @date 2020/08/11
  **/
