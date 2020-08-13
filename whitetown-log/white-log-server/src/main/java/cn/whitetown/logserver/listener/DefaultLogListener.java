@@ -5,9 +5,10 @@ import cn.whitetown.logbase.listen.ListenerManager;
 import cn.whitetown.logbase.listen.wiml.BaseWhListener;
 import cn.whitetown.logbase.pipe.WhPipeline;
 import cn.whitetown.logbase.pipe.modo.WhLog;
-import cn.whitetown.logserver.manager.LogAnalyzerEnum;
 import cn.whitetown.logserver.manager.WhLogAnalyzer;
+import cn.whitetown.logserver.modo.LogAnalyzerMap;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * 服务端日志监听
@@ -20,9 +21,11 @@ public class DefaultLogListener extends BaseWhListener<WhLog> {
 
     private WhPipeline<WhLog> whPipeline;
 
+    private LogAnalyzerMap logAnalyzerMap;
 
-    public DefaultLogListener(WhPipeline<WhLog> whPipeline) {
+    public DefaultLogListener(WhPipeline<WhLog> whPipeline, LogAnalyzerMap logAnalyzerMap) {
         this.whPipeline = whPipeline;
+        this.logAnalyzerMap = logAnalyzerMap;
     }
 
     @Override
@@ -35,10 +38,9 @@ public class DefaultLogListener extends BaseWhListener<WhLog> {
         WhLog whLog = whPipeline.getAndRemove();
         while (whLog != null) {
             String logName = whLog.getLogName();
-            WhLogAnalyzer logAnalyzer = LogAnalyzerEnum.getLogAnalyzer(logName);
+            WhLogAnalyzer logAnalyzer = logAnalyzerMap.getAnalyzer(logName);
             logAnalyzer.analyzer(whLog);
             whLog = whPipeline.getAndRemove();
         }
-        logger.debug("the current log processing is complete");
     }
 }

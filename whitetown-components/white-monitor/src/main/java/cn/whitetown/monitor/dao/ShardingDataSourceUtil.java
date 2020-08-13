@@ -5,6 +5,7 @@ import cn.whitetown.monitor.config.MonConfConstants;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.sun.jna.platform.win32.Ddeml;
 import org.apache.log4j.Logger;
 
 import javax.sql.DataSource;
@@ -39,8 +40,8 @@ public class ShardingDataSourceUtil implements DataSourceUtil{
         String username = MonConfConstants.DB_USERNAME;
         String password = MonConfConstants.DB_PASSWORD;
         DruidDataSource druidDataSource = new DruidDataSource();
-        druidDataSource.setMinIdle(1);
-        druidDataSource.setMaxActive(8);
+        druidDataSource.setMinIdle(MonConfConstants.DB_POOL_MIN_IDLE);
+        druidDataSource.setMaxActive(MonConfConstants.DB_POOL_MAX_ACTIVE);
         druidDataSource.setDriverClassName(driverName);
         druidDataSource.setUsername(username);
         druidDataSource.setPassword(password);
@@ -135,8 +136,6 @@ public class ShardingDataSourceUtil implements DataSourceUtil{
                     autoCloseable.close();
                 } catch (Exception e) {
                     e.printStackTrace();
-                }finally {
-                    autoCloseable = null;
                 }
             }
         }

@@ -7,14 +7,17 @@ package cn.whitetown.dogbase.common.util;
  * @date 2020/06/02
  **/
 public class SnowIDCreateUtil {
+
     /**
      * 机器码
      */
     private long workId;
+
     /**
      * 序列号
      */
     private long sequence = 0L;
+
     /**
      * 上次的时间戳，用于更新sequnce归零时判定
      */
@@ -27,6 +30,7 @@ public class SnowIDCreateUtil {
      * workId最大允许值
      */
     private static long maxWorkId = -1 ^ (-1 << 10L);
+
     /**
      * 最大序列 - 1毫秒允许4096个id生成
      */

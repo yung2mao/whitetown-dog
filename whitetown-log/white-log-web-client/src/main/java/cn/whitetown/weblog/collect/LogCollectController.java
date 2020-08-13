@@ -1,4 +1,4 @@
-package cn.whitetown.logserver.controller;
+package cn.whitetown.weblog.collect;
 
 import org.springframework.web.bind.annotation.RestController;
 

@@ -1,5 +1,6 @@
 package cn.whitetown.dogbase.common.util;
 
+import com.sun.xml.internal.ws.resources.HttpserverMessages;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -49,15 +50,21 @@ public class WebUtil {
      * @return
      */
     public static String getRequestParams(HttpServletRequest request) throws IOException {
+        return getRequestParams(request,null);
+    }
+
+    public static String getRequestParams(HttpServletRequest request, byte[] paramBytes) throws IOException {
         if(request == null) {
-            return "";
+            return null;
+        }
+        if(paramBytes == null) {
+            paramBytes = new byte[1024];
         }
         String requestParams = request.getQueryString();
         if(requestParams != null) {
             return requestParams;
         }
         ServletInputStream in = request.getInputStream();
-        byte[] paramBytes =new byte[1024*1024];
         int read = in.read(paramBytes);
         return read == -1 ? "" : new String(paramBytes,0,read);
     }

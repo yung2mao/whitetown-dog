@@ -22,7 +22,7 @@ public class BaseBufferPool<E> extends AbstractBufferPool<E> {
                 1,
                 60,
                 TimeUnit.MILLISECONDS,
-                new ArrayBlockingQueue<>(0));
+                new ArrayBlockingQueue<>(1));
     }
 
     private long beforeTime = System.currentTimeMillis();
@@ -38,10 +38,6 @@ public class BaseBufferPool<E> extends AbstractBufferPool<E> {
         super(minIdle, maxActive, keepActive, timeUnit);
     }
 
-    BaseBufferPool() {
-        super();
-    }
-
     /**
      * 创建缓冲池 - 未初始化元素工厂
      * @param poolConfig
@@ -55,12 +51,10 @@ public class BaseBufferPool<E> extends AbstractBufferPool<E> {
             baseBufferPool.init();
             return baseBufferPool;
         }
-        BaseBufferPool<E> baseBufferPool = new BaseBufferPool<>();
-        baseBufferPool.minIdle = poolConfig.getMinIdle();
-        baseBufferPool.maxActive = poolConfig.getMaxActive();
-        baseBufferPool.keepActive = poolConfig.getKeepActive();
-        baseBufferPool.timeUnit = poolConfig.getTimeUnit();
-        return baseBufferPool;
+        return new BaseBufferPool<>(poolConfig.getMinIdle(),
+                poolConfig.getMaxActive(),
+                poolConfig.getKeepActive(),
+                poolConfig.getTimeUnit());
     }
 
     @Override
@@ -78,7 +72,7 @@ public class BaseBufferPool<E> extends AbstractBufferPool<E> {
             return element;
         }catch (Exception e) {
             logger.error(e.getMessage());
-            throw new IllegalArgumentException();
+            throw new IllegalArgumentException(e.getMessage());
         }
     }
 
@@ -96,10 +90,15 @@ public class BaseBufferPool<E> extends AbstractBufferPool<E> {
         return false;
     }
 
+    /**
+     * 判断是否需要缩容
+     * @return
+     */
     private boolean isReduce() {
         long nowTime = System.currentTimeMillis();
         long intervalTime = 60000;
         if((nowTime - beforeTime) > intervalTime ) {
+            beforeTime = nowTime;
             return true;
         }
         return false;
@@ -128,8 +127,8 @@ public class BaseBufferPool<E> extends AbstractBufferPool<E> {
         if(allEleSize.get() >= maxActive) {
             return;
         }
-        int expandSize = maxActive - allEleSize.get() >> 1;
-        expandSize = expandSize > 0 ? expandSize : 2;
+        int expandSize = (maxActive - allEleSize.get()) >> 1;
+        expandSize = expandSize > 0 ? expandSize : 1;
         for (int i = 0; i < expandSize; i++) {
             BufferElement<E> element = eleFactory.createPoolElement();
             currentEleQueue.add(element);

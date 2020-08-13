@@ -5,21 +5,14 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>cn.whitetown</groupId>
-  <artifactId>whitetown-log</artifactId>
+  <artifactId>white-log-web-client</artifactId>
   <version>${whitetown-dog.version}</version>
-  <modules>
-    <module>white-log-client</module>
-      <module>white-log-server</module>
-      <module>white-log-base</module>
-      <module>white-log-web-client</module>
-  </modules>
-  <packaging>pom</packaging>
 
-  <name>whitetown-log</name>
+  <name>white-log-web-client</name>
 
   <parent>
-    <artifactId>whitetown-dog</artifactId>
     <groupId>cn.whitetown</groupId>
+    <artifactId>whitetown-log</artifactId>
     <version>0.0.1</version>
   </parent>
 
@@ -29,15 +22,22 @@
     <maven.compiler.target>1.8</maven.compiler.target>
   </properties>
 
-  <dependencyManagement>
-    <dependencies>
-      <!--base-->
-      <dependency>
-        <groupId>cn.whitetown</groupId>
-        <artifactId>whitetown-base</artifactId>
-        <version>${whitetown-dog.version}</version>
-      </dependency>
-
-    </dependencies>
-  </dependencyManagement>
+  <dependencies>
+    <!--base-->
+    <dependency>
+      <groupId>cn.whitetown</groupId>
+      <artifactId>whitetown-base</artifactId>
+    </dependency>
+    <!--auth-common-->
+    <dependency>
+      <groupId>cn.whitetown</groupId>
+      <artifactId>dog-auth-common</artifactId>
+      <version>${whitetown-dog.version}</version>
+    </dependency>
+    <!--aop-->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-aop</artifactId>
+    </dependency>
+  </dependencies>
 </project>

@@ -14,6 +14,7 @@ import java.util.Properties;
  **/
 public class MonConfConstants {
     public static final Properties MONITOR_CONF;
+
     public static final int SYS_INTERVAL_TIME;
     public static final String WORK_ID;
     public static final String SERVER_HOST;
@@ -31,6 +32,8 @@ public class MonConfConstants {
     public static final String DB_URL;
     public static final String DB_USERNAME;
     public static final String DB_PASSWORD;
+    public static final int DB_POOL_MIN_IDLE;
+    public static final int DB_POOL_MAX_ACTIVE;
     public static final String BASE_TABLE_NAME;
     public static final int DB_TABLE_SHARDING_SIZE;
     public static final long SHARDING_SCOPE;
@@ -51,10 +54,15 @@ public class MonConfConstants {
         LOG_SAVE_PATH = MONITOR_CONF.getProperty("sys.file.savePath");
         LOG_SAVE_FAIL_TRY = Boolean.parseBoolean(MONITOR_CONF.getProperty("sys.fail.reset.isRetry"));
         RETRY_TIMES = Integer.parseInt(MONITOR_CONF.getProperty("sys.fail.retry.times"));
+
         DB_DRIVER_NANE = MONITOR_CONF.getProperty("dataSource.driverName");
         DB_URL = MONITOR_CONF.getProperty("dataSource.url");
         DB_USERNAME = MONITOR_CONF.getProperty("dataSource.username");
         DB_PASSWORD = MONITOR_CONF.getProperty("dataSource.password");
+        String poolMin = MONITOR_CONF.getProperty("dataSource.pool.minIdle");
+        DB_POOL_MIN_IDLE = poolMin == null ? 1 : Integer.parseInt(poolMin);
+        String poolMax = MONITOR_CONF.getProperty("dataSource.pool.maxActive");
+        DB_POOL_MAX_ACTIVE = poolMax == null ? 4 : Integer.parseInt(poolMax);
         BASE_TABLE_NAME = MONITOR_CONF.getProperty("dataSource.monitor.baseTableName");
         String size = MONITOR_CONF.getProperty("dataSource.table.size");
         DB_TABLE_SHARDING_SIZE = size == null ? 1 : Integer.parseInt(size);

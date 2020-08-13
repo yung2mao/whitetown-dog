@@ -31,7 +31,7 @@ import java.io.PrintWriter;
 public class TokenCheckFilterManager extends TokenCheckManager {
 
     private Logger sysLogger = LogConstants.SYS_LOGGER;
-    private Logger opLogger = LogConstants.OP_LOGGER;
+    private Logger opLogger = LogConstants.OP_BASE_LOGGER;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;

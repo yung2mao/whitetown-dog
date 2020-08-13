@@ -1,7 +1,6 @@
 package cn.whitetown.dogbase.common.util;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDateTime;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -59,6 +58,34 @@ public class WhiteFormatUtil {
     public static String dateFormat(Date date) {
         String format = "yyyy-MM-dd HH:mm:ss";
         return dateFormat(format,date);
+    }
+
+    /**
+     * text转date
+     * 指定格式
+     * @param format
+     * @param dateText
+     * @return
+     */
+    public static Date textToDate(String format,String dateText) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat(format);
+        try {
+            return dateFormat.parse(dateText);
+        }catch (Exception e) {
+            e.printStackTrace();
+            throw new IllegalArgumentException(e.getMessage());
+        }
+    }
+
+    /**
+     * text转date
+     * 默认格式
+     * @param dateText
+     * @return
+     */
+    public static Date text2Date(String dateText) {
+        String format = "yyyy-MM-dd HH:mm:ss";
+        return textToDate(format,dateText);
     }
 
     /**

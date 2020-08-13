@@ -41,10 +41,15 @@
       <artifactId>white-monitor</artifactId>
       <version>${whitetown-dog.version}</version>
     </dependency>
-    <!--log server-->
+    <!--log-->
     <dependency>
       <groupId>cn.whitetown</groupId>
       <artifactId>white-log-server</artifactId>
+      <version>${whitetown-dog.version}</version>
+    </dependency>
+    <dependency>
+      <groupId>cn.whitetown</groupId>
+      <artifactId>white-log-web-client</artifactId>
       <version>${whitetown-dog.version}</version>
     </dependency>
     <!--quartz定时任务-->

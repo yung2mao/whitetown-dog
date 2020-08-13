@@ -1,7 +1,11 @@
 package cn.whitetown.logserver.modo;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.Date;
 
 /**
  * @author taixian
@@ -17,11 +21,13 @@ public class SystemLog {
     /**
      * 记录时间 - 距离jvm启动的时间
      */
-    private String logTimeToStart;
+    private long logTimeToStart;
     /**
      * 记录时间 - 当前时间
      */
-    private String logTime;
+    @JsonFormat(pattern = "yyyy-MM-dd  HH:mm:ss.SSS")
+    @JSONField(format = "yyyy-MM-dd  HH:mm:ss.SSS")
+    private Date logTime;
     private String logClass;
     private String logMethod;
     private String logLine;
@@ -29,5 +35,7 @@ public class SystemLog {
     /**
      * 发送时间
      */
-    private String publishTime;
+    @JsonFormat(pattern = "yyyy-MM-dd  HH:mm:ss.SSS")
+    @JSONField(format = "yyyy-MM-dd  HH:mm:ss.SSS")
+    private Date publishTime;
 }

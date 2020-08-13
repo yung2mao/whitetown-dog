@@ -3,6 +3,7 @@ package cn.whitetown;
 import cn.whitetown.dogbase.wache.buffer.*;
 import cn.whitetown.dogbase.wache.buffer.wiml.BufferPoolFactory;
 import cn.whitetown.dogbase.wache.buffer.wiml.ByteBufferElement;
+import lombok.SneakyThrows;
 import org.junit.Test;
 
 /**
@@ -12,14 +13,28 @@ import org.junit.Test;
 public class CacheTest {
 
     @Test
-    public void cacheTest01() {
+    public void bufferEleTest() {
         BufferPoolFactory buPoolFactory = BufferPoolFactory.BU_POOL_FACTORY;
         WhPoolConfig<byte[]> config = buPoolFactory.createConfig();
         BufferPool<byte[]> basePool = BaseBufferPool.createBasePool(config);
         WhPoolEleFactory<byte[]> factory = WhPoolEleFactory.createPoolEleFactory(new ByteBufferElement(), basePool, new byte[1024]);
         BufferPool<byte[]> bufferPool = buPoolFactory.buildPool(basePool, factory);
 
-        BufferElement<byte[]> element = bufferPool.getElement();
-        System.out.println(element.getElement().length);
+        while (true) {
+            BufferElement<byte[]> element = bufferPool.getElement();
+            System.out.println(element +","+ element.getElement() +","+ element.getElement().length);
+            this.returnEle(element);
+        }
+    }
+
+    public void returnEle(BufferElement bufferElement){
+        new Thread(new Runnable() {
+            @SneakyThrows
+            @Override
+            public void run() {
+                Thread.sleep(5000);
+                bufferElement.close();
+            }
+        }).start();
     }
 }

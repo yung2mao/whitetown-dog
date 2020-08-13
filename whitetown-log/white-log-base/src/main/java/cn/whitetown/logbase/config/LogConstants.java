@@ -14,6 +14,10 @@ import org.apache.log4j.Logger;
  **/
 public class LogConstants {
     /**
+     * 默认日志
+     */
+    public static final String DEFAULT_LOG = "DEFAULT_LOG";
+    /**
      * 系统基本日志
      */
     public static final String SYS_LOG = "SYS_LOG";
@@ -24,7 +28,13 @@ public class LogConstants {
     /**
      * 接口操作日志
      */
-    private static final String OP_LOG = "OP_LOG";
+    public static final String OP_BASE_LOG = "OP_BASE_LOG";
+    /**
+     * 接口操作详细日志
+     */
+    public static final String OP_DETAIL_LOG = "OP_DETAIL_LOG";
+
+    public static final String TRACE_ID = "traceId";
     /**
      * 访问日志
      */
@@ -32,7 +42,8 @@ public class LogConstants {
 
     public static final Logger SYS_LOGGER = Logger.getLogger(SYS_LOG);
     public static final Logger DB_LOGGER = Logger.getLogger(DB_LOG);
-    public static final Logger OP_LOGGER = Logger.getLogger(OP_LOG);
+    public static final Logger OP_BASE_LOGGER = Logger.getLogger(OP_BASE_LOG);
+    public static final Logger OP_DETAIL_LOGGER = Logger.getLogger(OP_DETAIL_LOG);
     public static final Logger ACC_LOGGER = Logger.getLogger(ACC_LOG);
 
     /**

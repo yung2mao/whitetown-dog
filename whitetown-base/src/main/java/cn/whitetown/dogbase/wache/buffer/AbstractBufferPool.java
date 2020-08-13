@@ -23,19 +23,18 @@ public abstract class AbstractBufferPool<E> implements BufferPool<E> {
     protected AtomicInteger currentEleSize;
     protected AtomicInteger allEleSize;
 
-    AbstractBufferPool(int minIdle, int maxActive, long keepActive, TimeUnit timeUnit) {
-        this();
+    public AbstractBufferPool(int minIdle, int maxActive, long keepActive, TimeUnit timeUnit) {
         this.minIdle = minIdle;
         this.maxActive = maxActive;
         this.keepActive = keepActive;
         this.timeUnit = timeUnit;
-    }
-
-    AbstractBufferPool() {
         currentEleQueue = new ArrayBlockingQueue<>(maxActive << 1);
         allEleQueue = new ArrayBlockingQueue<>(maxActive << 1);
         currentEleSize = new AtomicInteger();
         allEleSize = new AtomicInteger();
+    }
+
+    public AbstractBufferPool() {
     }
 
     @Override
@@ -60,7 +59,16 @@ public abstract class AbstractBufferPool<E> implements BufferPool<E> {
 
     @Override
     public void destroy() {
-        currentEleQueue.clear();
-        allEleQueue.clear();
+        try {
+            currentEleQueue.clear();
+            allEleQueue.clear();
+        }catch (Exception e){
+        }finally {
+            currentEleQueue = null;
+            allEleQueue = null;
+        }
+
+        currentEleSize = null;
+        allEleSize = null;
     }
 }

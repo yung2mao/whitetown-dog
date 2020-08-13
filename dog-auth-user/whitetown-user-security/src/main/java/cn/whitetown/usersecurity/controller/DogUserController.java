@@ -33,7 +33,7 @@ import java.io.IOException;
 @WhiteAuthAnnotation(type = WhiteControlType.AUTHENTICATED)
 public class DogUserController {
 
-    private Logger log = LogConstants.OP_LOGGER;
+    private Logger log = LogConstants.OP_DETAIL_LOGGER;
 
     @Autowired
     private CaptchaDataDeal captchaDataDeal;
@@ -136,6 +136,7 @@ public class DogUserController {
             throw new CustomException(ResponseStatusEnum.AUTH_REQUEST_ERROR);
         }
         String token = userService.checkUserNameAndPassword(username,password);
+        log.info(request.getAttribute(LogConstants.TRACE_ID)+"|" + System.currentTimeMillis() + "|" + username +"|login success");
         return ResponseData.ok(token);
     }
 

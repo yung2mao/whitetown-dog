@@ -1,5 +1,7 @@
 package cn.whitetown.dogbase.common.entity.enums;
 
+import com.alibaba.fastjson.JSON;
+
 /**
  * 响应状态枚举类
  * @author GrainRain
@@ -130,5 +132,10 @@ public enum ResponseStatusEnum {
 
     public void setStatusName(String statusName) {
         this.statusName = statusName;
+    }
+
+    @Override
+    public String toString() {
+        return JSON.toJSONString(this);
     }
 }
