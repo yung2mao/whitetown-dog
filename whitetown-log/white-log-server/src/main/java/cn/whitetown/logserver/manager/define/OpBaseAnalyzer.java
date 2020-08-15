@@ -1,10 +1,12 @@
 package cn.whitetown.logserver.manager.define;
 
 import cn.whitetown.dogbase.common.util.WhiteFormatUtil;
+import cn.whitetown.logbase.config.LogConstants;
 import cn.whitetown.logbase.pipe.modo.WhLog;
 import cn.whitetown.logserver.manager.WhLogAnalyzer;
 import cn.whitetown.logserver.modo.OpBaseLog;
 import org.apache.log4j.Level;
+import org.apache.log4j.Logger;
 
 /**
  * 接口操作基础日志处理
@@ -12,6 +14,9 @@ import org.apache.log4j.Level;
  * @date 2020/08/13
  **/
 public class OpBaseAnalyzer implements WhLogAnalyzer {
+
+    private Logger logger = LogConstants.SYS_LOGGER;
+
     @Override
     public void analyzer(WhLog whLog) {
         OpBaseLog opBaseLog = new OpBaseLog();
@@ -23,12 +28,10 @@ public class OpBaseAnalyzer implements WhLogAnalyzer {
         try {
             String[] paramArr = logData.split("\t");
             String opLog = paramArr[paramArr.length - 1];
-            opBaseLog = this.opBaseLog(opBaseLog, opLog);
+            opBaseLog = this.detailAnalyzer(opBaseLog, opLog);
         }catch (Exception e) {
-            e.printStackTrace();
-            String detail = whLog.getLogData();
-            detail = detail.replaceAll("\t"," ").replaceAll("\\|"," ");
-            opBaseLog.setDetails(detail);
+            logger.error(e.getMessage());
+            return;
         }
         System.out.println(opBaseLog);
     }
@@ -37,7 +40,7 @@ public class OpBaseAnalyzer implements WhLogAnalyzer {
     public void save() {
     }
 
-    private OpBaseLog opBaseLog(OpBaseLog opBaseLog,String opLog) {
+    private OpBaseLog detailAnalyzer(OpBaseLog opBaseLog, String opLog) {
         String[] paramArr = opLog.split("\\|");
         int paramLen = 8;
         if(paramArr.length != paramLen) {
@@ -49,7 +52,7 @@ public class OpBaseAnalyzer implements WhLogAnalyzer {
         long requestTime = Long.parseLong(paramArr[2]);
         opBaseLog.setRequestTime(WhiteFormatUtil.millisToDate(requestTime));
         String uri = paramArr[3];
-        String uriPrefix = uri.substring(0,uri.indexOf("/"));
+        String uriPrefix = uri.substring(0,uri.indexOf("/",1));
         opBaseLog.setUri(uri);
         opBaseLog.setUriPrefix(uriPrefix);
         opBaseLog.setClientIp(paramArr[4]);

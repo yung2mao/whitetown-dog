@@ -24,6 +24,7 @@ public class CacheTest {
             BufferElement<byte[]> element = bufferPool.getElement();
             System.out.println(element +","+ element.getElement() +","+ element.getElement().length);
             this.returnEle(element);
+            break;
         }
     }
 

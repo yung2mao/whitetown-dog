@@ -6,7 +6,7 @@
 
   <groupId>cn.whitetown</groupId>
   <artifactId>whitetown-log</artifactId>
-  <version>${whitetown-dog.version}</version>
+  <version>0.0.1</version>
   <modules>
     <module>white-log-client</module>
       <module>white-log-server</module>
@@ -21,6 +21,7 @@
     <artifactId>whitetown-dog</artifactId>
     <groupId>cn.whitetown</groupId>
     <version>0.0.1</version>
+    <relativePath>../pom.xml</relativePath>
   </parent>
 
   <properties>
@@ -37,7 +38,6 @@
         <artifactId>whitetown-base</artifactId>
         <version>${whitetown-dog.version}</version>
       </dependency>
-
     </dependencies>
   </dependencyManagement>
 </project>

@@ -12,6 +12,7 @@
     <groupId>cn.whitetown</groupId>
     <artifactId>whitetown-log</artifactId>
     <version>0.0.1</version>
+    <relativePath>../pom.xml</relativePath>
   </parent>
 
   <name>white-log-base</name>

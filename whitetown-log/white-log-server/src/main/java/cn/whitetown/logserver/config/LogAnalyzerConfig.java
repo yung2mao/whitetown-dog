@@ -3,7 +3,7 @@ package cn.whitetown.logserver.config;
 import cn.whitetown.logbase.config.LogConstants;
 import cn.whitetown.logserver.manager.WhLogAnalyzer;
 import cn.whitetown.logserver.manager.define.*;
-import cn.whitetown.logserver.modo.LogAnalyzerMap;
+import cn.whitetown.logserver.manager.LogAnalyzerMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

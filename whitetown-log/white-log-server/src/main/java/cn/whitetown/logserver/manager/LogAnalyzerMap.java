@@ -1,4 +1,4 @@
-package cn.whitetown.logserver.modo;
+package cn.whitetown.logserver.manager;
 
 import cn.whitetown.logserver.manager.WhLogAnalyzer;
 

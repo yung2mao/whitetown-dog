@@ -28,6 +28,7 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-web</artifactId>
     </dependency>
+    <!--log-->
     <dependency>
       <groupId>cn.whitetown</groupId>
       <artifactId>white-log-client</artifactId>

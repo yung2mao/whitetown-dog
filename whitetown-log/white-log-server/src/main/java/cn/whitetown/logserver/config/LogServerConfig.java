@@ -4,7 +4,7 @@ import cn.whitetown.logbase.config.LogConstants;
 import cn.whitetown.logbase.listen.WhListener;
 import cn.whitetown.logbase.pipe.modo.WhLog;
 import cn.whitetown.logserver.listener.DefaultLogListener;
-import cn.whitetown.logserver.modo.LogAnalyzerMap;
+import cn.whitetown.logserver.manager.LogAnalyzerMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

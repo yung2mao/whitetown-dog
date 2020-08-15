@@ -1,10 +1,8 @@
 package cn.whitetown.dogbase.common.util;
 
-import com.sun.xml.internal.ws.resources.HttpserverMessages;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
-import javax.lang.model.element.VariableElement;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;

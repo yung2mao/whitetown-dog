@@ -49,11 +49,6 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-security</artifactId>
     </dependency>
-    <dependency>
-      <groupId>cn.whitetown</groupId>
-      <artifactId>white-monitor</artifactId>
-      <version>${whitetown-dog.version}</version>
-    </dependency>
   </dependencies>
 
 </project>

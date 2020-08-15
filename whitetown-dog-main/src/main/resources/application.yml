@@ -16,8 +16,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://127.0.0.1:3306/whitetown_dog?allowMultiQueries=true&allowPublicKeyRetrieval=true&serverTimezone=Asia/Shanghai
-    username: root
-    password: root
+    username: ENC(z0DOJl+Ul9KkM9cGdF4MCw==)
+    password: ENC(z0DOJl+Ul9KkM9cGdF4MCw==)
     type: com.alibaba.druid.pool.DruidDataSource
 #  mvc:
 #    static-path-pattern: /static/**
@@ -25,6 +25,10 @@ mybatis-plus:
   mapper-locations: classpath*:mapper/**/*.xml
   configuration:
     map-underscore-to-camel-case: true
+#加密密钥 - 可采用启动参数形式传入
+jasypt:
+  encryptor:
+    password: jfy23$#&3&$^%#$GF$
 swagger2:
   basePackage: cn.whitetown
   title: whitetown-dog接口文档

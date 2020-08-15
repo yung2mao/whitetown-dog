@@ -1,0 +1,6 @@
+server:
+  port: 10011
+spring:
+  elasticsearch:
+    rest:
+      uris: 127.0.0.1:9201

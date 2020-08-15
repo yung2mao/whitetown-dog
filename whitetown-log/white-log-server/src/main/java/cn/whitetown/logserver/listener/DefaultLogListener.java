@@ -6,9 +6,8 @@ import cn.whitetown.logbase.listen.wiml.BaseWhListener;
 import cn.whitetown.logbase.pipe.WhPipeline;
 import cn.whitetown.logbase.pipe.modo.WhLog;
 import cn.whitetown.logserver.manager.WhLogAnalyzer;
-import cn.whitetown.logserver.modo.LogAnalyzerMap;
+import cn.whitetown.logserver.manager.LogAnalyzerMap;
 import org.apache.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 
 /**
  * 服务端日志监听

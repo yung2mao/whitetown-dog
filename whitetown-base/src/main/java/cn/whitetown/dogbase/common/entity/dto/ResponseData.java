@@ -40,6 +40,9 @@ public class ResponseData<T> {
         this.data = data;
     }
 
+    public ResponseData() {
+    }
+
     /**
      * 获取响应消息的方法
      * @param status 状态码

@@ -32,8 +32,6 @@ public class OpBaseLog {
      */
     private long resTime;
 
-    private String details;
-
     @Override
     public String toString() {
         return JSON.toJSONString(this);

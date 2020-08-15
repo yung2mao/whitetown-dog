@@ -12,15 +12,14 @@
     <module>dog-auth-user</module>
     <module>whitetown-dog-main</module>
     <module>whitetown-base</module>
-      <module>whitetown-components</module>
-      <module>whitetown-log</module>
+    <module>whitetown-components</module>
+    <module>whitetown-log</module>
   </modules>
 
   <parent>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-parent</artifactId>
     <version>2.1.6.RELEASE</version>
-
   </parent>
 
   <name>whitetown-dog</name>
@@ -41,9 +40,11 @@
     <rector-core.version>3.3.0.RELEASE</rector-core.version>
 <!--    <spring-beans.version>5.1.6.RELEASE</spring-beans.version>-->
     <netty.verson>4.1.42.Final</netty.verson>
+    <elasticsearch.version>7.7.0</elasticsearch.version>
     <lombok.version>1.18.8</lombok.version>
     <swagger2.version>2.9.2</swagger2.version>
     <oshi.version>3.9.1</oshi.version>
+    <jasypt.version>2.0.0</jasypt.version>
     <log4j.version>1.2.17</log4j.version>
     <junit.version>4.11</junit.version>
     <whitetown-dog.version>0.0.1</whitetown-dog.version>
@@ -68,6 +69,12 @@
         <groupId>com.alibaba</groupId>
         <artifactId>druid</artifactId>
         <version>${druid.version}</version>
+      </dependency>
+      <!--加密工具-->
+      <dependency>
+        <groupId>com.github.ulisesbocchio</groupId>
+        <artifactId>jasypt-spring-boot-starter</artifactId>
+        <version>${jasypt.version}</version>
       </dependency>
 
       <!-- json -->
@@ -97,12 +104,6 @@
         <version>${jwt.version}</version>
       </dependency>
 
-      <!-- 跨域 开发时使用 -->
-      <dependency>
-        <groupId>io.projectreactor</groupId>
-        <artifactId>reactor-core</artifactId>
-        <version>${rector-core.version}</version>
-      </dependency>
       <!--bean转换-->
       <!--<dependency>
         <groupId>org.springframework</groupId>
@@ -115,13 +116,51 @@
         <artifactId>netty-all</artifactId>
         <version>${netty.verson}</version>
       </dependency>
+      <!-- elasticsearch -->
+      <dependency>
+        <groupId>org.elasticsearch.client</groupId>
+        <artifactId>elasticsearch-rest-high-level-client</artifactId>
+        <version>${elasticsearch.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.elasticsearch</groupId>
+        <artifactId>elasticsearch</artifactId>
+        <version>${elasticsearch.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.elasticsearch.client</groupId>
+        <artifactId>elasticsearch-rest-client</artifactId>
+        <version>${elasticsearch.version}</version>
+      </dependency>
 
-      <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
+      <!-- log4j -->
+      <dependency>
+        <groupId>log4j</groupId>
+        <artifactId>log4j</artifactId>
+        <version>${log4j.version}</version>
+      </dependency>
+
+      <!--oshi-->
+      <dependency>
+        <groupId>com.github.oshi</groupId>
+        <artifactId>oshi-core</artifactId>
+        <version>${oshi.version}</version>
+      </dependency>
+
+      <!-- lombok -->
       <dependency>
         <groupId>org.projectlombok</groupId>
         <artifactId>lombok</artifactId>
         <version>${lombok.version}</version>
       </dependency>
+
+      <!-- 跨域 开发时使用 -->
+      <dependency>
+        <groupId>io.projectreactor</groupId>
+        <artifactId>reactor-core</artifactId>
+        <version>${rector-core.version}</version>
+      </dependency>
+
       <!--swagger2-->
       <dependency>
         <groupId>io.springfox</groupId>
@@ -134,18 +173,6 @@
         <version>${swagger2.version}</version>
       </dependency>
 
-      <dependency>
-        <groupId>com.github.oshi</groupId>
-        <artifactId>oshi-core</artifactId>
-        <version>${oshi.version}</version>
-      </dependency>
-
-      <!-- https://mvnrepository.com/artifact/log4j/log4j -->
-      <dependency>
-        <groupId>log4j</groupId>
-        <artifactId>log4j</artifactId>
-        <version>${log4j.version}</version>
-      </dependency>
 
       <dependency>
         <groupId>junit</groupId>
