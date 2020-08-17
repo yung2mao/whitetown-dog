@@ -20,6 +20,5 @@ public class DefaultLogAnalyzer implements WhLogAnalyzer {
 
     @Override
     public void save() {
-
     }
 }

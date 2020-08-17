@@ -7,8 +7,9 @@ import cn.whitetown.logbase.config.LogConstants;
 import cn.whitetown.logbase.pipe.modo.WhLog;
 import cn.whitetown.logserver.manager.WhLogAnalyzer;
 import cn.whitetown.logserver.modo.OpBaseLog;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;
@@ -23,7 +24,7 @@ import java.util.concurrent.TimeUnit;
  **/
 public class OpBaseAnalyzer implements WhLogAnalyzer {
 
-    private Logger logger = LogConstants.SYS_LOGGER;
+    private Log logger = LogFactory.getLog(OpBaseAnalyzer.class);
 
     private BlockingQueue<OpBaseLog> logQueue = new ArrayBlockingQueue<>(LogConstants.LOG_CACHE_MAX_LEN );
 

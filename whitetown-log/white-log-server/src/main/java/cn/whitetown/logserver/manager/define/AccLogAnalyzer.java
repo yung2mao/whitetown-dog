@@ -16,6 +16,5 @@ public class AccLogAnalyzer implements WhLogAnalyzer {
 
     @Override
     public void save() {
-
     }
 }

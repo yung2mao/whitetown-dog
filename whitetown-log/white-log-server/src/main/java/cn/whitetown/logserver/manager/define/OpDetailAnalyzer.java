@@ -1,13 +1,16 @@
 package cn.whitetown.logserver.manager.define;
 
 import cn.whitetown.dogbase.common.util.WhiteFormatUtil;
-import cn.whitetown.logbase.config.LogConstants;
+import cn.whitetown.esconfig.manager.EsDocManager;
+import cn.whitetown.esconfig.manager.EsIndicesManager;
 import cn.whitetown.logbase.pipe.modo.WhLog;
 import cn.whitetown.logserver.manager.WhLogAnalyzer;
 import cn.whitetown.logserver.modo.OpDetailLog;
 import com.alibaba.fastjson.JSON;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Map;
 
@@ -18,7 +21,13 @@ import java.util.Map;
  **/
 public class OpDetailAnalyzer implements WhLogAnalyzer {
 
-    private Logger logger = LogConstants.SYS_LOGGER;
+    private Log logger = LogFactory.getLog(OpDetailAnalyzer.class);
+
+    @Autowired
+    private EsDocManager docManager;
+
+    @Autowired
+    private EsIndicesManager indicesManager;
 
     @Override
     public void analyzer(WhLog whLog) {
@@ -34,12 +43,23 @@ public class OpDetailAnalyzer implements WhLogAnalyzer {
         if (opDetailLog.getStatus() == null) {
             opDetailLog.setStatus(whLog.getLogLevel() <= Level.WARN_INT ? 200 : 500);
         }
-
-        System.out.println(opDetailLog);
+        this.save(opDetailLog);
     }
 
     @Override
     public void save() {
+    }
+
+    private void save(OpDetailLog detailLog) {
+        boolean exists = indicesManager.entityIndexExists(detailLog);
+        if(!exists) {
+            exists = indicesManager.createIndex(detailLog);
+        }
+        if(!exists) {
+            System.out.println(detailLog);
+            return;
+        }
+        docManager.addDoc2DefaultIndex(detailLog.getId()+"",detailLog,null);
     }
 
     private OpDetailLog detailAnalyzer(OpDetailLog detailLog, String data) {
