@@ -1,12 +1,12 @@
 package cn.whitetown.logserver.manager.define;
 
-import cn.whitetown.dogbase.common.constant.DogBaseConstant;
 import cn.whitetown.dogbase.common.util.SnowIDCreateUtil;
 import cn.whitetown.dogbase.common.util.WhiteFormatUtil;
+import cn.whitetown.esconfig.manager.EsDocManager;
+import cn.whitetown.esconfig.manager.EsIndicesManager;
 import cn.whitetown.logbase.pipe.modo.WhLog;
 import cn.whitetown.logserver.manager.WhLogAnalyzer;
 import cn.whitetown.logserver.modo.SystemLog;
-import com.alibaba.fastjson.JSON;
 import org.apache.log4j.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -20,6 +20,12 @@ public class SysLogAnalyzer implements WhLogAnalyzer {
     @Autowired
     SnowIDCreateUtil idCreateUtil;
 
+    @Autowired
+    EsIndicesManager indicesManager;
+
+    @Autowired
+    EsDocManager docManager;
+
     @Override
     public void analyzer(WhLog whLog) {
         SystemLog systemLog = new SystemLog();
@@ -32,12 +38,28 @@ public class SysLogAnalyzer implements WhLogAnalyzer {
             systemLog = this.logDataAnalyzer(systemLog,data);
         }catch (Exception ignored) {
         }
-        System.out.println(JSON.toJSONString(systemLog));
+        this.save(systemLog);
     }
 
     @Override
     public void save() {
 
+    }
+
+    private void save(SystemLog sysLog) {
+        try {
+            boolean exists = indicesManager.entityIndexExists(sysLog);
+            if(!exists) {
+                exists = indicesManager.createIndex(sysLog);
+            }
+            if(!exists) {
+                return;
+            }
+            String docId = sysLog.getId() + "";
+            docManager.addDoc2DefaultIndex(docId,sysLog,null);
+        }catch (Exception e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }
     }
 
     private SystemLog logDataAnalyzer(SystemLog systemLog, String data) {
@@ -51,7 +73,7 @@ public class SysLogAnalyzer implements WhLogAnalyzer {
         systemLog.setLogTimeToStart(Long.parseLong(dataArr[3]));
         systemLog.setLogClass(dataArr[4]);
         systemLog.setLogMethod(dataArr[5]);
-        systemLog.setLogLine(dataArr[6]);
+        systemLog.setLogLine(Integer.parseInt(dataArr[6]));
         systemLog.setMessage(dataArr[dataArr.length-1]);
         return systemLog;
     }

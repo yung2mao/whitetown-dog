@@ -1,5 +1,7 @@
 package cn.whitetown.logserver.modo;
 
+import cn.whitetown.esconfig.annotation.EsFieldConfig;
+import cn.whitetown.esconfig.config.EsConfigEnum;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
@@ -15,8 +17,11 @@ import java.util.Date;
 @Getter
 public class SystemLog {
     private Long id;
+
     private String logName;
+
     private String logLevel;
+
     private String logThread;
     /**
      * 记录时间 - 距离jvm启动的时间
@@ -25,17 +30,21 @@ public class SystemLog {
     /**
      * 记录时间 - 当前时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd  HH:mm:ss.SSS")
-    @JSONField(format = "yyyy-MM-dd  HH:mm:ss.SSS")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     private Date logTime;
+
+    @EsFieldConfig(name = "message",config = {EsConfigEnum.TEXT,EsConfigEnum.ES_STANDARD})
     private String logClass;
+
     private String logMethod;
-    private String logLine;
+
+    private int logLine;
+
+    @EsFieldConfig(name = "message",config = {EsConfigEnum.TEXT,EsConfigEnum.ES_IK})
     private String message;
     /**
      * 发送时间
      */
-    @JsonFormat(pattern = "yyyy-MM-dd  HH:mm:ss.SSS")
-    @JSONField(format = "yyyy-MM-dd  HH:mm:ss.SSS")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     private Date publishTime;
 }

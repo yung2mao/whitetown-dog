@@ -4,14 +4,12 @@ import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.entity.dto.ResponsePage;
 import cn.whitetown.dogbase.common.exception.CustomException;
 import cn.whitetown.dogbase.common.entity.ao.PageQuery;
+import com.alibaba.fastjson.JSON;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 
 import java.lang.reflect.Field;
 import java.security.MessageDigest;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -156,5 +154,20 @@ public class WhiteToolUtil {
         responsePage.setRows(Long.valueOf(size));
         responsePage.setTotal(Long.valueOf(resultList.size()));
         return responsePage;
+    }
+
+    /**
+     * 从entity获取指定属性值
+     * @param fieldName
+     * @param entity
+     * @return
+     */
+    public static Object getFieldValue(String fieldName,Object entity) {
+        if(fieldName == null || entity == null) {
+            return null;
+        }
+        String text = JSON.toJSONString(entity);
+        Map map = JSON.parseObject(text, Map.class);
+        return map.get(fieldName);
     }
 }

@@ -3,6 +3,8 @@ package cn.whitetown.esconfig.manager;
 import org.elasticsearch.action.ActionListener;
 import org.elasticsearch.action.index.IndexResponse;
 
+import java.io.IOException;
+
 /**
  * 文档操作
  * @author taixian
@@ -16,27 +18,9 @@ public interface EsDocManager {
      * @param docId 文档ID
      * @param source 存储的文档信息
      * @param <T> 任意可转换为JSON的实体类型
+     * @throws IOException
      */
-    <T> void addDoc(String indexName, String docId, T source);
-
-    /**
-     * 添加文档
-     * 索引名称等于source类默认名称
-     * @param docId 文档ID
-     * @param source 文档信息
-     * @param <T> 任意可转为JSON的实体类型
-     */
-    <T> void addDoc2DefaultIndex(String docId, T source);
-
-    /**
-     * 异步添加文档
-     * 索引名称等于source类默认名称
-     * @param docId
-     * @param source
-     * @param listener
-     * @param <T>
-     */
-    <T> void addDoc2DefaultIndex(String docId, T source,  ActionListener<IndexResponse> listener);
+    <T> void addDoc(String indexName, String docId, T source) throws IOException;
 
     /**
      * 异步方式添加文档
@@ -47,6 +31,26 @@ public interface EsDocManager {
      * @param <T>
      */
     <T> void addDoc(String indexName, String docId, T source, ActionListener<IndexResponse> listener);
+
+    /**
+     * 添加文档
+     * 索引名称等于source类默认名称
+     * @param docId 文档ID
+     * @param source 文档信息
+     * @param <T> 任意可转为JSON的实体类型
+     * @throws IOException
+     */
+    <T> void addDoc2DefaultIndex(String docId, T source) throws IOException;
+
+    /**
+     * 异步添加文档
+     * 索引名称等于source类默认名称
+     * @param docId
+     * @param source
+     * @param listener
+     * @param <T>
+     */
+    <T> void addDoc2DefaultIndex(String docId, T source,  ActionListener<IndexResponse> listener);
 
     /**
      * 按照文档id检索文档

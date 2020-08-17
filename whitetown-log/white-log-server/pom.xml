@@ -25,10 +25,10 @@
     </properties>
 
     <dependencies>
-        <!--base-->
+        <!--es-config-->
         <dependency>
             <groupId>cn.whitetown</groupId>
-            <artifactId>whitetown-base</artifactId>
+            <artifactId>white-es-config</artifactId>
         </dependency>
     </dependencies>
 

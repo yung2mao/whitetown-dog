@@ -6,7 +6,7 @@
 
   <groupId>cn.whitetown</groupId>
   <artifactId>white-es-config</artifactId>
-  <version>0.0.1</version>
+  <version>${whitetown-dog.version}</version>
 
   <parent>
     <artifactId>whitetown-components</artifactId>

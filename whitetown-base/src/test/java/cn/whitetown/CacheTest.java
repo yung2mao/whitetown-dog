@@ -1,8 +1,10 @@
 package cn.whitetown;
 
+import cn.whitetown.dogbase.common.util.DataCheckUtil;
 import cn.whitetown.dogbase.wache.buffer.*;
 import cn.whitetown.dogbase.wache.buffer.wiml.BufferPoolFactory;
 import cn.whitetown.dogbase.wache.buffer.wiml.ByteBufferElement;
+import lombok.Data;
 import lombok.SneakyThrows;
 import org.junit.Test;
 
@@ -26,6 +28,7 @@ public class CacheTest {
             this.returnEle(element);
             break;
         }
+
     }
 
     public void returnEle(BufferElement bufferElement){

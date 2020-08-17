@@ -24,8 +24,8 @@ public class OpBaseLog {
     private String clientIp;
     private String browser;
     private String resStatus;
-    @JsonFormat(pattern = "yyyy-MM-dd  HH:mm:ss.SSS")
-    @JSONField(format = "yyyy-MM-dd  HH:mm:ss.SSS")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
+    @JSONField(format = "yyyy-MM-dd HH:mm:ss.SSS")
     private Date requestTime;
     /**
      * 响应时长

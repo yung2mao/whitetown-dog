@@ -14,6 +14,7 @@ public interface EsIndicesManager {
      * 根据indexName创建索引
      * @param indexName
      * @return
+     * @throws IOException
      */
     boolean createIndex(String indexName);
 
@@ -55,7 +56,16 @@ public interface EsIndicesManager {
      * 索引信息是否存在
      * @param indices
      * @return
+     * @throws IOException
      */
-    boolean exists(String ... indices);
+    boolean indicesExists(String ... indices) throws IOException;
+
+    /**
+     * 判断entity对应索引信息是否存在
+     * @param entity
+     * @param <T>
+     * @return
+     */
+    <T> boolean entityIndexExists(T entity) throws IOException;
 
 }

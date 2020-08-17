@@ -38,6 +38,11 @@
         <artifactId>whitetown-base</artifactId>
         <version>${whitetown-dog.version}</version>
       </dependency>
+      <dependency>
+        <groupId>cn.whitetown</groupId>
+        <artifactId>white-es-config</artifactId>
+        <version>${whitetown-dog.version}</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 </project>

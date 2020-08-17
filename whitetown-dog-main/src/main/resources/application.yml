@@ -19,6 +19,10 @@ spring:
     username: ENC(z0DOJl+Ul9KkM9cGdF4MCw==)
     password: ENC(z0DOJl+Ul9KkM9cGdF4MCw==)
     type: com.alibaba.druid.pool.DruidDataSource
+# elasticsearch
+  elasticsearch:
+    rest:
+      uris: 192.168.228.128:9201,192.168.228.128:9202
 #  mvc:
 #    static-path-pattern: /static/**
 mybatis-plus:
