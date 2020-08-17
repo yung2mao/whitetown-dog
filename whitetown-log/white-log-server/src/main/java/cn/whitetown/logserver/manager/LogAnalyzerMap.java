@@ -1,7 +1,5 @@
 package cn.whitetown.logserver.manager;
 
-import cn.whitetown.logserver.manager.WhLogAnalyzer;
-
 import java.util.Map;
 
 /**

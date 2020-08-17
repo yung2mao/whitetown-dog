@@ -1,5 +1,7 @@
 package cn.whitetown.logserver.modo;
 
+import cn.whitetown.esconfig.annotation.EsFieldConfig;
+import cn.whitetown.esconfig.config.EsConfigEnum;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -22,10 +24,11 @@ public class OpBaseLog {
     private String uriPrefix;
     private String uri;
     private String clientIp;
+    @EsFieldConfig(name = "browser", config = {EsConfigEnum.TEXT,EsConfigEnum.ES_STANDARD})
     private String browser;
     private String resStatus;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
-    @JSONField(format = "yyyy-MM-dd HH:mm:ss.SSS")
     private Date requestTime;
     /**
      * 响应时长

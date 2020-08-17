@@ -69,6 +69,9 @@ public class DataCheckUtil {
      */
     public static boolean isJson(String str) {
         try {
+            if(!str.startsWith("{") && !str.startsWith("[")) {
+                return false;
+            }
             JSON.parse(str);
             return true;
         }catch (Exception e) {

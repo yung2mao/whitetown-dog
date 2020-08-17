@@ -1,13 +1,11 @@
 package cn.whitetown.logserver.listener;
 
-import cn.whitetown.logbase.config.LogConstants;
 import cn.whitetown.logbase.listen.ListenerManager;
 import cn.whitetown.logbase.listen.wiml.BaseWhListener;
 import cn.whitetown.logbase.pipe.WhPipeline;
 import cn.whitetown.logbase.pipe.modo.WhLog;
 import cn.whitetown.logserver.manager.WhLogAnalyzer;
 import cn.whitetown.logserver.manager.LogAnalyzerMap;
-import org.apache.log4j.Logger;
 
 /**
  * 服务端日志监听

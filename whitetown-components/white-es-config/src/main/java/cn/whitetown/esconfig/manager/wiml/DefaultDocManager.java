@@ -88,7 +88,9 @@ public class DefaultDocManager implements EsDocManager {
         if(listener == null) {
             listener = esTools.defaultBulkListener();
         }
+
         esClient.bulkAsync(bulkRequest,RequestOptions.DEFAULT,listener);
+
     }
 
     @Override

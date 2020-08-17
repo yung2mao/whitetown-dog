@@ -19,8 +19,6 @@ import java.util.concurrent.*;
  **/
 public class WhLogPublish implements LogPublish {
 
-    private Logger logger;
-
     private ExecutorService threadPool;
 
     private ListenerManager listenerManager;
@@ -31,24 +29,23 @@ public class WhLogPublish implements LogPublish {
 
     public WhLogPublish() {
         int core = 0;
-        int temp = 10;
+        int total = 60;
         long keepActive = 60;
-        int queueSize = 1024;
+        int queueSize = 1;
         ThreadFactory threadFactory = Executors.defaultThreadFactory();
-        threadPool = new ThreadPoolExecutor(core, temp, keepActive, TimeUnit.SECONDS,
+        threadPool = new ThreadPoolExecutor(core, total, keepActive, TimeUnit.SECONDS,
                 new ArrayBlockingQueue<>(queueSize), threadFactory);
         this.init();
     }
 
     @Override
     public void init() {
-        this.logger = LogConstants.SYS_LOGGER;
         this.listenerManager = LogConstants.LISTENER_MANAGER;
         this.logPipeline = LogConstants.LOG_PIPELINE;
-        if(logger == null || listenerManager == null || logPipeline == null) {
-            return;
+        //why !!! 常量竟然为null
+        if(this.listenerManager != null && this.logPipeline != null) {
+            isInit = true;
         }
-        isInit = true;
     }
 
     @Override
@@ -62,7 +59,7 @@ public class WhLogPublish implements LogPublish {
         }
         boolean isAdd = logPipeline.put(whLog);
         if(!isAdd) {
-            logger.debug("add error, current size is " + logPipeline.size() + ", max size is "+logPipeline.maxSize());
+            System.err.println("add error, current size is " + logPipeline.size() + ", max size is "+logPipeline.maxSize());
         }
         threadPool.execute(() -> listenerManager.eventNotify());
     }
