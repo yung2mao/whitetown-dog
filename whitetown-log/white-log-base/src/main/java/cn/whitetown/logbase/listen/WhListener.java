@@ -11,14 +11,14 @@ public interface WhListener<T>{
 
     /**
      * 向管理器注册为监听者
-     * @param listenerManager
+     * @param listenerManager 监听管理器
      */
     void registry(ListenerManager listenerManager);
 
     /**
      * 数据更新调用
-     * @param listenerManager
-     * @param whPipeline
+     * @param listenerManager 监听管理器
+     * @param whPipeline 数据管道
      */
     void listener(ListenerManager listenerManager, WhPipeline<T> whPipeline);
 
@@ -29,7 +29,7 @@ public interface WhListener<T>{
 
     /**
      * 从管理器注销
-     * @param listenerManager
+     * @param listenerManager 监听管理器
      */
     void destroy(ListenerManager listenerManager);
 }

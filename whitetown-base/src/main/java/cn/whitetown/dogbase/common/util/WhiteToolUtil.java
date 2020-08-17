@@ -5,12 +5,12 @@ import cn.whitetown.dogbase.common.entity.dto.ResponsePage;
 import cn.whitetown.dogbase.common.exception.CustomException;
 import cn.whitetown.dogbase.common.entity.ao.PageQuery;
 import com.alibaba.fastjson.JSON;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 
+import java.lang.invoke.SerializedLambda;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.security.MessageDigest;
 import java.util.*;
-import java.util.concurrent.TimeUnit;
 
 /**
  * 通用的处理各类一般事件的工具类
@@ -169,5 +169,43 @@ public class WhiteToolUtil {
         String text = JSON.toJSONString(entity);
         Map map = JSON.parseObject(text, Map.class);
         return map.get(fieldName);
+    }
+
+    /**
+     * 根据传入函数获取属性名称 - 函数方法名必须get开头
+     * @param column
+     * @param <R>
+     * @return
+     */
+    public static <R> String getFieldName(WhiteFunc<R,Object> column) {
+        String methodName = getMethodByLambda(column);
+        String methodPrefix = "get";
+        int minLen = 4;
+        if(methodName == null || !methodName.startsWith(methodPrefix) || methodName.length() < minLen) {
+            return null;
+        }
+        methodName = methodName.replace(methodPrefix, "");
+        char first = methodName.charAt(0);
+        return methodName.replace(first,Character.toLowerCase(first));
+    }
+
+    /**
+     * 获取传入函数的方法名
+     * @param column
+     * @param <T>
+     * @return
+     */
+    public static  <T> String getMethodByLambda(WhiteFunc<T,Object> column) {
+        try {
+            String  reflectName = "writeReplace";
+            Method writeReplace = column.getClass().getDeclaredMethod(reflectName);
+            writeReplace.setAccessible(true);
+            Object invoke = writeReplace.invoke(column);
+            SerializedLambda serializedLambda = (SerializedLambda) invoke;
+            return serializedLambda.getImplMethodName();
+        }catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
     }
 }

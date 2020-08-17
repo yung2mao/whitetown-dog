@@ -4,6 +4,12 @@ import cn.whitetown.dogbase.common.util.DataCheckUtil;
 import cn.whitetown.esconfig.annotation.EsFieldConfig;
 import cn.whitetown.esconfig.annotation.IndexIgnore;
 import cn.whitetown.esconfig.config.EsConfigEnum;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.elasticsearch.action.ActionListener;
+import org.elasticsearch.action.bulk.BulkResponse;
+import org.elasticsearch.action.index.IndexResponse;
+import org.elasticsearch.action.update.UpdateResponse;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -16,6 +22,62 @@ public class EsTools {
     private EsTools(){}
 
     public static final EsTools ES_TOOLS = new EsTools();
+
+    private Log log = LogFactory.getLog(EsTools.class);
+
+    /**
+     * 默认异步处理默认监听器 - IndexResponse
+     * @return
+     */
+    public ActionListener<IndexResponse> defaultIndexListener() {
+        return new ActionListener<IndexResponse>() {
+            @Override
+            public void onResponse(IndexResponse response) {
+                log.info(response.getSeqNo() + " >> response success");
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                log.warn("failed >> "+e.getMessage());
+            }
+        };
+    }
+
+    /**
+     * 默认批量操作异步处理监听器
+     * @return
+     */
+    public ActionListener<BulkResponse> defaultBulkListener() {
+        return new ActionListener<BulkResponse>() {
+            @Override
+            public void onResponse(BulkResponse responses) {
+                log.info("bulk response success");
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                log.warn("failed >> " + e.getMessage());
+            }
+        };
+    }
+
+    /**
+     * 默认更新异步处理监听器
+     * @return
+     */
+    public ActionListener<UpdateResponse> defaultUpdateListener() {
+        return new ActionListener<UpdateResponse>() {
+            @Override
+            public void onResponse(UpdateResponse response) {
+                log.info(response.getSeqNo() + " >> update success");
+            }
+
+            @Override
+            public void onFailure(Exception e) {
+                log.warn("failed >> " + e.getMessage());
+            }
+        };
+    }
 
     /**
      * 获取默认索引类型
@@ -74,6 +136,8 @@ public class EsTools {
         return mapping;
 
     }
+
+    /*\------------------------private method-----------------------------\*/
 
     /**
      * 将class中属性字段附加到list中

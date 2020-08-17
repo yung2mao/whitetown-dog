@@ -2,8 +2,10 @@ package cn.whitetown.esconfig.config;
 
 import cn.whitetown.esconfig.manager.EsDocManager;
 import cn.whitetown.esconfig.manager.EsIndicesManager;
+import cn.whitetown.esconfig.manager.EsSearchManager;
 import cn.whitetown.esconfig.manager.wiml.DefaultDocManager;
 import cn.whitetown.esconfig.manager.wiml.DefaultIndicesManager;
+import cn.whitetown.esconfig.manager.wiml.DefaultSearchManager;
 import cn.whitetown.esconfig.modo.EsIndicesMap;
 import org.elasticsearch.client.RestHighLevelClient;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,5 +49,11 @@ public class EsInitConfig {
     @Lazy
     public EsDocManager esDocManager() {
         return new DefaultDocManager();
+    }
+
+    @Bean
+    @Lazy
+    public EsSearchManager searchManager() {
+        return new DefaultSearchManager();
     }
 }

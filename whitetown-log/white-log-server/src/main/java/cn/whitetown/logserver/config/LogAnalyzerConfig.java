@@ -22,7 +22,7 @@ public class LogAnalyzerConfig {
 
     @Bean
     public LogAnalyzerMap logAnalyzerMap() {
-        return new LogAnalyzerMap(new HashMap<>(4));
+        return new LogAnalyzerMap(new HashMap<>(5));
     }
 
     @Bean(LogConstants.SYS_LOG)

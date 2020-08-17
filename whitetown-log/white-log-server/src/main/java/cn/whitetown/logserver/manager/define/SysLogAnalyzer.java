@@ -7,6 +7,8 @@ import cn.whitetown.esconfig.manager.EsIndicesManager;
 import cn.whitetown.logbase.pipe.modo.WhLog;
 import cn.whitetown.logserver.manager.WhLogAnalyzer;
 import cn.whitetown.logserver.modo.SystemLog;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -25,6 +27,8 @@ public class SysLogAnalyzer implements WhLogAnalyzer {
 
     @Autowired
     EsDocManager docManager;
+
+    private Log log = LogFactory.getLog(SysLogAnalyzer.class);
 
     @Override
     public void analyzer(WhLog whLog) {
@@ -47,19 +51,16 @@ public class SysLogAnalyzer implements WhLogAnalyzer {
     }
 
     private void save(SystemLog sysLog) {
-        try {
-            boolean exists = indicesManager.entityIndexExists(sysLog);
-            if(!exists) {
-                exists = indicesManager.createIndex(sysLog);
-            }
-            if(!exists) {
-                return;
-            }
-            String docId = sysLog.getId() + "";
-            docManager.addDoc2DefaultIndex(docId,sysLog,null);
-        }catch (Exception e) {
-            throw new IllegalArgumentException(e.getMessage());
+        boolean exists = indicesManager.entityIndexExists(sysLog);
+        if(!exists) {
+            exists = indicesManager.createIndex(sysLog);
         }
+        if(!exists) {
+            log.info(sysLog);
+            return;
+        }
+        String docId = sysLog.getId() + "";
+        docManager.addDoc2DefaultIndex(docId,sysLog,null);
     }
 
     private SystemLog logDataAnalyzer(SystemLog systemLog, String data) {

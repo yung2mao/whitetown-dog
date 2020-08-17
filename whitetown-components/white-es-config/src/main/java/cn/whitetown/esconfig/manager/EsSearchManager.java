@@ -2,7 +2,7 @@ package cn.whitetown.esconfig.manager;
 
 import cn.whitetown.dogbase.common.entity.ao.PageQuery;
 import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.index.query.QueryBuilder;
+import org.elasticsearch.search.builder.SearchSourceBuilder;
 
 /**
  * 搜索操作
@@ -13,33 +13,26 @@ public interface EsSearchManager {
     /**
      * 查询满足条件的文档数量
      * @param indexName
-     * @param queryBuilder
+     * @param sourceBuilder
      * @return
      */
-    long queryCount(String indexName, QueryBuilder queryBuilder);
+    long queryCount(String indexName, SearchSourceBuilder sourceBuilder);
 
     /**
      * 条件检索数据
      * @param indexName
-     * @param queryBuilder
+     * @param sourceBuilder
      * @return
      */
-    SearchResponse query(String indexName, QueryBuilder queryBuilder);
+    SearchResponse query(String indexName, SearchSourceBuilder sourceBuilder);
 
     /**
      * 分页查询
      * @param indexName
      * @param pageQuery
-     * @param queryBuilder
+     * @param sourceBuilder
      * @return
      */
-    SearchResponse pageQuery(String indexName, PageQuery pageQuery, QueryBuilder queryBuilder);
-
-    /**
-     * 多查询条件 - 同时满足
-     * @param queryBuilders
-     * @return
-     */
-    QueryBuilder mustQuery(QueryBuilder ... queryBuilders);
+    SearchResponse pageQuery(String indexName, PageQuery pageQuery, SearchSourceBuilder sourceBuilder);
 
 }

@@ -4,6 +4,8 @@ import cn.whitetown.dogbase.common.util.DataCheckUtil;
 import cn.whitetown.esconfig.manager.EsIndicesManager;
 import cn.whitetown.esconfig.modo.EsIndicesMap;
 import cn.whitetown.esconfig.utils.EsTools;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
@@ -25,6 +27,8 @@ import java.util.Set;
 public class DefaultIndicesManager implements EsIndicesManager {
 
     private EsTools esTools = EsTools.ES_TOOLS;
+
+    private Log log = LogFactory.getLog(DefaultDocManager.class);
 
     @Autowired
     private EsIndicesMap esIndicesMap;
@@ -136,7 +140,7 @@ public class DefaultIndicesManager implements EsIndicesManager {
     }
 
     @Override
-    public <T> boolean entityIndexExists(T entity) throws IOException {
+    public <T> boolean entityIndexExists(T entity) {
         if(entity == null) {
             throw new NullPointerException("no index");
         }
@@ -146,12 +150,17 @@ public class DefaultIndicesManager implements EsIndicesManager {
             return true;
         }
         String defaultIndexName = esTools.getDefaultIndexName(entity);
-        boolean exists = this.indicesExists(defaultIndexName);
-        if(exists) {
-            esIndicesMap.putIndex(className,defaultIndexName);
-            return true;
+        try {
+            boolean exists = this.indicesExists(defaultIndexName);
+            if(exists) {
+                esIndicesMap.putIndex(className,defaultIndexName);
+                return true;
+            }
+            return false;
+        }catch (Exception e) {
+            log.error(e.getMessage());
+            return false;
         }
-        return false;
     }
 
 }

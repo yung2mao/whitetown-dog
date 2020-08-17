@@ -55,4 +55,13 @@ public class LogConstants {
      */
     public static final ListenerManager LISTENER_MANAGER = SimpleListenerManager.getInstance();
 
+    /**
+     * 日志批量存储的数量
+     */
+    public static final int BATCH_SAVE_LEN = 100;
+    /**
+     * 内存最大驻留日志数量
+     */
+    public static final int LOG_CACHE_MAX_LEN = 256;
+
 }

@@ -1,12 +1,20 @@
 package cn.whitetown.logserver.manager.define;
 
 import cn.whitetown.dogbase.common.util.WhiteFormatUtil;
+import cn.whitetown.esconfig.manager.EsDocManager;
+import cn.whitetown.esconfig.manager.EsIndicesManager;
 import cn.whitetown.logbase.config.LogConstants;
 import cn.whitetown.logbase.pipe.modo.WhLog;
 import cn.whitetown.logserver.manager.WhLogAnalyzer;
 import cn.whitetown.logserver.modo.OpBaseLog;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.*;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 接口操作基础日志处理
@@ -16,6 +24,14 @@ import org.apache.log4j.Logger;
 public class OpBaseAnalyzer implements WhLogAnalyzer {
 
     private Logger logger = LogConstants.SYS_LOGGER;
+
+    private BlockingQueue<OpBaseLog> logQueue = new ArrayBlockingQueue<>(LogConstants.LOG_CACHE_MAX_LEN );
+
+    @Autowired
+    private EsDocManager docManager;
+
+    @Autowired
+    private EsIndicesManager indicesManager;
 
     @Override
     public void analyzer(WhLog whLog) {
@@ -28,23 +44,50 @@ public class OpBaseAnalyzer implements WhLogAnalyzer {
         try {
             String[] paramArr = logData.split("\t");
             String opLog = paramArr[paramArr.length - 1];
-            opBaseLog = this.detailAnalyzer(opBaseLog, opLog);
+            this.detailAnalyzer(opBaseLog, opLog);
+            long waitingTime = 5;
+            boolean isOffer = logQueue.offer(opBaseLog, waitingTime, TimeUnit.SECONDS);
+            if(!isOffer) {
+                this.printOldLog();
+                logQueue.offer(opBaseLog);
+            }
+            this.save();
         }catch (Exception e) {
             logger.error(e.getMessage());
-            return;
         }
-        System.out.println(opBaseLog);
     }
 
     @Override
     public void save() {
+        if(logQueue.size() < LogConstants.BATCH_SAVE_LEN) {
+            return;
+        }
+        List<OpBaseLog> logs = new ArrayList<>();
+        List<Map.Entry<String,OpBaseLog>> sources = new LinkedList<>();
+        int count = logQueue.drainTo(logs);
+        boolean exists = indicesManager.entityIndexExists(logs.get(0));
+        //create index if not exists
+        if(!exists) {
+            indicesManager.createIndex(logs.get(0));
+        }
+        if(!exists) {
+            return;
+        }
+        logs.forEach(log -> sources.add(new AbstractMap.SimpleEntry<>(log.getId() + "",log)));
+        docManager.addBatch(sources,null);
+        logger.info("save operation base log, the count is " + count);
     }
 
-    private OpBaseLog detailAnalyzer(OpBaseLog opBaseLog, String opLog) {
+    /**
+     * 日志处理
+     * @param opBaseLog
+     * @param opLog
+     */
+    private void detailAnalyzer(OpBaseLog opBaseLog, String opLog) {
         String[] paramArr = opLog.split("\\|");
         int paramLen = 8;
         if(paramArr.length != paramLen) {
-            return opBaseLog;
+            return;
         }
         //logId | userId | requestTime |  uri | clientIp | browser | status | responseTime
         opBaseLog.setId(Long.parseLong(paramArr[0]));
@@ -60,6 +103,16 @@ public class OpBaseAnalyzer implements WhLogAnalyzer {
         opBaseLog.setResStatus(paramArr[6]);
         long responseTime = Long.parseLong(paramArr[7]);
         opBaseLog.setResTime(responseTime - requestTime);
-        return opBaseLog;
+    }
+
+    /**
+     * 打印旧日志信息
+     */
+    private void printOldLog() {
+        int getLen = 50;
+        List<OpBaseLog> logs = new ArrayList<>();
+        logQueue.drainTo(logs,getLen);
+        logs.forEach(System.out::println);
+        logger.info("日志队列阻塞,已打印到控制台");
     }
 }

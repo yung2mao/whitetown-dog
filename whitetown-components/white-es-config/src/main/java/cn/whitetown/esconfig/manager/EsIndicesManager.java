@@ -66,6 +66,6 @@ public interface EsIndicesManager {
      * @param <T>
      * @return
      */
-    <T> boolean entityIndexExists(T entity) throws IOException;
+    <T> boolean entityIndexExists(T entity);
 
 }

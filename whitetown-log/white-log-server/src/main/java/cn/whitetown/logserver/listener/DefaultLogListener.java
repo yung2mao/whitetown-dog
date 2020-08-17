@@ -16,8 +16,6 @@ import org.apache.log4j.Logger;
  **/
 public class DefaultLogListener extends BaseWhListener<WhLog> {
 
-    private Logger logger = LogConstants.SYS_LOGGER;
-
     private WhPipeline<WhLog> whPipeline;
 
     private LogAnalyzerMap logAnalyzerMap;
