@@ -7,8 +7,6 @@ import cn.whitetown.esconfig.manager.EsIndicesManager;
 import cn.whitetown.logbase.pipe.modo.WhLog;
 import cn.whitetown.logserver.modo.OpDetailLog;
 import com.alibaba.fastjson.JSON;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -21,8 +19,6 @@ import java.util.Map;
  * @date 2020/08/13
  **/
 public class OpDetailAnalyzer extends DefaultLogAnalyzer {
-
-    private Log logger = LogFactory.getLog(OpDetailAnalyzer.class);
 
     @Autowired
     private EsDocManager docManager;
@@ -45,8 +41,7 @@ public class OpDetailAnalyzer extends DefaultLogAnalyzer {
             }
             this.save(opDetailLog);
         } catch (Exception e) {
-            logger.error(e.getMessage());
-            super.errorHandle(whLog);
+            super.errorHandle(whLog, e);
         }
     }
 

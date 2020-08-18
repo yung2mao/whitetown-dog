@@ -24,8 +24,9 @@ public interface WhLogAnalyzer {
     /**
      * 出现异常时处理器
      * @param whLog
+     * @param ex
      */
-    void errorHandle(WhLog whLog);
+    void errorHandle(WhLog whLog, Exception ex);
 
     /**
      * 销毁时调用

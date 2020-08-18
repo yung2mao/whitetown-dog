@@ -12,6 +12,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
@@ -57,8 +58,7 @@ public class OpBaseAnalyzer extends DefaultLogAnalyzer {
             }
             this.save();
         }catch (Exception e) {
-            logger.error(e.getMessage());
-            super.errorHandle(whLog);
+            super.errorHandle(whLog, e);
         }
     }
 

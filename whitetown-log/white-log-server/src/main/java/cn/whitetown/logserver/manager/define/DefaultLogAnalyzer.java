@@ -5,6 +5,8 @@ import cn.whitetown.logserver.manager.WhLogAnalyzer;
 import org.apache.log4j.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.IOException;
+
 /**
  * 默认日志处理
  * @author taixian
@@ -26,8 +28,10 @@ public class DefaultLogAnalyzer implements WhLogAnalyzer {
     }
 
     @Override
-    public void errorHandle(WhLog whLog) {
-
+    public void errorHandle(WhLog whLog, Exception ex) {
+        if(ex instanceof IOException) {
+            IOException exception = (IOException) ex;
+        }
     }
 
     @Override

@@ -6,8 +6,6 @@ import cn.whitetown.esconfig.manager.EsDocManager;
 import cn.whitetown.esconfig.manager.EsIndicesManager;
 import cn.whitetown.logbase.pipe.modo.WhLog;
 import cn.whitetown.logserver.modo.SystemLog;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -29,8 +27,6 @@ public class SysLogAnalyzer extends DefaultLogAnalyzer {
     @Autowired
     EsDocManager docManager;
 
-    private Log log = LogFactory.getLog(SysLogAnalyzer.class);
-
     @Override
     public void analyzer(WhLog whLog) {
         SystemLog systemLog = new SystemLog();
@@ -43,8 +39,7 @@ public class SysLogAnalyzer extends DefaultLogAnalyzer {
             systemLog = this.logDataAnalyzer(systemLog,data);
             this.save(systemLog);
         }catch (Exception e) {
-            log.error(e.getMessage());
-            super.errorHandle(whLog);
+            super.errorHandle(whLog, e);
         }
     }
 
