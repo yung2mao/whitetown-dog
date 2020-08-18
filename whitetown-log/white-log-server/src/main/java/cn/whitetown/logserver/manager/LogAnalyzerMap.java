@@ -1,5 +1,6 @@
 package cn.whitetown.logserver.manager;
 
+import java.util.Collection;
 import java.util.Map;
 
 /**
@@ -20,5 +21,9 @@ public class LogAnalyzerMap {
 
     public WhLogAnalyzer getAnalyzer(String analyzerName) {
         return logAnalyzerMap.get(analyzerName);
+    }
+
+    public Collection<WhLogAnalyzer> getAll() {
+        return logAnalyzerMap.values();
     }
 }

@@ -26,7 +26,7 @@ public class Md5WithSaltUtil {
      * @return
      */
     public static String md5Encrypt(String password, String salt) {
-        if (ToolUtil.isOneEmpty(password, salt)) {
+        if (ValidateUtil.isOneEmpty(password, salt)) {
             throw new IllegalArgumentException("密码或盐为空！");
         } else {
             return MD5Util.encrypt(password + salt);

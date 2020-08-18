@@ -27,5 +27,19 @@
       <groupId>cn.whitetown</groupId>
       <artifactId>whitetown-base</artifactId>
     </dependency>
+    <!-- excel -->
+    <dependency>
+      <groupId>com.alibaba</groupId>
+      <artifactId>easyexcel</artifactId>
+    </dependency>
+    <!--iText-->
+    <dependency>
+      <groupId>com.itextpdf</groupId>
+      <artifactId>itextpdf</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.itextpdf</groupId>
+      <artifactId>itext-asian</artifactId>
+    </dependency>
   </dependencies>
 </project>

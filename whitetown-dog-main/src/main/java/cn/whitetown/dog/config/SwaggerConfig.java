@@ -21,12 +21,16 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
 public class SwaggerConfig {
     @Value("${swagger2.basePackage}")
     private String basePackage;
+
     @Value("${swagger2.title}")
     private String title;
+
     @Value("${swagger2.description}")
     private String description;
+
     @Value("${swagger2.version}")
     private String version;
+
     @Value("${swagger2.isOpen}")
     private String isOpen;
 

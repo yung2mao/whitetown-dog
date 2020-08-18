@@ -1,10 +1,10 @@
 package cn.whitetown.logserver.manager.define;
 
+import cn.whitetown.dogbase.common.util.SnowIDCreateUtil;
 import cn.whitetown.dogbase.common.util.WhiteFormatUtil;
 import cn.whitetown.esconfig.manager.EsDocManager;
 import cn.whitetown.esconfig.manager.EsIndicesManager;
 import cn.whitetown.logbase.pipe.modo.WhLog;
-import cn.whitetown.logserver.manager.WhLogAnalyzer;
 import cn.whitetown.logserver.modo.OpDetailLog;
 import com.alibaba.fastjson.JSON;
 import org.apache.commons.logging.Log;
@@ -19,7 +19,7 @@ import java.util.Map;
  * @author taixian
  * @date 2020/08/13
  **/
-public class OpDetailAnalyzer implements WhLogAnalyzer {
+public class OpDetailAnalyzer extends DefaultLogAnalyzer {
 
     private Log logger = LogFactory.getLog(OpDetailAnalyzer.class);
 
@@ -28,6 +28,9 @@ public class OpDetailAnalyzer implements WhLogAnalyzer {
 
     @Autowired
     private EsIndicesManager indicesManager;
+
+    @Autowired
+    private SnowIDCreateUtil idCreateUtil;
 
     @Override
     public void analyzer(WhLog whLog) {
@@ -46,10 +49,6 @@ public class OpDetailAnalyzer implements WhLogAnalyzer {
         this.save(opDetailLog);
     }
 
-    @Override
-    public void save() {
-    }
-
     private void save(OpDetailLog detailLog) {
         boolean exists = indicesManager.entityIndexExists(detailLog);
         if(!exists) {
@@ -59,7 +58,7 @@ public class OpDetailAnalyzer implements WhLogAnalyzer {
             System.out.println(detailLog);
             return;
         }
-        docManager.addDoc2DefaultIndex(detailLog.getId()+"",detailLog,null);
+        docManager.addDoc2DefaultIndex(idCreateUtil.getSnowId() +"",detailLog,null);
     }
 
     private OpDetailLog detailAnalyzer(OpDetailLog detailLog, String data) {

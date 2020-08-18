@@ -19,4 +19,9 @@ public interface WhLogAnalyzer {
      * 日志存储
      */
     void save();
+
+    /**
+     * 销毁时调用
+     */
+    void destroy();
 }

@@ -6,6 +6,7 @@ import cn.whitetown.logbase.pipe.WhPipeline;
 import cn.whitetown.logbase.pipe.modo.WhLog;
 import cn.whitetown.logserver.manager.WhLogAnalyzer;
 import cn.whitetown.logserver.manager.LogAnalyzerMap;
+import cn.whitetown.logserver.manager.define.DefaultLogAnalyzer;
 
 /**
  * 服务端日志监听
@@ -34,8 +35,17 @@ public class DefaultLogListener extends BaseWhListener<WhLog> {
         while (whLog != null) {
             String logName = whLog.getLogName();
             WhLogAnalyzer logAnalyzer = logAnalyzerMap.getAnalyzer(logName);
+            if(logAnalyzer == null) {
+                logAnalyzer = new DefaultLogAnalyzer();
+            }
             logAnalyzer.analyzer(whLog);
             whLog = whPipeline.getAndRemove();
         }
+    }
+
+    @Override
+    public void destroy(ListenerManager listenerManager) {
+        logAnalyzerMap.getAll().forEach(WhLogAnalyzer::destroy);
+        super.destroy(listenerManager);
     }
 }

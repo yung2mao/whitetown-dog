@@ -5,7 +5,6 @@ import cn.whitetown.dogbase.common.util.WhiteFormatUtil;
 import cn.whitetown.esconfig.manager.EsDocManager;
 import cn.whitetown.esconfig.manager.EsIndicesManager;
 import cn.whitetown.logbase.pipe.modo.WhLog;
-import cn.whitetown.logserver.manager.WhLogAnalyzer;
 import cn.whitetown.logserver.modo.SystemLog;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -17,7 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
  * @author taixian
  * @date 2020/08/10
  **/
-public class SysLogAnalyzer implements WhLogAnalyzer {
+public class SysLogAnalyzer extends DefaultLogAnalyzer {
 
     @Autowired
     SnowIDCreateUtil idCreateUtil;
@@ -43,11 +42,6 @@ public class SysLogAnalyzer implements WhLogAnalyzer {
         }catch (Exception ignored) {
         }
         this.save(systemLog);
-    }
-
-    @Override
-    public void save() {
-
     }
 
     private void save(SystemLog sysLog) {

@@ -14,6 +14,7 @@
     <module>whitetown-base</module>
     <module>whitetown-components</module>
     <module>whitetown-log</module>
+      <module>white-mshow</module>
   </modules>
 
   <parent>
@@ -35,6 +36,8 @@
     <druid.version>1.1.21</druid.version>
     <fastjson.version>1.2.58</fastjson.version>
     <easyexcel.version>2.1.6</easyexcel.version>
+    <iTextpdf-version>5.5.13</iTextpdf-version>
+    <iText-asian.version>5.2.0</iText-asian.version>
     <kaptcha.version>2.3.2</kaptcha.version>
     <jwt.version>0.9.1</jwt.version>
     <rector-core.version>3.3.0.RELEASE</rector-core.version>
@@ -44,6 +47,7 @@
     <lombok.version>1.18.8</lombok.version>
     <swagger2.version>2.9.2</swagger2.version>
     <oshi.version>3.9.1</oshi.version>
+    <hutool.version>5.3.10</hutool.version>
     <jasypt.version>2.0.0</jasypt.version>
     <log4j.version>1.2.17</log4j.version>
     <junit.version>4.11</junit.version>
@@ -89,6 +93,17 @@
         <artifactId>easyexcel</artifactId>
         <version>${easyexcel.version}</version>
       </dependency>
+      <!--iText - pdf-->
+      <dependency>
+        <groupId>com.itextpdf</groupId>
+        <artifactId>itextpdf</artifactId>
+        <version>${iTextpdf-version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.itextpdf</groupId>
+        <artifactId>itext-asian</artifactId>
+        <version>${iText-asian.version}</version>
+      </dependency>
 
       <!--验证码-->
       <dependency>
@@ -132,19 +147,23 @@
         <artifactId>elasticsearch-rest-client</artifactId>
         <version>${elasticsearch.version}</version>
       </dependency>
-
       <!-- log4j -->
       <dependency>
         <groupId>log4j</groupId>
         <artifactId>log4j</artifactId>
         <version>${log4j.version}</version>
       </dependency>
-
       <!--oshi-->
       <dependency>
         <groupId>com.github.oshi</groupId>
         <artifactId>oshi-core</artifactId>
         <version>${oshi.version}</version>
+      </dependency>
+      <!-- hutool-all -->
+      <dependency>
+        <groupId>cn.hutool</groupId>
+        <artifactId>hutool-all</artifactId>
+        <version>${hutool.version}</version>
       </dependency>
 
       <!-- lombok -->

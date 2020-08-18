@@ -16,6 +16,7 @@ import org.elasticsearch.common.xcontent.XContentFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
 
@@ -115,6 +116,9 @@ public class DefaultIndicesManager implements EsIndicesManager {
         DeleteIndexRequest delRequest = new DeleteIndexRequest(indices);
         try {
             esClient.indices().delete(delRequest,RequestOptions.DEFAULT);
+            for(String indexName : indices) {
+                esIndicesMap.removeIndexByIndexName(indexName);
+            }
             return true;
         }catch (Exception e) {
             return false;

@@ -29,12 +29,6 @@
       <artifactId>whitetown-user-security</artifactId>
       <version>${whitetown-dog.version}</version>
     </dependency>
-    <!--whitetown security component-->
-    <dependency>
-      <groupId>cn.whitetown</groupId>
-      <artifactId>dog-auth-ea</artifactId>
-      <version>${whitetown-dog.version}</version>
-    </dependency>
     <!--monitor-->
     <dependency>
       <groupId>cn.whitetown</groupId>

@@ -67,7 +67,7 @@ public class MonApplication implements ApplicationRunner {
     private boolean isClient = false;
 
     @Override
-    public void run(ApplicationArguments args) throws Exception {
+    public void run(ApplicationArguments args) {
         //server
         Map<String, Object> serverBeans = context.getBeansWithAnnotation(WhiteMonServer.class);
         if(serverBeans.size() != 0) {
@@ -93,12 +93,9 @@ public class MonApplication implements ApplicationRunner {
         if(objectMap.size() == 0) {
             return;
         }
-        executorService.execute(new Runnable() {
-            @Override
-            public void run() {
-                sysMonServer.run();
-                logger.info("the system monitor server is started");
-            }
+        executorService.execute(() -> {
+            sysMonServer.run();
+            logger.info("the system monitor server is started");
         });
 
     }
@@ -124,18 +121,15 @@ public class MonApplication implements ApplicationRunner {
         if(sysMonClient == null) {
             return;
         }
-        executorService.execute(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    long beginTime = 60000;
-                    Thread.sleep(beginTime);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-                sysMonClient.run();
-                logger.info("the system monitor client is started");
+        executorService.execute(() -> {
+            try {
+                long beginTime = 60000;
+                Thread.sleep(beginTime);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
+            sysMonClient.run();
+            logger.info("the system monitor client is started");
         });
     }
 

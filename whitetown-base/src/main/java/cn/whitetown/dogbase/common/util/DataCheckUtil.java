@@ -59,6 +59,10 @@ public class DataCheckUtil {
         if(checkTextNullBool(str)) {
             return false;
         }
+        String baseRegex = "\\d+\\.\\d+\\.\\d+\\.\\d+";
+        if(!str.matches(baseRegex)) {
+            return false;
+        }
         return IPAddressUtil.isIPv4LiteralAddress(str);
     }
 

@@ -5,12 +5,13 @@ import cn.whitetown.logbase.listen.ListenerManager;
 import cn.whitetown.logbase.pipe.WhPipeline;
 import cn.whitetown.logbase.pipe.modo.WhLog;
 import cn.whitetown.logbase.pub.LogPublish;
+import cn.whitetown.logclient.manager.WhSimpleThreadPoolFactory;
 import org.apache.log4j.Level;
-import org.apache.log4j.Logger;
 import org.apache.log4j.pattern.LogEvent;
 
 import java.util.Date;
 import java.util.concurrent.*;
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 日志投递作业
@@ -32,7 +33,7 @@ public class WhLogPublish implements LogPublish {
         int total = 60;
         long keepActive = 60;
         int queueSize = 1;
-        ThreadFactory threadFactory = Executors.defaultThreadFactory();
+        ThreadFactory threadFactory = new WhSimpleThreadPoolFactory("log-pool");
         threadPool = new ThreadPoolExecutor(core, total, keepActive, TimeUnit.SECONDS,
                 new ArrayBlockingQueue<>(queueSize), threadFactory);
         this.init();
@@ -61,7 +62,7 @@ public class WhLogPublish implements LogPublish {
         if(!isAdd) {
             System.err.println("add error, current size is " + logPipeline.size() + ", max size is "+logPipeline.maxSize());
         }
-        threadPool.execute(() -> listenerManager.eventNotify());
+        threadPool.submit(() -> listenerManager.eventNotify());
     }
 
     @Override

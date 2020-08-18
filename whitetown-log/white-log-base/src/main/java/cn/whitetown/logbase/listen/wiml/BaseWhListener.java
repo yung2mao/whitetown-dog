@@ -17,7 +17,6 @@ public abstract class BaseWhListener<T> implements WhListener<T> {
     public void registry(ListenerManager listenerManager) {
         listenerManager.addListener(this);
         this.listenerManager = listenerManager;
-
     }
 
     @Override

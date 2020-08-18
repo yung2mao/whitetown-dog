@@ -1,5 +1,6 @@
 package cn.whitetown.dogbase.wache.buffer;
 
+import cn.hutool.core.thread.ThreadUtil;
 import cn.whitetown.logbase.config.LogConstants;
 import org.apache.log4j.Logger;
 
@@ -14,16 +15,6 @@ import java.util.concurrent.TimeUnit;
  * @date 2020/08/11
  **/
 public class BaseBufferPool<E> extends AbstractBufferPool<E> {
-
-    private ExecutorService executorService;
-
-    {
-        executorService = new ThreadPoolExecutor(0,
-                1,
-                60,
-                TimeUnit.MILLISECONDS,
-                new ArrayBlockingQueue<>(1));
-    }
 
     private long beforeTime = System.currentTimeMillis();
 
@@ -83,7 +74,7 @@ public class BaseBufferPool<E> extends AbstractBufferPool<E> {
             currentEleQueue.add(poolEle);
             currentEleSize.incrementAndGet();
             if(isReduce()) {
-                executorService.execute(this::reduce);
+                ThreadUtil.execAsync(this::reduce);
             }
             return true;
         }

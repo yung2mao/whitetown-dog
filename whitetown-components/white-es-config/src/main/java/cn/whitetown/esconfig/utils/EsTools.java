@@ -7,9 +7,11 @@ import cn.whitetown.esconfig.config.EsConfigEnum;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.elasticsearch.action.ActionListener;
+import org.elasticsearch.action.bulk.BulkItemResponse;
 import org.elasticsearch.action.bulk.BulkResponse;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.action.update.UpdateResponse;
+import org.elasticsearch.rest.RestStatus;
 
 import java.lang.reflect.Field;
 import java.util.*;
@@ -33,7 +35,9 @@ public class EsTools {
         return new ActionListener<IndexResponse>() {
             @Override
             public void onResponse(IndexResponse response) {
-                log.info(response.getSeqNo() + " >> response success");
+                RestStatus status = response.status();
+                String result = response.getResult().toString();
+                log.info(response.getSeqNo() + ": response status is >> " + status.getStatus() + ", result is >> " + result);
             }
 
             @Override
@@ -51,6 +55,12 @@ public class EsTools {
         return new ActionListener<BulkResponse>() {
             @Override
             public void onResponse(BulkResponse responses) {
+                RestStatus status = responses.status();
+                String fail = responses.buildFailureMessage();
+                if(status.getStatus() > 400) {
+                    System.err.println("response status >> " + status.getStatus() + ", failure message >> " + fail);
+                    return;
+                }
                 log.info("bulk response success");
             }
 
@@ -69,7 +79,9 @@ public class EsTools {
         return new ActionListener<UpdateResponse>() {
             @Override
             public void onResponse(UpdateResponse response) {
-                log.info(response.getSeqNo() + " >> update success");
+                RestStatus status = response.status();
+                String result = response.getResult().toString();
+                log.info(response.getSeqNo() + ": response status is >> " + status.getStatus() + ", result is >>" + result);
             }
 
             @Override

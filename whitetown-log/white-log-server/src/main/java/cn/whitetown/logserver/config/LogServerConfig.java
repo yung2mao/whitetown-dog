@@ -8,6 +8,9 @@ import cn.whitetown.logserver.manager.LogAnalyzerMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Lazy;
+
+import javax.annotation.PreDestroy;
 
 /**
  * 服务端配置类
@@ -20,6 +23,10 @@ public class LogServerConfig {
     @Autowired
     private LogAnalyzerMap logAnalyzerMap;
 
+    @Autowired
+    @Lazy
+    private WhListener<WhLog> whLogWhListener;
+
     /**
      * 初始化监听器
      * @return
@@ -30,6 +37,11 @@ public class LogServerConfig {
         logListener.registry(LogConstants.LISTENER_MANAGER);
         logListener.listener();
         return logListener;
+    }
+
+    @PreDestroy
+    public void destroy() {
+        whLogWhListener.destroy(LogConstants.LISTENER_MANAGER);
     }
 
 }

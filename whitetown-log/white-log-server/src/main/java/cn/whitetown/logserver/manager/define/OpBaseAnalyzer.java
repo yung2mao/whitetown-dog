@@ -1,11 +1,11 @@
 package cn.whitetown.logserver.manager.define;
 
+import cn.whitetown.dogbase.common.util.SnowIDCreateUtil;
 import cn.whitetown.dogbase.common.util.WhiteFormatUtil;
 import cn.whitetown.esconfig.manager.EsDocManager;
 import cn.whitetown.esconfig.manager.EsIndicesManager;
 import cn.whitetown.logbase.config.LogConstants;
 import cn.whitetown.logbase.pipe.modo.WhLog;
-import cn.whitetown.logserver.manager.WhLogAnalyzer;
 import cn.whitetown.logserver.modo.OpBaseLog;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -22,17 +22,20 @@ import java.util.concurrent.TimeUnit;
  * @author taixian
  * @date 2020/08/13
  **/
-public class OpBaseAnalyzer implements WhLogAnalyzer {
+public class OpBaseAnalyzer extends DefaultLogAnalyzer {
 
     private Log logger = LogFactory.getLog(OpBaseAnalyzer.class);
 
-    private BlockingQueue<OpBaseLog> logQueue = new ArrayBlockingQueue<>(LogConstants.LOG_CACHE_MAX_LEN );
+    private BlockingQueue<OpBaseLog> logQueue = new ArrayBlockingQueue<>(LogConstants.LOG_CACHE_MAX_LEN);
 
     @Autowired
     private EsDocManager docManager;
 
     @Autowired
     private EsIndicesManager indicesManager;
+
+    @Autowired
+    private SnowIDCreateUtil idCreateUtil;
 
     @Override
     public void analyzer(WhLog whLog) {
@@ -74,9 +77,14 @@ public class OpBaseAnalyzer implements WhLogAnalyzer {
         if(!exists) {
             return;
         }
-        logs.forEach(log -> sources.add(new AbstractMap.SimpleEntry<>(log.getId() + "",log)));
+        logs.forEach(log -> sources.add(new AbstractMap.SimpleEntry<>(idCreateUtil.getSnowId() + "",log)));
         docManager.addBatch(sources,null);
         logger.info("save operation base log, the count is " + count);
+    }
+
+    @Override
+    public void destroy() {
+        logQueue.forEach(System.out::println);
     }
 
     /**
