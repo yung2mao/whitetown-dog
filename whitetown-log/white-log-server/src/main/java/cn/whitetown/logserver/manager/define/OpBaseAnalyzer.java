@@ -58,6 +58,7 @@ public class OpBaseAnalyzer extends DefaultLogAnalyzer {
             this.save();
         }catch (Exception e) {
             logger.error(e.getMessage());
+            super.errorHandle(whLog);
         }
     }
 
@@ -69,17 +70,21 @@ public class OpBaseAnalyzer extends DefaultLogAnalyzer {
         List<OpBaseLog> logs = new ArrayList<>();
         List<Map.Entry<String,OpBaseLog>> sources = new LinkedList<>();
         int count = logQueue.drainTo(logs);
-        boolean exists = indicesManager.entityIndexExists(logs.get(0));
-        //create index if not exists
-        if(!exists) {
-            indicesManager.createIndex(logs.get(0));
+        try {
+            boolean exists = indicesManager.entityIndexExists(logs.get(0));
+            //create index if not exists
+            if (!exists) {
+                indicesManager.createIndex(logs.get(0));
+            }
+            if (!exists) {
+                return;
+            }
+            logs.forEach(log -> sources.add(new AbstractMap.SimpleEntry<>(idCreateUtil.getSnowId() + "", log)));
+            docManager.addBatch(sources, null);
+            logger.info("save operation base log, the count is " + count);
+        }catch (Exception e) {
+            throw new IllegalArgumentException(e.getMessage());
         }
-        if(!exists) {
-            return;
-        }
-        logs.forEach(log -> sources.add(new AbstractMap.SimpleEntry<>(idCreateUtil.getSnowId() + "",log)));
-        docManager.addBatch(sources,null);
-        logger.info("save operation base log, the count is " + count);
     }
 
     @Override

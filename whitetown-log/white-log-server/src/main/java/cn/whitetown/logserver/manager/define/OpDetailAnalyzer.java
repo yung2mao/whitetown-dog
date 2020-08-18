@@ -12,6 +12,7 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.IOException;
 import java.util.Map;
 
 /**
@@ -39,24 +40,20 @@ public class OpDetailAnalyzer extends DefaultLogAnalyzer {
         try {
             String[] logArr = whLog.getLogData().split("\t");
             opDetailLog = this.detailAnalyzer(opDetailLog, logArr[logArr.length - 1]);
+            if (opDetailLog.getStatus() == null) {
+                opDetailLog.setStatus(whLog.getLogLevel() <= Level.WARN_INT ? 200 : 500);
+            }
+            this.save(opDetailLog);
         } catch (Exception e) {
             logger.error(e.getMessage());
-            return;
+            super.errorHandle(whLog);
         }
-        if (opDetailLog.getStatus() == null) {
-            opDetailLog.setStatus(whLog.getLogLevel() <= Level.WARN_INT ? 200 : 500);
-        }
-        this.save(opDetailLog);
     }
 
-    private void save(OpDetailLog detailLog) {
+    private void save(OpDetailLog detailLog) throws IOException {
         boolean exists = indicesManager.entityIndexExists(detailLog);
         if(!exists) {
-            exists = indicesManager.createIndex(detailLog);
-        }
-        if(!exists) {
-            System.out.println(detailLog);
-            return;
+            indicesManager.createIndex(detailLog);
         }
         docManager.addDoc2DefaultIndex(idCreateUtil.getSnowId() +"",detailLog,null);
     }

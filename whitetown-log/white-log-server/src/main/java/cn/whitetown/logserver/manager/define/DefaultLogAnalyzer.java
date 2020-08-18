@@ -26,6 +26,11 @@ public class DefaultLogAnalyzer implements WhLogAnalyzer {
     }
 
     @Override
+    public void errorHandle(WhLog whLog) {
+
+    }
+
+    @Override
     public void destroy() {
     }
 }

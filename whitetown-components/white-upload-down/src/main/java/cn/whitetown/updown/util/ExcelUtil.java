@@ -2,6 +2,7 @@ package cn.whitetown.updown.util;
 
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelWriter;
+import com.alibaba.excel.metadata.Sheet;
 import com.alibaba.excel.write.metadata.WriteSheet;
 
 import javax.servlet.http.HttpServletResponse;
@@ -26,8 +27,7 @@ public class ExcelUtil {
      * @return
      * @throws Exception
      */
-    public static OutputStream getOutputStream(String fileName, HttpServletResponse response)
-            throws Exception{
+    public static OutputStream getOutputStream(String fileName, HttpServletResponse response) {
         try{
             fileName = URLEncoder.encode(fileName,"utf-8");
             response.setContentType("application/vnd.ms-excel");
@@ -38,7 +38,7 @@ public class ExcelUtil {
             response.addHeader("Cache-Control", "max-age=0");
             return response.getOutputStream();
         } catch (IOException e){
-            throw new Exception("导出文件失败！");
+            throw new IllegalArgumentException(e.getMessage());
         }
     }
 
@@ -51,7 +51,7 @@ public class ExcelUtil {
      * @throws Exception
      */
     public static void writeExcel(HttpServletResponse response, List<?> list, String fileName,
-                                  String sheetName, Class<?> headClass) throws Exception {
+                                  String sheetName, Class<?> headClass) {
         ExcelWriter writer = null;
         if(headClass != null) {
             writer = EasyExcel.write(getOutputStream(fileName, response), headClass).build();

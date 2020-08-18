@@ -38,90 +38,69 @@ public class DefaultIndicesManager implements EsIndicesManager {
     private RestHighLevelClient esClient;
 
     @Override
-    public boolean createIndex(String indexName) {
-        try {
-            if(indicesExists(indexName)) {
-                return true;
-            }
-            CreateIndexRequest request = new CreateIndexRequest(indexName);
-            esClient.indices().create(request,RequestOptions.DEFAULT);
-            return true;
-        }catch (IOException e) {
-            e.printStackTrace();
-            return false;
+    public void createIndex(String indexName) throws IOException {
+        if(indicesExists(indexName)) {
+            return;
         }
+        CreateIndexRequest request = new CreateIndexRequest(indexName);
+        esClient.indices().create(request,RequestOptions.DEFAULT);
     }
 
     @Override
-    public <T> boolean createIndex(T entity) {
+    public <T> void createIndex(T entity) throws IOException {
         String indexName = esTools.getDefaultIndexName(entity);
         if(indexName == null) {
-            return false;
+            throw new NullPointerException("empty index source");
         }
-        return this.createIndex(indexName,entity);
+        this.createIndex(indexName,entity);
     }
 
     @Override
-    public <T> boolean createIndex(String indexName, T entity) {
+    public <T> void createIndex(String indexName, T entity) throws IOException {
         if(DataCheckUtil.checkTextNullBool(indexName) || entity == null) {
-            return false;
+            throw new NullPointerException("empty params");
         }
         String className = entity.getClass().getName();
         if(esIndicesMap.getIndexName(className) != null) {
-            return true;
+            return;
         }
         Map<String, Map<String, String>> mapping = esTools.createDefaultMapping(entity);
-        boolean isCreate = this.createIndexByMapping(indexName, mapping);
-        if(isCreate) {
-            esIndicesMap.putIndex(className,indexName);
-            return true;
-        }
-        return false;
+        this.createIndexByMapping(indexName, mapping);
+        esIndicesMap.putIndex(className,indexName);
     }
 
     @Override
-    public boolean createIndexByMapping(String indexName, Map<String, Map<String, String>> fieldsMap) {
-        try {
-            if(indicesExists(indexName)) {
-                return true;
-            }
-            CreateIndexRequest request = new CreateIndexRequest(indexName);
-            XContentBuilder mapping = XContentFactory.jsonBuilder();
-            mapping.startObject()
-                    .startObject("mappings")
-                    .startObject("properties");
-            Set<String> fields = fieldsMap.keySet();
-            for(String field: fields){
-                Map<String, String> fieldType = fieldsMap.get(field);
-                mapping.startObject(field);
-                for(Map.Entry<String,String> entry :fieldType.entrySet()){
-                    mapping.field(entry.getKey(),entry.getValue());
-                }
-                mapping.endObject();
-            }
-            mapping.endObject()
-                    .endObject()
-                    .endObject();
-            request.source(mapping);
-            esClient.indices().create(request, RequestOptions.DEFAULT);
-            return true;
-        }catch (Exception e) {
-            e.printStackTrace();
-            return false;
+    public void createIndexByMapping(String indexName, Map<String, Map<String, String>> fieldsMap) throws IOException {
+        if(indicesExists(indexName)) {
+            return;
         }
+        CreateIndexRequest request = new CreateIndexRequest(indexName);
+        XContentBuilder mapping = XContentFactory.jsonBuilder();
+        mapping.startObject()
+                .startObject("mappings")
+                .startObject("properties");
+        Set<String> fields = fieldsMap.keySet();
+        for(String field: fields){
+            Map<String, String> fieldType = fieldsMap.get(field);
+            mapping.startObject(field);
+            for(Map.Entry<String,String> entry :fieldType.entrySet()){
+                mapping.field(entry.getKey(),entry.getValue());
+            }
+            mapping.endObject();
+        }
+        mapping.endObject()
+                .endObject()
+                .endObject();
+        request.source(mapping);
+        esClient.indices().create(request, RequestOptions.DEFAULT);
     }
 
     @Override
-    public boolean removeIndices(String... indices) {
+    public void removeIndices(String... indices) throws IOException {
         DeleteIndexRequest delRequest = new DeleteIndexRequest(indices);
-        try {
-            esClient.indices().delete(delRequest,RequestOptions.DEFAULT);
-            for(String indexName : indices) {
-                esIndicesMap.removeIndexByIndexName(indexName);
-            }
-            return true;
-        }catch (Exception e) {
-            return false;
+        esClient.indices().delete(delRequest,RequestOptions.DEFAULT);
+        for(String indexName : indices) {
+            esIndicesMap.removeIndexByIndexName(indexName);
         }
     }
 

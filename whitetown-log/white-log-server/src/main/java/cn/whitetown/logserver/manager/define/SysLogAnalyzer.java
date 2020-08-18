@@ -11,6 +11,8 @@ import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.io.IOException;
+
 /**
  * 系统运行日志处理
  * @author taixian
@@ -39,19 +41,17 @@ public class SysLogAnalyzer extends DefaultLogAnalyzer {
         String data = whLog.getLogData();
         try {
             systemLog = this.logDataAnalyzer(systemLog,data);
-        }catch (Exception ignored) {
+            this.save(systemLog);
+        }catch (Exception e) {
+            log.error(e.getMessage());
+            super.errorHandle(whLog);
         }
-        this.save(systemLog);
     }
 
-    private void save(SystemLog sysLog) {
+    private void save(SystemLog sysLog) throws IOException {
         boolean exists = indicesManager.entityIndexExists(sysLog);
         if(!exists) {
-            exists = indicesManager.createIndex(sysLog);
-        }
-        if(!exists) {
-            log.info(sysLog);
-            return;
+            indicesManager.createIndex(sysLog);
         }
         String docId = sysLog.getId() + "";
         docManager.addDoc2DefaultIndex(docId,sysLog,null);

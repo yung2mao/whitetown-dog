@@ -11,7 +11,8 @@ public interface WhLogAnalyzer {
 
     /**
      * 日志分析处理
-     * @param whLog
+     * @param whLog 日志信息
+     * @return 处理是否成功
      */
     void analyzer(WhLog whLog);
 
@@ -19,6 +20,12 @@ public interface WhLogAnalyzer {
      * 日志存储
      */
     void save();
+
+    /**
+     * 出现异常时处理器
+     * @param whLog
+     */
+    void errorHandle(WhLog whLog);
 
     /**
      * 销毁时调用

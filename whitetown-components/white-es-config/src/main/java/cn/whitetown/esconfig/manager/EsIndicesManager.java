@@ -16,7 +16,7 @@ public interface EsIndicesManager {
      * @return
      * @throws IOException
      */
-    boolean createIndex(String indexName);
+    void createIndex(String indexName) throws IOException;
 
     /**
      * 根据实体类创建索引
@@ -24,8 +24,9 @@ public interface EsIndicesManager {
      * @param entity
      * @param <T>
      * @return
+     * @throws IOException
      */
-    <T> boolean createIndex(T entity);
+    <T> void createIndex(T entity) throws IOException;
 
     /**
      * 根据索引名称, 任意entity创建索引
@@ -34,23 +35,26 @@ public interface EsIndicesManager {
      * @param entity 索引mapping对应的实体类
      * @param <T>
      * @return
+     * @throws IOException
      */
-    <T> boolean createIndex(String indexName,T entity);
+    <T> void createIndex(String indexName,T entity) throws IOException;
 
     /**
      * 根据索引名称,创建具有静态mapping的索引
      * @param indexName
      * @param fieldsMap
      * @return
+     * @throws IOException
      */
-    boolean createIndexByMapping(String indexName, Map<String, Map<String,String>> fieldsMap);
+    void createIndexByMapping(String indexName, Map<String, Map<String,String>> fieldsMap) throws IOException;
 
     /**
      * 删除索引
      * @param indices
      * @return
+     * @throws IOException
      */
-    boolean removeIndices(String ... indices);
+    void removeIndices(String ... indices) throws IOException;
 
     /**
      * 索引信息是否存在

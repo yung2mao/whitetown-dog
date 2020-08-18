@@ -2,6 +2,7 @@ package cn.whitetown.logserver.modo;
 
 import cn.whitetown.esconfig.annotation.EsFieldConfig;
 import cn.whitetown.esconfig.config.EsConfigEnum;
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
@@ -47,4 +48,9 @@ public class SystemLog {
      */
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss.SSS")
     private Date publishTime;
+
+    @Override
+    public String toString() {
+        return JSON.toJSONString(this);
+    }
 }
