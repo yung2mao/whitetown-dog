@@ -3,6 +3,7 @@ package cn.whitetown.esconfig.manager.wiml;
 import cn.whitetown.dogbase.common.entity.ao.PageQuery;
 import cn.whitetown.dogbase.common.util.WhiteToolUtil;
 import cn.whitetown.esconfig.manager.EsSearchManager;
+import cn.whitetown.esconfig.modo.EsIOException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.elasticsearch.action.search.SearchRequest;
@@ -40,7 +41,7 @@ public class DefaultSearchManager implements EsSearchManager {
             return count.getCount();
         }catch (IOException e) {
             log.error(e.getMessage());
-            throw new IllegalArgumentException(e.getMessage());
+            throw new EsIOException(e.getMessage());
         }
 
     }
@@ -56,7 +57,7 @@ public class DefaultSearchManager implements EsSearchManager {
             return esClient.search(searchRequest, RequestOptions.DEFAULT);
         }catch (Exception e) {
             log.error(e.getMessage());
-            throw new IllegalArgumentException(e.getMessage());
+            throw new EsIOException(e.getMessage());
         }
     }
 

@@ -10,6 +10,7 @@ import cn.whitetown.logbase.pipe.modo.WhLog;
 import cn.whitetown.logserver.modo.OpBaseLog;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -24,6 +25,8 @@ import java.util.concurrent.TimeUnit;
 public class OpBaseAnalyzer extends DefaultLogAnalyzer {
 
     private Log logger = LogFactory.getLog(OpBaseAnalyzer.class);
+
+    private Logger localLogger = LogConstants.LOCAL_LOG_LOGGER;
 
     private BlockingQueue<OpBaseLog> logQueue = new ArrayBlockingQueue<>(LogConstants.LOG_CACHE_MAX_LEN);
 
@@ -87,7 +90,7 @@ public class OpBaseAnalyzer extends DefaultLogAnalyzer {
 
     @Override
     public void destroy() {
-        logQueue.forEach(System.out::println);
+        logQueue.forEach(log->localLogger.warn(log));
     }
 
     /**
@@ -124,7 +127,7 @@ public class OpBaseAnalyzer extends DefaultLogAnalyzer {
         int getLen = 50;
         List<OpBaseLog> logs = new ArrayList<>();
         logQueue.drainTo(logs,getLen);
-        logs.forEach(System.out::println);
-        logger.info("日志队列阻塞,已打印到控制台");
+        logs.forEach(log->localLogger.warn(log));
+        logger.info("日志队列阻塞,已转储本地文件");
     }
 }

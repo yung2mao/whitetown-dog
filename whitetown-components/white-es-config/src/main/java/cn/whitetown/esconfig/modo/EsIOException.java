@@ -1,4 +1,4 @@
-package cn.whitetown.logbase.excep;
+package cn.whitetown.esconfig.modo;
 
 /**
  * @author taixian

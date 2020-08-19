@@ -34,12 +34,13 @@ public class LogConstants {
      * 接口操作详细日志
      */
     public static final String OP_DETAIL_LOG = "OP_DETAIL_LOG";
-
     /**
      * 本地存储日志
      */
     public static final String LOCAL_LOG = "LOCAL_LOG";
-
+    /**
+     * request 追踪ID 名称
+     */
     public static final String TRACE_ID = "traceId";
     /**
      * 访问日志
@@ -61,7 +62,6 @@ public class LogConstants {
      * 监听管理器
      */
     public static final ListenerManager LISTENER_MANAGER = SimpleListenerManager.getInstance();
-
     /**
      * 日志批量存储的数量
      */

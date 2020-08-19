@@ -4,8 +4,8 @@ import cn.whitetown.dogbase.common.util.DataCheckUtil;
 import cn.whitetown.esconfig.manager.EsIndicesManager;
 import cn.whitetown.esconfig.modo.EsIndicesMap;
 import cn.whitetown.esconfig.utils.EsTools;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import cn.whitetown.logbase.config.LogConstants;
+import org.apache.logging.log4j.Logger;
 import org.elasticsearch.action.admin.indices.delete.DeleteIndexRequest;
 import org.elasticsearch.client.RequestOptions;
 import org.elasticsearch.client.RestHighLevelClient;
@@ -16,7 +16,6 @@ import org.elasticsearch.common.xcontent.XContentFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Map;
 import java.util.Set;
 
@@ -29,7 +28,7 @@ public class DefaultIndicesManager implements EsIndicesManager {
 
     private EsTools esTools = EsTools.ES_TOOLS;
 
-    private Log log = LogFactory.getLog(DefaultDocManager.class);
+    private Logger log = LogConstants.LOCAL_LOG_LOGGER;
 
     @Autowired
     private EsIndicesMap esIndicesMap;
