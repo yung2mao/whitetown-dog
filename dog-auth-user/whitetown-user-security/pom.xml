@@ -38,6 +38,10 @@
       <groupId>cn.whitetown</groupId>
       <artifactId>dog-auth-ea</artifactId>
     </dependency>
+    <dependency>
+      <groupId>cn.whitetown</groupId>
+      <artifactId>white-upload-down</artifactId>
+    </dependency>
   </dependencies>
 
 </project>

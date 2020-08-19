@@ -49,6 +49,12 @@
         <artifactId>dog-auth-ea</artifactId>
         <version>${whitetown-dog.version}</version>
       </dependency>
+      <!--upload or download-->
+      <dependency>
+        <groupId>cn.whitetown</groupId>
+        <artifactId>white-upload-down</artifactId>
+        <version>${whitetown-dog.version}</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 

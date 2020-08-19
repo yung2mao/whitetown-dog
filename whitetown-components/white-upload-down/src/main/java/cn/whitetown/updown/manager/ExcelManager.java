@@ -6,5 +6,4 @@ package cn.whitetown.updown.manager;
  **/
 public interface ExcelManager {
 
-
 }

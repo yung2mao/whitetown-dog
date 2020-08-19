@@ -1,9 +1,10 @@
 package cn.whitetown.updown.util;
 
+import cn.whitetown.dogbase.common.entity.dto.ResponseData;
+import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import com.alibaba.excel.EasyExcel;
-import com.alibaba.excel.ExcelWriter;
-import com.alibaba.excel.metadata.Sheet;
-import com.alibaba.excel.write.metadata.WriteSheet;
+import com.alibaba.fastjson.JSON;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -27,12 +28,12 @@ public class ExcelUtil {
      * @return
      * @throws Exception
      */
-    public static OutputStream getOutputStream(String fileName, HttpServletResponse response) {
+    public static OutputStream getWebOutputStream(String fileName, HttpServletResponse response) {
         try{
             fileName = URLEncoder.encode(fileName,"utf-8");
             response.setContentType("application/vnd.ms-excel");
             response.setCharacterEncoding("utf-8");
-            response.setHeader("Content-Disposition", "attachment; filename=" + fileName + ".xls");
+            response.setHeader("Content-Disposition", "attachment; filename=" + fileName + ".xlsx");
             response.setHeader("Pragma", "public");
             response.setHeader("Cache-Control", "no-store");
             response.addHeader("Cache-Control", "max-age=0");
@@ -44,23 +45,34 @@ public class ExcelUtil {
 
     /**
      * 写出数据
-     * @param response
-     * @param list
-     * @param fileName
-     * @param sheetName
-     * @throws Exception
+     * @param response 响应
+     * @param list 数据
+     * @param fileName 文件名
+     * @param sheetName excel中表名
+     * @param headClass 头信息 - 通常为list中entity类
+     * @throws IOException
      */
-    public static void writeExcel(HttpServletResponse response, List<?> list, String fileName,
-                                  String sheetName, Class<?> headClass) {
-        ExcelWriter writer = null;
-        if(headClass != null) {
-            writer = EasyExcel.write(getOutputStream(fileName, response), headClass).build();
-        }else {
-            writer = EasyExcel.write(getOutputStream(fileName, response)).build();
+    public static void writeWebExcel(HttpServletResponse response, List<?> list, String fileName,
+                                     String sheetName, Class<?> headClass) throws IOException {
+        try {
+            if(headClass != null) {
+                EasyExcel.write(getWebOutputStream(fileName,response), headClass).sheet(sheetName).doWrite(list);
+            }else {
+                EasyExcel.write(getWebOutputStream(fileName,response)).sheet(sheetName).doWrite(list);
+            }
+        }catch (Exception e) {
+            // reset response
+            response.reset();
+            response.setContentType("application/json");
+            response.setCharacterEncoding("utf-8");
+            ResponseData fail = ResponseData.fail(ResponseStatusEnum.DOWN_FILE_ERROR);
+            response.getWriter().println(JSON.toJSONString(fail));
         }
-        WriteSheet writeSheet = new WriteSheet();
-        writeSheet.setSheetName(sheetName);
-        writer.write(list,writeSheet);
-        writer.finish();
+        response.flushBuffer();
+    }
+
+    public static void readWebExcel(MultipartFile file, Class<?> claz) {
+
+//        EasyExcel.read(file.getInputStream(), claz, new UploadDataListener(uploadDAO)).sheet().doRead();
     }
 }

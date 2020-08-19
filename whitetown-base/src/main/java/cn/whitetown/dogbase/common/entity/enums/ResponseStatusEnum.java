@@ -22,15 +22,16 @@ public enum ResponseStatusEnum {
     ERROR_WRAPPER_FIELD(500, "包装字典属性失败"),
     ERROR_CODE_EMPTY(500, "字典类型不能为空"),
 
-    /*\***************文件上传********************\*/
+    /*\***************文件相关********************\*/
 
     FILE_READING_ERROR(400, "FILE_READING_ERROR!"),
     FILE_NOT_FOUND(400, "FILE_NOT_FOUND!"),
     UPLOAD_ERROR(500, "上传图片出错"),
     UE_CONFIG_ERROR(800, "读取ueditor配置失败"),
-    UE_FILE_NULL_ERROR(801, "上传文件为空"),
+    UP_FILE_NULL_ERROR(801, "上传文件为空"),
     UE_FILE_READ_ERROR(803, "读取文件错误"),
     UE_FILE_SAVE_ERROR(802, "保存ue的上传文件出错"),
+    DOWN_FILE_ERROR(805,"文件下载异常"),
 
     /*\***************权限和数据********************\*/
 
