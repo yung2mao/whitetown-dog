@@ -147,12 +147,6 @@
         <artifactId>elasticsearch-rest-client</artifactId>
         <version>${elasticsearch.version}</version>
       </dependency>
-      <!-- log4j -->
-      <dependency>
-        <groupId>log4j</groupId>
-        <artifactId>log4j</artifactId>
-        <version>${log4j.version}</version>
-      </dependency>
       <!--oshi-->
       <dependency>
         <groupId>com.github.oshi</groupId>
