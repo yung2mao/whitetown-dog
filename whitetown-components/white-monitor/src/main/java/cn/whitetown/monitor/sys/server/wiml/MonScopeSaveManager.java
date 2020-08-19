@@ -7,7 +7,7 @@ import cn.whitetown.monitor.dao.ShardingDataSourceUtil;
 import cn.whitetown.monitor.sys.modo.dto.WhMonSaveParam;
 import cn.whitetown.monitor.sys.modo.dto.WhiteMonitorParams;
 import com.alibaba.fastjson.JSON;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

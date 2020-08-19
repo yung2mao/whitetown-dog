@@ -3,6 +3,7 @@ package cn.whitetown.logbase.pipe.wiml;
 import cn.whitetown.logbase.pipe.WhPipeline;
 import cn.whitetown.logbase.pipe.modo.WhClone;
 import cn.whitetown.logbase.pipe.modo.WhLog;
+import org.apache.logging.log4j.LogManager;
 
 import java.util.Collection;
 import java.util.concurrent.ArrayBlockingQueue;

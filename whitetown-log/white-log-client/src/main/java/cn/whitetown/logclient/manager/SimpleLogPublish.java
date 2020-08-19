@@ -2,7 +2,7 @@ package cn.whitetown.logclient.manager;
 
 import cn.whitetown.logbase.pipe.modo.WhLog;
 import cn.whitetown.logbase.pub.LogPublish;
-import org.apache.log4j.pattern.LogEvent;
+import org.apache.logging.log4j.core.LogEvent;
 
 /**
  * @author taixian

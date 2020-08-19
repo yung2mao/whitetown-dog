@@ -4,10 +4,11 @@ import cn.whitetown.dogbase.common.util.SnowIDCreateUtil;
 import cn.whitetown.dogbase.common.util.WhiteFormatUtil;
 import cn.whitetown.esconfig.manager.EsDocManager;
 import cn.whitetown.esconfig.manager.EsIndicesManager;
+import cn.whitetown.logbase.config.LogUtil;
 import cn.whitetown.logbase.pipe.modo.WhLog;
 import cn.whitetown.logserver.modo.OpDetailLog;
 import com.alibaba.fastjson.JSON;
-import org.apache.log4j.Level;
+import org.apache.logging.log4j.Level;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.io.IOException;
@@ -32,12 +33,12 @@ public class OpDetailAnalyzer extends DefaultLogAnalyzer {
     @Override
     public void analyzer(WhLog whLog) {
         OpDetailLog opDetailLog = new OpDetailLog();
-        opDetailLog.setLogLevel(Level.toLevel(whLog.getLogLevel()).toString());
+        opDetailLog.setLogLevel(LogUtil.num2Level(whLog.getLogLevel()).toString());
         try {
             String[] logArr = whLog.getLogData().split("\t");
             opDetailLog = this.detailAnalyzer(opDetailLog, logArr[logArr.length - 1]);
             if (opDetailLog.getStatus() == null) {
-                opDetailLog.setStatus(whLog.getLogLevel() <= Level.WARN_INT ? 200 : 500);
+                opDetailLog.setStatus(whLog.getLogLevel() <= Level.WARN.intLevel() ? 200 : 500);
             }
             this.save(opDetailLog);
         } catch (Exception e) {

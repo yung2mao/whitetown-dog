@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration monitorInterval="5" statue="TRACE" packages="org.apache.logging.log4j.core,cn.whitetown.logclient.collect">
+    <!--日志级别以及优先级排序: OFF > FATAL > ERROR > WARN > INFO > DEBUG > TRACE > ALL -->
+
+    <Properties>
+        <!--时间 日志级别 线程名 启动到打印日志时间 类 方法 行数 : 日志内容-->
+        <property name="CONSOLE_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss}\t%highlight{%p}\t%t\t%style{%r}{bright,yellow}\t%style{%C}{bright,blue}\t%style{%M}{bright,green}\t%L\t:\t%m%n" />
+
+        <property name="WH_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss}\t%p\t%t\t%r\t%C\t%M\t%L\t:\t%m%n" />
+        <!-- save path 相对路径 -->
+        <!--<property name="FILE_ERROR_PATH" value="log_error" />
+        <property name="FILE_CONSOLE_PATH" value="log_console" />-->
+        <!--绝对路径-->
+        <property name="FILE_ERROR_PATH" value="E:\pro-test\log4j2\log_error" />
+        <property name="FILE_CONSOLE_PATH" value="E:\pro-test\log4j2\log_console" />
+        <property name="FILE_NAME" value="wh" />
+    </Properties>
+
+    <appenders>
+        <console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${CONSOLE_PATTERN}"/>
+            <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+        </console>
+
+        <!--自定义appender-->
+        <WhiteLog4jAppender name="WhiteLog4jAppender" publishClass="cn.whitetown.logclient.manager.wiml.WhLogPublish">
+            <PatternLayout pattern="${WH_PATTERN}"/>
+        </WhiteLog4jAppender>
+
+        <!--own warn save local-->
+        <RollingRandomAccessFile name="RollingFileInfo"
+                                 fileName="${FILE_ERROR_PATH}/${FILE_NAME}_error.log"
+                                 filePattern="${FILE_ERROR_PATH}/$${date:yyyy-MM}/${FILE_NAME}-%d{yyyy-MM-dd HH-mm}-%i.log">
+            <ThresholdFilter level="WARN" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout
+                    pattern="${WH_PATTERN}" />
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" />
+                <SizeBasedTriggeringPolicy size="20 MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="30" />
+        </RollingRandomAccessFile>
+        <!--console to local-->
+        <RollingRandomAccessFile name="RollingFileInfo2"
+                                 fileName="${FILE_CONSOLE_PATH}/${FILE_NAME}_console.log"
+                                 filePattern="${FILE_CONSOLE_PATH}/$${date:yyyy-MM}/${FILE_NAME}-%d{yyyy-MM-dd HH-mm}-%i.log">
+            <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout
+                    pattern="${WH_PATTERN}" />
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" />
+                <SizeBasedTriggeringPolicy size="20 MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="30" />
+        </RollingRandomAccessFile>
+
+    </appenders>
+
+    <loggers>
+        <!--ignore-->
+        <logger name="org.springframework" level="INFO">
+        </logger>
+        <logger name="org.mybatis" level="INFO">
+        </logger>
+        <!--custom-->
+        <logger name="DEFAULT_LOG" level="DEBUG" additivity="false">
+            <appender-ref ref="WhiteLog4jAppender"/>
+        </logger>
+        <logger name="SYS_LOG" level="DEBUG" additivity="false">
+            <appender-ref ref="WhiteLog4jAppender"/>
+        </logger>
+        <logger name="DB_LOG" level="DEBUG" additivity="false">
+            <appender-ref ref="WhiteLog4jAppender"/>
+        </logger>
+        <logger name="OP_BASE_LOG" level="DEBUG" additivity="false">
+            <appender-ref ref="WhiteLog4jAppender"/>
+        </logger>
+        <logger name="OP_DETAIL_LOG" level="DEBUG" additivity="false">
+            <appender-ref ref="WhiteLog4jAppender"/>
+        </logger>
+        <!--file log-->
+        <logger name="LOCAL_LOG" level="WARN">
+            <appender-ref ref="RollingFileInfo"/>
+        </logger>
+        <!--other-->
+        <root level="INFO">
+            <appender-ref ref="Console"/>
+            <appender-ref ref="RollingFileInfo2"/>
+        </root>
+    </loggers>
+
+</configuration>

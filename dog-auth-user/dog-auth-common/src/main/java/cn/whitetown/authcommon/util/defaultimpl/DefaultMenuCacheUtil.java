@@ -5,7 +5,7 @@ import cn.whitetown.authcommon.entity.po.MenuInfo;
 import cn.whitetown.authcommon.util.MenuCacheUtil;
 import cn.whitetown.dogbase.wache.WhiteExpireMap;
 import cn.whitetown.logbase.config.LogConstants;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.*;

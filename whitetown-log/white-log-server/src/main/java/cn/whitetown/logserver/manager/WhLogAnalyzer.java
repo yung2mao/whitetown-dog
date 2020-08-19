@@ -22,6 +22,12 @@ public interface WhLogAnalyzer {
     void save();
 
     /**
+     * 解析器状态
+     * @return
+     */
+    boolean status();
+
+    /**
      * 出现异常时处理器
      * @param whLog
      * @param ex

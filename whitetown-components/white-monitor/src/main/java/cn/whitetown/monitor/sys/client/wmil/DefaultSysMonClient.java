@@ -3,7 +3,7 @@ package cn.whitetown.monitor.sys.client.wmil;
 import cn.whitetown.logbase.config.LogConstants;
 import cn.whitetown.monitor.sys.client.SysMonClient;
 import cn.whitetown.monitor.sys.client.SysMonitorRunner;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 /**
  * 默认系统监控客户端

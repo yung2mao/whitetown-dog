@@ -22,7 +22,7 @@ spring:
 # elasticsearch
   elasticsearch:
     rest:
-      uris: 172.16.0.190:9201,172.16.0.190:9202
+      uris: 172.16.0.190:9203,172.16.0.190:9204
 #  mvc:
 #    static-path-pattern: /static/**
 mybatis-plus:

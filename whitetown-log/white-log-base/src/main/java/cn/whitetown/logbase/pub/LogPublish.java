@@ -1,7 +1,7 @@
 package cn.whitetown.logbase.pub;
 
 import cn.whitetown.logbase.pipe.modo.WhLog;
-import org.apache.log4j.pattern.LogEvent;
+import org.apache.logging.log4j.core.LogEvent;
 
 /**
  * 日志投递接口定义

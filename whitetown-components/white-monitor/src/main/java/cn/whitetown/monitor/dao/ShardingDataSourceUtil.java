@@ -5,8 +5,7 @@ import cn.whitetown.monitor.config.MonConfConstants;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
-import com.sun.jna.platform.win32.Ddeml;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 import javax.sql.DataSource;
 import java.sql.Connection;

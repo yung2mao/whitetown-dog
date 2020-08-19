@@ -37,7 +37,7 @@ public class EsTools {
             public void onResponse(IndexResponse response) {
                 RestStatus status = response.status();
                 String result = response.getResult().toString();
-                log.info(response.getSeqNo() + ": response status is >> " + status.getStatus() + ", result is >> " + result);
+                log.info("sequence numbber " + response.getSeqNo() + ": response status is >> " + status.getStatus() + ", result is >> " + result);
             }
 
             @Override
@@ -58,7 +58,7 @@ public class EsTools {
                 RestStatus status = responses.status();
                 String fail = responses.buildFailureMessage();
                 if(status.getStatus() > 400) {
-                    System.err.println("response status >> " + status.getStatus() + ", failure message >> " + fail);
+                    log.error("response status >> " + status.getStatus() + ", failure message >> " + fail);
                     return;
                 }
                 log.info("bulk response success");
@@ -81,7 +81,7 @@ public class EsTools {
             public void onResponse(UpdateResponse response) {
                 RestStatus status = response.status();
                 String result = response.getResult().toString();
-                log.info(response.getSeqNo() + ": response status is >> " + status.getStatus() + ", result is >>" + result);
+                log.info("sequence numbber " + response.getSeqNo() + ": response status is >> " + status.getStatus() + ", result is >>" + result);
             }
 
             @Override

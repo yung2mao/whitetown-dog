@@ -6,12 +6,11 @@ import cn.whitetown.logbase.pipe.WhPipeline;
 import cn.whitetown.logbase.pipe.modo.WhLog;
 import cn.whitetown.logbase.pub.LogPublish;
 import cn.whitetown.logclient.manager.WhSimpleThreadPoolFactory;
-import org.apache.log4j.Level;
-import org.apache.log4j.pattern.LogEvent;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.core.LogEvent;
 
 import java.util.Date;
 import java.util.concurrent.*;
-import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * 日志投递作业
@@ -20,8 +19,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  **/
 public class WhLogPublish implements LogPublish {
 
-    private ExecutorService threadPool;
-
     private ListenerManager listenerManager;
 
     private WhPipeline<WhLog> logPipeline;
@@ -29,13 +26,6 @@ public class WhLogPublish implements LogPublish {
     private boolean isInit = false;
 
     public WhLogPublish() {
-        int core = 0;
-        int total = 60;
-        long keepActive = 60;
-        int queueSize = 1;
-        ThreadFactory threadFactory = new WhSimpleThreadPoolFactory("log-pool");
-        threadPool = new ThreadPoolExecutor(core, total, keepActive, TimeUnit.SECONDS,
-                new ArrayBlockingQueue<>(queueSize), threadFactory);
         this.init();
     }
 
@@ -54,7 +44,7 @@ public class WhLogPublish implements LogPublish {
         if(!isInit) {
             this.init();
         }
-        if(whLog.getLogLevel() == Level.DEBUG_INT) {
+        if(whLog.getLogLevel() == Level.DEBUG.intLevel()) {
             System.out.println(whLog);
             return;
         }
@@ -62,7 +52,7 @@ public class WhLogPublish implements LogPublish {
         if(!isAdd) {
             System.err.println("add error, current size is " + logPipeline.size() + ", max size is "+logPipeline.maxSize());
         }
-        threadPool.submit(() -> listenerManager.eventNotify());
+        listenerManager.eventNotify();
     }
 
     @Override
@@ -74,7 +64,7 @@ public class WhLogPublish implements LogPublish {
         }
         WhLog whLog = new WhLog();
         whLog.setLogName(logEvent.getLoggerName());
-        whLog.setLogLevel(logEvent.getLevel().toInt());
+        whLog.setLogLevel(logEvent.getLevel().intLevel());
         whLog.setLogData(String.valueOf(logEvent.getMessage()));
         whLog.setTimeStamp(new Date());
         this.publish(whLog);

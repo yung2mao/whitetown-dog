@@ -21,24 +21,6 @@ public class DefaultLogListener extends BaseWhListener<WhLog> {
 
     private LogAnalyzerMap logAnalyzerMap;
 
-    /**
-     * 解析处理器是否正常
-     */
-    private boolean analyzerIsOk = true;
-    /**
-     * 失败恢复时间
-     */
-    private long restoreTime = 60000;
-    /**
-     * 重试次数
-     */
-    private final int retryTimes = 5;
-    AtomicInteger reTimes = new AtomicInteger(retryTimes);
-    /**
-     * 前次失败时间
-     */
-    long lastFailTime = 0;
-
     public DefaultLogListener(WhPipeline<WhLog> whPipeline, LogAnalyzerMap logAnalyzerMap) {
         this.whPipeline = whPipeline;
         this.logAnalyzerMap = logAnalyzerMap;
@@ -71,45 +53,20 @@ public class DefaultLogListener extends BaseWhListener<WhLog> {
      * @param whLog
      */
     private void handOut(String logName,WhLog whLog) {
+        WhLogAnalyzer logAnalyzer = null;
         try {
-            if(!checkAnalyzer()) {
-                System.out.println(whLog);
-                return;
-            }
-            WhLogAnalyzer logAnalyzer = logAnalyzerMap.getAnalyzer(logName);
+            logAnalyzer = logAnalyzerMap.getAnalyzer(logName);
             if(logAnalyzer == null) {
                 logAnalyzer = new DefaultLogAnalyzer();
             }
-            logAnalyzer.analyzer(whLog);
+            if(logAnalyzer.status()) {
+                logAnalyzer.analyzer(whLog);
+            }else {
+                logAnalyzer.errorHandle(whLog,null);
+            }
         }catch (Exception e) {
-            System.err.println(e.getMessage());
-            if(reTimes.decrementAndGet() < 1) {
-                analyzerIsOk = false;
-                lastFailTime = System.currentTimeMillis();
-            }
-        }
-    }
-
-    /**
-     * 校验当前日志解析器状态
-     * @return
-     */
-    private boolean checkAnalyzer() {
-        if(analyzerIsOk) {
-            return true;
-        }
-        long nowTime = System.currentTimeMillis();
-        if(nowTime - lastFailTime < restoreTime) {
-            return false;
-        }
-        synchronized (this) {
-            restoreTime += 1000;
-            if(nowTime - lastFailTime > restoreTime) {
-                reTimes.set(retryTimes);
-                lastFailTime = nowTime;
-                return true;
-            }
-            return false;
+            assert logAnalyzer != null;
+            logAnalyzer.errorHandle(whLog,e);
         }
     }
 }

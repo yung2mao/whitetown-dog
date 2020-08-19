@@ -5,14 +5,12 @@ import cn.whitetown.dogbase.common.util.WhiteFormatUtil;
 import cn.whitetown.esconfig.manager.EsDocManager;
 import cn.whitetown.esconfig.manager.EsIndicesManager;
 import cn.whitetown.logbase.config.LogConstants;
+import cn.whitetown.logbase.config.LogUtil;
 import cn.whitetown.logbase.pipe.modo.WhLog;
 import cn.whitetown.logserver.modo.OpBaseLog;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.log4j.Level;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
@@ -41,7 +39,7 @@ public class OpBaseAnalyzer extends DefaultLogAnalyzer {
     @Override
     public void analyzer(WhLog whLog) {
         OpBaseLog opBaseLog = new OpBaseLog();
-        opBaseLog.setLogLevel(Level.toLevel(whLog.getLogLevel()).toString());
+        opBaseLog.setLogLevel(LogUtil.num2Level(whLog.getLogLevel()).toString());
         String logData = whLog.getLogData();
         if(logData == null) {
             return;

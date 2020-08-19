@@ -2,11 +2,7 @@ package cn.whitetown.dogbase.wache.buffer;
 
 import cn.hutool.core.thread.ThreadUtil;
 import cn.whitetown.logbase.config.LogConstants;
-import org.apache.log4j.Logger;
-
-import java.util.concurrent.ArrayBlockingQueue;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.ThreadPoolExecutor;
+import org.apache.logging.log4j.Logger;
 import java.util.concurrent.TimeUnit;
 
 /**

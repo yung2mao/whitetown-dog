@@ -2,7 +2,7 @@ package cn.whitetown.dogbase.wache.buffer;
 
 import cn.whitetown.logbase.config.LogConstants;
 import com.alibaba.fastjson.JSON;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 
 /**
  * 缓冲池元素工厂

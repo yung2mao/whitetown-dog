@@ -1,7 +1,7 @@
 package cn.whitetown.dog;
 
 import cn.whitetown.logbase.config.LogConstants;
-import org.apache.log4j.Logger;
+import org.apache.logging.log4j.Logger;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

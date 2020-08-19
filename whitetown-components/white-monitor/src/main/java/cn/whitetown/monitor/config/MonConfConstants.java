@@ -1,8 +1,5 @@
 package cn.whitetown.monitor.config;
 
-import org.apache.log4j.Logger;
-import org.springframework.core.Ordered;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
