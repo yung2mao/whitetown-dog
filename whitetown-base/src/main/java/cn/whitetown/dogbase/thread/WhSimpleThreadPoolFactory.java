@@ -1,4 +1,4 @@
-package cn.whitetown.logclient.manager;
+package cn.whitetown.dogbase.thread;
 
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.atomic.AtomicInteger;

@@ -30,7 +30,7 @@ public class DownloadController {
     @WhiteAuthAnnotation
     public void excelDownloadDemo(HttpServletResponse response) throws IOException {
         List<ExcelDemo> data = createData();
-        ExcelUtil.writeWebExcel(response,data,"demo","demo01",ExcelDemo.class);
+        ExcelUtil.getInstance().writeWebExcel(response,data,"demo","demo01",ExcelDemo.class);
     }
 
     private List<ExcelDemo> createData() {

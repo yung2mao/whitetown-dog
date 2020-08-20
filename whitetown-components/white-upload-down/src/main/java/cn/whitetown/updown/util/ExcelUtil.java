@@ -2,7 +2,13 @@ package cn.whitetown.updown.util;
 
 import cn.whitetown.dogbase.common.entity.dto.ResponseData;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
+import cn.whitetown.updown.manager.ExcelReadManager;
+import cn.whitetown.updown.manager.wiml.AsyncExcelListener;
+import cn.whitetown.updown.modo.ExcelReadMap;
 import com.alibaba.excel.EasyExcel;
+import com.alibaba.excel.ExcelReader;
+import com.alibaba.excel.read.builder.ExcelReaderSheetBuilder;
+import com.alibaba.excel.read.metadata.ReadSheet;
 import com.alibaba.fastjson.JSON;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -19,32 +25,83 @@ import java.util.List;
  **/
 public class ExcelUtil {
 
+    private static ExcelUtil EXCEL_UTIL;
+
     private ExcelUtil() {}
 
-    /**
-     * 导出文件时为Writer生成OutputStream
-     * @param fileName
-     * @param response
-     * @return
-     * @throws Exception
-     */
-    public static OutputStream getWebOutputStream(String fileName, HttpServletResponse response) {
-        try{
-            fileName = URLEncoder.encode(fileName,"utf-8");
-            response.setContentType("application/vnd.ms-excel");
-            response.setCharacterEncoding("utf-8");
-            response.setHeader("Content-Disposition", "attachment; filename=" + fileName + ".xlsx");
-            response.setHeader("Pragma", "public");
-            response.setHeader("Cache-Control", "no-store");
-            response.addHeader("Cache-Control", "max-age=0");
-            return response.getOutputStream();
-        } catch (IOException e){
-            throw new IllegalArgumentException(e.getMessage());
+    public static ExcelUtil getInstance() {
+        if(EXCEL_UTIL == null) {
+            EXCEL_UTIL = new ExcelUtil();
         }
+        return EXCEL_UTIL;
     }
 
     /**
-     * 写出数据
+     * 读取本地文件
+     * 默认读取sheet 0
+     * @param path
+     * @param entityClass
+     */
+    public void readLocalExcel(String path, Class<?> entityClass, ExcelReadManager readManager) {
+        ExcelReader excelReader = EasyExcel.read(path, entityClass, new AsyncExcelListener(readManager)).build();
+        ReadSheet readSheet = EasyExcel.readSheet(0).build();
+        this.readExcel(excelReader,readSheet);
+    }
+
+    public void readLocalExcel(String pathName,ExcelReadManager readManager) {
+        ExcelReader excelReader = EasyExcel.read(pathName, new AsyncExcelListener(readManager)).build();
+        ReadSheet readSheet = EasyExcel.readSheet(0).build();
+        this.readExcel(excelReader,readSheet);
+    }
+
+    /**
+     * 读取本地文件
+     * 读取多个sheet
+     * @param path
+     * @param excelReadMaps
+     */
+    public void readLocalExcel(String path, ExcelReadMap ... excelReadMaps) {
+        if(excelReadMaps == null || excelReadMaps.length == 0) {
+            return;
+        }
+        ExcelReader excelReader = EasyExcel.read(path).build();
+        ReadSheet[] readSheets = new ReadSheet[excelReadMaps.length];
+        for (int i = 0; i < excelReadMaps.length; i++) {
+            ExcelReadMap excelReadMap = excelReadMaps[i];
+            if(excelReadMap.getSheetNo() == null && excelReadMap.getSheetName() == null) {
+                continue;
+            }
+            ExcelReaderSheetBuilder sheetBuilder = null;
+            if(excelReadMap.getSheetNo() != null) {
+                sheetBuilder = EasyExcel.readSheet(excelReadMap.getSheetNo());
+            }else {
+                sheetBuilder = EasyExcel.readSheet(excelReadMap.getSheetName());
+            }
+            ReadSheet readSheet = sheetBuilder.head(excelReadMap.getClass())
+                    .registerReadListener(new AsyncExcelListener(excelReadMap.getReadManager()))
+                    .build();
+            readSheets[i] = readSheet;
+        }
+        this.readExcel(excelReader,readSheets);
+    }
+
+    /**
+     * 读取web上传的excel
+     * 默认读取sheet0
+     * @param file
+     * @param claz
+     */
+    public void readWebExcel(MultipartFile file, Class<?> claz, Integer sheetNumber, ExcelReadManager readManager) throws IOException {
+        ExcelReader excelReader = EasyExcel.read(file.getInputStream(), claz, new AsyncExcelListener(readManager)).build();
+        sheetNumber = (sheetNumber == null && sheetNumber >= 0) ? 0 : sheetNumber;
+        ReadSheet readSheet = EasyExcel.readSheet(sheetNumber).build();
+        this.readExcel(excelReader,readSheet);
+    }
+
+
+
+    /**
+     * 写出数据到web
      * @param response 响应
      * @param list 数据
      * @param fileName 文件名
@@ -52,7 +109,7 @@ public class ExcelUtil {
      * @param headClass 头信息 - 通常为list中entity类
      * @throws IOException
      */
-    public static void writeWebExcel(HttpServletResponse response, List<?> list, String fileName,
+    public void writeWebExcel(HttpServletResponse response, List<?> list, String fileName,
                                      String sheetName, Class<?> headClass) throws IOException {
         try {
             if(headClass != null) {
@@ -71,8 +128,40 @@ public class ExcelUtil {
         response.flushBuffer();
     }
 
-    public static void readWebExcel(MultipartFile file, Class<?> claz) {
+    /**
+     * 导出文件时为Writer生成OutputStream
+     * @param fileName
+     * @param response
+     * @return
+     * @throws Exception
+     */
+    private OutputStream getWebOutputStream(String fileName, HttpServletResponse response) {
+        try{
+            fileName = URLEncoder.encode(fileName,"utf-8");
+            response.setContentType("application/vnd.ms-excel");
+            response.setCharacterEncoding("utf-8");
+            response.setHeader("Content-Disposition", "attachment; filename=" + fileName + ".xlsx");
+            response.setHeader("Pragma", "public");
+            response.setHeader("Cache-Control", "no-store");
+            response.addHeader("Cache-Control", "max-age=0");
+            return response.getOutputStream();
+        } catch (IOException e){
+            throw new IllegalArgumentException(e.getMessage());
+        }
+    }
 
-//        EasyExcel.read(file.getInputStream(), claz, new UploadDataListener(uploadDAO)).sheet().doRead();
+    /**
+     * 读取excel ,多 sheet
+     * @param excelReader
+     * @param readSheet
+     */
+    private void readExcel(ExcelReader excelReader, ReadSheet ... readSheet) {
+        try {
+            excelReader.read(readSheet);
+        }finally {
+            if(excelReader != null) {
+                excelReader.finish();
+            }
+        }
     }
 }

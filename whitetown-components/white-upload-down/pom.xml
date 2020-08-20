@@ -47,5 +47,10 @@
       <groupId>com.itextpdf</groupId>
       <artifactId>itext-asian</artifactId>
     </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
 </project>

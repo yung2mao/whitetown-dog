@@ -5,12 +5,10 @@ import cn.whitetown.logbase.listen.ListenerManager;
 import cn.whitetown.logbase.pipe.WhPipeline;
 import cn.whitetown.logbase.pipe.modo.WhLog;
 import cn.whitetown.logbase.pub.LogPublish;
-import cn.whitetown.logclient.manager.WhSimpleThreadPoolFactory;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.core.LogEvent;
 
 import java.util.Date;
-import java.util.concurrent.*;
 
 /**
  * 日志投递作业
