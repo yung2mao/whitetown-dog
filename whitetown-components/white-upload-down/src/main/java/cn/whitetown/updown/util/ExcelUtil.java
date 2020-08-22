@@ -37,19 +37,25 @@ public class ExcelUtil {
     }
 
     /**
-     * 读取本地文件
+     * 读取本地文件 - 指定表头
      * 默认读取sheet 0
      * @param path
      * @param entityClass
      */
-    public void readLocalExcel(String path, Class<?> entityClass, ExcelReadManager readManager) {
-        ExcelReader excelReader = EasyExcel.read(path, entityClass, new AsyncExcelListener(readManager)).build();
+    public <T> void readLocalExcel(String path, Class<?> entityClass, ExcelReadManager<T> readManager) {
+        ExcelReader excelReader = EasyExcel.read(path, entityClass, new AsyncExcelListener<>(readManager)).build();
         ReadSheet readSheet = EasyExcel.readSheet(0).build();
         this.readExcel(excelReader,readSheet);
     }
 
-    public void readLocalExcel(String pathName,ExcelReadManager readManager) {
-        ExcelReader excelReader = EasyExcel.read(pathName, new AsyncExcelListener(readManager)).build();
+    /**
+     * 读取本地文件 - 不指定表头
+     * 默认读取sheet0
+     * @param pathName
+     * @param readManager
+     */
+    public <T> void readLocalExcel(String pathName,ExcelReadManager<T> readManager) {
+        ExcelReader excelReader = EasyExcel.read(pathName, new AsyncExcelListener<>(readManager)).build();
         ReadSheet readSheet = EasyExcel.readSheet(0).build();
         this.readExcel(excelReader,readSheet);
     }
@@ -71,14 +77,20 @@ public class ExcelUtil {
             if(excelReadMap.getSheetNo() == null && excelReadMap.getSheetName() == null) {
                 continue;
             }
-            ExcelReaderSheetBuilder sheetBuilder = null;
+            ExcelReaderSheetBuilder sheetBuilder = EasyExcel.readSheet();
             if(excelReadMap.getSheetNo() != null) {
-                sheetBuilder = EasyExcel.readSheet(excelReadMap.getSheetNo());
+                sheetBuilder.sheetNo(excelReadMap.getSheetNo());
             }else {
-                sheetBuilder = EasyExcel.readSheet(excelReadMap.getSheetName());
+                sheetBuilder.sheetName(excelReadMap.getSheetName());
             }
-            ReadSheet readSheet = sheetBuilder.head(excelReadMap.getClass())
-                    .registerReadListener(new AsyncExcelListener(excelReadMap.getReadManager()))
+            if(excelReadMap.getSheetClass() != null) {
+                sheetBuilder.head(excelReadMap.getSheetClass());
+            }
+            if(excelReadMap.getHeadRowNumber() != null) {
+                sheetBuilder.headRowNumber(excelReadMap.getHeadRowNumber());
+            }
+            ReadSheet readSheet = sheetBuilder
+                    .registerReadListener(new AsyncExcelListener<>(excelReadMap.getReadManager()))
                     .build();
             readSheets[i] = readSheet;
         }
@@ -87,7 +99,7 @@ public class ExcelUtil {
 
     /**
      * 读取web上传的excel
-     * 默认读取sheet0
+     * 读取单个sheet
      * @param file
      * @param claz
      */
@@ -98,6 +110,10 @@ public class ExcelUtil {
         this.readExcel(excelReader,readSheet);
     }
 
+
+    public void writeLocalExcel() {
+
+    }
 
 
     /**

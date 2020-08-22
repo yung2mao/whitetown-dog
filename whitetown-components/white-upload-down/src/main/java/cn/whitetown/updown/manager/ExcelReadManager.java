@@ -10,29 +10,25 @@ import java.util.List;
 public interface ExcelReadManager<T> {
 
     /**
-     * 读取一行
-     * @param t
+     * 批量数据处理
+     * @param dataList
      */
-    void readRow(T t);
+    void dataDeal(List<T> dataList);
 
     /**
-     * 数据分析
-     */
-    void dataDeal();
-
-    /**
-     * 获取data数据
+     * 获取读取的数据集
      * @return
      */
     List<T> getData();
 
     /**
+     * 是否处理完成
+     * @return
+     */
+    boolean isFinish();
+
+    /**
      * 读取完成调用
      */
     void doAfterAllAnalysed();
-
-    /**
-     * 处理完成后清理数据
-     */
-    void clear();
 }

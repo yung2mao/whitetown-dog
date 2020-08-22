@@ -14,15 +14,18 @@ import lombok.Setter;
 public class ExcelReadMap {
     private Integer sheetNo;
     private String sheetName;
+    private Integer headRowNumber;
     private Class<?> sheetClass;
     private ExcelReadManager<?> readManager;
 
     public ExcelReadMap() {
     }
 
-    public ExcelReadMap(Integer sheetNo, String sheetName, Class<?> sheetClass, ExcelReadManager<?> readManager) {
+    public ExcelReadMap(Integer sheetNo, String sheetName, Integer headRowNumber,
+                        Class<?> sheetClass, ExcelReadManager<?> readManager) {
         this.sheetNo = sheetNo;
         this.sheetName = sheetName;
+        this.headRowNumber = headRowNumber;
         this.sheetClass = sheetClass;
         this.readManager = readManager;
     }
