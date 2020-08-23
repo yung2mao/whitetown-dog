@@ -13,7 +13,7 @@ import lombok.Setter;
 import java.util.Date;
 
 /**
- * 用户基础信息表示层
+ * 用户导出template
  * @author GrainRain
  * @date 2020/06/20 16:04
  **/

@@ -148,7 +148,8 @@ public class ExcelUtil {
      */
     public void writeWebExcel(HttpServletResponse response, List<?> data, String fileName,
                                      String sheetName, Class<?> headClass) throws IOException {
-        ExcelWriter excelWriter = EasyExcel.write(getWebOutputStream(fileName, response)).build();
+        String fileType = ".xlsx";
+        ExcelWriter excelWriter = EasyExcel.write(getWebOutputStream(fileName+fileType,response)).build();
         ExcelWriterSheetBuilder sheetBuilder = EasyExcel.writerSheet(sheetName);
         if(headClass != null) {
             sheetBuilder.head(headClass);
@@ -180,12 +181,12 @@ public class ExcelUtil {
      * @return
      * @throws Exception
      */
-    private OutputStream getWebOutputStream(String fileName, HttpServletResponse response) {
+    static OutputStream getWebOutputStream(String fileName,HttpServletResponse response) {
         try{
             fileName = URLEncoder.encode(fileName,"utf-8");
             response.setContentType("application/vnd.ms-excel");
             response.setCharacterEncoding("utf-8");
-            response.setHeader("Content-Disposition", "attachment; filename=" + fileName + ".xlsx");
+            response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
             response.setHeader("Pragma", "public");
             response.setHeader("Cache-Control", "no-store");
             response.addHeader("Cache-Control", "max-age=0");
