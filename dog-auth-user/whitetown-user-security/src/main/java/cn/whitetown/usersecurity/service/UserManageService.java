@@ -5,7 +5,7 @@ import cn.whitetown.dogbase.common.entity.dto.ResponsePage;
 import cn.whitetown.authcommon.entity.po.UserBasicInfo;
 import cn.whitetown.authcommon.entity.ao.UserBasicQuery;
 import cn.whitetown.authcommon.entity.dto.UserBasicInfoDto;
-import cn.whitetown.usersecurity.downentity.UserBasicDown;
+import cn.whitetown.usersecurity.downentity.UserExcelTemplate;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 import java.util.List;
@@ -36,7 +36,7 @@ public interface UserManageService extends IService<UserBasicInfo> {
      * @param userBasicQuery
      * @return
      */
-    List<UserBasicDown> queryUserListForDownload(UserBasicQuery userBasicQuery);
+    List<UserExcelTemplate> queryUserListForDownload(UserBasicQuery userBasicQuery);
 
     /**
      * 分配用户/注册用户

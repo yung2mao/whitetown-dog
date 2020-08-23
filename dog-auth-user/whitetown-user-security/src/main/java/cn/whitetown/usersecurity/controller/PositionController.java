@@ -8,13 +8,20 @@ import cn.whitetown.authea.modo.WhiteControlType;
 import cn.whitetown.dogbase.common.constant.DogBaseConstant;
 import cn.whitetown.dogbase.common.entity.dto.ResponseData;
 import cn.whitetown.dogbase.common.entity.dto.ResponsePage;
+import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
+import cn.whitetown.dogbase.common.exception.CustomException;
+import cn.whitetown.dogbase.common.util.WhiteFormatUtil;
 import cn.whitetown.dogbase.common.util.WhiteToolUtil;
+import cn.whitetown.updown.util.ExcelUtil;
+import cn.whitetown.usersecurity.downentity.PositionTemplate;
 import cn.whitetown.usersecurity.service.PositionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,6 +36,8 @@ public class PositionController {
 
     @Autowired
     private PositionService positionService;
+
+    private ExcelUtil excelUtil = ExcelUtil.getInstance();
 
     /**
      * 分页查询职位信息
@@ -51,6 +60,25 @@ public class PositionController {
     public ResponseData<List<PositionDto>> queryPositionByDeptCode(@NotNull(message = "部门ID不能为空") Long deptId){
         List<PositionDto> positionDtoList = positionService.queryDeptPosition(deptId);
         return ResponseData.ok(positionDtoList);
+    }
+
+    /**
+     * 职位信息下载
+     * @param positionQuery
+     * @param response
+     */
+    @GetMapping("/downloads")
+    public void download(PositionQuery positionQuery, HttpServletResponse response) {
+        positionQuery.setPage(1);
+        positionQuery.setSize(DogBaseConstant.DOWN_FILE_MAX_ROW);
+        ResponsePage<PositionDto> positions = positionService.queryPagePositions(positionQuery);
+        String fileName = "position_" + WhiteFormatUtil.dateFormat("yyyy-MM-dd",new Date());
+        String sheetName = "sheet0";
+        try {
+            excelUtil.writeWebExcel(response, positions.getResultList(), fileName, sheetName, PositionTemplate.class);
+        }catch (Exception e) {
+            throw new CustomException(ResponseStatusEnum.DOWN_FILE_ERROR);
+        }
     }
 
     /**

@@ -9,17 +9,22 @@ import cn.whitetown.authea.modo.WhiteControlType;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.entity.dto.ResponseData;
 import cn.whitetown.dogbase.common.exception.CustomException;
+import cn.whitetown.dogbase.common.util.WhiteFormatUtil;
+import cn.whitetown.updown.util.ExcelUtil;
+import cn.whitetown.usersecurity.downentity.RoleExcelTemplate;
 import cn.whitetown.usersecurity.service.RoleManageService;
 import cn.whitetown.usersecurity.util.AuthUserCacheUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -35,6 +40,8 @@ public class RoleManageController {
 
     @Autowired
     private RoleManageService service;
+
+    private ExcelUtil excelUtil = ExcelUtil.getInstance();
 
     /**
      * 获取所有角色信息
@@ -65,6 +72,22 @@ public class RoleManageController {
     public ResponseData<List<RoleInfoDto>> searchRole(RoleQuery roleQuery){
         List<RoleInfoDto> roleInfos = service.searchRole(roleQuery);
         return ResponseData.ok(roleInfos);
+    }
+
+    /**
+     * 角色信息下载
+     * @param roleQuery
+     */
+    @GetMapping("/downloads")
+    public void download(RoleQuery roleQuery, HttpServletResponse response) {
+        List<RoleInfoDto> roleInfos = service.searchRole(roleQuery);
+        String fileName = "role_" + WhiteFormatUtil.dateFormat("yyyy-MM-dd",new Date());
+        String sheetName = "sheet0";
+        try {
+            excelUtil.writeWebExcel(response, roleInfos, fileName, sheetName, RoleExcelTemplate.class);
+        }catch (Exception e) {
+            throw new CustomException(ResponseStatusEnum.DOWN_FILE_ERROR);
+        }
     }
 
     /**

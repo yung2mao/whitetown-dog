@@ -17,7 +17,7 @@ import cn.whitetown.dogbase.common.util.WhiteToolUtil;
 import cn.whitetown.authcommon.entity.ao.UserBasicQuery;
 import cn.whitetown.authcommon.entity.dto.UserBasicInfoDto;
 import cn.whitetown.updown.util.ExcelUtil;
-import cn.whitetown.usersecurity.downentity.UserBasicDown;
+import cn.whitetown.usersecurity.downentity.UserExcelTemplate;
 import cn.whitetown.usersecurity.service.UserManageService;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,18 +79,19 @@ public class UserManageController {
 
     /**
      * 结果集下载为excel
-     * @param userBasicQuery
+     * @param userQuery
      * @param response
      */
     @GetMapping("/downloads")
-    public void download(@Valid UserBasicQuery userBasicQuery, HttpServletResponse response) {
+    public void download(@Valid UserBasicQuery userQuery, HttpServletResponse response) {
         int limitSize = DogBaseConstant.DOWN_FILE_MAX_ROW;
+        userQuery.setPage(1);
+        userQuery.setSize(limitSize);
+        ResponsePage<UserBasicInfoDto> result =  service.queryUserBasicList(userQuery);
         String fileName = "user" + WhiteFormatUtil.dateFormat("yyyy-MM-dd",new Date());
-        userBasicQuery.setPage(1);
-        userBasicQuery.setSize(limitSize);
-        List<UserBasicDown> resultList =  service.queryUserListForDownload(userBasicQuery);
+        String sheetName = "sheet0";
         try {
-            excelUtil.writeWebExcel(response,resultList,fileName,"sheet0",UserBasicDown.class);
+            excelUtil.writeWebExcel(response,result.getResultList(),fileName,sheetName, UserExcelTemplate.class);
         } catch (IOException e) {
             throw new CustomException(ResponseStatusEnum.DOWN_FILE_ERROR);
         }

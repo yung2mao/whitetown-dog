@@ -8,16 +8,23 @@ import cn.whitetown.updown.modo.ExcelReadMap;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelReader;
 import com.alibaba.excel.ExcelWriter;
+import com.alibaba.excel.annotation.ExcelIgnore;
 import com.alibaba.excel.read.builder.ExcelReaderSheetBuilder;
 import com.alibaba.excel.read.metadata.ReadSheet;
+import com.alibaba.excel.write.builder.ExcelWriterBuilder;
+import com.alibaba.excel.write.builder.ExcelWriterSheetBuilder;
 import com.alibaba.excel.write.metadata.WriteSheet;
 import com.alibaba.fastjson.JSON;
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.lang.reflect.Field;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -141,12 +148,18 @@ public class ExcelUtil {
      */
     public void writeWebExcel(HttpServletResponse response, List<?> data, String fileName,
                                      String sheetName, Class<?> headClass) throws IOException {
+        ExcelWriter excelWriter = EasyExcel.write(getWebOutputStream(fileName, response)).build();
+        ExcelWriterSheetBuilder sheetBuilder = EasyExcel.writerSheet(sheetName);
+        if(headClass != null) {
+            sheetBuilder.head(headClass);
+        }
+        //ignore field
+        Class<?> dataClass = data.get(0) == null ? headClass : data.get(0).getClass();
+        List<String> excludeFields = this.getIgnoredCol(dataClass, headClass);
+        //write to web
+        WriteSheet writeSheet = sheetBuilder.excludeColumnFiledNames(excludeFields).build();
         try {
-            if(headClass != null) {
-                EasyExcel.write(getWebOutputStream(fileName,response), headClass).sheet(sheetName).doWrite(data);
-            }else {
-                EasyExcel.write(getWebOutputStream(fileName,response)).sheet(sheetName).doWrite(data);
-            }
+            excelWriter.write(data,writeSheet);
         }catch (Exception e) {
             // reset response
             response.reset();
@@ -154,6 +167,8 @@ public class ExcelUtil {
             response.setCharacterEncoding("utf-8");
             ResponseData fail = ResponseData.fail(ResponseStatusEnum.DOWN_FILE_ERROR);
             response.getWriter().println(JSON.toJSONString(fail));
+        }finally {
+            excelWriter.finish();
         }
         response.flushBuffer();
     }
@@ -193,5 +208,31 @@ public class ExcelUtil {
                 excelReader.finish();
             }
         }
+    }
+
+    /**
+     * 获取需要被忽略的字段信息
+     * @param dataClass
+     * @param templateClass
+     * @return
+     */
+    private List<String> getIgnoredCol(Class<?> dataClass, Class<?> templateClass) {
+        if(dataClass == templateClass) {
+            return new ArrayList<>();
+        }
+        Field[] fields = dataClass.getDeclaredFields();
+        List<String> excludeFields = new LinkedList<>();
+        for(Field field : fields) {
+            boolean isIgnore = true;
+            try {
+                Field headField = templateClass.getDeclaredField(field.getName());
+                ExcelIgnore ignore = headField.getAnnotation(ExcelIgnore.class);
+                isIgnore = ignore != null;
+            }catch (Exception ignored) {}
+            if(isIgnore) {
+                excludeFields.add(field.getName());
+            }
+        }
+        return excludeFields;
     }
 }

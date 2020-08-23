@@ -19,7 +19,7 @@ import java.util.Date;
  **/
 @Setter
 @Getter
-public class UserBasicDown {
+public class UserExcelTemplate {
     /**
      * 用户名
      */

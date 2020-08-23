@@ -22,7 +22,7 @@ import cn.whitetown.dogbase.common.util.WhiteToolUtil;
 import cn.whitetown.dogbase.common.util.secret.Md5WithSaltUtil;
 import cn.whitetown.authcommon.entity.ao.UserBasicQuery;
 import cn.whitetown.authcommon.entity.dto.UserBasicInfoDto;
-import cn.whitetown.usersecurity.downentity.UserBasicDown;
+import cn.whitetown.usersecurity.downentity.UserExcelTemplate;
 import cn.whitetown.usersecurity.manager.DeptManager;
 import cn.whitetown.usersecurity.manager.PositionManager;
 import cn.whitetown.usersecurity.manager.RoleManager;
@@ -145,10 +145,10 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
     }
 
     @Override
-    public List<UserBasicDown> queryUserListForDownload(UserBasicQuery userBasicQuery) {
+    public List<UserExcelTemplate> queryUserListForDownload(UserBasicQuery userBasicQuery) {
         ResponsePage<UserBasicInfoDto> pageResult = this.queryUserBasicList(userBasicQuery);
         return pageResult.getResultList().stream()
-                .map(us->transFactory.trans(us,UserBasicDown.class))
+                .map(us->transFactory.trans(us, UserExcelTemplate.class))
                 .collect(Collectors.toList());
     }
 
