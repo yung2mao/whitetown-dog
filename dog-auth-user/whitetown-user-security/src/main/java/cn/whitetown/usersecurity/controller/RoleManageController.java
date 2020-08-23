@@ -56,6 +56,11 @@ public class RoleManageController {
         return ResponseData.ok(roleInfoDtoList);
     }
 
+    /**
+     * 搜索
+     * @param roleQuery
+     * @return
+     */
     @GetMapping("/search")
     public ResponseData<List<RoleInfoDto>> searchRole(RoleQuery roleQuery){
         List<RoleInfoDto> roleInfos = service.searchRole(roleQuery);

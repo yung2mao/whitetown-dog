@@ -5,7 +5,10 @@ import cn.whitetown.dogbase.common.entity.dto.ResponsePage;
 import cn.whitetown.authcommon.entity.po.UserBasicInfo;
 import cn.whitetown.authcommon.entity.ao.UserBasicQuery;
 import cn.whitetown.authcommon.entity.dto.UserBasicInfoDto;
+import cn.whitetown.usersecurity.downentity.UserBasicDown;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * 用户管理服务
@@ -27,6 +30,13 @@ public interface UserManageService extends IService<UserBasicInfo> {
      * @return
      */
     ResponsePage<UserBasicInfoDto> queryUserByRoleId(RoleUserQuery roleUserQuery);
+
+    /**
+     * 检索获取用户下载的数据
+     * @param userBasicQuery
+     * @return
+     */
+    List<UserBasicDown> queryUserListForDownload(UserBasicQuery userBasicQuery);
 
     /**
      * 分配用户/注册用户

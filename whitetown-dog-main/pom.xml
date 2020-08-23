@@ -36,11 +36,11 @@
       <version>${whitetown-dog.version}</version>
     </dependency>
     <!--log-->
-    <dependency>
+    <!--<dependency>
       <groupId>cn.whitetown</groupId>
       <artifactId>white-log-server</artifactId>
       <version>${whitetown-dog.version}</version>
-    </dependency>
+    </dependency>-->
     <dependency>
       <groupId>cn.whitetown</groupId>
       <artifactId>white-log-web-client</artifactId>

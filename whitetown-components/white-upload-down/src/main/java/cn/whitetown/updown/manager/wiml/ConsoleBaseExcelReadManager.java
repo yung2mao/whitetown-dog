@@ -14,5 +14,4 @@ public class ConsoleBaseExcelReadManager extends BaseExcelReadManager {
     public void dataDeal(List<Map<Integer,Object>> dataList) {
         System.out.println(dataList);
     }
-
 }

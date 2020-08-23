@@ -38,6 +38,7 @@
       <groupId>cn.whitetown</groupId>
       <artifactId>dog-auth-ea</artifactId>
     </dependency>
+    <!--upload and download-->
     <dependency>
       <groupId>cn.whitetown</groupId>
       <artifactId>white-upload-down</artifactId>

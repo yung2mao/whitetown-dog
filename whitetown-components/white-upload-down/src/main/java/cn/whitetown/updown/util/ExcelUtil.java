@@ -7,8 +7,10 @@ import cn.whitetown.updown.manager.wiml.AsyncExcelListener;
 import cn.whitetown.updown.modo.ExcelReadMap;
 import com.alibaba.excel.EasyExcel;
 import com.alibaba.excel.ExcelReader;
+import com.alibaba.excel.ExcelWriter;
 import com.alibaba.excel.read.builder.ExcelReaderSheetBuilder;
 import com.alibaba.excel.read.metadata.ReadSheet;
+import com.alibaba.excel.write.metadata.WriteSheet;
 import com.alibaba.fastjson.JSON;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -110,28 +112,40 @@ public class ExcelUtil {
         this.readExcel(excelReader,readSheet);
     }
 
-
-    public void writeLocalExcel() {
-
+    /**
+     * 写出文件到本地
+     * @param path
+     * @param headClass
+     * @param sheetName
+     * @param data
+     */
+    public void writeLocalExcel(String path, Class<?> headClass, String sheetName, List<?> data) {
+        ExcelWriter excelWriter = EasyExcel.write(path).build();
+        WriteSheet writeSheet = EasyExcel.writerSheet(sheetName).head(headClass).build();
+        try {
+            excelWriter.write(data,writeSheet);
+        }finally {
+            excelWriter.finish();
+        }
     }
 
 
     /**
      * 写出数据到web
      * @param response 响应
-     * @param list 数据
+     * @param data 数据
      * @param fileName 文件名
      * @param sheetName excel中表名
      * @param headClass 头信息 - 通常为list中entity类
      * @throws IOException
      */
-    public void writeWebExcel(HttpServletResponse response, List<?> list, String fileName,
+    public void writeWebExcel(HttpServletResponse response, List<?> data, String fileName,
                                      String sheetName, Class<?> headClass) throws IOException {
         try {
             if(headClass != null) {
-                EasyExcel.write(getWebOutputStream(fileName,response), headClass).sheet(sheetName).doWrite(list);
+                EasyExcel.write(getWebOutputStream(fileName,response), headClass).sheet(sheetName).doWrite(data);
             }else {
-                EasyExcel.write(getWebOutputStream(fileName,response)).sheet(sheetName).doWrite(list);
+                EasyExcel.write(getWebOutputStream(fileName,response)).sheet(sheetName).doWrite(data);
             }
         }catch (Exception e) {
             // reset response

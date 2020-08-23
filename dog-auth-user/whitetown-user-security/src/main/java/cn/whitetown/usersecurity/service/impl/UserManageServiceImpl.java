@@ -22,6 +22,7 @@ import cn.whitetown.dogbase.common.util.WhiteToolUtil;
 import cn.whitetown.dogbase.common.util.secret.Md5WithSaltUtil;
 import cn.whitetown.authcommon.entity.ao.UserBasicQuery;
 import cn.whitetown.authcommon.entity.dto.UserBasicInfoDto;
+import cn.whitetown.usersecurity.downentity.UserBasicDown;
 import cn.whitetown.usersecurity.manager.DeptManager;
 import cn.whitetown.usersecurity.manager.PositionManager;
 import cn.whitetown.usersecurity.manager.RoleManager;
@@ -36,16 +37,11 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import io.jsonwebtoken.Claims;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -124,27 +120,7 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
 
     @Override
     public ResponsePage<UserBasicInfoDto> queryUserBasicList(UserBasicQuery userQuery) {
-        //粗粒度条件简单匹配 - 此处仅提供手机号或用户名
-        if(!DataCheckUtil.checkTextNullBool(userQuery.getSearchDetail())){
-            String detail = userQuery.getSearchDetail();
-            //telephone
-            if(detail.matches("^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\\d{8}$")){
-                userQuery.setTelephone(detail);
-            }else {
-                //username
-                userQuery.setUsername(detail);
-            }
-        }
-        //create condition
-        LambdaQueryWrapper<UserBasicInfo> condition = queryConditionFactory.
-                allEqWithNull2IsNull(userQuery, UserBasicInfo.class)
-                .in(UserBasicInfo::getUserStatus,DogBaseConstant.ACTIVE_NORMAL,DogBaseConstant.DISABLE_WARN);
-        WhiteLambdaQueryWrapper<UserBasicInfo> whiteQueryWrapper = queryConditionFactory.createWhiteQueryWrapper(condition);
-        condition = whiteQueryWrapper.between(UserBasicInfo::getCreateTime,userQuery.getStartTime(),userQuery.getEndTime(),false)
-                .getLambdaQueryWrapper();
-        //select data
-        Page<UserBasicInfo> page = queryConditionFactory.createPage(userQuery.getPage(),userQuery.getSize(), UserBasicInfo.class);
-        Page<UserBasicInfo> pageResult = userMapper.selectPage(page, condition);
+        Page<UserBasicInfo> pageResult = this.queryBasicPageUser(userQuery);
         if(pageResult.getRecords()==null || pageResult.getRecords().size()==0){
             return new ResponsePage<>();
         }
@@ -166,6 +142,14 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
                 .map(us -> transFactory.trans(us, UserBasicInfoDto.class))
                 .collect(Collectors.toList());
         return WhiteToolUtil.result2Page(userVos,roleUserQuery.getPage(),roleUserQuery.getSize());
+    }
+
+    @Override
+    public List<UserBasicDown> queryUserListForDownload(UserBasicQuery userBasicQuery) {
+        ResponsePage<UserBasicInfoDto> pageResult = this.queryUserBasicList(userBasicQuery);
+        return pageResult.getResultList().stream()
+                .map(us->transFactory.trans(us,UserBasicDown.class))
+                .collect(Collectors.toList());
     }
 
     @Transactional(rollbackFor = Throwable.class)
@@ -307,5 +291,34 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
         }
         userCacheUtil.removeAllUserCacheInfo(username);
         menuCacheUtil.removeCacheMenuList(userBasicInfo.getUserId());
+    }
+
+    /**
+     * 分页搜索基础用户数据
+     * @param userQuery
+     * @return
+     */
+    private Page<UserBasicInfo> queryBasicPageUser(UserBasicQuery userQuery) {
+        //粗粒度条件简单匹配 - 此处仅提供手机号或用户名
+        if(!DataCheckUtil.checkTextNullBool(userQuery.getSearchDetail())){
+            String detail = userQuery.getSearchDetail();
+            //telephone
+            if(DataCheckUtil.isTelephone(detail)){
+                userQuery.setTelephone(detail);
+            }else {
+                //username
+                userQuery.setUsername(detail);
+            }
+        }
+        //create condition
+        LambdaQueryWrapper<UserBasicInfo> condition = queryConditionFactory.
+                allEqWithNull2IsNull(userQuery, UserBasicInfo.class)
+                .in(UserBasicInfo::getUserStatus,DogBaseConstant.ACTIVE_NORMAL,DogBaseConstant.DISABLE_WARN);
+        WhiteLambdaQueryWrapper<UserBasicInfo> whiteQueryWrapper = queryConditionFactory.createWhiteQueryWrapper(condition);
+        condition = whiteQueryWrapper.between(UserBasicInfo::getCreateTime,userQuery.getStartTime(),userQuery.getEndTime(),false)
+                .getLambdaQueryWrapper();
+        //select data
+        Page<UserBasicInfo> page = queryConditionFactory.createPage(userQuery.getPage(),userQuery.getSize(), UserBasicInfo.class);
+        return userMapper.selectPage(page, condition);
     }
 }

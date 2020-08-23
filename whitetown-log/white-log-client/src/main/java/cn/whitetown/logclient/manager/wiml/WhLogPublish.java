@@ -6,6 +6,7 @@ import cn.whitetown.logbase.pipe.WhPipeline;
 import cn.whitetown.logbase.pipe.modo.WhLog;
 import cn.whitetown.logbase.pub.LogPublish;
 import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.LogEvent;
 
 import java.util.Date;
@@ -16,6 +17,8 @@ import java.util.Date;
  * @date 2020/08/06
  **/
 public class WhLogPublish implements LogPublish {
+
+    private Logger logger = LogConstants.SYS_LOGGER;
 
     private ListenerManager listenerManager;
 
@@ -43,7 +46,7 @@ public class WhLogPublish implements LogPublish {
             this.init();
         }
         if(whLog.getLogLevel() == Level.DEBUG.intLevel()) {
-            System.out.println(whLog);
+            logger.debug(whLog);
             return;
         }
         boolean isAdd = logPipeline.put(whLog);
@@ -57,7 +60,7 @@ public class WhLogPublish implements LogPublish {
     public void publish(LogEvent logEvent) {
         Level level = logEvent.getLevel();
         if(level.equals(Level.DEBUG)) {
-            System.out.println(logEvent);
+            logger.debug(logEvent);
             return;
         }
         WhLog whLog = new WhLog();

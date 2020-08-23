@@ -5,26 +5,34 @@ import cn.whitetown.authcommon.entity.ao.RoleUserQuery;
 import cn.whitetown.authcommon.util.JwtTokenUtil;
 import cn.whitetown.authea.annotation.WhiteAuthAnnotation;
 import cn.whitetown.authea.modo.WhiteControlType;
+import cn.whitetown.dogbase.common.constant.DogBaseConstant;
 import cn.whitetown.dogbase.common.entity.dto.ResponseData;
 import cn.whitetown.dogbase.common.entity.dto.ResponsePage;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.exception.CustomException;
 import cn.whitetown.authcommon.entity.po.UserBasicInfo;
 import cn.whitetown.dogbase.common.util.DataCheckUtil;
+import cn.whitetown.dogbase.common.util.WhiteFormatUtil;
 import cn.whitetown.dogbase.common.util.WhiteToolUtil;
 import cn.whitetown.authcommon.entity.ao.UserBasicQuery;
 import cn.whitetown.authcommon.entity.dto.UserBasicInfoDto;
+import cn.whitetown.updown.util.ExcelUtil;
+import cn.whitetown.usersecurity.downentity.UserBasicDown;
 import cn.whitetown.usersecurity.service.UserManageService;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import java.io.IOException;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 用户管理
@@ -42,6 +50,8 @@ public class UserManageController {
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
+
+    private ExcelUtil excelUtil = ExcelUtil.getInstance();
 
     /**
      * 分页查询用户信息
@@ -65,6 +75,25 @@ public class UserManageController {
         WhiteToolUtil.defaultPage(roleUserQuery);
         ResponsePage<UserBasicInfoDto> result = service.queryUserByRoleId(roleUserQuery);
         return ResponseData.ok(result);
+    }
+
+    /**
+     * 结果集下载为excel
+     * @param userBasicQuery
+     * @param response
+     */
+    @GetMapping("/downloads")
+    public void download(@Valid UserBasicQuery userBasicQuery, HttpServletResponse response) {
+        int limitSize = DogBaseConstant.DOWN_FILE_MAX_ROW;
+        String fileName = "user" + WhiteFormatUtil.dateFormat("yyyy-MM-dd",new Date());
+        userBasicQuery.setPage(1);
+        userBasicQuery.setSize(limitSize);
+        List<UserBasicDown> resultList =  service.queryUserListForDownload(userBasicQuery);
+        try {
+            excelUtil.writeWebExcel(response,resultList,fileName,"sheet0",UserBasicDown.class);
+        } catch (IOException e) {
+            throw new CustomException(ResponseStatusEnum.DOWN_FILE_ERROR);
+        }
     }
 
     /**

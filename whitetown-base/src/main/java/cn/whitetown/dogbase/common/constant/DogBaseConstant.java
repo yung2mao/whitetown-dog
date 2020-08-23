@@ -26,4 +26,11 @@ public class DogBaseConstant {
 
     public static final int GLOBAL_FILTER_LEVEL = Ordered.HIGHEST_PRECEDENCE;
     public static final int LOG_FILTER_LEVEL = Ordered.HIGHEST_PRECEDENCE + 10;
+
+    /*\*****************文件相关*********************\*/
+
+    /**
+     * 下载文件最大数据行
+     */
+    public static final int DOWN_FILE_MAX_ROW = 5000;
 }
