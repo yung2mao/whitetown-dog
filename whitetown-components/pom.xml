@@ -12,6 +12,7 @@
         <module>white-monitor</module>
         <module>white-es-config</module>
       <module>white-upload-down</module>
+        <module>white-xml</module>
     </modules>
     <packaging>pom</packaging>
 

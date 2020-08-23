@@ -50,6 +50,7 @@
     <hutool.version>5.3.10</hutool.version>
     <jasypt.version>2.0.0</jasypt.version>
     <log4j.version>1.2.17</log4j.version>
+    <jsoup.version>1.11.3</jsoup.version>
     <junit.version>4.11</junit.version>
     <whitetown-dog.version>0.0.1</whitetown-dog.version>
   </properties>
@@ -180,12 +181,19 @@
         <artifactId>springfox-swagger2</artifactId>
         <version>${swagger2.version}</version>
       </dependency>
+      
       <dependency>
         <groupId>io.springfox</groupId>
         <artifactId>springfox-swagger-ui</artifactId>
         <version>${swagger2.version}</version>
       </dependency>
 
+      <!--jsoup-->
+      <dependency>
+        <groupId>org.jsoup</groupId>
+        <artifactId>jsoup</artifactId>
+        <version>${jsoup.version}</version>
+      </dependency>
 
       <dependency>
         <groupId>junit</groupId>
