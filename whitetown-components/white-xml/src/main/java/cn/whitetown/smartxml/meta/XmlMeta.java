@@ -1,6 +1,8 @@
 package cn.whitetown.smartxml.meta;
 
 import com.alibaba.fastjson.JSON;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.HashMap;
 
@@ -64,8 +66,11 @@ public class XmlMeta extends HashMap<String, XmlMeta.XmlMetaData> {
         return JSON.toJSONString(this);
     }
 
-    /*static class*/
-    static class XmlMetaData {
+    /*\--------------inner class--------------------\*/
+
+    @Getter
+    @Setter
+    public static class XmlMetaData {
         private String xPath;
         private String targetAttr;
         private String bindAttrKey;

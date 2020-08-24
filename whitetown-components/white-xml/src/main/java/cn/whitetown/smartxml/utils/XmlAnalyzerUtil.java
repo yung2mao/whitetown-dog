@@ -11,6 +11,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
+ * xml相关工具类
  * @author taixian
  * @date 2020/08/23
  **/
@@ -179,7 +180,7 @@ public class XmlAnalyzerUtil {
     }
 
     /**
-     * 以迭代器形式返回满足带附加属性的所有element
+     * 返回满足带附加属性的所有element
      * @param document
      * @param xPath
      * @param attrKey
@@ -280,7 +281,6 @@ public class XmlAnalyzerUtil {
 
     /**
      * 时间转换
-     *
      * @param str
      * @return
      */
@@ -291,11 +291,11 @@ public class XmlAnalyzerUtil {
         } else if (str.length() == 12) {
             pattern = "yyyyMMddHHmm";
         } else if (str.length() == 10) {
-            pattern = "yyyyMMddHH";
+            pattern = "yyyy-MM-dd";
         } else if (str.length() == 8) {
             pattern = "yyyyMMdd";
-        } else if (str.length() == 6) {
-            pattern = "yyyyMM";
+        } else if (str.length() == 19) {
+            pattern = "yyyy-MM-dd HH:mm:ss";
         }
         try {
             SimpleDateFormat sf = new SimpleDateFormat(pattern, Locale.US);
@@ -381,7 +381,7 @@ public class XmlAnalyzerUtil {
 
 
     /**
-     * 根绝多个属性获取element
+     * 根据多个属性获取element
      *
      * @param document
      * @param xPath
@@ -409,7 +409,7 @@ public class XmlAnalyzerUtil {
     }
 
     /**
-     * 根绝特定属性的值获取Element兄弟Element的路径下获取某一节点的attr
+     * 根据特定属性的值获取Element兄弟Element的路径下获取某一节点的attr
      *
      * @param element
      * @param xPath
@@ -486,7 +486,7 @@ public class XmlAnalyzerUtil {
     }
 
     /**
-     * 根绝特定属性的值获取Element兄弟Element某一节点的attr
+     * 根据特定属性的值获取Element兄弟Element某一节点的attr
      *
      * @param element
      * @param targetAttr

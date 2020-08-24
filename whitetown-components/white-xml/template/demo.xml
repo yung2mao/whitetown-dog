@@ -1,0 +1,92 @@
+<subject typeCode="SUBJ">
+    <registrationRequest classCode="REG" moodCode="RQO">
+        <statusCode code="active"/>
+        <subject1 typeCode="SBJ">
+            <healthCareProvider classCode="PROV">
+                <id>
+                    <item root="2.16.156.10011.1.4" extension="##jobCode#@"/>
+                </id>
+                <code code="##jobTypeCode#@" codeSystem="2.16.156.10011.2.3.3.10" codeSystemName="专业技术职务代码（ GB/T 8561-1988）">
+                    <displayName value="##jobTypeName#@"/>
+                </code>
+                <addr xsi:type="DSET_AD" value="##jobAddr#@"/>
+                <telecom xsi:type="DSET_TEL" value="##telephone#@"/>
+                <statusCode code="##roleStatus#@"/>
+                <effectiveTime>
+                    <low value="##effectiveStartTime#@"/>
+                    <high value="##effectiveEndTime#@"/>
+                </effectiveTime>
+                <healthCarePrincipalPerson classCode="PSN" determinerCode="INSTANCE">
+                    <id>
+                        <item root="2.16.156.10011.1.3" extension="##personId#@"/>
+                    </id>
+                    <name xsi:type="LIST_EN">
+                        <item>
+                            <part value="##personName#@"/>
+                        </item>
+                    </name>
+                    <administrativeGenderCode code="##personGenderCode#@" codeSystem="2.16.156.10011.2.3.3.4" codeSystemName="生理性别代码表（GB/T 2261.1）">
+                        <displayName value="##personGenderName#@"/>
+                    </administrativeGenderCode>
+                    <birthTime value="##birthTime#@"/>
+                    <asAffiliate classCode="AFFL">
+                        <code/>
+                        <effectiveTime/>
+                        <affiliatedPrincipalOrganization classCode="ORG" determinerCode="INSTANCE">
+                            <id>
+                                <item root="2.16.156.10011.1.26" extension="##departmentCode#@"/>
+                            </id>
+                            <name xsi:type="LIST_EN">
+                                <item>
+                                    <part value="##departmentName#@"/>
+                                </item>
+                            </name>
+                        </affiliatedPrincipalOrganization>
+                    </asAffiliate>
+                    <birthplace classCode="BIRTHPL">
+                        <addr value="##birthAddr#@"/>
+                    </birthplace>
+                </healthCarePrincipalPerson>
+            </healthCareProvider>
+        </subject1>
+        <author typeCode="AUT">
+            <assignedEntity classCode="ASSIGNED">
+                <id>
+                    <item root="2.16.156.10011.1.4" extension="##assignCode#@"/>
+                </id>
+                <assignedPerson classCode="PSN" determinerCode="INSTANCE">
+                    <name xsi:type="LIST_EN">
+                        <item>
+                            <part value="##assignName#@"/>
+                        </item>
+                    </name>
+                </assignedPerson>
+                <representedOrganization classCode="ORG" determinerCode="INSTANCE">
+                    <id>
+                        <item root="2.16.156.10011.1.26" extension=""/>
+                    </id>
+                    <id>
+                        <item root="2.16.156.10011.1.26" extension="##assignDepartmentCode#@"/>
+                    </id>
+                    <id>
+                        <item root="2.16.156.10011.1.26" extension=""/>
+                    </id>
+                    <name xsi:type="LIST_EN">
+                        <item>
+                            <part value="##assignDepartmentName#@"/>
+                        </item>
+                    </name>
+                    <contactParty classCode="CON">
+                        <contactPerson classCode="PSN" determinerCode="INSTANCE">
+                            <name xsi:type="LIST_EN">
+                                <item>
+                                    <part value="##assignRelationName#@"/>
+                                </item>
+                            </name>
+                        </contactPerson>
+                    </contactParty>
+                </representedOrganization>
+            </assignedEntity>
+        </author>
+    </registrationRequest>
+</subject>

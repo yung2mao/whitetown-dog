@@ -188,7 +188,7 @@
         <version>${swagger2.version}</version>
       </dependency>
 
-      <!--jsoup-->
+      <!--jsoup 解析xml-->
       <dependency>
         <groupId>org.jsoup</groupId>
         <artifactId>jsoup</artifactId>

@@ -11,7 +11,7 @@ import java.io.IOException;
  * @author taixian
  * @date 2020/05/18
  **/
-public interface XmlAnalyzer {
+public interface XmlMetaAnalyzer {
     /**
      * 将xml模板解析为xml元数据
      * @param beanXml 模板文件

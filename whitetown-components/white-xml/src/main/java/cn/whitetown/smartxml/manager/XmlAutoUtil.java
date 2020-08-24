@@ -6,16 +6,17 @@ package cn.whitetown.smartxml.manager;
  * @author taixian
  * @date 2020/05/18
  **/
-public interface XmlAutoUse {
+public interface XmlAutoUtil {
     /**
      * 自动读取xml为对象
      * @param xml 传入的xml
      * @param claz 对象类型
      * @param <T> 返回对象类别
      * @return
-     * @throws Exception
+     * @throws IllegalAccessException
+     * @throws InstantiationException
      */
-    <T> T readXmlAsObj(String xml, Class<T> claz) throws Exception;
+    <T> T readXmlAsObj(String xml, Class<T> claz) throws IllegalAccessException, InstantiationException ;
 
     /**
      * 自动将传入的对象封装为xml格式文档

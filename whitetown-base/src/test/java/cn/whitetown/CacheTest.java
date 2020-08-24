@@ -1,5 +1,6 @@
 package cn.whitetown;
 
+import cn.whitetown.dogbase.common.entity.ao.PageQuery;
 import cn.whitetown.dogbase.common.util.DataCheckUtil;
 import cn.whitetown.dogbase.wache.buffer.*;
 import cn.whitetown.dogbase.wache.buffer.wiml.BufferPoolFactory;
@@ -7,6 +8,10 @@ import cn.whitetown.dogbase.wache.buffer.wiml.ByteBufferElement;
 import lombok.Data;
 import lombok.SneakyThrows;
 import org.junit.Test;
+
+import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.Calendar;
 
 /**
  * @author taixian
@@ -28,7 +33,6 @@ public class CacheTest {
             this.returnEle(element);
             break;
         }
-
     }
 
     public void returnEle(BufferElement bufferElement){
@@ -40,5 +44,11 @@ public class CacheTest {
                 bufferElement.close();
             }
         }).start();
+    }
+
+    @Test
+    public void test02(){
+        Field[] declaredFields = PageQuery.class.getDeclaredFields();
+        Arrays.stream(declaredFields).map(Field::getName).forEach(System.out::println);
     }
 }
