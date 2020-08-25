@@ -33,7 +33,7 @@ public class WhiteAuthUserCache extends WhiteAuthCacheUtil implements AuthUserCa
         userCacheUtil.removeLoginUser(key);
         this.removeUserDetails(key);
         this.removeUserAuthors(key);
-        log.warn("the user [" + key + "], cache info is clear");
+        log.info("the user [" + key + "], cache info is clear");
     }
 
     @Override

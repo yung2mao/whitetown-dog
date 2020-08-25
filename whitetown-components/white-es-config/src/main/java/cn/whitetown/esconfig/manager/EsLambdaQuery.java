@@ -91,7 +91,7 @@ public interface EsLambdaQuery {
     /**
      * 范围聚合
      * @param column
-     * @param
+     * @param ranges
      * @param <R>
      * @return
      */

@@ -8,6 +8,8 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Web相关的工具
@@ -31,6 +33,26 @@ public class WebUtil {
     public static HttpServletRequest getRequest(){
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
         return request;
+    }
+
+    /**
+     * 请求拼接的参数处理为map形式返回
+     * @param queryString
+     * @return
+     */
+    public static Map<String,String> requestString2Map(String queryString) {
+        Map<String,String> result = new HashMap<>(1);
+        if(queryString == null) {
+            return result;
+        }
+        String[] entryArr = queryString.split("&");
+        for(String entry : entryArr) {
+            String[] keyValue = entry.split("=");
+            String key = keyValue[0];
+            String value = keyValue.length == 2 ? keyValue[1] : null;
+            result.put(key,value);
+        }
+        return result;
     }
 
     /**

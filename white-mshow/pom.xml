@@ -23,15 +23,45 @@
   </properties>
 
   <dependencies>
+    <!--base dependency-->
     <dependency>
       <groupId>cn.whitetown</groupId>
       <artifactId>whitetown-base</artifactId>
       <version>${whitetown-dog.version}</version>
+      <!--remove-->
+      <exclusions>
+        <exclusion>
+          <groupId>com.baomidou</groupId>
+          <artifactId>mybatis-plus-boot-starter</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>io.projectreactor</groupId>
+          <artifactId>reactor-core</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>cn.whitetown</groupId>
+          <artifactId>white-log-client</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>mysql</groupId>
+          <artifactId>mysql-connector-java</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>com.alibaba</groupId>
+          <artifactId>druid</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
+    <!--monitor-->
     <dependency>
       <groupId>cn.whitetown</groupId>
       <artifactId>white-monitor</artifactId>
       <version>${whitetown-dog.version}</version>
+    </dependency>
+    <!--websocket-->
+    <dependency>
+      <groupId>org.springframework.boot</groupId>
+      <artifactId>spring-boot-starter-websocket</artifactId>
     </dependency>
   </dependencies>
 </project>

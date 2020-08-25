@@ -26,6 +26,7 @@ public class DogBaseConstant {
 
     public static final int GLOBAL_FILTER_LEVEL = Ordered.HIGHEST_PRECEDENCE;
     public static final int LOG_FILTER_LEVEL = Ordered.HIGHEST_PRECEDENCE + 10;
+    public static final int SOCKET_CONNECT_FILTER_LEVEL = Ordered.HIGHEST_PRECEDENCE+20;
 
     /*\*****************文件相关*********************\*/
 

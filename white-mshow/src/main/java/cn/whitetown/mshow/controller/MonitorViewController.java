@@ -5,7 +5,6 @@ import cn.whitetown.monitor.sys.modo.po.WhiteSysBaseInfo;
 import cn.whitetown.mshow.modo.ServiceInfo;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-
 import javax.validation.constraints.NotBlank;
 
 /**
@@ -27,5 +26,4 @@ public class MonitorViewController {
     public ResponseData<WhiteSysBaseInfo> baseInfos(@RequestBody @NotBlank String serviceId) {
         return null;
     }
-
 }
