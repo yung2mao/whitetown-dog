@@ -37,4 +37,5 @@ public class ViewConnectController {
         identityInfo.setUsername(WhiteFormatUtil.base64Encode(username));
         return ResponseData.ok(identityInfo);
     }
+
 }
