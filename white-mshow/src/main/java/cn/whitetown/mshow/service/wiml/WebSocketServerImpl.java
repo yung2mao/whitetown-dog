@@ -60,21 +60,25 @@ public class WebSocketServerImpl implements WebSocketServer {
         if(socketCache == null) {
             this.initSocketCache();
         }
-        String flag = "randomId";
         String params = session.getQueryString();
-        String randomId = WebUtil.requestString2Map(params).get(flag);
-        if(randomId == null) {
+        Map<String, String> queryMap = WebUtil.requestString2Map(params);
+        String randomId = queryMap.get("randomId");
+        String usId = queryMap.get("userId");
+        Long userId = usId == null ? -1 : Long.parseLong(usId);
+        Long realUserId = socketCache.getUserId(randomId);
+        if(randomId == null || !realUserId.equals(userId)) {
             this.disconnect(session);
             return;
         }
-        Long userId = socketCache.getUserId(randomId);
         connectCount.incrementAndGet();
         userSession.put(String.valueOf(userId),session);
+        System.out.println("connect success");
     }
 
     @Override
     @OnClose
     public void onClose(Session session) {
+        System.out.println("close");
         userSession.values().remove(session);
         connectCount.decrementAndGet();
     }
@@ -88,6 +92,7 @@ public class WebSocketServerImpl implements WebSocketServer {
     @Override
     @OnError
     public void onError(Session session, Throwable cause) {
+        cause.printStackTrace();
         log.error(cause.getMessage());
     }
 

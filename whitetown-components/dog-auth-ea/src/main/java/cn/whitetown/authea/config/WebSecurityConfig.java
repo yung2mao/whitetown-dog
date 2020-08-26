@@ -59,7 +59,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.headers().frameOptions().disable();
 
         ExpressionUrlAuthorizationConfigurer<HttpSecurity>.ExpressionInterceptUrlRegistry authorizeRequest = http.authorizeRequests()
-                .antMatchers("/webjars/**", "/swagger/**", "/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html")
+                .antMatchers("/webjars/**", "/swagger/**", "/v2/api-docs", "/swagger-resources/**", "/swagger-ui.html",
+                        //websocket放行
+                        "/ws/white")
                 .permitAll();
         this.authPathHandle(authorizeRequest);
         authorizeRequest.anyRequest().authenticated()

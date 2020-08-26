@@ -4,6 +4,7 @@ import cn.whitetown.authcommon.util.JwtTokenUtil;
 import cn.whitetown.dogbase.common.entity.dto.ResponseData;
 import cn.whitetown.dogbase.common.util.WhiteFormatUtil;
 import cn.whitetown.dogbase.common.util.WhiteToolUtil;
+import cn.whitetown.mshow.manager.SocketCache;
 import cn.whitetown.mshow.modo.IdentityInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,6 +23,9 @@ public class ViewConnectController {
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
 
+    @Autowired
+    private SocketCache socketCache;
+
     /**
      * 获取websocket连接凭证
      * @return
@@ -32,9 +36,11 @@ public class ViewConnectController {
         String username = jwtTokenUtil.getUsername();
         int randLen = 12;
         IdentityInfo identityInfo = new IdentityInfo();
-        identityInfo.setRandomId(WhiteToolUtil.createRandomString(randLen));
-        identityInfo.setRandomId(WhiteFormatUtil.base64Encode(userId + ""));
-        identityInfo.setUsername(WhiteFormatUtil.base64Encode(username));
+        String random = (WhiteToolUtil.createRandomString(randLen).hashCode() & Integer.MAX_VALUE) + "";
+        identityInfo.setRandomId(random);
+        identityInfo.setUserId(userId + "");
+        identityInfo.setUsername(username);
+        socketCache.saveConnectUser(random,userId);
         return ResponseData.ok(identityInfo);
     }
 
