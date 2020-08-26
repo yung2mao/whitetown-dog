@@ -9,7 +9,7 @@ import cn.whitetown.dogbase.common.constant.DogBaseConstant;
 import cn.whitetown.dogbase.common.entity.dto.ResponseData;
 import cn.whitetown.dogbase.common.entity.dto.ResponsePage;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
-import cn.whitetown.dogbase.common.exception.CustomException;
+import cn.whitetown.dogbase.common.exception.WhResException;
 import cn.whitetown.dogbase.common.util.WhiteFormatUtil;
 import cn.whitetown.dogbase.common.util.WhiteToolUtil;
 import cn.whitetown.updown.util.ExcelUtil;
@@ -77,7 +77,7 @@ public class PositionController {
         try {
             excelUtil.writeWebExcel(response, positions.getResultList(), fileName, sheetName, PositionTemplate.class);
         }catch (Exception e) {
-            throw new CustomException(ResponseStatusEnum.DOWN_FILE_ERROR);
+            throw new WhResException(ResponseStatusEnum.DOWN_FILE_ERROR);
         }
     }
 

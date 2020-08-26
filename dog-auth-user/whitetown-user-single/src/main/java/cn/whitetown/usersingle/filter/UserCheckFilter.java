@@ -3,7 +3,7 @@ package cn.whitetown.usersingle.filter;
 import cn.whitetown.authcommon.constant.AuthConstant;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.entity.dto.ResponseData;
-import cn.whitetown.dogbase.common.exception.CustomException;
+import cn.whitetown.dogbase.common.exception.WhResException;
 import cn.whitetown.dogbase.common.util.DataCheckUtil;
 import cn.whitetown.dogbase.common.util.WebUtil;
 import cn.whitetown.usersingle.service.LoginService;
@@ -57,7 +57,7 @@ public class UserCheckFilter implements Filter {
             if (newToken != null) {
                 try {
                     WebUtil.addCookie(AuthConstant.TOKEN_COOKIE_NAME, token, AuthConstant.TOKEN_EXPIRE);
-                } catch (CustomException e) {
+                } catch (WhResException e) {
                     this.writeAndFlush(servletResponse, ResponseStatusEnum.TOKEN_ERROR);
                     return;
                 }

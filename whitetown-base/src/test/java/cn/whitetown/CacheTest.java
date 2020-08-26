@@ -2,6 +2,8 @@ package cn.whitetown;
 
 import cn.whitetown.dogbase.common.entity.ao.PageQuery;
 import cn.whitetown.dogbase.common.util.DataCheckUtil;
+import cn.whitetown.dogbase.common.util.WhiteFormatUtil;
+import cn.whitetown.dogbase.common.util.WhiteToolUtil;
 import cn.whitetown.dogbase.wache.buffer.*;
 import cn.whitetown.dogbase.wache.buffer.wiml.BufferPoolFactory;
 import cn.whitetown.dogbase.wache.buffer.wiml.ByteBufferElement;
@@ -48,7 +50,5 @@ public class CacheTest {
 
     @Test
     public void test02(){
-        Field[] declaredFields = PageQuery.class.getDeclaredFields();
-        Arrays.stream(declaredFields).map(Field::getName).forEach(System.out::println);
     }
 }

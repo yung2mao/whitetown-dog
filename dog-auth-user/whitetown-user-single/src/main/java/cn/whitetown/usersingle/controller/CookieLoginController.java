@@ -4,7 +4,7 @@ import cn.whitetown.authcommon.constant.AuthConstant;
 import cn.whitetown.authcommon.util.captcha.CaptchaDataDeal;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.entity.dto.ResponseData;
-import cn.whitetown.dogbase.common.exception.CustomException;
+import cn.whitetown.dogbase.common.exception.WhResException;
 import cn.whitetown.authcommon.entity.dto.LoginUser;
 import cn.whitetown.dogbase.common.util.DataCheckUtil;
 import cn.whitetown.dogbase.common.util.WebUtil;
@@ -39,7 +39,7 @@ public class CookieLoginController implements LoginController{
     @PostMapping("/login")
     public ResponseData login(String username, String password,HttpServletRequest request,HttpServletResponse response){
         if(DataCheckUtil.checkTextNullBool(username) || DataCheckUtil.checkTextNullBool(password)){
-            throw new CustomException(ResponseStatusEnum.AUTH_REQUEST_ERROR);
+            throw new WhResException(ResponseStatusEnum.AUTH_REQUEST_ERROR);
         }
         String token = loginService.checkUsernameAndPassword(username,password);
         WebUtil.addCookie(AuthConstant.TOKEN_COOKIE_NAME,token,AuthConstant.TOKEN_EXPIRE);
@@ -78,15 +78,15 @@ public class CookieLoginController implements LoginController{
             realCaptcha = captchaDataDeal.getCaptcha(sessionId);
         }else {
             //已过期
-            throw new CustomException(ResponseStatusEnum.AUTH_CAPTCHA_EXPIRE);
+            throw new WhResException(ResponseStatusEnum.AUTH_CAPTCHA_EXPIRE);
         }
         //已过期
         if(realCaptcha == null || "".equals(realCaptcha)){
-            throw new CustomException(ResponseStatusEnum.AUTH_CAPTCHA_EXPIRE);
+            throw new WhResException(ResponseStatusEnum.AUTH_CAPTCHA_EXPIRE);
         }
         //验证码错误
         if(!realCaptcha.equalsIgnoreCase(captcha)){
-            throw new CustomException(ResponseStatusEnum.AUTH_CAPTCHA_ERROR);
+            throw new WhResException(ResponseStatusEnum.AUTH_CAPTCHA_ERROR);
         }
         return ResponseData.ok();
     }

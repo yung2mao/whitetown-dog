@@ -8,10 +8,9 @@ import cn.whitetown.authcommon.entity.po.UserRole;
 import cn.whitetown.authcommon.entity.dto.RoleInfoDto;
 import cn.whitetown.authcommon.util.JwtTokenUtil;
 import cn.whitetown.authcommon.util.MenuCacheUtil;
-import cn.whitetown.authea.util.AuthCacheUtil;
 import cn.whitetown.dogbase.common.constant.DogBaseConstant;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
-import cn.whitetown.dogbase.common.exception.CustomException;
+import cn.whitetown.dogbase.common.exception.WhResException;
 import cn.whitetown.dogbase.common.util.DataCheckUtil;
 import cn.whitetown.dogbase.db.factory.BeanTransFactory;
 import cn.whitetown.dogbase.db.factory.QueryConditionFactory;
@@ -86,7 +85,7 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
     public List<RoleInfoDto> queryRolesByUsername(String username) {
         UserBasicInfo userBasicInfo = userManager.getUserByUsername(username);
         if(userBasicInfo == null){
-            throw new CustomException(ResponseStatusEnum.NO_THIS_USER);
+            throw new WhResException(ResponseStatusEnum.NO_THIS_USER);
         }
 
         List<UserRole> roles = roleInfoMapper.selectRolesByUsername(username);
@@ -115,7 +114,7 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
         queryWrapper.eq(UserRole::getName,role.getName());
         UserRole ro = this.getOne(queryWrapper);
         if(ro != null){
-            throw new CustomException(ResponseStatusEnum.ROLE_EXISTS);
+            throw new WhResException(ResponseStatusEnum.ROLE_EXISTS);
         }
         UserRole userRole = null;
         userRole = transUtil.trans(role, UserRole.class);
@@ -139,10 +138,10 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
     public void updateRoleInfo(RoleInfoDto role) {
         UserRole oldRole = roleManager.queryRoleById(role.getRoleId());
         if(oldRole == null){
-            throw new CustomException(ResponseStatusEnum.NO_THIS_ROLE);
+            throw new WhResException(ResponseStatusEnum.NO_THIS_ROLE);
         }
         if(!oldRole.getName().equalsIgnoreCase(role.getName())){
-            throw new CustomException(ResponseStatusEnum.REQUEST_INVALIDATE);
+            throw new WhResException(ResponseStatusEnum.REQUEST_INVALIDATE);
         }
 
         Long updateUserId = jwtTokenUtil.getUserId();
@@ -161,7 +160,7 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
     public void updateRoleStatus(Long roleId, Integer roleStatus) {
         UserRole role = roleManager.queryRoleById(roleId);
         if(role == null){
-            throw new CustomException(ResponseStatusEnum.NO_THIS_ROLE);
+            throw new WhResException(ResponseStatusEnum.NO_THIS_ROLE);
         }
         LambdaUpdateWrapper<UserRole> updateWrapper = new LambdaUpdateWrapper<>();
         updateWrapper.eq(UserRole::getRoleId,roleId)
@@ -182,7 +181,7 @@ public class RoleManageServiceImpl extends ServiceImpl<RoleInfoMapper, UserRole>
     public void updateUserRoleRelation(UserRoleConfigure roleConfigure) {
         UserBasicInfo userBasicInfo = userManager.getUserByUsername(roleConfigure.getUsername());
         if(userBasicInfo == null){
-            throw new CustomException(ResponseStatusEnum.NO_THIS_USER);
+            throw new WhResException(ResponseStatusEnum.NO_THIS_USER);
         }
         List<Long> roleIds = Arrays.asList(roleConfigure.getRoleIds());
         userRoleRelationMapper.updateUserRoleRelation(userBasicInfo.getUserId(),roleIds);

@@ -5,6 +5,7 @@ import cn.whitetown.mshow.config.WebSocketConfig;
 import cn.whitetown.mshow.manager.SocketCache;
 
 /**
+ * websocket缓存实现
  * @author taixian
  * @date 2020/08/25
  **/

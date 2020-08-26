@@ -9,7 +9,7 @@ import cn.whitetown.dogbase.common.constant.DogBaseConstant;
 import cn.whitetown.dogbase.common.entity.dto.ResponseData;
 import cn.whitetown.dogbase.common.entity.dto.ResponsePage;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
-import cn.whitetown.dogbase.common.exception.CustomException;
+import cn.whitetown.dogbase.common.exception.WhResException;
 import cn.whitetown.authcommon.entity.po.UserBasicInfo;
 import cn.whitetown.dogbase.common.util.DataCheckUtil;
 import cn.whitetown.dogbase.common.util.WhiteFormatUtil;
@@ -32,7 +32,6 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.io.IOException;
 import java.util.Date;
-import java.util.List;
 
 /**
  * 用户管理
@@ -93,7 +92,7 @@ public class UserManageController {
         try {
             excelUtil.writeWebExcel(response,result.getResultList(),fileName,sheetName, UserExcelTemplate.class);
         } catch (IOException e) {
-            throw new CustomException(ResponseStatusEnum.DOWN_FILE_ERROR);
+            throw new WhResException(ResponseStatusEnum.DOWN_FILE_ERROR);
         }
     }
 
@@ -156,7 +155,7 @@ public class UserManageController {
     public ResponseData<String> checkPassword(@RequestBody JSONObject jsonObject){
         String password = (String)jsonObject.get("password");
         if(DataCheckUtil.checkTextNullBool(password)){
-            throw new CustomException(ResponseStatusEnum.OLD_PWD_NOT_RIGHT);
+            throw new WhResException(ResponseStatusEnum.OLD_PWD_NOT_RIGHT);
         }
         String username = jwtTokenUtil.getUsername();
         String pwdToken = service.checkPassword(username,password);
@@ -176,7 +175,7 @@ public class UserManageController {
         String newPassword = jsonObject.getString("newPassword");
         if(DataCheckUtil.checkTextNullBool(pwdToken) ||
             DataCheckUtil.checkTextNullBool(newPassword)){
-            throw new CustomException(ResponseStatusEnum.ERROR_PARAMS);
+            throw new WhResException(ResponseStatusEnum.ERROR_PARAMS);
         }
         String username = jwtTokenUtil.getUsername();
         service.updatePassword(username,pwdToken,newPassword);

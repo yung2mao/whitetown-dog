@@ -13,7 +13,7 @@ import cn.whitetown.authcommon.util.JwtTokenUtil;
 import cn.whitetown.dogbase.common.constant.DogBaseConstant;
 import cn.whitetown.dogbase.common.entity.dto.ResponsePage;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
-import cn.whitetown.dogbase.common.exception.CustomException;
+import cn.whitetown.dogbase.common.exception.WhResException;
 import cn.whitetown.dogbase.common.util.DataCheckUtil;
 import cn.whitetown.dogbase.db.entity.WhiteLambdaQueryWrapper;
 import cn.whitetown.dogbase.db.factory.BeanTransFactory;
@@ -140,11 +140,11 @@ public class DeptServiceImpl extends ServiceImpl<DeptInfoMapper,DeptInfo> implem
         //如果有parentId,则应该查到一个部门信息,否则没有
         boolean isRealSize = deptInfo.getParentId() == null ? list.size() == 0 : list.size() == 1;
         if(!isRealSize){
-            throw new CustomException(ResponseStatusEnum.DEPT_INFO_ERROR);
+            throw new WhResException(ResponseStatusEnum.DEPT_INFO_ERROR);
         }
         if(list.size() == 1){
             if(!list.get(0).getDeptId().equals(deptInfo.getParentId())) {
-                throw new CustomException(ResponseStatusEnum.DEPT_EXISTS);
+                throw new WhResException(ResponseStatusEnum.DEPT_EXISTS);
             }
         }
         //数据合法性处理,同时去除此处不添加的信息
@@ -188,17 +188,17 @@ public class DeptServiceImpl extends ServiceImpl<DeptInfoMapper,DeptInfo> implem
                 }
             }
             if(oldDept == null || parentDept == null){
-                throw new CustomException(ResponseStatusEnum.DEPT_INFO_ERROR);
+                throw new WhResException(ResponseStatusEnum.DEPT_INFO_ERROR);
             }
         }else {
-            throw new CustomException(ResponseStatusEnum.DEPT_INFO_ERROR);
+            throw new WhResException(ResponseStatusEnum.DEPT_INFO_ERROR);
         }
         //check position / if change
         Long checkPositionUserId = null;
         if(deptInfo.getBossPositionId() != null && !deptInfo.getBossPositionId().equals(oldDept.getBossPositionId())) {
             PositionInfo positionInfo = positionManager.queryPositionById(deptInfo.getBossPositionId());
             if(positionInfo == null) {
-                throw new CustomException(ResponseStatusEnum.NO_THIS_POSITION);
+                throw new WhResException(ResponseStatusEnum.NO_THIS_POSITION);
             }
             deptInfo.setBossPositionName(positionInfo.getPositionName());
             if(positionInfo.getPositionLevel() == AuthConstant.ONE_PERSON_LEVEL) {
@@ -248,11 +248,11 @@ public class DeptServiceImpl extends ServiceImpl<DeptInfoMapper,DeptInfo> implem
                 .select(DeptInfo::getDeptId);
         DeptInfo deptInfo = this.getOne(queryWrapper);
         if(deptInfo == null) {
-            throw new CustomException(ResponseStatusEnum.NO_THIS_DEPT);
+            throw new WhResException(ResponseStatusEnum.NO_THIS_DEPT);
         }
         UserBasicInfo userInfo = userManager.getUserByUsername(username);
         if(userInfo == null) {
-            throw new CustomException(ResponseStatusEnum.NO_THIS_USER);
+            throw new WhResException(ResponseStatusEnum.NO_THIS_USER);
         }
         LambdaUpdateWrapper<DeptInfo> updateWrapper = conditionFactory.getUpdateCondition(DeptInfo.class)
                 .eq(DeptInfo::getDeptId, deptId)
@@ -273,7 +273,7 @@ public class DeptServiceImpl extends ServiceImpl<DeptInfoMapper,DeptInfo> implem
     public void updateDeptStatus(Long deptId, Integer deptStatus) {
         DeptInfo dept = this.getById(deptId);
         if(dept==null || dept.getDeptStatus() == DogBaseConstant.DELETE_ERROR){
-            throw new CustomException(ResponseStatusEnum.NO_THIS_DEPT);
+            throw new WhResException(ResponseStatusEnum.NO_THIS_DEPT);
         }
         if(deptStatus == DogBaseConstant.DELETE_ERROR) {
             deptMapper.delDeptStatusAndRelationSystem(deptId, deptStatus);

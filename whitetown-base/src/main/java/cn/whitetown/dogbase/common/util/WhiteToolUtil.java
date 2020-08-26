@@ -2,7 +2,7 @@ package cn.whitetown.dogbase.common.util;
 
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.entity.dto.ResponsePage;
-import cn.whitetown.dogbase.common.exception.CustomException;
+import cn.whitetown.dogbase.common.exception.WhResException;
 import cn.whitetown.dogbase.common.entity.ao.PageQuery;
 import com.alibaba.fastjson.JSON;
 
@@ -104,7 +104,7 @@ public class WhiteToolUtil {
 
             return md5StrBuff.toString();
         } catch (Exception var5) {
-            throw new CustomException(ResponseStatusEnum.ERROR_PARAMS);
+            throw new WhResException(ResponseStatusEnum.ERROR_PARAMS);
         }
     }
 

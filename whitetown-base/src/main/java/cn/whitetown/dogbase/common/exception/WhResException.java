@@ -7,20 +7,20 @@ import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
  *
  * @author taixian
  */
-public class CustomException extends RuntimeException{
+public class WhResException extends RuntimeException{
     private ResponseStatusEnum statusEnum;
     private String message;
-    public CustomException(ResponseStatusEnum statusEnum) {
+    public WhResException(ResponseStatusEnum statusEnum) {
         this.statusEnum = statusEnum;
     }
-    public CustomException(ResponseStatusEnum statusEnum, String message) {
+    public WhResException(ResponseStatusEnum statusEnum, String message) {
         this.statusEnum = statusEnum;
         this.message = message;
     }
 
-    public CustomException(){};
+    public WhResException(){};
 
-    public CustomException(String message) {
+    public WhResException(String message) {
         super(message);
     }
 

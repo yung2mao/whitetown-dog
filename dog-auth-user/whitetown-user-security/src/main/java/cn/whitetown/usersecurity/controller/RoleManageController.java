@@ -3,17 +3,15 @@ package cn.whitetown.usersecurity.controller;
 import cn.whitetown.authcommon.entity.ao.RoleQuery;
 import cn.whitetown.authcommon.entity.ao.UserRoleConfigure;
 import cn.whitetown.authcommon.entity.dto.RoleInfoDto;
-import cn.whitetown.authcommon.util.MenuCacheUtil;
 import cn.whitetown.authea.annotation.WhiteAuthAnnotation;
 import cn.whitetown.authea.modo.WhiteControlType;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.entity.dto.ResponseData;
-import cn.whitetown.dogbase.common.exception.CustomException;
+import cn.whitetown.dogbase.common.exception.WhResException;
 import cn.whitetown.dogbase.common.util.WhiteFormatUtil;
 import cn.whitetown.updown.util.ExcelUtil;
 import cn.whitetown.usersecurity.downentity.RoleExcelTemplate;
 import cn.whitetown.usersecurity.service.RoleManageService;
-import cn.whitetown.usersecurity.util.AuthUserCacheUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -86,7 +84,7 @@ public class RoleManageController {
         try {
             excelUtil.writeWebExcel(response, roleInfos, fileName, sheetName, RoleExcelTemplate.class);
         }catch (Exception e) {
-            throw new CustomException(ResponseStatusEnum.DOWN_FILE_ERROR);
+            throw new WhResException(ResponseStatusEnum.DOWN_FILE_ERROR);
         }
     }
 
@@ -111,7 +109,7 @@ public class RoleManageController {
     @WhiteAuthAnnotation(type = WhiteControlType.HAS_AUTHORITY,value = "auth_role_update")
     public ResponseData updateRole(@RequestBody @Valid RoleInfoDto role){
         if(role.getRoleId() == null){
-            throw new CustomException(ResponseStatusEnum.ERROR_PARAMS);
+            throw new WhResException(ResponseStatusEnum.ERROR_PARAMS);
         }
         service.updateRoleInfo(role);
         return ResponseData.ok();
@@ -144,7 +142,7 @@ public class RoleManageController {
         Long[] roleIds = roleConfigureAo.getRoleIds();
         for(Long id:roleIds){
             if(id == null || id < 1){
-                throw new CustomException(ResponseStatusEnum.REQUEST_INVALIDATE);
+                throw new WhResException(ResponseStatusEnum.REQUEST_INVALIDATE);
             }
         }
         service.updateUserRoleRelation(roleConfigureAo);

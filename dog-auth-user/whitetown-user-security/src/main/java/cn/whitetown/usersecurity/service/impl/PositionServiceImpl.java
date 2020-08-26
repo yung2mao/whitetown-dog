@@ -8,7 +8,7 @@ import cn.whitetown.authcommon.util.JwtTokenUtil;
 import cn.whitetown.dogbase.common.constant.DogBaseConstant;
 import cn.whitetown.dogbase.common.entity.dto.ResponsePage;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
-import cn.whitetown.dogbase.common.exception.CustomException;
+import cn.whitetown.dogbase.common.exception.WhResException;
 import cn.whitetown.dogbase.db.entity.WhiteLambdaQueryWrapper;
 import cn.whitetown.dogbase.db.factory.BeanTransFactory;
 import cn.whitetown.dogbase.db.factory.QueryConditionFactory;
@@ -98,11 +98,11 @@ public class PositionServiceImpl extends ServiceImpl<PositionMapper, PositionInf
                 .in(PositionInfo::getPositionStatus,DogBaseConstant.ACTIVE_NORMAL, DogBaseConstant.DISABLE_WARN);
         int count = this.count(queryCondition);
         if(count > 0) {
-            throw new CustomException(ResponseStatusEnum.POSITION_EXISTS);
+            throw new WhResException(ResponseStatusEnum.POSITION_EXISTS);
         }
         DeptInfo deptInfo = deptManager.queryDeptInfoById(position.getDeptId());
         if(deptInfo == null) {
-            throw new CustomException(ResponseStatusEnum.NO_THIS_DEPT);
+            throw new WhResException(ResponseStatusEnum.NO_THIS_DEPT);
         }
         position.setDeptCode(deptInfo.getDeptCode());
         position.setDeptName(deptInfo.getDeptName());
@@ -127,11 +127,11 @@ public class PositionServiceImpl extends ServiceImpl<PositionMapper, PositionInf
                 .in(PositionInfo::getPositionStatus,DogBaseConstant.ACTIVE_NORMAL, DogBaseConstant.DISABLE_WARN);
         List<PositionInfo> list = this.list(queryCondition);
         if(list.size() != 1) {
-            throw new CustomException(ResponseStatusEnum.POSITION_INFO_ERROR);
+            throw new WhResException(ResponseStatusEnum.POSITION_INFO_ERROR);
         }
         PositionInfo oldPosition = list.get(0);
         if(!oldPosition.getPositionId().equals(position.getPositionId())) {
-            throw new CustomException(ResponseStatusEnum.NO_THIS_POSITION);
+            throw new WhResException(ResponseStatusEnum.NO_THIS_POSITION);
         }
         LambdaUpdateWrapper<PositionInfo> updateCondition = conditionFactory.getUpdateCondition(PositionInfo.class);
         updateCondition.eq(PositionInfo::getPositionId,position.getPositionId())

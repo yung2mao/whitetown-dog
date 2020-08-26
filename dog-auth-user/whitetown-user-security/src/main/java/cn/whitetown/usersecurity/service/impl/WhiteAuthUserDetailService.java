@@ -7,7 +7,7 @@ import cn.whitetown.authea.modo.AuthUser;
 import cn.whitetown.authea.modo.WhiteSecurityUser;
 import cn.whitetown.authea.service.WhiteUserDetailService;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
-import cn.whitetown.dogbase.common.exception.CustomException;
+import cn.whitetown.dogbase.common.exception.WhResException;
 import cn.whitetown.usersecurity.util.AuthUserCacheUtil;
 import cn.whitetown.usersecurity.util.LoginUserUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +40,7 @@ public class WhiteAuthUserDetailService implements WhiteUserDetailService {
         try{
             return this.loadBasicUserDetails(username);
         }catch (Exception e){
-            throw new CustomException(ResponseStatusEnum.TOKEN_ERROR);
+            throw new WhResException(ResponseStatusEnum.TOKEN_ERROR);
         }
     }
 
@@ -52,12 +52,12 @@ public class WhiteAuthUserDetailService implements WhiteUserDetailService {
         }
         AuthUser authUser = userDetailManager.createAuthUser(username);
         if(authUser == null) {
-            throw new CustomException(ResponseStatusEnum.TOKEN_ERROR);
+            throw new WhResException(ResponseStatusEnum.TOKEN_ERROR);
         }
         String versionString = jwtTokenUtil.getTokenValue(WhiteJwtTokenUtil.USER_VERSION);
         Integer version = versionString == null ? -1 : Integer.valueOf(versionString);
         if(version==null || !version.equals(authUser.getUserVersion())){
-            throw new CustomException(ResponseStatusEnum.TOKEN_EXPIRED);
+            throw new WhResException(ResponseStatusEnum.TOKEN_EXPIRED);
         }
         WhiteSecurityUser whiteSecurityUser = new WhiteSecurityUser(authUser.getUsername(), authUser.getPassword());
         whiteSecurityUser.setUserId(authUser.getUserId());

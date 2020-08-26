@@ -1,6 +1,5 @@
 package cn.whitetown.usersecurity.service.impl;
 
-import cn.whitetown.authcommon.constant.AuthConstant;
 import cn.whitetown.authcommon.util.JwtTokenUtil;
 import cn.whitetown.authcommon.util.defaultimpl.WhiteJwtTokenUtil;
 import cn.whitetown.authea.manager.SpringSecurityConfigureManager;
@@ -9,7 +8,7 @@ import cn.whitetown.authea.modo.AuthUser;
 import cn.whitetown.authea.modo.WhiteSecurityUser;
 import cn.whitetown.authea.service.WhiteUserDetailService;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
-import cn.whitetown.dogbase.common.exception.CustomException;
+import cn.whitetown.dogbase.common.exception.WhResException;
 import cn.whitetown.dogbase.common.util.WebUtil;
 import cn.whitetown.usersecurity.util.AuthUserCacheUtil;
 import io.jsonwebtoken.Claims;
@@ -59,11 +58,11 @@ public class WhiteUserDetailServiceImpl implements WhiteUserDetailService {
         if(userDetails == null){
             AuthUser authUser = userDetailManager.createAuthUser(username);
             if(authUser == null) {
-                throw new CustomException(ResponseStatusEnum.TOKEN_ERROR);
+                throw new WhResException(ResponseStatusEnum.TOKEN_ERROR);
             }
             Integer version = claims.get(WhiteJwtTokenUtil.USER_VERSION, Integer.class);
             if(version==null || !version.equals(authUser.getUserVersion())){
-                throw new CustomException(ResponseStatusEnum.TOKEN_EXPIRED);
+                throw new WhResException(ResponseStatusEnum.TOKEN_EXPIRED);
             }
             userDetails = new WhiteSecurityUser(authUser.getUsername(),authUser.getPassword());
             Set<String> authorsSet = userDetailManager.createAuthorsSet(authUser);

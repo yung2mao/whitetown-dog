@@ -12,7 +12,7 @@ import cn.whitetown.authcommon.util.defaultimpl.WhiteJwtTokenUtil;
 import cn.whitetown.dogbase.common.constant.DogBaseConstant;
 import cn.whitetown.dogbase.common.entity.dto.ResponsePage;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
-import cn.whitetown.dogbase.common.exception.CustomException;
+import cn.whitetown.dogbase.common.exception.WhResException;
 import cn.whitetown.dogbase.common.util.DataCheckUtil;
 import cn.whitetown.dogbase.db.entity.WhiteLambdaQueryWrapper;
 import cn.whitetown.dogbase.db.factory.BeanTransFactory;
@@ -90,12 +90,12 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
         UserBasicInfo userBasicInfo = userManager.getUserByUsername(username);
         //check username
         if(userBasicInfo != null){
-            throw new CustomException(ResponseStatusEnum.USER_ALREADY_REG);
+            throw new WhResException(ResponseStatusEnum.USER_ALREADY_REG);
         }
         //check role
         UserRole userRole = roleManager.queryRoleByRoleName(roleName);
         if(userRole==null){
-            throw new CustomException(ResponseStatusEnum.NO_THIS_ROLE);
+            throw new WhResException(ResponseStatusEnum.NO_THIS_ROLE);
         }
         //create md5 password
         String salt = Md5WithSaltUtil.getRandomSalt();
@@ -157,7 +157,7 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
     public void updateUser(UserBasicInfo userInfo) {
         UserBasicInfo user = userManager.getUserByUsername(userInfo.getUsername());
         if(user==null){
-            throw new CustomException(ResponseStatusEnum.NO_THIS_USER);
+            throw new WhResException(ResponseStatusEnum.NO_THIS_USER);
         }
         //判断deptId和positionId是否有变更,如果有变更则执行相应合法性校验
         boolean deptChange = false;
@@ -171,14 +171,14 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
         if(deptChange){
             DeptInfo deptInfo = deptManager.queryDeptInfoById(userInfo.getDeptId());
             if(deptInfo == null) {
-                throw new CustomException(ResponseStatusEnum.NO_THIS_DEPT);
+                throw new WhResException(ResponseStatusEnum.NO_THIS_DEPT);
             }
             userInfo.setDeptName(deptInfo.getDeptName());
         }
         if(positionChange){
             PositionInfo positionInfo = positionManager.queryPositionByIdAndDeptId(userInfo.getDeptId(),userInfo.getPositionId());
             if(positionInfo == null) {
-                throw new CustomException(ResponseStatusEnum.NO_THIS_POSITION);
+                throw new WhResException(ResponseStatusEnum.NO_THIS_POSITION);
             }
             //只允许一人的职位,检索当前职位是否已经有人
             if(positionInfo.getPositionLevel() == AuthConstant.ONE_PERSON_LEVEL) {
@@ -187,7 +187,7 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
                         .eq(UserBasicInfo::getPositionId,positionInfo.getPositionId());
                 List<UserBasicInfo> usList = userMapper.selectList(queryCondition);
                 if(usList.size() > 0) {
-                    throw new CustomException(ResponseStatusEnum.ONLY_ONE_PERSON_POSITION);
+                    throw new WhResException(ResponseStatusEnum.ONLY_ONE_PERSON_POSITION);
                 }
             }
             userInfo.setPositionName(positionInfo.getPositionName());
@@ -223,7 +223,7 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
     public void resetPassword(String username) {
         UserBasicInfo userBasicInfo = userManager.getUserByUsername(username);
         if(userBasicInfo==null){
-            throw new CustomException(ResponseStatusEnum.NO_THIS_USER);
+            throw new WhResException(ResponseStatusEnum.NO_THIS_USER);
         }
         Long updateUserId = jwtTokenUtil.getUserId();
         LambdaUpdateWrapper<UserBasicInfo> updateWrapper = new LambdaUpdateWrapper<>();
@@ -244,7 +244,7 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
         UserBasicInfo userBasicInfo = userManager.getUserByUsername(username);
         oldPassword = Md5WithSaltUtil.md5Encrypt(oldPassword,userBasicInfo.getSalt());
         if(!oldPassword.equals(userBasicInfo.getPassword())){
-            throw new CustomException(ResponseStatusEnum.OLD_PWD_NOT_RIGHT);
+            throw new WhResException(ResponseStatusEnum.OLD_PWD_NOT_RIGHT);
         }
         Map<String,Object> tokenMap = new HashMap<>(2);
         tokenMap.put(WhiteJwtTokenUtil.USERNAME,username);
@@ -259,10 +259,10 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
         String pwdUsername = claims.get(WhiteJwtTokenUtil.USERNAME,String.class);
         Long pwdTokenTime = claims.get(AuthConstant.PWD_TOKEN_TIME,Long.class);
         if(!username.equals(pwdUsername)){
-            throw new CustomException(ResponseStatusEnum.ERROR_PARAMS);
+            throw new WhResException(ResponseStatusEnum.ERROR_PARAMS);
         }
         if(System.currentTimeMillis()-pwdTokenTime > AuthConstant.PWD_TOKEN_EXPIRE_TIME){
-            throw new CustomException(ResponseStatusEnum.CHECK_EXPIRE);
+            throw new WhResException(ResponseStatusEnum.CHECK_EXPIRE);
         }
         String randomSalt = Md5WithSaltUtil.getRandomSalt();
         newPassword = Md5WithSaltUtil.md5Encrypt(newPassword,randomSalt);
@@ -279,7 +279,7 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
     public void changeUserStatus(String username, Integer userStatus) {
         UserBasicInfo userBasicInfo = userManager.getUserByUsername(username);
         if(userBasicInfo == null){
-            throw new CustomException(ResponseStatusEnum.NO_THIS_USER);
+            throw new WhResException(ResponseStatusEnum.NO_THIS_USER);
         }
         LambdaUpdateWrapper<UserBasicInfo> updateWrapper = new LambdaUpdateWrapper<>();
         updateWrapper.eq(UserBasicInfo::getUsername,username)

@@ -53,8 +53,8 @@ public class ControllerExceptionHandler{
      * @param e
      * @return
      */
-    @ExceptionHandler(value = CustomException.class)
-    public ResponseData customException(CustomException e){
+    @ExceptionHandler(value = WhResException.class)
+    public ResponseData customException(WhResException e){
         ResponseData failResult = ResponseData.fail(e.getStatusEnum());
         this.errorLog(failResult);
         return failResult;

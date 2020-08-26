@@ -1,6 +1,7 @@
 package cn.whitetown.dogbase.common.util;
 
 import java.text.SimpleDateFormat;
+import java.util.Base64;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
@@ -133,5 +134,29 @@ public class WhiteFormatUtil {
             default:
                 return sourceTimeUnit.toDays(time) + "天";
         }
+    }
+
+    /**
+     * BASE64编码
+     * @param str
+     * @return
+     */
+    public static String base64Encode(String str) {
+        if(str == null) {
+            return null;
+        }
+        return Base64.getEncoder().encodeToString(str.getBytes());
+    }
+
+    /**
+     * BAS$64解码
+     * @param str
+     * @return
+     */
+    public static String base64Decode(String str) {
+        if(str == null) {
+            return null;
+        }
+        return new String(Base64.getDecoder().decode(str));
     }
 }

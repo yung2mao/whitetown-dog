@@ -6,12 +6,11 @@ import cn.whitetown.authcommon.util.defaultimpl.WhiteJwtTokenUtil;
 import cn.whitetown.authea.util.AuthCacheUtil;
 import cn.whitetown.dogbase.common.constant.DogBaseConstant;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
-import cn.whitetown.dogbase.common.exception.CustomException;
+import cn.whitetown.dogbase.common.exception.WhResException;
 import cn.whitetown.authcommon.entity.dto.LoginUser;
 import cn.whitetown.authcommon.entity.po.UserBasicInfo;
 import cn.whitetown.dogbase.common.util.DataCheckUtil;
 import cn.whitetown.dogbase.common.util.secret.Md5WithSaltUtil;
-import cn.whitetown.usersecurity.manager.RoleManager;
 import cn.whitetown.usersecurity.manager.UserManager;
 import cn.whitetown.usersecurity.mappers.UserBasicInfoMapper;
 import cn.whitetown.usersecurity.service.DogUserService;
@@ -58,15 +57,15 @@ public class DogUserServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserBasi
     @Override
     public void checkCaptcha(String captcha, String sessionId) {
         if(DataCheckUtil.checkTextNullBool(captcha)){
-            throw new CustomException(ResponseStatusEnum.AUTH_CAPTCHA_ERROR);
+            throw new WhResException(ResponseStatusEnum.AUTH_CAPTCHA_ERROR);
         }
         String realCaptcha = captchaDataDeal.getCaptcha(sessionId);
         if(DataCheckUtil.checkTextNullBool(realCaptcha)){
-            throw new CustomException(ResponseStatusEnum.AUTH_CAPTCHA_ERROR);
+            throw new WhResException(ResponseStatusEnum.AUTH_CAPTCHA_ERROR);
         }
         //校验存储的验证码和传入值是否相同
         if(!captcha.equalsIgnoreCase(realCaptcha)){
-            throw new CustomException(ResponseStatusEnum.AUTH_CAPTCHA_ERROR);
+            throw new WhResException(ResponseStatusEnum.AUTH_CAPTCHA_ERROR);
         }
     }
 
@@ -74,16 +73,16 @@ public class DogUserServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserBasi
     public String checkUserNameAndPassword(String username, String password) {
         UserBasicInfo user = userManager.getUserByUsername(username);
         if(user==null){
-            throw new CustomException(ResponseStatusEnum.AUTH_REQUEST_ERROR);
+            throw new WhResException(ResponseStatusEnum.AUTH_REQUEST_ERROR);
         }
         if(user.getUserStatus() == DogBaseConstant.DISABLE_WARN){
-            throw new CustomException(ResponseStatusEnum.ACCOUNT_FREEZE);
+            throw new WhResException(ResponseStatusEnum.ACCOUNT_FREEZE);
         }
         String salt = user.getSalt();
         String md5WithSalt = Md5WithSaltUtil.md5Encrypt(password,salt);
 
         if(!user.getPassword().equals(md5WithSalt)){
-            throw new CustomException(ResponseStatusEnum.AUTH_REQUEST_ERROR);
+            throw new WhResException(ResponseStatusEnum.AUTH_REQUEST_ERROR);
         }
 
         //create token
@@ -111,7 +110,7 @@ public class DogUserServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserBasi
         if(user ==null){
             UserBasicInfo userBasic = userManager.getUserByUsername(username);
             if(userBasic==null){
-                throw new CustomException(ResponseStatusEnum.TOKEN_EXPIRED);
+                throw new WhResException(ResponseStatusEnum.TOKEN_EXPIRED);
             }
             user = LoginUserUtil.getLoginUser(userBasic,null);
             //save to memory

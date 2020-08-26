@@ -6,7 +6,7 @@ import cn.whitetown.authea.modo.WhiteSecurityUser;
 import cn.whitetown.authea.service.WhiteUserDetailService;
 import cn.whitetown.dogbase.common.entity.dto.ResponseData;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
-import cn.whitetown.dogbase.common.exception.CustomException;
+import cn.whitetown.dogbase.common.exception.WhResException;
 import cn.whitetown.logbase.config.LogConstants;
 import io.jsonwebtoken.MalformedJwtException;
 import org.apache.logging.log4j.Logger;
@@ -52,10 +52,10 @@ public class TokenCheckFilterManager extends TokenCheckManager {
                 return true;
             }
             userDetails = userDetailService.loadUserByUsername(username);
-        }catch (MalformedJwtException | CustomException e){
+        }catch (MalformedJwtException | WhResException e){
             ResponseData responseData = null;
-            if(e instanceof CustomException){
-                responseData = ResponseData.fail(((CustomException) e).getStatusEnum());
+            if(e instanceof WhResException){
+                responseData = ResponseData.fail(((WhResException) e).getStatusEnum());
             }else {
                 responseData = ResponseData.fail(ResponseStatusEnum.ERROR_PARAMS);
             }

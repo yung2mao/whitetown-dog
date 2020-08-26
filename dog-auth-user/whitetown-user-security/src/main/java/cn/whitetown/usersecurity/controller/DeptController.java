@@ -11,7 +11,7 @@ import cn.whitetown.authea.modo.WhiteControlType;
 import cn.whitetown.dogbase.common.entity.dto.ResponseData;
 import cn.whitetown.dogbase.common.entity.dto.ResponsePage;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
-import cn.whitetown.dogbase.common.exception.CustomException;
+import cn.whitetown.dogbase.common.exception.WhResException;
 import cn.whitetown.dogbase.common.util.WhiteToolUtil;
 import cn.whitetown.usersecurity.service.DeptService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,13 +92,13 @@ public class DeptController {
     @WhiteAuthAnnotation(type = WhiteControlType.HAS_AUTHORITY,value = "dept_update_button")
     public ResponseData updateDeptInfo(@RequestBody @Valid DeptInfo deptInfo){
         if(deptInfo.getDeptId()==null){
-            throw new CustomException(ResponseStatusEnum.NO_THIS_DEPT);
+            throw new WhResException(ResponseStatusEnum.NO_THIS_DEPT);
         }
         if(deptInfo.getParentId() == null){
             deptInfo.setParentId(AuthConstant.ROOT_DEPT_ID);
         }
         if(deptInfo.getDeptId().equals(deptInfo.getParentId())){
-            throw new CustomException(ResponseStatusEnum.DEPT_PARENT_REPEAT);
+            throw new WhResException(ResponseStatusEnum.DEPT_PARENT_REPEAT);
         }
         deptService.updateDeptInfo(deptInfo);
         return ResponseData.ok();

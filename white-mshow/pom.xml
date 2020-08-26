@@ -6,7 +6,7 @@
 
   <groupId>cn.whitetown</groupId>
   <artifactId>white-mshow</artifactId>
-  <version>0.0.1</version>
+  <version>${whitetown-dog.version}</version>
 
   <name>white-mshow</name>
 
@@ -51,6 +51,12 @@
           <artifactId>druid</artifactId>
         </exclusion>
       </exclusions>
+    </dependency>
+    <!--auth common-->
+    <dependency>
+      <groupId>cn.whitetown</groupId>
+      <artifactId>dog-auth-common</artifactId>
+      <version>${whitetown-dog.version}</version>
     </dependency>
     <!--monitor-->
     <dependency>

@@ -8,7 +8,7 @@ import cn.whitetown.authcommon.util.MenuCacheUtil;
 import cn.whitetown.authcommon.util.MenuUtil;
 import cn.whitetown.dogbase.common.constant.DogBaseConstant;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
-import cn.whitetown.dogbase.common.exception.CustomException;
+import cn.whitetown.dogbase.common.exception.WhResException;
 import cn.whitetown.authcommon.entity.po.MenuInfo;
 import cn.whitetown.authcommon.entity.dto.MenuTree;
 import cn.whitetown.dogbase.common.util.DataCheckUtil;
@@ -64,7 +64,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
     public MenuTree queryMenuTree(Long menuId, Integer lowLevel) {
         List<MenuInfo> menuInfos = menuInfoMapper.selectMenuListByIdAndLevel(menuId,lowLevel);
         if (menuInfos.size()==0){
-            throw new CustomException(ResponseStatusEnum.NO_THIS_MENU);
+            throw new WhResException(ResponseStatusEnum.NO_THIS_MENU);
         }
         MenuTree menuTree = menuUtil.createMenuTreeByMenuList(menuInfos);
         return menuTree;
@@ -89,7 +89,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
     public MenuTree queryMenuTreeByRoleName(String roleName) {
         UserRole userRole = roleManager.queryRoleByRoleName(roleName);
         if(userRole == null){
-            throw new CustomException(ResponseStatusEnum.NO_THIS_ROLE);
+            throw new WhResException(ResponseStatusEnum.NO_THIS_ROLE);
         }
         List<MenuInfo> menuInfos = menuInfoMapper.selectMenuByRoleId(userRole.getRoleId());
         return menuUtil.createMenuTreeByMenuList(menuInfos);
@@ -99,7 +99,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
     public List<Long> queryMenuIdsByRoleId(Long roleId) {
         UserRole userRole = roleManager.queryRoleById(roleId);
         if(userRole == null){
-            throw new CustomException(ResponseStatusEnum.NO_THIS_ROLE);
+            throw new WhResException(ResponseStatusEnum.NO_THIS_ROLE);
         }
         List<MenuInfo> menuInfos = menuInfoMapper.selectMenuByRoleId(roleId);
         List<Long> ids = new ArrayList<>();
@@ -119,13 +119,13 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
         }
         List<MenuInfo> oldMenus = menuInfoMapper.selectList(queryWrapper);
         if(oldMenus.size() == 0){
-            throw new CustomException(ResponseStatusEnum.MENU_LEVEL_ERROR);
+            throw new WhResException(ResponseStatusEnum.MENU_LEVEL_ERROR);
         }else if (oldMenus.size() == 1){
             if(!oldMenus.get(0).getMenuId().equals(menuInfo.getParentId())){
-                throw new CustomException(ResponseStatusEnum.EXISTED_THE_MENU);
+                throw new WhResException(ResponseStatusEnum.EXISTED_THE_MENU);
             }
         }else {
-            throw new CustomException(ResponseStatusEnum.REQUEST_INVALIDATE);
+            throw new WhResException(ResponseStatusEnum.REQUEST_INVALIDATE);
         }
 
         MenuInfo addMenu = transFactory.trans(menuInfo, MenuInfo.class);
@@ -159,10 +159,10 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
                 }
             }
         }else {
-            throw new CustomException(ResponseStatusEnum.REQUEST_INVALIDATE);
+            throw new WhResException(ResponseStatusEnum.REQUEST_INVALIDATE);
         }
         if(oldMenu==null || parentMenu == null){
-            throw new CustomException(ResponseStatusEnum.REQUEST_INVALIDATE);
+            throw new WhResException(ResponseStatusEnum.REQUEST_INVALIDATE);
         }
         MenuInfo menu = transFactory.trans(menuInfo, MenuInfo.class);
         menu.setUpdateUserId(updateUserId);
@@ -181,7 +181,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
         this.checkRootMenuId(menuId);
         MenuInfo menuInfo = menuInfoMapper.selectById(menuId);
         if(menuInfo == null){
-            throw new CustomException(ResponseStatusEnum.NO_THIS_MENU);
+            throw new WhResException(ResponseStatusEnum.NO_THIS_MENU);
         }
         //菜单删除，清除关联的所有数据
         if(menuStatus == DogBaseConstant.DELETE_ERROR){
@@ -202,7 +202,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
     public void updateRoleMenus(RoleMenuConfigure configure) {
         UserRole userRole = roleManager.queryRoleById(configure.getRoleId());
         if(userRole == null){
-            throw new CustomException(ResponseStatusEnum.NO_THIS_ROLE);
+            throw new WhResException(ResponseStatusEnum.NO_THIS_ROLE);
         }
         Set menuSet = new LinkedHashSet();
         menuSet.add(AuthConstant.ROOT_MENU_ID);
@@ -217,7 +217,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
      */
     private void checkRootMenuId(Long menuId){
         if(AuthConstant.ROOT_MENU_ID == menuId){
-            throw new CustomException(ResponseStatusEnum.NO_PERMISSION);
+            throw new WhResException(ResponseStatusEnum.NO_PERMISSION);
         }
     }
 

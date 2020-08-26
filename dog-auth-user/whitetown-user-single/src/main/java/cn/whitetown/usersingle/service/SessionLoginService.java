@@ -4,7 +4,7 @@ import cn.whitetown.authcommon.constant.AuthConstant;
 import cn.whitetown.authcommon.entity.po.UserRole;
 import cn.whitetown.authcommon.util.defaultimpl.WhiteJwtTokenUtil;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
-import cn.whitetown.dogbase.common.exception.CustomException;
+import cn.whitetown.dogbase.common.exception.WhResException;
 import cn.whitetown.dogbase.wache.WhiteExpireMap;
 import cn.whitetown.authcommon.entity.dto.LoginUser;
 import cn.whitetown.authcommon.entity.po.UserBasicInfo;
@@ -51,19 +51,19 @@ public class SessionLoginService implements LoginService {
     public String checkUsernameAndPassword(String username, String password) {
         UserBasicInfo user = userMapper.selectUserByUsername(username);
         if(user==null){
-            throw new CustomException(ResponseStatusEnum.AUTH_REQUEST_ERROR);
+            throw new WhResException(ResponseStatusEnum.AUTH_REQUEST_ERROR);
         }
         String salt = user.getSalt();
         String md5WithSalt = Md5WithSaltUtil.md5Encrypt(password,salt);
 
         if(!user.getPassword().equals(md5WithSalt)){
-            throw new CustomException(ResponseStatusEnum.AUTH_REQUEST_ERROR);
+            throw new WhResException(ResponseStatusEnum.AUTH_REQUEST_ERROR);
         }
         //角色信息
         List<UserRole> roles = userMapper.selectUserRole(user.getUserId());
 
         if(roles==null || roles.size()==0){
-            throw new CustomException(ResponseStatusEnum.NO_PERMITION);
+            throw new WhResException(ResponseStatusEnum.NO_PERMITION);
         }
         LoginUser loginUser = LoginUserUtil.getLoginUser(user,roles);
         //create token
@@ -87,7 +87,7 @@ public class SessionLoginService implements LoginService {
             Claims userMap = whiteJwtTokenUtil.readTokenAsMapParams(token);
             String username = userMap.get("username").toString();
             if(DataCheckUtil.checkTextNullBool(username)){
-                throw new CustomException(ResponseStatusEnum.TOKEN_ERROR);
+                throw new WhResException(ResponseStatusEnum.TOKEN_ERROR);
             }
 
             List<String> roles = (List<String>)userMap.get("roles");
@@ -105,9 +105,9 @@ public class SessionLoginService implements LoginService {
                 return newToken;
             }
         }catch (ExpiredJwtException e){
-            throw new CustomException(ResponseStatusEnum.TOKEN_EXPIRED);
+            throw new WhResException(ResponseStatusEnum.TOKEN_EXPIRED);
         } catch (Exception e){
-            throw new CustomException(ResponseStatusEnum.TOKEN_ERROR);
+            throw new WhResException(ResponseStatusEnum.TOKEN_ERROR);
         }
         return null;
     }
@@ -124,7 +124,7 @@ public class SessionLoginService implements LoginService {
         if(user ==null){
             UserBasicInfo userBasic = userMapper.selectUserByUsername(username);
             if(userBasic==null){
-                throw new CustomException(ResponseStatusEnum.TOKEN_EXPIRED);
+                throw new WhResException(ResponseStatusEnum.TOKEN_EXPIRED);
             }
             user = LoginUserUtil.getLoginUser(userBasic,null);
         }
@@ -141,7 +141,7 @@ public class SessionLoginService implements LoginService {
         Claims userMap = whiteJwtTokenUtil.readTokenAsMapParams(token);
         String username = userMap.get("username").toString();
         if (DataCheckUtil.checkTextNullBool(username)) {
-            throw new CustomException(ResponseStatusEnum.TOKEN_ERROR);
+            throw new WhResException(ResponseStatusEnum.TOKEN_ERROR);
         }
         return username;
     }

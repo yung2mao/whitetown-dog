@@ -1,6 +1,7 @@
 package cn.whitetown.mshow.manager;
 
 /**
+ * websocket用户session映射关系缓存
  * @author taixian
  * @date 2020/08/25
  **/

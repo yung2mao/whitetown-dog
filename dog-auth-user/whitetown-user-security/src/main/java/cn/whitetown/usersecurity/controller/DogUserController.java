@@ -6,7 +6,7 @@ import cn.whitetown.authea.modo.WhiteControlType;
 import cn.whitetown.dogbase.common.entity.enums.ResponseStatusEnum;
 import cn.whitetown.dogbase.common.entity.dto.ResponseData;
 import cn.whitetown.authcommon.entity.dto.LoginUser;
-import cn.whitetown.dogbase.common.exception.CustomException;
+import cn.whitetown.dogbase.common.exception.WhResException;
 import cn.whitetown.dogbase.common.util.DataCheckUtil;
 import cn.whitetown.dogbase.common.util.WebUtil;
 import cn.whitetown.logbase.config.LogConstants;
@@ -124,7 +124,7 @@ public class DogUserController {
     public ResponseData<String> dogLogin(@RequestBody JSONObject params,HttpServletRequest request){
         String captcha = params.getString("captcha");
         if(DataCheckUtil.checkTextNullBool(captcha)){
-            throw new CustomException(ResponseStatusEnum.AUTH_CAPTCHA_ERROR);
+            throw new WhResException(ResponseStatusEnum.AUTH_CAPTCHA_ERROR);
         }
         String sessionId = WebUtil.getCusSessionId(request);
         userService.checkCaptcha(captcha,sessionId);
@@ -133,7 +133,7 @@ public class DogUserController {
         String password = params.getString("password");
 
         if(DataCheckUtil.checkTextNullBool(username) || DataCheckUtil.checkTextNullBool(password)){
-            throw new CustomException(ResponseStatusEnum.AUTH_REQUEST_ERROR);
+            throw new WhResException(ResponseStatusEnum.AUTH_REQUEST_ERROR);
         }
         String token = userService.checkUserNameAndPassword(username,password);
         log.info(request.getAttribute(LogConstants.TRACE_ID)+"|" + System.currentTimeMillis() + "|" + username +"|login success");

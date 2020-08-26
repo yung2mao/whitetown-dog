@@ -4,6 +4,8 @@ import cn.whitetown.dogbase.common.util.WebUtil;
 import cn.whitetown.logbase.config.LogConstants;
 import cn.whitetown.mshow.manager.SocketCache;
 import cn.whitetown.mshow.service.WebSocketServer;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.logging.log4j.Logger;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
@@ -27,6 +29,8 @@ public class WebSocketServerImpl implements WebSocketServer {
 
     private Logger logger = LogConstants.SYS_LOGGER;
 
+    private Log log = LogFactory.getLog(WebSocketServerImpl.class);
+
     private static AtomicInteger connectCount = new AtomicInteger(0);
 
     private static Map<String,Session> userSession = new ConcurrentHashMap<>(2);
@@ -38,6 +42,10 @@ public class WebSocketServerImpl implements WebSocketServer {
 
     private static ApplicationContext applicationContext;
 
+    /**
+     * 引入spring的上下文对象
+     * @param context spring 上下文对象
+     */
     public static void setApplicationContext(ApplicationContext context) {
         applicationContext = context;
     }
@@ -60,10 +68,8 @@ public class WebSocketServerImpl implements WebSocketServer {
             return;
         }
         Long userId = socketCache.getUserId(randomId);
-        System.out.println(userId);
-//        connectCount.incrementAndGet();
-//        userSession.put(uid,session);
-//        System.out.println("open"+uid + "," + session.getId());
+        connectCount.incrementAndGet();
+        userSession.put(String.valueOf(userId),session);
     }
 
     @Override
@@ -82,7 +88,7 @@ public class WebSocketServerImpl implements WebSocketServer {
     @Override
     @OnError
     public void onError(Session session, Throwable cause) {
-        cause.printStackTrace();
+        log.error(cause.getMessage());
     }
 
     @Override

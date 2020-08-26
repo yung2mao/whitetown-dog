@@ -46,6 +46,12 @@
       <artifactId>white-log-web-client</artifactId>
       <version>${whitetown-dog.version}</version>
     </dependency>
+    <!--monitor and log view-->
+    <dependency>
+      <groupId>cn.whitetown</groupId>
+      <artifactId>white-mshow</artifactId>
+      <version>${whitetown-dog.version}</version>
+    </dependency>
     <!--quartz定时任务-->
     <dependency>
       <groupId>org.springframework.boot</groupId>
