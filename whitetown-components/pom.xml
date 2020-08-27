@@ -13,6 +13,7 @@
         <module>white-es-config</module>
       <module>white-upload-down</module>
         <module>white-xml</module>
+        <module>white-re-config</module>
     </modules>
     <packaging>pom</packaging>
 

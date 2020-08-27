@@ -6,6 +6,7 @@ import cn.whitetown.mshow.modo.ServiceInfo;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import javax.validation.constraints.NotBlank;
+import java.util.List;
 
 /**
  * 监控数据展示
@@ -17,8 +18,12 @@ import javax.validation.constraints.NotBlank;
 @Validated
 public class MonitorViewController {
 
+    /**
+     * 获取当前服务列表
+     * @return
+     */
     @GetMapping("/lis")
-    public ResponseData<ServiceInfo> allServiceInfo() {
+    public ResponseData<List<ServiceInfo>> allServiceInfo() {
         return null;
     }
 

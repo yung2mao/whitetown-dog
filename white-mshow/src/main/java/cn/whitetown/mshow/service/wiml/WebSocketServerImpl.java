@@ -44,13 +44,13 @@ public class WebSocketServerImpl implements WebSocketServer {
 
     /**
      * 引入spring的上下文对象
-     * @param context spring 上下文对象
+     * @param context  spring上下文对象
      */
     public static void setApplicationContext(ApplicationContext context) {
         applicationContext = context;
     }
 
-    public void initSocketCache() {
+    private void initSocketCache() {
         socketCache = applicationContext.getBean(SocketCache.class);
     }
 
@@ -72,13 +72,11 @@ public class WebSocketServerImpl implements WebSocketServer {
         }
         connectCount.incrementAndGet();
         userSession.put(String.valueOf(userId),session);
-        System.out.println("connect success");
     }
 
     @Override
     @OnClose
     public void onClose(Session session) {
-        System.out.println("close");
         userSession.values().remove(session);
         connectCount.decrementAndGet();
     }

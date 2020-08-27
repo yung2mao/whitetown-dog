@@ -10,7 +10,7 @@ import java.util.Properties;
  * @date 2020/08/01
  **/
 public class MonConfConstants {
-    public static final Properties MONITOR_CONF;
+    private static final Properties MONITOR_CONF;
 
     public static final int SYS_INTERVAL_TIME;
     public static final String WORK_ID;
@@ -36,7 +36,7 @@ public class MonConfConstants {
     public static final long SHARDING_SCOPE;
 
     static {
-        InputStream in = MonitorConfig.class.getClassLoader().getResourceAsStream("white-conf.properties");
+        InputStream in = MonitorConfig.class.getClassLoader().getResourceAsStream("white-monitor-conf.properties");
         MONITOR_CONF = new Properties();
         try {
             MONITOR_CONF.load(in);
