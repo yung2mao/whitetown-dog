@@ -78,7 +78,7 @@ public class OpLogCollectFilter implements Filter {
                 .append(userId).append("|")
                 .append(System.currentTimeMillis()).append("|")
                 .append(request.getRequestURI()).append("|")
-                .append(WebUtil.getClientIP(request)).append("|")
+                .append(WebUtil.getClientIp(request)).append("|")
                 .append(WebUtil.getBrowser(request)).append("|");
     }
 

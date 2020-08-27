@@ -40,14 +40,14 @@ public class DefaultMenuCacheUtil implements MenuCacheUtil {
 
     @Override
     public void destroy() {
-        menuCacheMetaSet.stream().forEach(key->expireMap.remove(key));
+        menuCacheMetaSet.forEach(key->expireMap.remove(key));
         menuCacheMetaSet = null;
         logger.info("the menuCache is destroy");
     }
 
     @Override
     public void reset() {
-        menuCacheMetaSet.stream().forEach(key->expireMap.remove(key));
+        menuCacheMetaSet.forEach(key->expireMap.remove(key));
         menuCacheMetaSet.clear();
     }
 
@@ -87,10 +87,9 @@ public class DefaultMenuCacheUtil implements MenuCacheUtil {
             return new ArrayList<>();
         }
         this.saveCacheMenuList(userId,menuList);
-        List<MenuInfo> resultList = menuList.stream().filter(menuInfo -> menuInfo.getMenuId().equals(menuId) ||
+        return menuList.stream().filter(menuInfo -> menuInfo.getMenuId().equals(menuId) ||
                 (menuInfo.getMenuLevel() <= lowLevel && menuInfo.getMenuLevel() > parentMenu.getMenuLevel()))
                 .collect(Collectors.toList());
-        return resultList;
     }
 
     @Override

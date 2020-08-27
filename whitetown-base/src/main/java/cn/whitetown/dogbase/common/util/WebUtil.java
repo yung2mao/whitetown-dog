@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * Web相关的工具
@@ -31,8 +32,8 @@ public class WebUtil {
      * @return
      */
     public static HttpServletRequest getRequest(){
-        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
-        return request;
+        return ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes()))
+                .getRequest();
     }
 
     /**
@@ -116,13 +117,14 @@ public class WebUtil {
      * @param expireTime 超时时间
      */
     public static void addCookie(String cookieName,String cookieValue,int expireTime){
-        HttpServletRequest request = ((ServletRequestAttributes) (RequestContextHolder.getRequestAttributes())).getRequest();
-        HttpServletResponse response = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getResponse();
+        HttpServletRequest request = getRequest();
+        HttpServletResponse response = ((ServletRequestAttributes) Objects.requireNonNull(RequestContextHolder.getRequestAttributes())).getResponse();
         Cookie cookie = new Cookie(cookieName,cookieValue);
         cookie.setPath(request.getContextPath()+"/");
         if(expireTime >= 0) {
             cookie.setMaxAge(expireTime);
         }
+        assert response != null;
         response.addCookie(cookie);
     }
 
@@ -132,7 +134,7 @@ public class WebUtil {
      * @param cookieValue
      */
     public static void addCookie(String cookieName,String cookieValue){
-        addCookie(cookieName,cookieValue,-2);
+        addCookie(cookieName,cookieValue,-1);
     }
 
     /**
@@ -140,8 +142,8 @@ public class WebUtil {
      * @param request
      * @return
      */
-    public static String getClientIP(HttpServletRequest request){
-        String localIP = "127.0.0.1";
+    public static String getClientIp(HttpServletRequest request){
+        String localIp = "127.0.0.1";
         if (request == null) {
             return "unknown";
         }
@@ -163,7 +165,7 @@ public class WebUtil {
             ip = request.getRemoteAddr();
         }
 
-        return "0:0:0:0:0:0:0:1".equals(ip) ? localIP : ip;
+        return "0:0:0:0:0:0:0:1".equals(ip) ? localIp : ip;
     }
 
     /**
@@ -177,15 +179,14 @@ public class WebUtil {
     }
 
     /**
-     * 基于IP,浏览器类型生成唯一ID作为sessionId
+     * 基于IP,浏览器类型生成近似唯一ID作为sessionId
      * @return
      */
     public static String getCusSessionId(HttpServletRequest request){
         try {
-            return getClientIP(request).trim() + getBrowser(request).hashCode();
+            return getClientIp(request).trim() + getBrowser(request).hashCode();
         }catch (Exception e){
             return "";
         }
     }
-
 }

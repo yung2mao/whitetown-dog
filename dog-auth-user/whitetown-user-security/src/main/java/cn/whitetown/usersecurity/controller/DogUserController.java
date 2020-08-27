@@ -94,7 +94,7 @@ public class DogUserController {
                 e.printStackTrace();
             }
         }
-        log.debug("验证码生成成功，客户端IP地址为>"+WebUtil.getClientIP(request)+", 验证码为>"+captchaText);
+        log.debug("验证码生成成功，客户端IP地址为>"+WebUtil.getClientIp(request)+", 验证码为>"+captchaText);
     }
 
     /**
@@ -110,7 +110,7 @@ public class DogUserController {
         String sessionId = WebUtil.getCusSessionId(request);
 
         userService.checkCaptcha(captcha,sessionId);
-        log.debug("验证码校验通过，当前用户IP地址为 >>" + WebUtil.getClientIP(request));
+        log.debug("验证码校验通过，当前用户IP地址为 >>" + WebUtil.getClientIp(request));
         return ResponseData.ok();
     }
 

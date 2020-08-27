@@ -35,7 +35,7 @@ public class DefaultDeptUtil implements DeptUtil {
      * @param deptInfos
      * @return
      */
-    public DeptSimpleTree createDeptSimpleTree(DeptSimpleTree deptSimpleTree,List<DeptInfo> deptInfos) {
+    private DeptSimpleTree createDeptSimpleTree(DeptSimpleTree deptSimpleTree, List<DeptInfo> deptInfos) {
         if(deptSimpleTree == null) {
             DeptInfo parentDept = deptInfos.stream().min(Comparator.comparing(DeptInfo::getDeptLevel)).get();
             deptInfos.remove(parentDept);
@@ -57,7 +57,7 @@ public class DefaultDeptUtil implements DeptUtil {
      * @param deptInfos
      * @return
      */
-    public DeptInfoTree createDeptDetailTree(DeptInfoTree deptInfoTree,List<DeptInfo> deptInfos) {
+    private DeptInfoTree createDeptDetailTree(DeptInfoTree deptInfoTree, List<DeptInfo> deptInfos) {
         if(deptInfoTree == null) {
             DeptInfo parentDept = deptInfos.stream().min(Comparator.comparing(DeptInfo::getDeptLevel)).get();
             deptInfos.remove(parentDept);
