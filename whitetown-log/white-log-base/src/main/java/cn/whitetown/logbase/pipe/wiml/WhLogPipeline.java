@@ -3,7 +3,6 @@ package cn.whitetown.logbase.pipe.wiml;
 import cn.whitetown.logbase.pipe.WhPipeline;
 import cn.whitetown.logbase.pipe.modo.WhClone;
 import cn.whitetown.logbase.pipe.modo.WhLog;
-import org.apache.logging.log4j.LogManager;
 
 import java.util.Collection;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -21,6 +20,7 @@ public class WhLogPipeline extends WhClone implements WhPipeline<WhLog> {
 
     private WhLogPipeline(BlockingQueue<WhLog> logQueue) {
         this.logQueue = logQueue;
+        this.shutdown();
     }
 
     public static WhLogPipeline getInstance(BlockingQueue<WhLog> logQueue) {
@@ -79,4 +79,8 @@ public class WhLogPipeline extends WhClone implements WhPipeline<WhLog> {
         logQueue = null;
     }
 
+    private void shutdown() {
+        Runtime runtime = Runtime.getRuntime();
+        runtime.addShutdownHook(new Thread(()->destroy()));
+    }
 }

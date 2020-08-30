@@ -34,7 +34,7 @@ public class ShardingDataSourceUtil implements DataSourceUtil{
      * 初始化数据连接池
      */
     private ShardingDataSourceUtil() {
-        String driverName = MonConfConstants.DB_DRIVER_NANE;
+        String driverName = MonConfConstants.DB_DRIVER_NAME;
         String url = MonConfConstants.DB_URL;
         String username = MonConfConstants.DB_USERNAME;
         String password = MonConfConstants.DB_PASSWORD;

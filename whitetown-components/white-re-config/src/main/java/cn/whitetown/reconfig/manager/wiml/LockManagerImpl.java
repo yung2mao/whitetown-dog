@@ -25,7 +25,7 @@ public class LockManagerImpl implements LockManager {
     private RedisTemplate<String,String> redisTemplate;
 
     @Override
-    public boolean addLock(String lockName, String lockId, Long expireMills) {
+    public boolean lock(String lockName, String lockId, Long expireMills) {
         return baseManager.putIfNotExists(lockName, lockId, expireMills, TimeUnit.MILLISECONDS);
     }
 
@@ -35,19 +35,21 @@ public class LockManagerImpl implements LockManager {
     }
 
     @Override
-    public void initPermitNum(String lockName, Long totalOrders, Long expireSecond) {
-        if(expireSecond == null) {
-            //TODO: exception
-        }
+    public void initInStock(String productName, Long totalInStock, Long expireSecond) {
         ValueOperations<String, String> stringOperation = redisTemplate.opsForValue();
-        stringOperation.set(lockName,String.valueOf(totalOrders),expireSecond,TimeUnit.SECONDS);
+        stringOperation.set(productName,String.valueOf(totalInStock),expireSecond,TimeUnit.SECONDS);
     }
 
     @Override
-    public boolean getOneLock(String lockName) {
-        Long total = redisTemplate.opsForValue().decrement(lockName);
+    public boolean decrementInStock(String productName) {
+        Long total = redisTemplate.opsForValue().decrement(productName);
         System.out.println(total);
         assert total != null;
         return total >= 0;
+    }
+
+    @Override
+    public Long returnInStock(String productName) {
+        return redisTemplate.opsForValue().increment(productName);
     }
 }

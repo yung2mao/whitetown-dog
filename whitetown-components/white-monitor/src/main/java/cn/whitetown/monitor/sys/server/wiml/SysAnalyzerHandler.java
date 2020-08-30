@@ -31,7 +31,8 @@ public class SysAnalyzerHandler extends SimpleChannelInboundHandler<String> {
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, String data) throws Exception {
         WhiteMonitorParams monitorParams = JSON.parseObject(data, WhiteMonitorParams.class);
-        executorService.execute(new SysMonSaveRunner(monitorParams));
+        SysMonSaveRunner sysMonSaveRunner = new SysMonSaveRunner(monitorParams);
+        executorService.execute(sysMonSaveRunner);
     }
 
     @Override

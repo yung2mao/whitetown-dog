@@ -14,7 +14,7 @@ public interface LockManager {
      * @param expireMillis
      * @return
      */
-    boolean addLock(String lockName, String lockId, Long expireMillis);
+    boolean lock(String lockName, String lockId, Long expireMillis);
 
     /**
      * 解锁
@@ -25,18 +25,25 @@ public interface LockManager {
     boolean unLock(String lockName, String lockId);
 
     /**
-     * 初始化许可的总数量
-     * @param lockName
-     * @param totalOrders
+     * 初始化库存信息
+     * @param productName
+     * @param totalInStock
      * @param expireSecond
      * @return
      */
-    void initPermitNum(String lockName, Long totalOrders, Long expireSecond);
+    void initInStock(String productName, Long totalInStock, Long expireSecond);
 
     /**
-     * 获取一个订单
-     * @param lockName
+     * 减少一个库存
+     * @param productName
      * @return
      */
-    boolean getOneLock(String lockName);
+    boolean decrementInStock(String productName);
+
+    /**
+     * 归还一个库存
+     * @param productName
+     * @return
+     */
+    Long returnInStock(String productName);
 }

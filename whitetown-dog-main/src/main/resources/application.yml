@@ -3,6 +3,8 @@ server:
   servlet:
     session:
       timeout: 3m
+  tomcat:
+    max-connections: 5000
 spring:
   application:
     name: DogApplication
@@ -23,8 +25,17 @@ spring:
   elasticsearch:
     rest:
       uris: 172.16.0.190:9203,172.16.0.190:9204
-#  mvc:
-#    static-path-pattern: /static/**
+#  redis
+  redis:
+    cluster:
+      nodes: 192.168.228.128:6601,192.168.228.128:6602,192.168.228.128:6603
+    lettuce:
+      pool:
+        min-idle: 2
+        max-idle: 8
+        max-active: 200
+        max-wait: 50
+# MyBatis plus
 mybatis-plus:
   mapper-locations: classpath*:mapper/**/*.xml
   configuration:
@@ -33,6 +44,7 @@ mybatis-plus:
 jasypt:
   encryptor:
     password: jfy23$#&3&$^%#$GF$
+# swagger2 - 生产环境关闭
 swagger2:
   basePackage: cn.whitetown
   title: whitetown-dog接口文档

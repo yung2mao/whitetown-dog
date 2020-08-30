@@ -25,7 +25,9 @@ public class MonConfConstants {
 
     /*-----------数据存储相关-------------*/
 
-    public static final String DB_DRIVER_NANE;
+    public static final String MON_ID_UTIL;
+    public static final String SAVE_CLASSES;
+    public static final String DB_DRIVER_NAME;
     public static final String DB_URL;
     public static final String DB_USERNAME;
     public static final String DB_PASSWORD;
@@ -34,6 +36,10 @@ public class MonConfConstants {
     public static final String BASE_TABLE_NAME;
     public static final int DB_TABLE_SHARDING_SIZE;
     public static final long SHARDING_SCOPE;
+
+    /*-----------------缓存相关---------------------*/
+
+    public static final int CACHE_MAX_SIZE;
 
     static {
         InputStream in = MonitorConfig.class.getClassLoader().getResourceAsStream("white-monitor-conf.properties");
@@ -52,7 +58,9 @@ public class MonConfConstants {
         LOG_SAVE_FAIL_TRY = Boolean.parseBoolean(MONITOR_CONF.getProperty("sys.fail.reset.isRetry"));
         RETRY_TIMES = Integer.parseInt(MONITOR_CONF.getProperty("sys.fail.retry.times"));
 
-        DB_DRIVER_NANE = MONITOR_CONF.getProperty("dataSource.driverName");
+        MON_ID_UTIL = MONITOR_CONF.getProperty("history.maxId.class");
+        SAVE_CLASSES = MONITOR_CONF.getProperty("sys.save.classes");
+        DB_DRIVER_NAME = MONITOR_CONF.getProperty("dataSource.driverName");
         DB_URL = MONITOR_CONF.getProperty("dataSource.url");
         DB_USERNAME = MONITOR_CONF.getProperty("dataSource.username");
         DB_PASSWORD = MONITOR_CONF.getProperty("dataSource.password");
@@ -65,5 +73,7 @@ public class MonConfConstants {
         DB_TABLE_SHARDING_SIZE = size == null ? 1 : Integer.parseInt(size);
         String scope = MONITOR_CONF.getProperty("dataSource.table.shardingScope");
         SHARDING_SCOPE = scope == null ? 5000000 : Long.parseLong(scope);
+        String cacheSize = MONITOR_CONF.getProperty("cache.maxSize");
+        CACHE_MAX_SIZE = cacheSize == null ? 1024 : Integer.parseInt(cacheSize);
     }
 }

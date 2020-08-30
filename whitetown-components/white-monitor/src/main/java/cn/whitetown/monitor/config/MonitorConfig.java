@@ -10,8 +10,10 @@ import cn.whitetown.monitor.sys.client.SysMonitorRunner;
 import cn.whitetown.monitor.sys.client.wmil.OnceSysMonRun;
 import cn.whitetown.monitor.sys.client.wmil.ScheduleSysMonRun;
 import cn.whitetown.monitor.sys.server.DefaultSysMonServer;
+import cn.whitetown.monitor.sys.server.config.MonServerConfig;
 import cn.whitetown.monitor.sys.server.wiml.SysAnalyzerHandler;
 import cn.whitetown.monitor.sys.server.SysMonServer;
+import cn.whitetown.monitor.sys.server.wiml.SysMonSaveRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -82,6 +84,7 @@ public class MonitorConfig {
     public SysMonServer sysMonServer() {
         SysAnalyzerHandler sysAnalyzerHandler = new SysAnalyzerHandler(executorService);
         DefaultSysMonServer sysMonServer = new DefaultSysMonServer(sysAnalyzerHandler);
+        SysMonSaveRunner.setSaveDaos(MonServerConfig.CONFIG.getMonitorDao());
         sysMonServer.init();
         return sysMonServer;
     }
