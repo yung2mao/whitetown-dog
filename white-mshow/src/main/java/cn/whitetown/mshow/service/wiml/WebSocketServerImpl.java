@@ -3,6 +3,9 @@ package cn.whitetown.mshow.service.wiml;
 import cn.whitetown.dogbase.common.util.WebUtil;
 import cn.whitetown.logbase.config.LogConstants;
 import cn.whitetown.mshow.manager.SocketCache;
+import cn.whitetown.mshow.modo.ClientSession;
+import cn.whitetown.mshow.modo.SessionMap;
+import cn.whitetown.mshow.modo.SessionTypeGroup;
 import cn.whitetown.mshow.service.WebSocketServer;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -11,11 +14,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 
 import javax.websocket.*;
-import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 import java.util.Map;
-import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -33,12 +34,13 @@ public class WebSocketServerImpl implements WebSocketServer {
 
     private static AtomicInteger connectCount = new AtomicInteger(0);
 
-    private static Map<String,Session> userSession = new ConcurrentHashMap<>(2);
+    private SessionMap sessionMap = SessionMap.sessionMap;
 
     /**
      * websocket是多例模型,不能直接注入
      */
     private SocketCache socketCache;
+    private SessionTypeGroup sessionTypeGroup;
 
     private static ApplicationContext applicationContext;
 
@@ -50,20 +52,22 @@ public class WebSocketServerImpl implements WebSocketServer {
         applicationContext = context;
     }
 
-    private void initSocketCache() {
+    private void initSpringBean() {
         socketCache = applicationContext.getBean(SocketCache.class);
+        sessionTypeGroup = applicationContext.getBean(SessionTypeGroup.class);
     }
 
     @Override
     @OnOpen
     public void onOpen(Session session) {
         if(socketCache == null) {
-            this.initSocketCache();
+            this.initSpringBean();
         }
         String params = session.getQueryString();
         Map<String, String> queryMap = WebUtil.requestString2Map(params);
         String randomId = queryMap.get("randomId");
         String usId = queryMap.get("userId");
+        String groupId = queryMap.get("groupId");
         Long userId = usId == null ? -1 : Long.parseLong(usId);
         Long realUserId = socketCache.getUserId(randomId);
         if(randomId == null || !realUserId.equals(userId)) {
@@ -71,13 +75,20 @@ public class WebSocketServerImpl implements WebSocketServer {
             return;
         }
         connectCount.incrementAndGet();
-        userSession.put(String.valueOf(userId),session);
+        ClientSession clientSession = new ClientSession();
+        clientSession.setClientId(userId + "");
+        clientSession.setSession(session);
+        //cache session
+        sessionMap.put(userId + "", clientSession);
+        //add to group
+        sessionTypeGroup.session2Group(groupId,clientSession);
     }
 
     @Override
     @OnClose
     public void onClose(Session session) {
-        userSession.values().remove(session);
+        ClientSession clientSession = sessionMap.remove(session);
+        sessionTypeGroup.removeSession(clientSession);
         connectCount.decrementAndGet();
     }
 
@@ -91,6 +102,7 @@ public class WebSocketServerImpl implements WebSocketServer {
     @OnError
     public void onError(Session session, Throwable cause) {
         cause.printStackTrace();
+        this.disconnect(session);
         log.error(cause.getMessage());
     }
 
@@ -98,32 +110,9 @@ public class WebSocketServerImpl implements WebSocketServer {
     public void disconnect(Session session) {
         try {
             session.close();
+            this.onClose(session);
         }catch (IOException e) {
             logger.error(e.getMessage());
         }
-    }
-
-    @Override
-    public void sendMessage(Session session, String message) {
-        try {
-            if(session.isOpen()) {
-                session.getBasicRemote().sendText(message);
-            }
-        }catch (IOException e) {
-            logger.error(e.getMessage());
-        }
-    }
-
-    @Override
-    public void sendGroupMessage(String message,@PathParam("uid") String uid) {
-        if(uid != null) {
-            Session session = userSession.get(uid);
-            if(session == null) {
-                return;
-            }
-            this.sendMessage(session,message);
-            return;
-        }
-        userSession.keySet().forEach(id->this.sendMessage(userSession.get(id),message));
     }
 }

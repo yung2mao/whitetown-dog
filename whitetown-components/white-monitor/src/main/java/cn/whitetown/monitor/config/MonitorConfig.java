@@ -83,8 +83,8 @@ public class MonitorConfig {
     @Lazy
     public SysMonServer sysMonServer() {
         SysAnalyzerHandler sysAnalyzerHandler = new SysAnalyzerHandler(executorService);
-        DefaultSysMonServer sysMonServer = new DefaultSysMonServer(sysAnalyzerHandler);
         SysMonSaveRunner.setSaveDaos(MonServerConfig.CONFIG.getMonitorDao());
+        DefaultSysMonServer sysMonServer = new DefaultSysMonServer(sysAnalyzerHandler);
         sysMonServer.init();
         return sysMonServer;
     }

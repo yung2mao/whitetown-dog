@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
  **/
 @RestController
 @RequestMapping("/ws")
-public class ViewConnectController {
+public class SocketBaseController {
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;

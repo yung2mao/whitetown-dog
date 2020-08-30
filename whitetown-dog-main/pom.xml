@@ -29,12 +29,6 @@
       <artifactId>whitetown-user-security</artifactId>
       <version>${whitetown-dog.version}</version>
     </dependency>
-    <!--monitor-->
-    <dependency>
-      <groupId>cn.whitetown</groupId>
-      <artifactId>white-monitor</artifactId>
-      <version>${whitetown-dog.version}</version>
-    </dependency>
     <!--log-->
     <!--<dependency>
       <groupId>cn.whitetown</groupId>
@@ -74,12 +68,6 @@
       <artifactId>junit</artifactId>
       <scope>test</scope>
     </dependency>
-    <!--devtools热部署-->
-    <!--<dependency>
-      <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-devtools</artifactId>
-      <optional>true</optional>
-    </dependency>-->
     <!--swagger2-->
     <dependency>
       <groupId>io.springfox</groupId>

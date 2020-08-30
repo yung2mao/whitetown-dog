@@ -37,7 +37,6 @@ public class SysAnalyzerHandler extends SimpleChannelInboundHandler<String> {
 
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
-
     }
 
     @Override

@@ -39,7 +39,7 @@ public class MonConfConstants {
 
     /*-----------------缓存相关---------------------*/
 
-    public static final int CACHE_MAX_SIZE;
+    public static final int SINGLE_MAX_SIZE;
 
     static {
         InputStream in = MonitorConfig.class.getClassLoader().getResourceAsStream("white-monitor-conf.properties");
@@ -74,6 +74,6 @@ public class MonConfConstants {
         String scope = MONITOR_CONF.getProperty("dataSource.table.shardingScope");
         SHARDING_SCOPE = scope == null ? 5000000 : Long.parseLong(scope);
         String cacheSize = MONITOR_CONF.getProperty("cache.maxSize");
-        CACHE_MAX_SIZE = cacheSize == null ? 1024 : Integer.parseInt(cacheSize);
+        SINGLE_MAX_SIZE = cacheSize == null ? 24 : Integer.parseInt(cacheSize);
     }
 }

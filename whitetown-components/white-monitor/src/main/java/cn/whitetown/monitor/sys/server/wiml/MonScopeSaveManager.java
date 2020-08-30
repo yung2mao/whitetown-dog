@@ -11,6 +11,7 @@ import cn.whitetown.monitor.util.MonitorIDUtil;
 import com.alibaba.fastjson.JSON;
 
 import java.sql.Connection;
+import java.util.List;
 
 /**
  * 监控数据存储处理器
@@ -47,7 +48,12 @@ public class MonScopeSaveManager implements MonitorDao {
     }
 
     @Override
-    public WhiteMonitorParams get() {
+    public WhiteMonitorParams getRecent(String serverId) {
+        return null;
+    }
+
+    @Override
+    public List<WhiteMonitorParams> getAll(String serverId) {
         return null;
     }
 }

@@ -43,18 +43,4 @@ public interface WebSocketServer {
      */
     void disconnect(Session session);
 
-    /**
-     * 服务端主动推送消息
-     * @param session
-     * @param message
-     */
-    void sendMessage(Session session, String message);
-
-    /**
-     * 数据群发
-     * @param message
-     * @param uid
-     */
-    void sendGroupMessage(String message, String uid);
-
 }

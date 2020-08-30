@@ -2,7 +2,7 @@ package cn.whitetown.mshow.controller;
 
 import cn.whitetown.dogbase.common.entity.dto.ResponseData;
 import cn.whitetown.monitor.sys.modo.po.WhiteSysBaseInfo;
-import cn.whitetown.mshow.modo.ServiceInfo;
+import cn.whitetown.mshow.modo.sys.ServiceInfo;
 import cn.whitetown.mshow.service.MonitorViewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;

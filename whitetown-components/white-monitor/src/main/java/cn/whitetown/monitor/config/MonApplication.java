@@ -108,7 +108,7 @@ public class MonApplication implements ApplicationRunner {
         Iterator<Map.Entry<String, Object>> iterator = objectMap.entrySet().iterator();
         Object o = iterator.hasNext() ? iterator.next().getValue() : null;
         if(o == null) { return; }
-        WhiteMonClient annotation = o.getClass().getDeclaredAnnotation(WhiteMonClient.class);
+        WhiteMonClient annotation = o.getClass().getAnnotationsByType(WhiteMonClient.class)[0];
         String type = annotation.type();
         if(MonAnnotation.CLI_DEFAULT.equals(type)) {
             sysMonClient = DefaultSysMonClient.getInstance(defaultClient);
@@ -123,7 +123,7 @@ public class MonApplication implements ApplicationRunner {
         }
         executorService.execute(() -> {
             try {
-                long beginTime = 60000;
+                long beginTime = 30000;
                 Thread.sleep(beginTime);
             } catch (InterruptedException e) {
                 e.printStackTrace();

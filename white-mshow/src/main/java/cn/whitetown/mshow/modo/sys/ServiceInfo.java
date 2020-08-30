@@ -1,4 +1,4 @@
-package cn.whitetown.mshow.modo;
+package cn.whitetown.mshow.modo.sys;
 
 import lombok.Getter;
 import lombok.Setter;

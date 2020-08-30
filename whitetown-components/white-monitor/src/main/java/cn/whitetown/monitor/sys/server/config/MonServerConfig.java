@@ -26,18 +26,20 @@ public class MonServerConfig {
      * @return
      */
     public MonitorIDUtil monitorIDUtil() {
-        if(monitorIDUtil != null) {
-            return monitorIDUtil;
+        synchronized (this) {
+            if(monitorIDUtil != null) {
+                return monitorIDUtil;
+            }
+            try {
+                Class<?> claz = Class.forName(MonConfConstants.MON_ID_UTIL);
+                monitorIDUtil = (MonitorIDUtil)claz.newInstance();
+                return monitorIDUtil;
+            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
+                e.printStackTrace();
+                System.exit(1);
+            }
+            return null;
         }
-        try {
-            Class<?> claz = Class.forName(MonConfConstants.MON_ID_UTIL);
-            monitorIDUtil = (MonitorIDUtil)claz.newInstance();
-            return monitorIDUtil;
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
-            System.exit(1);
-        }
-        return null;
     }
 
     /**
@@ -45,29 +47,31 @@ public class MonServerConfig {
      * @return
      */
     public List<MonitorDao> getMonitorDao() {
-        if(monitorDaos != null) {
-            return monitorDaos;
-        }
-        List<MonitorDao> monitorDaos = new ArrayList<>();
-        String classes = MonConfConstants.SAVE_CLASSES;
-        if(classes == null) {
-            monitorDaos.add(new MonScopeSaveManager());
-            return monitorDaos;
-        }
-        String[] classArr = classes.split(",");
-        try {
-            for(String claz : classArr) {
-                Class<?> mClass = Class.forName(claz);
-                Object obj = mClass.newInstance();
-                monitorDaos.add((MonitorDao) obj);
+        synchronized (this) {
+            if(monitorDaos != null) {
+                return monitorDaos;
             }
-            this.monitorDaos = monitorDaos;
-            return monitorDaos;
-        }catch (Exception e) {
-            e.printStackTrace();
-            System.exit(1);
+            List<MonitorDao> monitorDaos = new ArrayList<>();
+            String classes = MonConfConstants.SAVE_CLASSES;
+            if(classes == null) {
+                monitorDaos.add(new MonScopeSaveManager());
+                return monitorDaos;
+            }
+            String[] classArr = classes.split(",");
+            try {
+                for(String claz : classArr) {
+                    Class<?> mClass = Class.forName(claz);
+                    Object obj = mClass.newInstance();
+                    monitorDaos.add((MonitorDao) obj);
+                }
+                this.monitorDaos = monitorDaos;
+                return monitorDaos;
+            }catch (Exception e) {
+                e.printStackTrace();
+                System.exit(1);
+            }
+            return null;
         }
-        return null;
     }
 
 }
