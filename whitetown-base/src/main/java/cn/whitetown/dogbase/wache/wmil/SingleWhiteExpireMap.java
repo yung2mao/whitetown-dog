@@ -36,6 +36,7 @@ public class SingleWhiteExpireMap<K,V> implements WhiteExpireMap<K,V> {
     @Override
     public void destroy() {
         expireKeyMap.clear();
+
         valueMap.clear();
     }
 
@@ -57,14 +58,9 @@ public class SingleWhiteExpireMap<K,V> implements WhiteExpireMap<K,V> {
             expireKeyMap.put(key,cacheKey);
             return valueMap.put(key,value);
         }catch (Exception e){
-            try {
-                expireKeyMap.remove(key);
-                valueMap.remove(key);
-                throw e;
-            }catch (Exception e1){
-                throw e1;
-            }
-
+            expireKeyMap.remove(key);
+            valueMap.remove(key);
+            throw e;
         }
     }
 
@@ -76,7 +72,7 @@ public class SingleWhiteExpireMap<K,V> implements WhiteExpireMap<K,V> {
 
     @Override
     public long pExpire(K key, long pExpire){
-        if(pExpire<1){
+        if(pExpire<1) {
             return -1;
         }
         V v = valueMap.get(key);

@@ -100,6 +100,10 @@ public enum ResponseStatusEnum {
     ALREADY_CONSTANTS_ERROR(400, "已经存在该编码的系统参数"),
     SYSTEM_CONSTANT_ERROR(400, "不能删除系统常量"),
 
+    /*\********************socket************************\*/
+
+    NO_THIS_WEBSOCKET(605,"没有这个websocket"),
+
     /**
      * 工作流相关
      */

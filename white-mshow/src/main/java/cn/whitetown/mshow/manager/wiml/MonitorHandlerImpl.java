@@ -53,7 +53,6 @@ public class MonitorHandlerImpl implements MonitorHandler {
 
     @Override
     public void analyzer(WhiteMonitorParams monitorParams) {
-
     }
 
     @Override
