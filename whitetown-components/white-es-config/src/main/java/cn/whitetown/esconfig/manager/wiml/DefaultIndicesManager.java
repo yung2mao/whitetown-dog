@@ -95,7 +95,7 @@ public class DefaultIndicesManager implements EsIndicesManager {
     }
 
     @Override
-    public void removeIndices(String... indices) throws IOException {
+    public void removeIndices(String ... indices) throws IOException {
         DeleteIndexRequest delRequest = new DeleteIndexRequest(indices);
         esClient.indices().delete(delRequest,RequestOptions.DEFAULT);
         for(String indexName : indices) {

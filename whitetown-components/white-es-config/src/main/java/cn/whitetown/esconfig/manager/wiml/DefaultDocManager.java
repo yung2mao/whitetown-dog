@@ -115,8 +115,7 @@ public class DefaultDocManager implements EsDocManager {
         GetRequest request = new GetRequest(indexName);
         request.id(docId);
         GetResponse response = esClient.get(request, RequestOptions.DEFAULT);
-        String sourceAsString = response.getSourceAsString();
-        return sourceAsString;
+        return response.getSourceAsString();
     }
 
     @Override

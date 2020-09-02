@@ -17,6 +17,7 @@ import java.util.List;
 
 /**
  * 基于lambda的es查询条件构造器
+ * 禁止不同线程复用
  * @author taixian
  * @date 2020/08/17
  **/

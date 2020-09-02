@@ -55,8 +55,8 @@ public class WhiteAuthUserDetailService implements WhiteUserDetailService {
             throw new WhResException(ResponseStatusEnum.TOKEN_ERROR);
         }
         String versionString = jwtTokenUtil.getTokenValue(WhiteJwtTokenUtil.USER_VERSION);
-        Integer version = versionString == null ? -1 : Integer.valueOf(versionString);
-        if(version==null || !version.equals(authUser.getUserVersion())){
+        Integer version = versionString == null ? -1 : Integer.parseInt(versionString);
+        if(!version.equals(authUser.getUserVersion())){
             throw new WhResException(ResponseStatusEnum.TOKEN_EXPIRED);
         }
         WhiteSecurityUser whiteSecurityUser = new WhiteSecurityUser(authUser.getUsername(), authUser.getPassword());
