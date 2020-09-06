@@ -19,7 +19,7 @@ public class DefaultSocketCache implements SocketCache {
 
     @Override
     public void saveConnectUser(String randomId, Long userId) {
-        expireMap.putS(randomId,userId, WebSocketConfig.CONNECT_PARAM_CACHE_TIME);
+        expireMap.putS(randomId, userId, WebSocketConfig.CONNECT_PARAM_CACHE_TIME);
     }
 
     @Override

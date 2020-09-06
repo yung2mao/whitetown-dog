@@ -3,6 +3,7 @@ package cn.whitetown.monitor.sys.server.wiml;
 import cn.whitetown.monitor.config.MonConfConstants;
 import cn.whitetown.monitor.sys.modo.dto.WhiteMonitorParams;
 import cn.whitetown.monitor.sys.server.MonitorDao;
+import cn.whitetown.monitor.util.WhiteFormatUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +30,7 @@ public class CacheSaveManager implements MonitorDao {
         String serverId = whiteMonitorParams.getSysBaseInfo().getServerId();
         List<WhiteMonitorParams> list = sysParams.computeIfAbsent(serverId, k -> new ArrayList<>(singleMaxSize));
         if(list.size() > singleMaxSize) {
-            list.remove(list.size()-1);
+            list.remove(list.size() - 1);
         }
         list.add(whiteMonitorParams);
     }
@@ -37,8 +38,15 @@ public class CacheSaveManager implements MonitorDao {
     @Override
     public WhiteMonitorParams getRecent(String serverId) {
         List<WhiteMonitorParams> list = sysParams.get(serverId);
-        if(list == null) { return null; }
-        return list.get(0);
+        if(list == null || list.size() == 0) { return null; }
+        WhiteMonitorParams whiteMonitorParams = list.get(0);
+        long interval = (System.currentTimeMillis()
+                - WhiteFormatUtil.timeAsLong(WhiteFormatUtil.text2Date(whiteMonitorParams.getTimeStamp()))
+                );
+        if(interval > MonConfConstants.SYS_INTERVAL_TIME) {
+            return null;
+        }
+        return whiteMonitorParams;
     }
 
     @Override

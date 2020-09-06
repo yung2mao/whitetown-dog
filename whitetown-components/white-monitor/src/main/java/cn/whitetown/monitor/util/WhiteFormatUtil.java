@@ -1,8 +1,11 @@
 package cn.whitetown.monitor.util;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.FormatterClosedException;
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -61,11 +64,28 @@ public class WhiteFormatUtil {
     }
 
     /**
-     * 时间范围转换 - 秒/分钟/小时/天/月/年
-     * @param time
-     * @param sourceTimeUnit
-     * @param targetTimeUnit
+     * text转date
+     * 默认格式
+     * @param dateText
      * @return
+     */
+    public static Date text2Date(String dateText) {
+        String format = "yyyy-MM-dd HH:mm:ss";
+        SimpleDateFormat mat = new SimpleDateFormat(format);
+        try {
+            return mat.parse(dateText);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            throw new FormatterClosedException();
+        }
+    }
+
+    /**
+     * 时间范围转换 - 秒/分钟/小时/天/月/年
+     * @param time long类型time
+     * @param sourceTimeUnit 源时间单位
+     * @param targetTimeUnit 目标时间单位
+     * @return 转换为目标时间单位
      */
     public static String timeScopeFormat(long time, TimeUnit sourceTimeUnit, TimeUnit targetTimeUnit) {
         if(targetTimeUnit == null) {
@@ -76,7 +96,8 @@ public class WhiteFormatUtil {
             int year = days / 365;
             if(year > 0) {
                 int left = month % 12;
-                return year + "年 " + (left > 0 ? left + "月" : "");  }
+                return year + "年 " + (left > 0 ? left + "月" : "");
+            }
             else if(month > 0) {
                 int left = days % 30;
                 return month + "月 " + (left > 0 ? left + "天" : "");

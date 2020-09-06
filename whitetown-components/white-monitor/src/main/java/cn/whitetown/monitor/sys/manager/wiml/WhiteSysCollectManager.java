@@ -8,9 +8,7 @@ import cn.whitetown.monitor.util.WhiteFormatUtil;
 import oshi.SystemInfo;
 import oshi.hardware.*;
 import oshi.software.os.*;
-import oshi.util.FormatUtil;
 import oshi.util.Util;
-
 import java.lang.management.ManagementFactory;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
@@ -46,7 +44,7 @@ public enum WhiteSysCollectManager implements SysCollectManager {
     private WhiteNetInfo netInfo = new WhiteNetInfo();
     private WhiteNetSpeed netSpeed = new WhiteNetSpeed();
 
-    private WhiteSysCollectManager() {
+    WhiteSysCollectManager() {
         this.systemInfo = new SystemInfo();
         this.hardware = systemInfo.getHardware();
         this.operatingSystem = systemInfo.getOperatingSystem();
@@ -67,7 +65,7 @@ public enum WhiteSysCollectManager implements SysCollectManager {
         sysBaseInfo.setVersion(operatingSystem.getFamily() + " " + operatingSystem.getVersion());
         sysBaseInfo.setArch(sysProperties.getProperty("os.arch"));
         Sensors sensors = systemInfo.getHardware().getSensors();
-        sysBaseInfo.setCpuTemperature(sensors.getCpuTemperature()+"");
+        sysBaseInfo.setCpuTemperature(sensors.getCpuTemperature() + "");
         //风扇转速 - windows平台可能被限制
         sysBaseInfo.setFanSpeed(sensors.getFanSpeeds()[0]);
         long startTime = ManagementFactory.getRuntimeMXBean().getStartTime();

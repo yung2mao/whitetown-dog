@@ -1,6 +1,7 @@
 package cn.whitetown.mshow.manager.wiml;
 
 import cn.hutool.core.thread.ThreadUtil;
+import cn.whitetown.monitor.config.MonConfConstants;
 import cn.whitetown.monitor.sys.modo.dto.WhiteMonitorParams;
 import cn.whitetown.monitor.sys.server.wiml.CacheSaveManager;
 import cn.whitetown.monitor.util.DestroyHook;
@@ -13,8 +14,8 @@ import com.alibaba.fastjson.JSON;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
-
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -59,17 +60,21 @@ public class MonitorHandlerImpl implements MonitorHandler {
     public void sendMessage(ClientSession session) {
         String serverId = session.getGroupId().replace(SysMonitorConfig.GROUP_PREFIX, "");
         boolean firstConnect = session.isFirstConnect();
+        List<WhiteMonitorParams> params = new ArrayList<>();
         if(firstConnect) {
-            List<WhiteMonitorParams> allParams = monCacheManager.getAll(serverId);
-            System.out.println(allParams);
+            params = monCacheManager.getAll(serverId);
             session.setFirstConnect(false);
-            return;
+        } else {
+            if(monCacheManager.getRecent(serverId) != null) {
+                params.add(monCacheManager.getRecent(serverId));
+            } else {
+                return;
+            }
         }
-        WhiteMonitorParams recentParams = monCacheManager.getRecent(serverId);
-        SocketUtil.sendMessage(session, JSON.toJSONString(recentParams));
+        SocketUtil.sendMessage(session, JSON.toJSONString(params));
     }
 
-    public void destroy() {
+    private void destroy() {
         isListen = false;
     }
 
@@ -87,7 +92,7 @@ public class MonitorHandlerImpl implements MonitorHandler {
                     List<ClientSession> clientSessions = serverGroup.get(groupId);
                     clientSessions.forEach(MonitorHandlerImpl.this::sendMessage);
                 });
-                long intervalTime = 3000;
+                long intervalTime = MonConfConstants.SYS_INTERVAL_TIME;
                 ThreadUtil.sleep(intervalTime, TimeUnit.MILLISECONDS);
             }
         }

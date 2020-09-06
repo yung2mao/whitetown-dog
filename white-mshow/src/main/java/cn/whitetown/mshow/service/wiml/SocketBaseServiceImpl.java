@@ -28,6 +28,7 @@ public class SocketBaseServiceImpl implements SocketBaseService {
         if(clientSession == null) {
             throw new WhResException(ResponseStatusEnum.NO_THIS_WEBSOCKET);
         }
+        clientSession.setFirstConnect(true);
         sessionTypeGroup.session2Group(groupId,clientSession);
     }
 }

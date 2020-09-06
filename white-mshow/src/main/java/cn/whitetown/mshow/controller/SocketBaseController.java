@@ -61,5 +61,4 @@ public class SocketBaseController {
         service.groupChange(userId,groupId);
         return ResponseData.ok();
     }
-
 }
