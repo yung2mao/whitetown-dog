@@ -13,7 +13,7 @@ import java.util.concurrent.CountDownLatch;
  **/
 public class ExcelTest {
 
-    @Test
+//    @Test
     public void readExcel() throws InterruptedException {
         CountDownLatch countDownLatch = new CountDownLatch(1);
         ExcelReadMap excelReadMap = new ExcelReadMap();
