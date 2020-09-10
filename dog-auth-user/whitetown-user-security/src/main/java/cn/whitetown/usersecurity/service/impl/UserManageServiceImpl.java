@@ -249,8 +249,7 @@ public class UserManageServiceImpl extends ServiceImpl<UserBasicInfoMapper,UserB
         Map<String,Object> tokenMap = new HashMap<>(2);
         tokenMap.put(WhiteJwtTokenUtil.USERNAME,username);
         tokenMap.put(AuthConstant.PWD_TOKEN_TIME,System.currentTimeMillis());
-        String tokenByParams = jwtTokenUtil.createTokenByParams(tokenMap);
-        return tokenByParams;
+        return jwtTokenUtil.createTokenByParams(tokenMap);
     }
 
     @Override

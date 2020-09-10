@@ -84,9 +84,6 @@ public class DefaultLogAnalyzer implements WhLogAnalyzer {
             }
             return;
         }
-        if(ex instanceof RuntimeException) {
-            throw new RuntimeException(ex.getMessage());
-        }
         throw new IllegalArgumentException(ex.getMessage());
     }
 

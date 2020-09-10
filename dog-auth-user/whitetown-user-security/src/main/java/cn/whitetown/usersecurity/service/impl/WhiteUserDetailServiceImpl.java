@@ -75,7 +75,7 @@ public class WhiteUserDetailServiceImpl implements WhiteUserDetailService {
     private WhiteSecurityUser pathWithAuthorHandle(WhiteSecurityUser userDetails) {
         String uri = WebUtil.getUri();
         String[] authors = securityConfigureManager.getAuthorsByPath(uri);
-        System.out.println(uri+"所需访问权限为:"+authors);
+        System.out.println(uri + "所需访问权限为:" + authors);
         if(authors == null || authors.length == 0){
             return userDetails;
         }

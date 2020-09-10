@@ -103,7 +103,7 @@ public class MenuServiceImpl extends ServiceImpl<MenuInfoMapper,MenuInfo> implem
         }
         List<MenuInfo> menuInfos = menuInfoMapper.selectMenuByRoleId(roleId);
         List<Long> ids = new ArrayList<>();
-        menuInfos.stream().forEach(menu -> ids.add(menu.getMenuId()));
+        menuInfos.forEach(menu -> ids.add(menu.getMenuId()));
         return ids;
     }
 

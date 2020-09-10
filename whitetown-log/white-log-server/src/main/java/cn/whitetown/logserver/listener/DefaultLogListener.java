@@ -8,8 +8,6 @@ import cn.whitetown.logserver.manager.WhLogAnalyzer;
 import cn.whitetown.logserver.manager.LogAnalyzerMap;
 import cn.whitetown.logserver.manager.define.DefaultLogAnalyzer;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
 /**
  * 服务端日志监听
  * @author taixian
