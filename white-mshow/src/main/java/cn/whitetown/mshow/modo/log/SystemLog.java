@@ -1,9 +1,8 @@
-package cn.whitetown.logserver.modo;
+package cn.whitetown.mshow.modo.log;
 
 import cn.whitetown.esconfig.annotation.EsFieldConfig;
 import cn.whitetown.esconfig.config.EsConfigEnum;
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;
 import lombok.Setter;

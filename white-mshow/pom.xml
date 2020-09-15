@@ -69,5 +69,11 @@
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-websocket</artifactId>
     </dependency>
+    <!--es-->
+    <dependency>
+      <groupId>cn.whitetown</groupId>
+      <artifactId>white-es-config</artifactId>
+      <version>${whitetown-dog.version}</version>
+    </dependency>
   </dependencies>
 </project>

@@ -30,7 +30,7 @@ public class WhiteAuthCacheUtil implements AuthCacheUtil {
     }
 
     @Override
-    public UserDetails saveUserDetail(String username, UserDetails userDetails){
+    public UserDetails saveUserDetail(String username, UserDetails userDetails) {
         Object o = expireMap.putS(AuthConstants.USER_DETAIL_PREFIX + username,
                 userDetails,
                 AuthConstants.USER_SAVE_TIME);
