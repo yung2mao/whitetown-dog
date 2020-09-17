@@ -10,7 +10,7 @@ import java.util.List;
  * @author taixian
  * @date 2020/09/16
  **/
-public interface LogDetailHandler {
+public interface LogDetailHandler<T> {
     /**
      * 获取elasticsearch检索项
      * @param condition
@@ -24,5 +24,5 @@ public interface LogDetailHandler {
      * @param <T>
      * @return
      */
-    <T> List<T> result2Obj(SearchHits hits);
+    List<T> result2Obj(SearchHits hits);
 }

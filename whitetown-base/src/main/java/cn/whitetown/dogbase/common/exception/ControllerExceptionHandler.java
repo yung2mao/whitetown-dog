@@ -32,7 +32,7 @@ public class ControllerExceptionHandler{
      * @param e
      * @return
      */
-    @ExceptionHandler(value = {MethodArgumentNotValidException.class,ConstraintViolationException.class,
+    @ExceptionHandler(value = {MethodArgumentNotValidException.class, ConstraintViolationException.class,
             BindException.class,
             ConstraintViolationException.class,
             HttpMessageNotReadableException.class,
