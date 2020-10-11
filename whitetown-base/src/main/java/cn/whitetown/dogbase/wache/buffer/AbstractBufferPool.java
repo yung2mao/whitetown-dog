@@ -62,7 +62,7 @@ public abstract class AbstractBufferPool<E> implements BufferPool<E> {
         try {
             currentEleQueue.clear();
             allEleQueue.clear();
-        }catch (Exception e){
+        }catch (Exception ignored){
         }finally {
             currentEleQueue = null;
             allEleQueue = null;

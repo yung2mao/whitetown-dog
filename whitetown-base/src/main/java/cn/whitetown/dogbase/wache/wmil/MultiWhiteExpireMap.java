@@ -49,13 +49,12 @@ public class MultiWhiteExpireMap<K,V> implements WhiteExpireMap<K,V> {
         n |= n >>> 4;
         n |= n >>> 8;
         n |= n >>> 16;
-        initialCapacity =  (n < 0) ? 1 : (n >= MAX_CAPACITY) ? MAX_CAPACITY : n + 1;
+        initialCapacity =  (n < 1) ? 1 : (n >= MAX_CAPACITY) ? MAX_CAPACITY : n + 1;
 
         this.initCapacity = initialCapacity;
         expireMaps = new SingleWhiteExpireMap[initialCapacity];
         this.init();
     }
-
 
     @Override
     public void init() {
@@ -66,7 +65,7 @@ public class MultiWhiteExpireMap<K,V> implements WhiteExpireMap<K,V> {
 
     @Override
     public void destroy() {
-        Arrays.stream(expireMaps).forEach(map->map.clean());
+        Arrays.stream(expireMaps).forEach(SingleWhiteExpireMap::clean);
     }
 
     @Override
