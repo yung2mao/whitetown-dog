@@ -13,7 +13,7 @@ import java.util.ListIterator;
  **/
 public class WriteSyncList<T> implements List<T> {
 
-    Integer lock = 0;
+    private final Short lock = 128;
 
     private List<T> list;
 
