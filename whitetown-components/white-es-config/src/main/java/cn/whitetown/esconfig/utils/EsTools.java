@@ -202,7 +202,11 @@ public class EsTools {
         return mapping;
     }
 
+    /**
+     * 默认的es索引配置为keyword
+     */
     private EsConfigEnum defaultConfig = EsConfigEnum.KEYWORD;
+
     /**
      * 无注解属性处理, 按照字段类型和属性赋的初始值进行配置
      * @param field

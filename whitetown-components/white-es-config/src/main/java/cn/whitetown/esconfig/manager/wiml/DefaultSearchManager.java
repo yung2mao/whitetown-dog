@@ -4,8 +4,8 @@ import cn.whitetown.dogbase.common.entity.ao.PageQuery;
 import cn.whitetown.dogbase.common.util.WhiteToolUtil;
 import cn.whitetown.esconfig.manager.EsSearchManager;
 import cn.whitetown.esconfig.modo.EsIOException;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import cn.whitetown.logbase.config.LogConstants;
+import org.apache.logging.log4j.Logger;
 import org.elasticsearch.action.search.SearchRequest;
 import org.elasticsearch.action.search.SearchResponse;
 import org.elasticsearch.client.RequestOptions;
@@ -24,7 +24,7 @@ import java.io.IOException;
  **/
 public class DefaultSearchManager implements EsSearchManager {
 
-    private Log log = LogFactory.getLog(DefaultDocManager.class);
+    private Logger log = LogConstants.SYS_LOGGER;
 
     @Autowired
     private RestHighLevelClient esClient;

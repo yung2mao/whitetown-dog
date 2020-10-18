@@ -25,8 +25,8 @@ public class SessionTypeGroup {
 
     /**
      * session添加到组
-     * @param groupId
-     * @param clientSession
+     * @param groupId 组ID
+     * @param clientSession 连接的客户端session
      */
     public void session2Group(String groupId, ClientSession clientSession) {
         this.removeSession(clientSession);
@@ -63,7 +63,7 @@ public class SessionTypeGroup {
 
     /**
      * 获取分组中所有session信息
-     * @param groupId
+     * @param groupId 组ID
      * @return
      */
     public List<ClientSession> getGroupSessions(String groupId) {

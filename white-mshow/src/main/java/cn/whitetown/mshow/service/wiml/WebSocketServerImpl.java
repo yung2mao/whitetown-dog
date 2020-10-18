@@ -63,12 +63,14 @@ public class WebSocketServerImpl implements WebSocketServer {
         if(socketCache == null) {
             this.initSpringBean();
         }
+        //get identity
         String params = session.getQueryString();
         Map<String, String> queryMap = WebUtil.requestString2Map(params);
         String randomId = queryMap.get("randomId");
         String usId = queryMap.get("userId");
         String groupId = queryMap.get("groupId");
         Long userId = usId == null ? -1 : Long.parseLong(usId);
+        //compare identity
         Long realUserId = socketCache.getUserId(randomId);
         if(randomId == null || !realUserId.equals(userId)) {
             this.disconnect(session);

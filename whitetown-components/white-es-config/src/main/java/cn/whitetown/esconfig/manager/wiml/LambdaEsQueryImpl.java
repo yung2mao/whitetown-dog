@@ -80,6 +80,7 @@ public class LambdaEsQueryImpl implements EsLambdaQuery {
     @Override
     public <R> EsLambdaQuery match(WhiteFunc<R, Object> column, Object value, EsConfigEnum configEnum) {
         String fieldName = WhiteToolUtil.getFieldName(column);
+        assert fieldName != null;
         MatchQueryBuilder matchQuery = QueryBuilders.matchQuery(fieldName, String.valueOf(value));
         if(configEnum == EsConfigEnum.ES_IK || configEnum == EsConfigEnum.ES_STANDARD) {
             matchQuery.analyzer(configEnum.getValue());
@@ -91,6 +92,7 @@ public class LambdaEsQueryImpl implements EsLambdaQuery {
     @Override
     public <R> SearchSourceBuilder avg(WhiteFunc<R, Object> column) {
         String fieldName = WhiteToolUtil.getFieldName(column);
+        assert fieldName != null;
         AvgAggregationBuilder avg = AggregationBuilders.avg(fieldName);
         return this.getQueryBuilder().aggregation(avg);
     }
@@ -117,7 +119,7 @@ public class LambdaEsQueryImpl implements EsLambdaQuery {
             range.addRange(Double.MIN_VALUE,Double.MAX_VALUE);
             return this.getQueryBuilder().aggregation(range);
         }
-        ranges.stream().forEach(r -> {
+        ranges.forEach(r -> {
             String key = r.getKey();
             Double from = r.getFrom();
             Double to = r.getTo();
@@ -126,7 +128,7 @@ public class LambdaEsQueryImpl implements EsLambdaQuery {
                     range.addUnboundedFrom(from);
                 }else if (to != null && from == null) {
                     range.addUnboundedTo(to);
-                }else if (from != null && to != null) {
+                }else if (from != null) {
                     range.addRange(from,to);
                 }
             } else {
@@ -134,7 +136,7 @@ public class LambdaEsQueryImpl implements EsLambdaQuery {
                     range.addUnboundedFrom(key,from);
                 }else if (to != null && from == null) {
                     range.addUnboundedTo(key,to);
-                }else if (from != null && to != null) {
+                }else if (from != null) {
                     range.addRange(key,from,to);
                 }
             }
@@ -163,8 +165,13 @@ public class LambdaEsQueryImpl implements EsLambdaQuery {
 
     /*-------------inner class-----------------*/
 
-    static enum QueryBool {
-        MUST,SHOULD,MUST_NOT;
+    enum QueryBool {
+        /** must **/
+        MUST,
+        /** should **/
+        SHOULD,
+        /** not **/
+        MUST_NOT;
     }
 
 }

@@ -19,9 +19,8 @@ public interface LogDetailHandler<T> {
     SearchSourceBuilder getSearchBuilder(LogDetailQuery condition);
 
     /**
-     * 结果集转为丢向List
+     * 结果集转为对象List
      * @param hits
-     * @param <T>
      * @return
      */
     List<T> result2Obj(SearchHits hits);
