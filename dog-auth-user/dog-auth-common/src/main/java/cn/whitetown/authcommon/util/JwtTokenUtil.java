@@ -14,51 +14,51 @@ public interface JwtTokenUtil {
      * @param claims 需要保存在token的参数，如用户名username，用户ID
      * @return
      */
-    public String createTokenByParams(Map<String, Object> claims);
+    String createTokenByParams(Map<String, Object> claims);
 
     /**
      * 解析token
      * @param token
      * @return
      */
-    public Claims readTokenAsMapParams(String token);
+    Claims readTokenAsMapParams(String token);
 
     /**
      * token更新
      * @param token
      * @return
      */
-    public String updateToken(String token);
+    String updateToken(String token);
 
     /**
      * 根据key值获取保存在token中的信息
      * @param key
      * @return String类型
      */
-    public String getTokenValue(String key);
+    String getTokenValue(String key);
 
     /**
      * 获取token中保存的信息
      * @param key
      * @return Object类型
      */
-    public Object getTokenValueAsObject(String key);
+    Object getTokenValueAsObject(String key);
 
     /**
      * 从token中获取用户名信息
      * @return
      */
-    public String getUsername();
+    String getUsername();
 
     /**
      * 获取用户id
      * @return
      */
-    public Long getUserId();
+    Long getUserId();
 
     /**
      * 获取token
      * @return
      */
-    public String getToken();
+    String getToken();
 }
