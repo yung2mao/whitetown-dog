@@ -1,39 +1,42 @@
 package cn.whitetown.event.modo;
 
+import cn.whitetown.event.enums.EventTypeEnum;
+import com.alibaba.fastjson.JSON;
+
 /**
  * 单个事件信息
  * @Author: taixian
  * @Date: created in 2020/10/26
  */
 public class WhiteEvent<T> {
-    private String type;
+    private EventTypeEnum type;
     protected String markKey;
     protected String content;
     private T body;
-    private Long createTime;
+    private Long publishTime;
 
-    public WhiteEvent(String type, String markKey, String content, T body) {
+    public WhiteEvent(EventTypeEnum type, String markKey, String content, T body) {
         this.type = type;
         this.markKey = markKey;
         this.content = content;
         this.body = body;
-        this.createTime = System.currentTimeMillis();
+        this.publishTime = System.currentTimeMillis();
     }
 
     public WhiteEvent() {
-        this.createTime = System.currentTimeMillis();
+        this.publishTime = System.currentTimeMillis();
     }
 
     public WhiteEvent(T body) {
         this.body = body;
-        this.createTime = System.currentTimeMillis();
+        this.publishTime = System.currentTimeMillis();
     }
 
-    public String getType() {
+    public EventTypeEnum getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(EventTypeEnum type) {
         this.type = type;
     }
 
@@ -61,11 +64,16 @@ public class WhiteEvent<T> {
         this.body = body;
     }
 
-    public Long getCreateTime() {
-        return createTime;
+    public Long getPublishTime() {
+        return publishTime;
     }
 
-    public void setCreateTime(Long createTime) {
-        this.createTime = createTime;
+    public void setPublishTime(Long publishTime) {
+        this.publishTime = publishTime;
+    }
+
+    @Override
+    public String toString() {
+        return JSON.toJSONString(this);
     }
 }

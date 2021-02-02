@@ -43,7 +43,6 @@ public class LockManagerImpl implements LockManager {
     @Override
     public boolean decrementInStock(String productName) {
         Long total = redisTemplate.opsForValue().decrement(productName);
-        System.out.println(total);
         assert total != null;
         return total >= 0;
     }

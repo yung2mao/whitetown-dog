@@ -47,7 +47,7 @@ public class XmlAutoUtilImpl implements XmlAutoUtil {
         List<Field> fields = this.getAllClassField(templateClass);
         //get instance
         T instance = templateClass.newInstance();
-        fields.stream().forEach(field -> {
+        fields.forEach(field -> {
             field.setAccessible(true);
 
             String fieldName = field.getName();

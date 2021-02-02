@@ -2,6 +2,8 @@ package cn.whitetown.dog.schedule;
 
 import cn.whitetown.authcommon.util.MenuCacheUtil;
 import cn.whitetown.usersecurity.util.AuthUserCacheUtil;
+import com.baomidou.mybatisplus.autoconfigure.MybatisPlusProperties;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;

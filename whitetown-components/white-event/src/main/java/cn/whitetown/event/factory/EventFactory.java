@@ -1,5 +1,7 @@
 package cn.whitetown.event.factory;
 
+import cn.whitetown.event.modo.WhiteEvent;
+
 /**
  *
  * @Author: taixian
@@ -11,16 +13,18 @@ public interface EventFactory {
      * 创建一个event
      * @param body
      * @param <T>
+     * @return
      */
-    <T> void createEvent(T body);
+    <T> WhiteEvent<T> createEvent(T body);
 
     /**
      * 创建一个event，带有指定的标记
      * @param markKey
      * @param body
      * @param <T>
+     * @return
      */
-    <T> void  createEvent(String markKey, T body);
+    <T> WhiteEvent<T>  createEvent(String markKey, T body);
 
 
 }
