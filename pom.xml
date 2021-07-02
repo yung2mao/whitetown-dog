@@ -44,7 +44,7 @@
     <rector-core.version>3.3.0.RELEASE</rector-core.version>
 <!--    <spring-beans.version>5.1.6.RELEASE</spring-beans.version>-->
     <netty.verson>4.1.42.Final</netty.verson>
-    <elasticsearch.version>7.7.0</elasticsearch.version>
+    <elasticsearch.version>7.11.2</elasticsearch.version>
     <lombok.version>1.18.8</lombok.version>
     <swagger2.version>2.9.2</swagger2.version>
     <oshi.version>3.9.1</oshi.version>
